@@ -47,6 +47,14 @@ class SearchField:
                f'\ntask: {self.tasks}'
 
 
+class Tasks:
+    """
+    Description of class Tasks
+    """
+    def __init__(self):
+        pass
+
+
 class Diagram:
     """
     Description of class Diagram

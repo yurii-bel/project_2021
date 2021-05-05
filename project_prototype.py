@@ -1,7 +1,50 @@
 import datetime
 import json
 
-cd = datetime.datetime.now()
+
+class MainApp:
+    """
+    Description of class MainApp
+    """
+    def __init__(self, action, categories, time, date, comment):
+        self.action = action
+        self.categories = categories
+        self.time = time
+        self.date = date
+        self.comment = comment
+
+        self.current_date = datetime.datetime.now()
+        self.check_input_data()
+
+    def check_input_data(self):
+        if not isinstance(self.action, str):
+            pass
+
+
+
+    def save_action(self):  # Save current action
+        pass
+
+    def edit_action(self):  # Edit chosen action
+        pass
+
+    def delete_action(self):  # Delete chosen action
+        pass
+
+    def plot_diagram(self):  # Plot diagram (use csv file)
+        pass
+
+    def change_language(self):  # Change language of UI
+        pass
+
+    def change_theme(self):  # Change UI theme
+        pass
+
+    def change_diagram_type(self):  # Change type of a diagram
+        pass
+
+    def __str__(self):
+        return None
 
 
 class SearchField:
@@ -45,22 +88,6 @@ class SearchField:
                f'\nduration: {self.duration}' \
                f'\ndate: {self.date}' \
                f'\ntask: {self.tasks}'
-
-
-class Tasks:
-    """
-    Description of class Tasks
-    """
-    def __init__(self):
-        pass
-
-
-class Diagram:
-    """
-    Description of class Diagram
-    """
-    def __init__(self):
-        pass
 
 
 class MainWindow:

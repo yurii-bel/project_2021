@@ -1,14 +1,17 @@
 import datetime
 import json
+import sys
+import os
+from PyQt5 import QtGui, QtWidgets, QtCore, uic
 
 
 class MainApp:
     """
     Description of class MainApp
     """
-    def __init__(self, action, categories, time, date, comment):
+    def __init__(self, action=None, category=None, time=None, date=None, comment=None):
         self.action = action
-        self.categories = categories
+        self.category = category
         self.time = time
         self.date = date
         self.comment = comment
@@ -18,6 +21,9 @@ class MainApp:
 
     def check_input_data(self):
         if not isinstance(self.action, str):
+            pass
+
+        if not isinstance(self.comment, str):
             pass
 
 
@@ -44,7 +50,11 @@ class MainApp:
         pass
 
     def __str__(self):
-        return None
+        return f'\naction: {self.action}' \
+               f'\ncategory: {self.category}' \
+               f'\ntime: {self.time}' \
+               f'\ndate: {self.date}' \
+               f'\ncomment {self.comment}'
 
 
 class SearchField:
@@ -90,13 +100,50 @@ class SearchField:
                f'\ntask: {self.tasks}'
 
 
-class MainWindow:
+class MainWindow(QtWidgets.QMainWindow):
     """
     Description of class MainWindow
     """
-    def __init__(self):
-        pass
+
+    def __init__(self, parent=None):
+        super(MainWindow, self).__init__(parent)
+        self.categories = ['Sport', 'Chill', 'Family']
+        self.ui = uic.loadUi("test_ui.ui")
+
+        self.main_class = MainApp
+
+        self.ui.comboBox.addItems(self.categories)
+        self.ui.btn_save.clicked.connect(self.get_values)
+
+        self.ui.show()
+
+    def get_values(self):
+        time = self.ui.timeEdit.time()
+        date = self.ui.dateEdit.date()
+        category = self.ui.comboBox.currentText()
+
+        shit = self.main_class('run', category, time, date, 'ass')
+
+        self.ui.main_label.setWordWrap(True)
+        self.ui.main_label.setText(self.main_class().__str__())
 
 
 if __name__ == '__main__':
-    print(SearchField())
+    action, category, time, date, comment = 'run', 'sport', '22:13:59', '05/05/2021', 'some shit'
+    print(MainApp(action, category, time, date, comment))
+    app = QtWidgets.QApplication(sys.argv)
+    window = MainWindow()
+    sys.exit(app.exec())
+
+    # # datetime object containing current date and time
+    # now = datetime.datetime.now()
+    #
+    # print("now =", now)
+    #
+    # # dd/mm/YY H:M:S
+    # dt_date = now.strftime('%d/%m/%Y')
+    # dt_time = now.strftime('%H:%M:%S')
+    # dt_h = now.strftime('%H')
+    # print('date: ', dt_date)
+    # print('time: ', dt_time)
+    # print('Hours: ', dt_h)

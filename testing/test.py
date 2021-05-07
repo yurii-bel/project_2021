@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, uic
 from datetime import datetime
-
+import sys
 
 
 class Actions:
@@ -96,3 +96,8 @@ class MainUI(QtWidgets.QMainWindow):
     def save_action(self):
         title = self.mUi.lineEdit.text()
         categ = self.mUi.comboBox.currentText()
+
+if __name__ == '__main__':
+    app = QtWidgets.QApplication(sys.argv)
+    window = MainUI()
+    sys.exit(app.exec())

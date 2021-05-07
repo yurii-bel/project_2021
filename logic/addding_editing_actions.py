@@ -83,6 +83,6 @@ class Actions:
 
 
 #tests.
-# if __name__ == '__main__':
-#     a = Actions('Gaming on PC', 'Chill', None, None, 3, 'Lol!')
-#     print(a.get_category())
+if __name__ == '__main__':
+    a = Actions('Gaming on PC', 'Chill', None, None, 3, 'Lol!')
+    print(a.get_category())

@@ -79,6 +79,8 @@ class Actions:
     def get_comment(self):
         return self.__comment
 
+    # Next methods was created for getting info about actions.
+
 
 #tests.
 # if __name__ == '__main__':

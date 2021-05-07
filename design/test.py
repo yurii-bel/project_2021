@@ -86,7 +86,7 @@ class Actions:
 class MainUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.mUi = uic.loadUi('test_ui.ui')
+        self.mUi = uic.loadUi('design\\test_ui.ui')
         self.mUi.btn_save.clicked.connect(self.save_action)
         
         self.act = Actions

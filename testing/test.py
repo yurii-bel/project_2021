@@ -87,33 +87,24 @@ class Actions:
         return self.__comment
 
 
-class MainUI(QtWidgets.QMainWindow):
-    def __init__(self):
-        super().__init__()
-        # self.mUi = uic.loadUi('testing\\test_ui.ui')
-        # self.mUi.btn_save.clicked.connect(self.save_action)
+# class MainUI:
+#     def __init__(self):
+#         # self.mUi = uic.loadUi('testing\\test_ui.ui')
+#         # self.mUi.btn_save.clicked.connect(self.save_action)
 
-        self.categories = ['Sport', 'Business', 'Home', 'Other']
+#         self.categories = ['Sport', 'Business', 'Home', 'Other']
         
-        grid = QtWidgets.QGridLayout()
-        self.setLayout(grid)
+#         self.act = Actions
+#         self.disp = DisplayElements()
 
-        self.setGeometry(500, 200, 800, 600)
-        self.setWindowTitle('TimeSoft')
+#         self.disp
 
-        self.act = Actions
-        self.disp = DisplayElements
-
-        self.disp.display_elements()
-
-        self.show()
-
-    def save_action(self):
-        title = self.mUi.lineEdit.text()
-        categ = self.mUi.comboBox.currentText()
+#     def save_action(self):
+#         title = self.mUi.lineEdit.text()
+#         categ = self.mUi.comboBox.currentText()
 
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    window = MainUI()
+    window = DisplayElements()
     sys.exit(app.exec())

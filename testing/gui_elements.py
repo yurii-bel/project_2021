@@ -1,6 +1,7 @@
    class DisplayElements:
+
        def __init__(self):
-           pass
+           self.test = 0
            
        def display_elements(self):
            self.lbl_action = QLabel('Add action:') # Labels for user input block.

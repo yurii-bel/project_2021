@@ -4,7 +4,7 @@ import sys
 import os
 from PyQt5 import QtGui, QtWidgets, QtCore, uic
 from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLineEdit, QLabel, QComboBox
-from gui_elements import 
+from gui_elements import DisplayElements
 
 class Actions:
     """
@@ -97,12 +97,14 @@ class MainUI(QtWidgets.QMainWindow):
         
         grid = QtWidgets.QGridLayout()
         self.setLayout(grid)
-        
+
         self.setGeometry(500, 200, 800, 600)
         self.setWindowTitle('TimeSoft')
 
         self.act = Actions
-        self.display_elements()
+        self.disp = DisplayElements
+
+        self.disp.display_elements()
 
         self.show()
 

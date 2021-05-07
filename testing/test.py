@@ -87,21 +87,9 @@ class Actions:
         return self.__comment
 
 
-# class MainUI:
-#     def __init__(self):
-#         # self.mUi = uic.loadUi('testing\\test_ui.ui')
-#         # self.mUi.btn_save.clicked.connect(self.save_action)
-
-#         self.categories = ['Sport', 'Business', 'Home', 'Other']
-        
-#         self.act = Actions
-#         self.disp = DisplayElements()
-
-#         self.disp
-
-#     def save_action(self):
-#         title = self.mUi.lineEdit.text()
-#         categ = self.mUi.comboBox.currentText()
+class MainUI:
+    def __init__(self):
+        pass
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QComboBox, QLabel, QLineEdit, QPushButton
+from PyQt5 import QtGui, QtWidgets, QtCore, uic
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLineEdit, QLabel, QComboBox
 
 
 class DisplayElements(QtWidgets.QMainWindow):

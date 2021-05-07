@@ -1,10 +1,4 @@
 import datetime
-import json
-import sys
-import os
-from PyQt5 import QtGui, QtWidgets, QtCore, uic
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLineEdit, QLabel, QComboBox
-from gui_elements import DisplayElements
 
 
 class Actions:
@@ -42,60 +36,51 @@ class Actions:
         self.__duration = duration
         self.__comment = comment
 
-    # Next methods was created for changing info about actions.
-    
-    
+    # Next methods was created for getting and changing info about actions.
+    @property
+    def action(self):
+        return self.__action
 
-    # def set_categories(self, val):
-    #     self._categories = val
+    @action.setter
+    def action(self, val):
+        self.__action = val
 
-    # def set_action(self, val):
-    #     self.__action = val
+    @property
+    def category(self):
+        return self.__category
 
-    # def set_category(self, val):
-    #     self.__category = val
-    
-    # def set_time(self, val):
-    #     self.__time = val
+    @category.setter
+    def category(self, val):
+        self.__category = val
 
-    # def set_date(self, val):
-    #     self.__date = val
+    @property
+    def time(self):
+        return self.__time
 
-    # def set_duration(self, val):
-    #     self.__duration = val
+    @time.setter
+    def time(self, val):
+        self.__time = val
 
-    # def set_comment(self, val):
-    #     self.__comment = val
+    @property
+    def date(self):
+        return self.__date
 
-    # # Next methods was created for getting info about actions.
-    # def get_categories(self):
-    #     return self._categories
+    @date.setter
+    def date(self, val):
+        self.__date = val
 
-    # def get_action(self):
-    #     return self.__action
+    @property
+    def duration(self):
+        return self.__duration
 
-    # def get_category(self):
-    #     return self.__category
-    
-    # def get_time(self):
-    #     return self.__time
+    @duration.setter
+    def duration(self, val):
+        self.__duration = val
 
-    # def get_date(self):
-    #     return self.__date
+    @property
+    def comment(self):
+        return self.__comment
 
-    # def get_duration(self):
-    #     return self.__duration
-
-    # def get_comment(self):
-    #     return self.__comment
-
-
-class MainUI:
-    def __init__(self):
-        pass
-
-
-if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    window = DisplayElements()
-    sys.exit(app.exec())
+    @comment.setter
+    def comment(self, val):
+        self.__comment = val

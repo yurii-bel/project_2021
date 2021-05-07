@@ -1,10 +1,13 @@
 from PyQt5 import QtGui, QtWidgets, QtCore, uic
 from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLineEdit, QLabel, QComboBox
+import test
+
 
 
 class DisplayElements(QtWidgets.QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self):
         super().__init__()
+
         self.test = 0
         grid = QtWidgets.QGridLayout()
         self.setLayout(grid)
@@ -12,6 +15,8 @@ class DisplayElements(QtWidgets.QMainWindow):
         self.setGeometry(500, 200, 800, 600)
         self.setWindowTitle('TimeSoft')
         self.display_elements()
+
+        self.act = test.Actions
 
         self.show()
 

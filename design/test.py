@@ -1,4 +1,7 @@
+from PyQt5 import QtWidgets, uic
 from datetime import datetime
+
+
 
 class Actions:
     """
@@ -80,7 +83,16 @@ class Actions:
         return self.__comment
 
 
-#tests.
-# if __name__ == '__main__':
-#     a = Actions('Gaming on PC', 'Chill', None, None, 3, 'Lol!')
-#     print(a.get_category())
+class MainUI(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.mUi = uic.loadUi('test_ui.ui')
+        self.mUi.btn_save.clicked.connect(self.save_action)
+        
+        self.act = Actions
+
+        self.mUi.show()
+
+    def save_action(self):
+        title = self.mUi.lineEdit.text()
+        categ = self.mUi.comboBox.currentText()

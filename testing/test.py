@@ -2,7 +2,9 @@ import datetime
 import json
 import sys
 import os
-from gui_elements import *
+from PyQt5 import QtGui, QtWidgets, QtCore, uic
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLineEdit, QLabel, QComboBox
+from gui_elements import DisplayElements
 
 class Actions:
     """

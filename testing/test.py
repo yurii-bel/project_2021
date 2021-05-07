@@ -6,6 +6,7 @@ from PyQt5 import QtGui, QtWidgets, QtCore, uic
 from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLineEdit, QLabel, QComboBox
 from gui_elements import DisplayElements
 
+
 class Actions:
     """
     The Actions object contains various info about action/task,
@@ -42,49 +43,51 @@ class Actions:
         self.__comment = comment
 
     # Next methods was created for changing info about actions.
-
-    def set_categories(self, val):
-        self._categories = val
-
-    def set_action(self, val):
-        self.__action = val
-
-    def set_category(self, val):
-        self.__category = val
     
-    def set_time(self, val):
-        self.__time = val
-
-    def set_date(self, val):
-        self.__date = val
-
-    def set_duration(self, val):
-        self.__duration = val
-
-    def set_comment(self, val):
-        self.__comment = val
-
-    # Next methods was created for getting info about actions.
-    def get_categories(self):
-        return self._categories
-
-    def get_action(self):
-        return self.__action
-
-    def get_category(self):
-        return self.__category
     
-    def get_time(self):
-        return self.__time
 
-    def get_date(self):
-        return self.__date
+    # def set_categories(self, val):
+    #     self._categories = val
 
-    def get_duration(self):
-        return self.__duration
+    # def set_action(self, val):
+    #     self.__action = val
 
-    def get_comment(self):
-        return self.__comment
+    # def set_category(self, val):
+    #     self.__category = val
+    
+    # def set_time(self, val):
+    #     self.__time = val
+
+    # def set_date(self, val):
+    #     self.__date = val
+
+    # def set_duration(self, val):
+    #     self.__duration = val
+
+    # def set_comment(self, val):
+    #     self.__comment = val
+
+    # # Next methods was created for getting info about actions.
+    # def get_categories(self):
+    #     return self._categories
+
+    # def get_action(self):
+    #     return self.__action
+
+    # def get_category(self):
+    #     return self.__category
+    
+    # def get_time(self):
+    #     return self.__time
+
+    # def get_date(self):
+    #     return self.__date
+
+    # def get_duration(self):
+    #     return self.__duration
+
+    # def get_comment(self):
+    #     return self.__comment
 
 
 class MainUI:

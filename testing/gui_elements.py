@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLineEdit, QLabel
 
 
 class DisplayElements(QtWidgets.QMainWindow):
-
     def __init__(self, parent=None):
         super().__init__()
         self.test = 0

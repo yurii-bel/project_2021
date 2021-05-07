@@ -1,7 +1,10 @@
-from PyQt5 import QtWidgets, uic
-from datetime import datetime
+import datetime
+import json
 import sys
-
+import os
+from PyQt5 import QtGui, QtWidgets, QtCore, uic
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLineEdit, QLabel, QComboBox
+from gui_elements import 
 
 class Actions:
     """
@@ -39,6 +42,7 @@ class Actions:
         self.__comment = comment
 
     # Next methods was created for changing info about actions.
+
     def set_categories(self, val):
         self._categories = val
 
@@ -86,16 +90,26 @@ class Actions:
 class MainUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.mUi = uic.loadUi('design\\test_ui.ui')
-        self.mUi.btn_save.clicked.connect(self.save_action)
-        
-        self.act = Actions
+        # self.mUi = uic.loadUi('testing\\test_ui.ui')
+        # self.mUi.btn_save.clicked.connect(self.save_action)
 
-        self.mUi.show()
+        self.categories = ['Sport', 'Business', 'Home', 'Other']
+        
+        grid = QtWidgets.QGridLayout()
+        self.setLayout(grid)
+        
+        self.setGeometry(500, 200, 800, 600)
+        self.setWindowTitle('TimeSoft')
+
+        self.act = Actions
+        self.display_elements()
+
+        self.show()
 
     def save_action(self):
         title = self.mUi.lineEdit.text()
         categ = self.mUi.comboBox.currentText()
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

@@ -1,3 +1,7 @@
+import time
+from datetime import date
+
+
 class Actions:
     """
     The Actions object contains various info about action/task,
@@ -16,20 +20,22 @@ class Actions:
     :param comment: used for adding some comments to action/task.
     :type comment: str
     """
-    def __init__(self, action=None, category=None, time=None, \
-        date=None, duration=str, comment=None):
+    def __init__(self, action=None, category=None, \
+        hour=None, minute=None, year=None, month=None, day=None, \
+        duration=str, comment=None):
 
         self._categories = []
 
-        if not isinstance(action, str):
-            raise Exception('Name of action must be a string.')
-        if not isinstance(category, str):
-            raise Exception('For adding your own category, use string type.')
-
         self.__action = action
         self.__category = category
-        self.__time = time
-        self.__date = date
+
+        self.__hour = hour
+        self.__minute = minute
+
+        self.__year = year
+        self.__month = month
+        self.__day = day
+        
         self.__duration = duration
         self.__comment = comment
 
@@ -51,20 +57,44 @@ class Actions:
         self.__category = val
 
     @property
-    def time(self):
-        return self.__time
+    def hour(self):
+        return self.__hour
 
-    @time.setter
-    def time(self, val):
-        self.__time = val
+    @hour.setter
+    def hour(self, val):
+        self.__hour = val
 
     @property
-    def date(self):
-        return self.__date
+    def minute(self):
+        return self.__minute
 
-    @date.setter
-    def date(self, val):
-        self.__date = val
+    @minute.setter
+    def minute(self, val):
+        self.__minute = val
+
+    @property
+    def year(self):
+        return self.__year
+
+    @year.setter
+    def year(self, val):
+        self.__year = val
+
+    @property
+    def month(self):
+        return self.__month
+
+    @month.setter
+    def month(self, val):
+        self.__month = val
+
+    @property
+    def day(self):
+        return self.__day
+
+    @day.setter
+    def day(self, val):
+        self.__day = val
 
     @property
     def duration(self):
@@ -81,3 +111,15 @@ class Actions:
     @comment.setter
     def comment(self, val):
         self.__comment = val
+
+    @property
+    def categories(self):
+        return self._categories
+
+    @categories.setter
+    def categories(self, val):
+        self._categories = val
+
+    def __str__(self):
+        return f'{self.__action}'
+        

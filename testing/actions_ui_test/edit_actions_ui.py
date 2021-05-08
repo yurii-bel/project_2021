@@ -10,6 +10,8 @@ class ActionUI(QtWidgets.QMainWindow):
 
         self.aUi.show()
 
+    
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

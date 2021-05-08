@@ -60,12 +60,9 @@
         <pointsize>10</pointsize>
        </font>
       </property>
-<<<<<<< HEAD
-=======
       <property name="editable">
        <bool>true</bool>
       </property>
->>>>>>> testing
      </widget>
     </item>
     <item row="3" column="0">

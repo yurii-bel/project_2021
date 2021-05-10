@@ -1,28 +1,31 @@
 import sys
+from testing.actions_ui_test.edit import Form
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QTime, QDate
+from PyQt5 import QtCore, QtGui, QtWidgets
 import uuid
 from actions import Actions
-
+from edit import Ui_Form
 
 class ActionUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.aUi = uic.loadUi('design\\edit_event.ui')
-        self.user_events = {}
+        # self.aUi = uic.loadUi('design\\edit_event.ui')
+        self.aUi = Ui_Form.setupUi(self, Form)
+        self.user_events = {}   
 
         # Settings for 'dE_date' control element.
-        self.aUi.dE_date.setCalendarPopup(True)
-        self.aUi.dE_date.setDate(QDate(QDate.currentDate()))
-        self.aUi.dE_date.setMaximumDate(QDate(QDate.currentDate()))
+        # self.aUi.dE_date.setCalendarPopup(True)
+        # self.aUi.dE_date.setDate(QDate(QDate.currentDate()))
+        # self.aUi.dE_date.setMaximumDate(QDate(QDate.currentDate()))
 
         # Settings for 'tE_time' control element.
-        self.aUi.tE_time.setTime(QTime.currentTime())
+        # self.aUi.tE_time.setTime(QTime.currentTime())
 
         # Settings for cB_category control element.
         # self.aUi.cB_category.addItems()
 
-        self.aUi.btn_save.clicked.connect(self.add_event)
+        # self.aUi.btn_save.clicked.connect(self.add_event)
 
         self.act = Actions
 

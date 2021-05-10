@@ -1,4 +1,6 @@
-from datetime import datetime
+import time
+from datetime import date
+
 
 class Actions:
     """
@@ -18,71 +20,112 @@ class Actions:
     :param comment: used for adding some comments to action/task.
     :type comment: str
     """
-    def __init__(self, action=None, category=None, time=None, \
-        date=None, duration=str, comment=None):
+    def __init__(self, action=None, category=None, \
+        hour=None, minute=None, year=None, month=None, day=None, \
+        duration=str, comment=None):
 
         self._categories = []
 
-        if not isinstance(action, str):
-            raise Exception('Name of action must be a string.')
-        if not isinstance(category, str):
-            raise Exception('For adding your own category, use string type.')
-
         self.__action = action
         self.__category = category
-        self.__time = time
-        self.__date = date
+
+        self.__hour = hour
+        self.__minute = minute
+
+        self.__year = year
+        self.__month = month
+        self.__day = day
+        
         self.__duration = duration
         self.__comment = comment
 
-    # Next methods was created for changing info about actions.
-    def set_categories(self, val):
-        self._categories = val
-
-    def set_action(self, val):
-        self.__action = val
-
-    def set_category(self, val):
-        self.__category = val
-    
-    def set_time(self, val):
-        self.__time = val
-
-    def set_date(self, val):
-        self.__date = val
-
-    def set_duration(self, val):
-        self.__duration = val
-
-    def set_comment(self, val):
-        self.__comment = val
-
-    # Next methods was created for getting info about actions.
-    def get_categories(self):
-        return self._categories
-
-    def get_action(self):
+    # Next methods was created for getting and changing info about actions.
+    @property
+    def action(self):
         return self.__action
 
-    def get_category(self):
+    @action.setter
+    def action(self, val):
+        self.__action = val
+
+    @property
+    def category(self):
         return self.__category
-    
-    def get_time(self):
-        return self.__time
 
-    def get_date(self):
-        return self.__date
+    @category.setter
+    def category(self, val):
+        self.__category = val
 
-    def get_duration(self):
+    @property
+    def hour(self):
+        return self.__hour
+
+    @hour.setter
+    def hour(self, val):
+        self.__hour = val
+
+    @property
+    def minute(self):
+        return self.__minute
+
+    @minute.setter
+    def minute(self, val):
+        self.__minute = val
+
+    @property
+    def year(self):
+        return self.__year
+
+    @year.setter
+    def year(self, val):
+        self.__year = val
+
+    @property
+    def month(self):
+        return self.__month
+
+    @month.setter
+    def month(self, val):
+        self.__month = val
+
+    @property
+    def day(self):
+        return self.__day
+
+    @day.setter
+    def day(self, val):
+        self.__day = val
+
+    @property
+    def duration(self):
         return self.__duration
 
-    def get_comment(self):
+    @duration.setter
+    def duration(self, val):
+        self.__duration = val
+
+    @property
+    def comment(self):
         return self.__comment
 
-    # Next methods was created for getting info about actions.
+    @comment.setter
+    def comment(self, val):
+        self.__comment = val
 
+    @property
+    def categories(self):
+        return self._categories
 
-#tests.
-if __name__ == '__main__':
-    a = Actions('Gaming on PC', 'Chill', None, None, 3, 'Lol!')
-    print(a.get_category())
+    @categories.setter
+    def categories(self, val):
+        self._categories = val
+
+    def __str__(self):
+        return f'Название события: {self.__action}' \
+                f'Категория: {self.category}' \
+                f'Дата: ' \
+                f'Время: ' \
+                f'Комментарий: {self.comment}'
+                
+
+        

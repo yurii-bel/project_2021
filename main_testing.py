@@ -6,8 +6,8 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QTime, QDate
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from testing.actions_ui_test.actions import Actions
-from design.edit_event import Ui_Form
+from logic.addding_editing_actions import Actions
+from testing.actions_ui_test.edit import Ui_Form
 
 sys.path.append(os.getcwd())
 
@@ -19,7 +19,8 @@ class ActionUI(QtWidgets.QMainWindow):
         # self.aUi = uic.loadUi('design\\edit_event.ui')
         self.aUi = Ui_Form()
         self.aUi.setupUi(self)
-        self.user_events = {}   
+        self.user_events = {}
+        self.categs = ['Отдых', 'Спорт', 'Семья', 'Работа', 'Учёба']
 
         # Settings for 'dE_date' control element.
         self.aUi.dE_date.setCalendarPopup(True)
@@ -30,7 +31,7 @@ class ActionUI(QtWidgets.QMainWindow):
         self.aUi.tE_time.setTime(QTime.currentTime())
 
         # Settings for cB_category control element.
-        # self.aUi.cB_category.addItems()
+        self.aUi.cB_category.addItems(self.categs)
 
         self.aUi.btn_save.clicked.connect(self.add_event)
 
@@ -56,9 +57,14 @@ class ActionUI(QtWidgets.QMainWindow):
 
         a = self.act(title, category, hour, minute, year, month, day, \
             duration, comment)
+        a.categories(self.categs)
+
         b = {userId:a.__str__()}
 
         self.user_events.update(b)
+
+        self.aUi.cB_category.addItems(a.categories)
+        self.aUi.tE_comment.setPlainText(f'{self.user_events.values()}')
 
 
 if __name__ == '__main__':

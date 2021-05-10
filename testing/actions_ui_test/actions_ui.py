@@ -1,5 +1,7 @@
+from design import edit_event
+import importlib.util
 import sys
-from testing.actions_ui_test.edit import Form
+from edit import Form
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QTime, QDate
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -10,6 +12,7 @@ from edit import Ui_Form
 class ActionUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
+
         # self.aUi = uic.loadUi('design\\edit_event.ui')
         self.aUi = Ui_Form.setupUi(self, Form)
         self.user_events = {}   

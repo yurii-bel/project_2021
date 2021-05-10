@@ -1,3 +1,5 @@
+from design import edit_event
+import importlib.util
 import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QTime, QDate
@@ -8,7 +10,7 @@ from actions import Actions
 class ActionUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.aUi = uic.loadUi('design\\edit_event.ui')
+        self.aUi = Ui_Form
         self.user_events = {}
 
         # Settings for 'dE_date' control element.

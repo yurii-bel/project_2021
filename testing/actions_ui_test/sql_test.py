@@ -1,25 +1,20 @@
 import sys
-import uuid
-import os
-
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QTime, QDate
-from PyQt5 import QtCore, QtGui, QtWidgets
-
-#from actions import Actions
-#from ..design.edit_event import Ui_Form
-
-sys.path.append(os.getcwd())
+import uuid
+import sqlite3
+from actions import Actions
 
 
 class ActionUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
+        self.aUi = uic.loadUi('design\\edit_event.ui')
+        self.user_events = {}
 
-        # self.aUi = uic.loadUi('design\\edit_event.ui')
-        self.aUi = Ui_Form()
-        self.aUi.setupUi(self)
-        self.user_events = {}   
+        # Connecting sql database.
+        self.db = sqlite3.connect('database\\program.db')
+        self.crs = self.db.cursor()
 
         # Settings for 'dE_date' control element.
         self.aUi.dE_date.setCalendarPopup(True)
@@ -35,6 +30,8 @@ class ActionUI(QtWidgets.QMainWindow):
         self.aUi.btn_save.clicked.connect(self.add_event)
 
         self.act = Actions
+
+        self.aUi.show()
 
     def add_event(self):
         userId = uuid.uuid4()
@@ -56,14 +53,14 @@ class ActionUI(QtWidgets.QMainWindow):
 
         a = self.act(title, category, hour, minute, year, month, day, \
             duration, comment)
-        b = {userId:a.__str__()}
-
-        self.user_events.update(b)
+        
+        # Testing some inserting data to db.
+        #self.crs.executemany("""INSERT INTO user(User_id, Instance) VALUES (?,?);""", ('2', '1'))
+        #self.db.commit()
 
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     win = ActionUI()
-    win.show()
     sys.exit(app.exec())
     

@@ -6,8 +6,8 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QTime, QDate
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-#from actions import Actions
-#from ..design.edit_event import Ui_Form
+from testing.actions_ui_test.actions import Actions
+from design.edit_event import Ui_Form
 
 sys.path.append(os.getcwd())
 

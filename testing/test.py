@@ -87,11 +87,6 @@ class Actions:
         return self.__comment
 
 
-class MainUI:
-    def __init__(self):
-        pass
-
-
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = DisplayElements()

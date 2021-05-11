@@ -24,108 +24,29 @@ class Actions:
         hour=None, minute=None, year=None, month=None, day=None, \
         duration=str, comment=None):
 
-        self._categories = []
+        self.categories = []
 
-        self.__action = action
-        self.__category = category
+        self.action = action
+        self.category = category
 
-        self.__hour = hour
-        self.__minute = minute
+        self.hour = hour
+        self.minute = minute
 
-        self.__year = year
-        self.__month = month
-        self.__day = day
+        self.year = year
+        self.month = month
+        self.day = day
         
-        self.__duration = duration
-        self.__comment = comment
+        self.duration = duration
+        self.comment = comment
 
-    # Next methods was created for getting and changing info about actions.
-    @property
-    def action(self):
-        return self.__action
+        time_ = time.gmtime()
+        self.time = time.strftime('%X', time_)
 
-    @action.setter
-    def action(self, val):
-        self.__action = val
-
-    @property
-    def category(self):
-        return self.__category
-
-    @category.setter
-    def category(self, val):
-        self.__category = val
-
-    @property
-    def hour(self):
-        return self.__hour
-
-    @hour.setter
-    def hour(self, val):
-        self.__hour = val
-
-    @property
-    def minute(self):
-        return self.__minute
-
-    @minute.setter
-    def minute(self, val):
-        self.__minute = val
-
-    @property
-    def year(self):
-        return self.__year
-
-    @year.setter
-    def year(self, val):
-        self.__year = val
-
-    @property
-    def month(self):
-        return self.__month
-
-    @month.setter
-    def month(self, val):
-        self.__month = val
-
-    @property
-    def day(self):
-        return self.__day
-
-    @day.setter
-    def day(self, val):
-        self.__day = val
-
-    @property
-    def duration(self):
-        return self.__duration
-
-    @duration.setter
-    def duration(self, val):
-        self.__duration = val
-
-    @property
-    def comment(self):
-        return self.__comment
-
-    @comment.setter
-    def comment(self, val):
-        self.__comment = val
-
-    @property
-    def categories(self):
-        return self._categories
-
-    @categories.setter
-    def categories(self, val):
-        self._categories = val
-
+        date_ = date.today()
+        self.date = date_.strftime('%Y %m %d')
+    
     def __str__(self):
-        return f'Название события: {self.__action}' \
-                f'Категория: {self.category}' \
-                f'Дата: ' \
-                f'Время: ' \
-                f'Комментарий: {self.comment}'
+        pass
                 
 
         

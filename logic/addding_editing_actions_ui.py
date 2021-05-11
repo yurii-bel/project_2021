@@ -13,8 +13,7 @@ from testing.actions_ui_test.edit import Ui_Form
 class ActionUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-
-        # self.aUi = uic.loadUi('design\\edit_event.ui')
+        
         self.aUi = Ui_Form()
         self.aUi.setupUi(self)
         self.userId = str(uuid.uuid4())

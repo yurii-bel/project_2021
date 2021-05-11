@@ -14,19 +14,23 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1400, 900)
+        MainWindow.resize(1024, 1080)
         MainWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 10, 1381, 841))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+        
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
+        
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
+        
         self.btn_chart_type = QtWidgets.QPushButton(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -34,6 +38,7 @@ class Ui_MainWindow(object):
         self.btn_chart_type.setFont(font)
         self.btn_chart_type.setObjectName("btn_chart_type")
         self.verticalLayout.addWidget(self.btn_chart_type)
+        
         self.btn_background = QtWidgets.QPushButton(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -41,6 +46,7 @@ class Ui_MainWindow(object):
         self.btn_background.setFont(font)
         self.btn_background.setObjectName("btn_background")
         self.verticalLayout.addWidget(self.btn_background)
+        
         self.btn_settings = QtWidgets.QPushButton(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -48,6 +54,7 @@ class Ui_MainWindow(object):
         self.btn_settings.setFont(font)
         self.btn_settings.setObjectName("btn_settings")
         self.verticalLayout.addWidget(self.btn_settings)
+        
         self.btn_exit = QtWidgets.QPushButton(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -55,18 +62,22 @@ class Ui_MainWindow(object):
         self.btn_exit.setFont(font)
         self.btn_exit.setObjectName("btn_exit")
         self.verticalLayout.addWidget(self.btn_exit)
+        
         spacerItem = QtWidgets.QSpacerItem(20, 500, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.verticalLayout.addItem(spacerItem)
         self.gridLayout.addLayout(self.verticalLayout, 5, 0, 1, 1)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        
         self.le_Input = QtWidgets.QLineEdit(self.gridLayoutWidget)
         self.le_Input.setObjectName("le_Input")
         self.horizontalLayout_7.addWidget(self.le_Input)
+        
         self.btn_enter = QtWidgets.QPushButton(self.gridLayoutWidget)
         self.btn_enter.setObjectName("btn_enter")
         self.horizontalLayout_7.addWidget(self.btn_enter)
         self.gridLayout.addLayout(self.horizontalLayout_7, 1, 3, 1, 1)
+        
         self.textLbl_TitleSoft = QtWidgets.QLabel(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -76,6 +87,7 @@ class Ui_MainWindow(object):
         self.textLbl_TitleSoft.setFont(font)
         self.textLbl_TitleSoft.setObjectName("textLbl_TitleSoft")
         self.gridLayout.addWidget(self.textLbl_TitleSoft, 1, 0, 1, 1)
+        
         self.lbl_Diagram = QtWidgets.QLabel(self.gridLayoutWidget)
         self.lbl_Diagram.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -92,8 +104,10 @@ class Ui_MainWindow(object):
         self.lbl_Diagram.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.lbl_Diagram.setObjectName("lbl_Diagram")
         self.gridLayout.addWidget(self.lbl_Diagram, 5, 3, 1, 1)
+        
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
+        
         self.textLbl_comparison = QtWidgets.QLabel(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -101,6 +115,7 @@ class Ui_MainWindow(object):
         self.textLbl_comparison.setFont(font)
         self.textLbl_comparison.setObjectName("textLbl_comparison")
         self.verticalLayout_2.addWidget(self.textLbl_comparison)
+        
         self.textLbl_filter = QtWidgets.QLabel(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -108,6 +123,7 @@ class Ui_MainWindow(object):
         self.textLbl_filter.setFont(font)
         self.textLbl_filter.setObjectName("textLbl_filter")
         self.verticalLayout_2.addWidget(self.textLbl_filter)
+        
         self.checkBox_see_all = QtWidgets.QCheckBox(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -115,6 +131,7 @@ class Ui_MainWindow(object):
         self.checkBox_see_all.setFont(font)
         self.checkBox_see_all.setObjectName("checkBox_see_all")
         self.verticalLayout_2.addWidget(self.checkBox_see_all)
+        
         self.checkBox_health = QtWidgets.QCheckBox(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -122,6 +139,7 @@ class Ui_MainWindow(object):
         self.checkBox_health.setFont(font)
         self.checkBox_health.setObjectName("checkBox_health")
         self.verticalLayout_2.addWidget(self.checkBox_health)
+        
         self.checkBox_work = QtWidgets.QCheckBox(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -129,6 +147,7 @@ class Ui_MainWindow(object):
         self.checkBox_work.setFont(font)
         self.checkBox_work.setObjectName("checkBox_work")
         self.verticalLayout_2.addWidget(self.checkBox_work)
+        
         self.checkBox_family = QtWidgets.QCheckBox(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -136,6 +155,7 @@ class Ui_MainWindow(object):
         self.checkBox_family.setFont(font)
         self.checkBox_family.setObjectName("checkBox_family")
         self.verticalLayout_2.addWidget(self.checkBox_family)
+        
         self.checkBox_relaxation = QtWidgets.QCheckBox(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -143,6 +163,7 @@ class Ui_MainWindow(object):
         self.checkBox_relaxation.setFont(font)
         self.checkBox_relaxation.setObjectName("checkBox_relaxation")
         self.verticalLayout_2.addWidget(self.checkBox_relaxation)
+        
         self.checkBox_entertainment = QtWidgets.QCheckBox(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -150,6 +171,7 @@ class Ui_MainWindow(object):
         self.checkBox_entertainment.setFont(font)
         self.checkBox_entertainment.setObjectName("checkBox_entertainment")
         self.verticalLayout_2.addWidget(self.checkBox_entertainment)
+        
         self.checkBoxlbl_dinamic = QtWidgets.QLabel(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -160,6 +182,7 @@ class Ui_MainWindow(object):
         spacerItem1 = QtWidgets.QSpacerItem(20, 200, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem1)
         self.gridLayout.addLayout(self.verticalLayout_2, 5, 1, 1, 1)
+        
         self.textLbl_Menu = QtWidgets.QLabel(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -173,6 +196,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_9.addItem(spacerItem2)
+        
         self.btn_daily = QtWidgets.QPushButton(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -180,6 +204,7 @@ class Ui_MainWindow(object):
         self.btn_daily.setFont(font)
         self.btn_daily.setObjectName("btn_daily")
         self.horizontalLayout_9.addWidget(self.btn_daily)
+        
         self.btn_monthly = QtWidgets.QPushButton(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -187,6 +212,7 @@ class Ui_MainWindow(object):
         self.btn_monthly.setFont(font)
         self.btn_monthly.setObjectName("btn_monthly")
         self.horizontalLayout_9.addWidget(self.btn_monthly)
+        
         self.btn_annually = QtWidgets.QPushButton(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -194,6 +220,7 @@ class Ui_MainWindow(object):
         self.btn_annually.setFont(font)
         self.btn_annually.setObjectName("btn_annually")
         self.horizontalLayout_9.addWidget(self.btn_annually)
+        
         self.lbl_user_icon = QtWidgets.QLabel(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -210,8 +237,10 @@ class Ui_MainWindow(object):
         self.lbl_date.setObjectName("lbl_date")
         self.horizontalLayout_9.addWidget(self.lbl_date)
         self.gridLayout.addLayout(self.horizontalLayout_9, 2, 3, 1, 1)
+        
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
+        
         self.title_diagram = QtWidgets.QLabel(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -220,17 +249,26 @@ class Ui_MainWindow(object):
         self.title_diagram.setObjectName("title_diagram")
         self.horizontalLayout.addWidget(self.title_diagram)
         self.gridLayout.addLayout(self.horizontalLayout, 2, 1, 1, 1)
+        
+        self.btn_add_event = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.btn_add_event.setObjectName("btn_add_event")
+        self.gridLayout.addWidget(self.btn_add_event, 1, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
+        
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1400, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1400, 18))
         self.menubar.setObjectName("menubar")
+        
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
+        
         self.menuEdit = QtWidgets.QMenu(self.menubar)
         self.menuEdit.setObjectName("menuEdit")
+        
         self.menuHelp = QtWidgets.QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
         MainWindow.setMenuBar(self.menubar)
+        
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setSizeGripEnabled(True)
         self.statusbar.setObjectName("statusbar")
@@ -268,6 +306,7 @@ class Ui_MainWindow(object):
         self.lbl_user_icon.setText(_translate("MainWindow", "Иконка"))
         self.lbl_date.setText(_translate("MainWindow", "Дата"))
         self.title_diagram.setText(_translate("MainWindow", "График сравнений по категориям"))
+        self.btn_add_event.setText(_translate("MainWindow", "Добавить событие..."))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))

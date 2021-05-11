@@ -416,6 +416,13 @@
        </item>
       </layout>
      </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="btn_add_event">
+       <property name="text">
+        <string>Добавить событие...</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
   </widget>
@@ -425,7 +432,7 @@
      <x>0</x>
      <y>0</y>
      <width>1400</width>
-     <height>21</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

@@ -4,7 +4,7 @@ import os
 
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QTime, QDate
-from PyQt5 import QtCore, QtGui, QtWidget
+from PyQt5 import QtCore, QtGui
 
 sys.path.append(os.getcwd())
 

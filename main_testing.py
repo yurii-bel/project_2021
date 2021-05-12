@@ -6,8 +6,8 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QTime, QDate
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from design.MainWindow import Ui_MainWindow  # importing main UI
-from design.edit_event import Ui_Form  # importing edit_event UI
+from design.mainUI import MainWindow  # importing main UI
+# from design.edit_event import Ui_Form  # importing edit_event UI
 
 from addding_editing_actions_ui import ActionUI  # importing class that works
 # with edit_event UI
@@ -16,19 +16,16 @@ from addding_editing_actions_ui import ActionUI  # importing class that works
 class MainUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setUi()
 
-    def setUi(self):
-        self.mUi = Ui_MainWindow()  # Main GUI class
-        self.mUi.setupUi(self)
+        self.mUi = MainWindow  # Main GUI class
+        #self.mUi.setupUi(self, self)
 
-        self.addActionUi = ActionUI()  # Add action GUI class
-        print(self.mUi.btn_add_event)
+        self.aUi = ActionUI  # Add action GUI class
 
         # connect add event button from Main window to add event window
-        self.mUi.btn_add_event.clicked.connect(self.open_add_action_window) 
+        self.mUi.btn_add_action.clicked.connect(self.open_add_action_window)
         
-        self.addActionUi.aUi.btn_save.clicked.connect(self.save_action)
+        self.aUi.btn_save.clicked.connect(self.save_action)
         
     def open_add_action_window(self):
         self.addActionUi.show()  

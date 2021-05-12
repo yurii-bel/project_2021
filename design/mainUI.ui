@@ -19,7 +19,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="button_add_action">
+   <widget class="QPushButton" name="btn_add_action">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -37,7 +37,7 @@
      <string>Добавить событие</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_menu">
+   <widget class="QLabel" name="lbl_menu">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -55,7 +55,7 @@
      <string>Menu</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_type_diagram">
+   <widget class="QLabel" name="lbl_type_diagram">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -73,7 +73,7 @@
      <string>Тип диаграммы</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radio_table">
+   <widget class="QRadioButton" name="radio_diag_type_table">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -91,7 +91,7 @@
      <string>Таблица</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radio_diagram">
+   <widget class="QRadioButton" name="radio_diag_type_diagram">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -109,7 +109,7 @@
      <string>Диаграмма</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radio_graph">
+   <widget class="QRadioButton" name="radio_diag_type_graph">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -127,7 +127,7 @@
      <string>График</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_filter">
+   <widget class="QLabel" name="lbl_filter">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -171,7 +171,7 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radio_all">
+   <widget class="QRadioButton" name="radio_filter_all">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -202,7 +202,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radio_health">
+   <widget class="QRadioButton" name="radio_filter_health">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -220,7 +220,7 @@
      <string>Здоровье</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radio_work">
+   <widget class="QRadioButton" name="radio_filter_work">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -256,7 +256,7 @@
      <string>Семья</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radio_rest">
+   <widget class="QRadioButton" name="radio__filter_rest">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -274,7 +274,7 @@
      <string>Отдых</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radio_entertainment">
+   <widget class="QRadioButton" name="radio_filter_entertainment">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -305,7 +305,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label_display_data">
+   <widget class="QLabel" name="lbl_display_data">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -323,7 +323,7 @@
      <string>Отобразить данные</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_today">
+   <widget class="QPushButton" name="btn_today">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -336,7 +336,7 @@
      <string>за сегодня</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_week">
+   <widget class="QPushButton" name="btn_week">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -349,7 +349,7 @@
      <string>за эту неделю</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_month">
+   <widget class="QPushButton" name="btn_month">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -362,7 +362,7 @@
      <string>за этот месяц</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_january">
+   <widget class="QPushButton" name="btn_january">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -375,7 +375,7 @@
      <string>январь</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_february">
+   <widget class="QPushButton" name="btn_february">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -388,7 +388,7 @@
      <string>февраль</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_march">
+   <widget class="QPushButton" name="btn_march">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -401,7 +401,7 @@
      <string>март</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_april">
+   <widget class="QPushButton" name="btn_april">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -414,7 +414,7 @@
      <string>апрель</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_may">
+   <widget class="QPushButton" name="btn_may">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -427,7 +427,7 @@
      <string>май</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_june">
+   <widget class="QPushButton" name="btn_june">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -440,7 +440,7 @@
      <string>июнь</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_july">
+   <widget class="QPushButton" name="btn_july">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -453,7 +453,7 @@
      <string>июль</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_august">
+   <widget class="QPushButton" name="btn_august">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -466,7 +466,7 @@
      <string>август</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_september">
+   <widget class="QPushButton" name="btn_september">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -479,7 +479,7 @@
      <string>сентябрь</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_october">
+   <widget class="QPushButton" name="btn_october">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -492,7 +492,7 @@
      <string>октябрь</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_november">
+   <widget class="QPushButton" name="btn_november">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -505,7 +505,7 @@
      <string>ноябрь</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_december">
+   <widget class="QPushButton" name="btn_december">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -518,7 +518,7 @@
      <string>декабрь</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="lbl_from">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -536,7 +536,7 @@
      <string>С</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="edit_from">
+   <widget class="QLineEdit" name="find_from">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -551,7 +551,7 @@
      </font>
     </property>
    </widget>
-   <widget class="QLabel" name="label_6">
+   <widget class="QLabel" name="lbl_to">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -569,7 +569,7 @@
      <string>по</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="edit_to">
+   <widget class="QLineEdit" name="find_to">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -584,7 +584,7 @@
      </font>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_find">
+   <widget class="QPushButton" name="btn_find">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -615,7 +615,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label_7">
+   <widget class="QLabel" name="lbl_example">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -645,8 +645,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>1109</width>
-       <height>769</height>
+       <width>1107</width>
+       <height>767</height>
       </rect>
      </property>
      <widget class="QPushButton" name="pushButton">
@@ -723,7 +723,7 @@
      <x>0</x>
      <y>0</y>
      <width>1400</width>
-     <height>19</height>
+     <height>18</height>
     </rect>
    </property>
   </widget>

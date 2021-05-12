@@ -7,7 +7,7 @@ from PyQt5.QtCore import QTime, QDate
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from logic.addding_editing_actions import Actions
-from testing.actions_ui_test.edit import Ui_Form
+from design.edit_event import Ui_Form
 
 
 class ActionUI(QtWidgets.QMainWindow):

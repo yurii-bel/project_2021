@@ -24,8 +24,6 @@ class Actions:
         hour=None, minute=None, year=None, month=None, day=None, \
         duration=str, comment=None):
 
-        self.categories = []
-
         self.action = action
         self.category = category
 

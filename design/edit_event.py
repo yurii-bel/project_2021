@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
+class EditUI(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(450, 356)
@@ -110,14 +110,6 @@ class Ui_Form(object):
         self.btn_save.setObjectName("btn_save")
         self.horizontalLayout.addWidget(self.btn_save)
 
-        self.btn_edit = QtWidgets.QPushButton(self.horizontalLayoutWidget)
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        self.btn_save.setFont(font)
-        self.btn_save.setObjectName("btn_save")
-        self.horizontalLayout.addWidget(self.btn_edit)
-
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -131,14 +123,13 @@ class Ui_Form(object):
         self.lbl_time_2.setText(_translate("Form", "Время:"))
         self.lbl_comment.setText(_translate("Form", "Комментарий:"))
         self.btn_save.setText(_translate("Form", "Сохранить"))
-        self.btn_edit.setText(_translate("Form", "Редактировать"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
-    ui = Ui_Form()
+    ui = EditUI()
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec_())

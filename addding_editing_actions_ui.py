@@ -1,13 +1,11 @@
 import sys
-import uuid
-import os
+import json
 
-from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QTime, QDate
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 
 from logic.addding_editing_actions import Actions
-from design.edit_event import Ui_Form
+from design.edit_event import EditUI
 
 
 class ActionUI(QtWidgets.QMainWindow):
@@ -15,19 +13,15 @@ class ActionUI(QtWidgets.QMainWindow):
         super().__init__()
 
         # self.aUi = uic.loadUi('design\\edit_event.ui')
-        self.aUi = Ui_Form()
+        self.aUi = EditUI()
         self.aUi.setupUi(self)
-        self.userId = str(uuid.uuid4())
-        self.user_events = {}
-        self.categs = ['Отдых', 'Спорт', 'Семья', 'Работа', 'Учёба']
+        
+        self.userId = 0
+        self.eventId = 0
 
-        # Connecting buttons.
-        self.aUi.btn_save.clicked.connect(self.add_event)
-        self.aUi.btn_edit.clicked.connect(self.edit_event)
+        self.categs = ['Здоровье', 'Работа', 'Семья', 'Отдых', 'Развлечения', \
+            'Другое']
 
-        self.act = Actions
-
-    def add_event(self):
         # Settings for 'dE_date' control element.
         self.aUi.dE_date.setCalendarPopup(True)
         self.aUi.dE_date.setDate(QDate(QDate.currentDate()))
@@ -39,6 +33,12 @@ class ActionUI(QtWidgets.QMainWindow):
         # Settings for cB_category control element.
         self.aUi.cB_category.addItems(self.categs)
 
+        # Connecting button.
+        self.aUi.btn_save.clicked.connect(self.save_event)
+        
+        self.act = Actions
+
+    def save_event(self):
         title = self.aUi.lE_name.text()
         category = self.aUi.cB_category.currentText()
         
@@ -56,9 +56,11 @@ class ActionUI(QtWidgets.QMainWindow):
 
         self.added_event = self.act(title, category, hour, minute, year, \
             month, day, duration, comment)
-        self.added_event.categories = self.categs
 
-        self.json_event = {'UserID':self.userId, 
+        try:
+            self.userId + 1
+            self.eventId + 1
+            event = {'self.userId':'self.eventId', 
         'EventDetails':{
             'title':self.added_event.action,
             'category':self.added_event.category,
@@ -72,11 +74,14 @@ class ActionUI(QtWidgets.QMainWindow):
             'duration':self.added_event.duration,
             'comment':self.added_event.comment
         }}
-
-        self.user_events.update(self.json_event)
-
-        self.aUi.cB_category.addItems(self.added_event.categories)
-        self.aUi.tE_comment.setPlainText(f'{[*self.user_events.values()]}')
+        except Exception:
+            pass
+        else:
+            f = open('Events.json', 'w')
+            json.dump(event, f, sort_keys=True, indent=4)
+            f.close()
+        if self.aUi.btn_save.clicked:
+            self.close()
 
     def edit_event(self):
         # Settings for 'lE_name' control element.
@@ -122,7 +127,7 @@ class ActionUI(QtWidgets.QMainWindow):
         self.added_event = self.act(title, category, hour, minute, year, \
             month, day, duration, comment)
 
-        json_event = {'UserID':self.userId, 
+        json_event = {self.userId:self.eventId, 
         'EventDetails':{
             'title':self.added_event.action,
             'category':self.added_event.category,

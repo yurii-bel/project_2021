@@ -18,10 +18,10 @@ class MainUI(QtWidgets.QMainWindow):
         super().__init__()
 
         self.mUi = MainWindow()  # Main GUI class
-        self.mUi.setupUi(self)
+        # self.mUi.setupUi(self)
 
         self.aUi = ActionUI()  # Add action GUI class
-        self.aUi.setupUi(self)
+        # self.aUi.setupUi(self)
 
         # connect add event button from Main window to add event window
         self.mUi.btn_add_action.clicked.connect(self.open_add_action_window)
@@ -29,7 +29,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi.btn_save.clicked.connect(self.save_action)
         
     def open_add_action_window(self):
-        self.addActionUi.show()  
+        self.addActionUi.show()
 
     def save_action(self):
         # spawning (creating) new objects in Main UI 

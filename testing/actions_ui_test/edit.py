@@ -47,7 +47,7 @@ class Ui_Form(object):
         font.setFamily("Arial")
         font.setPointSize(10)
         self.cB_category.setFont(font)
-        self.cB_category.setEditable(True)
+        self.cB_category.setEditable(False)
         self.cB_category.setObjectName("cB_category")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.cB_category)
         

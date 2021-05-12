@@ -37,11 +37,11 @@ class Actions:
         self.duration = duration
         self.comment = comment
 
-        time_ = time.gmtime()
+        time_ = time.localtime()
         self.time = time.strftime('%X', time_)
 
         date_ = date.today()
-        self.date = date_.strftime('%Y %m %d')
+        self.date = date_.strftime('%Y.%m.%d')
     
     def __str__(self):
         pass

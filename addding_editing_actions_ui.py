@@ -1,5 +1,6 @@
 import sys
-import json
+#import json
+import sqlite3
 
 from PyQt5.QtCore import QTime, QDate
 from PyQt5 import QtWidgets
@@ -16,9 +17,15 @@ class ActionUI(QtWidgets.QMainWindow):
         self.aUi = EditUI()
         self.aUi.setupUi(self)
         
-        self.userId = 0
-        self.eventId = 0
+        self.userId = []
+        userId = [i +1 for i in self.userId]
+        #self.eventId = 0
 
+        # Connecting to db.
+        self.db = sqlite3.connect('database\\TimeSoft.db')
+        self.curs = self.db.cursor()
+
+        # Categories for cB_category control element.
         self.categs = ['Здоровье', 'Работа', 'Семья', 'Отдых', 'Развлечения', \
             'Другое']
 
@@ -57,29 +64,40 @@ class ActionUI(QtWidgets.QMainWindow):
         self.added_event = self.act(title, category, hour, minute, year, \
             month, day, duration, comment)
 
-        try:
-            self.userId + 1
-            self.eventId + 1
-            event = {'self.userId':'self.eventId', 
-        'EventDetails':{
-            'title':self.added_event.action,
-            'category':self.added_event.category,
-            'time':[
-                self.added_event.hour, self.added_event.minute,
-            ],
-            'date':[
-                self.added_event.year, self.added_event.month, \
-                    self.added_event.day,
-            ],
-            'duration':self.added_event.duration,
-            'comment':self.added_event.comment
-        }}
-        except Exception:
-            pass
-        else:
-            f = open('Events.json', 'w')
-            json.dump(event, f, sort_keys=True, indent=4)
-            f.close()
+        # try:
+        #     self.userId + 1
+        #     self.eventId + 1
+        #     event = {'self.userId':'self.eventId', 
+        # 'EventDetails':{
+        #     'title':self.added_event.action,
+        #     'category':self.added_event.category,
+        #     'time':[
+        #         self.added_event.hour, self.added_event.minute,
+        #     ],
+        #     'date':[
+        #         self.added_event.year, self.added_event.month, \
+        #             self.added_event.day,
+        #     ],
+        #     'duration':self.added_event.duration,
+        #     'comment':self.added_event.comment
+        # }}
+        # except Exception:
+        #     pass
+        # else:
+        #     f = open('Events.json', 'w')
+        #     json.dump(event, f, sort_keys=True, indent=4)
+        #     f.close()
+        # if self.aUi.btn_save.clicked:
+        #     self.close()
+
+        data = (self.added_event.action, \
+            self.added_event.category, self.added_event.duration, \
+                self.added_event.time, self.added_event.date, \
+                    self.added_event.comment)
+        self.curs.execute('insert into Actions values(?,?,?,?,?,?)', \
+            data)
+        self.db.commit()
+        
         if self.aUi.btn_save.clicked:
             self.close()
 

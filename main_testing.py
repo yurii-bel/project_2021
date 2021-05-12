@@ -17,10 +17,11 @@ class MainUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.mUi = MainWindow  # Main GUI class
-        #self.mUi.setupUi(self, self)
+        self.mUi = MainWindow()  # Main GUI class
+        self.mUi.setupUi(self)
 
-        self.aUi = ActionUI  # Add action GUI class
+        self.aUi = ActionUI()  # Add action GUI class
+        self.aUi.setupUi(self)
 
         # connect add event button from Main window to add event window
         self.mUi.btn_add_action.clicked.connect(self.open_add_action_window)

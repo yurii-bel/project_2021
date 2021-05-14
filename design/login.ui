@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>530</width>
+    <height>604</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Login</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: #283046;</string>
+  </property>
+  <widget class="QLabel" name="l_txt_login">
+   <property name="geometry">
+    <rect>
+     <x>223</x>
+     <y>80</y>
+     <width>80</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(208, 210, 214); 
+font: 75 24pt &quot;Arial&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Login</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="l_txt_email">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>160</y>
+     <width>50</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>14</pointsize>
+     <weight>9</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 14pt &quot;Arial&quot;;
+color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Email</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="l_lE_email">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>190</y>
+     <width>340</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit { 
+background: #283046;
+font: 12pt &quot;Arial&quot;;
+color: rgb(103, 109, 125);
+border: 1px solid #404656;
+box-sizing: border-box;
+border-radius: 5px;
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(95, 85, 200);
+}</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="l_lE_password">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>260</y>
+     <width>340</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit { 
+background: #283046;
+font: 12pt &quot;Arial&quot;;
+color: rgb(103, 109, 125);
+border: 1px solid #404656;
+box-sizing: border-box;
+border-radius: 5px;
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(95, 85, 200);
+}</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="l_txt_password">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>230</y>
+     <width>85</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>14</pointsize>
+     <weight>9</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 14pt &quot;Arial&quot;;
+color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Password</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="l_btn_login">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>350</y>
+     <width>90</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: #7367F0;
+border-radius: 5px;
+font: 75 14pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(255, 255, 255);
+  border: 2px solid rgb(95, 85, 200);
+}</string>
+   </property>
+   <property name="text">
+    <string>Login</string>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="l_txt_reg">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>300</y>
+     <width>160</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(110, 107, 123);
+font: 12pt &quot;Arial&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Don't have an account?</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="l_btn_create">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>300</y>
+     <width>140</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+color: rgb(115, 103, 240);
+font: 12pt &quot;Arial&quot;;
+}
+
+QPushButton:hover {
+	border: 2px solid rgb(95, 85, 200);
+	color: rgb(180, 183, 189);
+}</string>
+   </property>
+   <property name="text">
+    <string>Create an account</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

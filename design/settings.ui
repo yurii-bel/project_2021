@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Settings</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(40, 48, 70);</string>
+  </property>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>120</y>
+     <width>300</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit { 
+background: #283046;
+font: 12pt &quot;Arial&quot;;
+color: rgb(103, 109, 125);
+border: 1px solid #404656;
+box-sizing: border-box;
+border-radius: 5px;
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(95, 85, 200);
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_2">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>190</y>
+     <width>300</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit { 
+background: #283046;
+font: 12pt &quot;Arial&quot;;
+color: rgb(103, 109, 125);
+border: 1px solid #404656;
+box-sizing: border-box;
+border-radius: 5px;
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(95, 85, 200);
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>330</y>
+     <width>90</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: rgb(40, 48, 70);
+border-radius: 5px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(180, 183, 189);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(255, 255, 255);
+  border: 2px solid rgb(95, 85, 200);
+}</string>
+   </property>
+   <property name="text">
+    <string>Телеграмм</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>650</y>
+     <width>120</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: #7367F0;
+border-radius: 5px;
+font: 75 14pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(115, 103, 240);
+  border: 2px solid rgb(95, 85, 200);
+}</string>
+   </property>
+   <property name="text">
+    <string>Применить</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>650</y>
+     <width>120</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: rgb(234, 84, 85);
+border-radius: 5px;
+font: 75 14pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(234, 84, 85);
+  border: 2px solid rgb(234, 84, 85);
+}</string>
+   </property>
+   <property name="text">
+    <string>Отменить</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>160</y>
+     <width>140</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 14pt &quot;Arial&quot;;
+color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Старый пароль</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>90</y>
+     <width>50</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 14pt &quot;Arial&quot;;
+color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Email</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>230</y>
+     <width>130</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 14pt &quot;Arial&quot;;
+color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Новый пароль</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>30</y>
+     <width>300</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 20pt &quot;Arial&quot;;
+color: rgb(208, 210, 214);</string>
+   </property>
+   <property name="text">
+    <string>Изменить информацию</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_3">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>260</y>
+     <width>300</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit { 
+background: #283046;
+font: 12pt &quot;Arial&quot;;
+color: rgb(103, 109, 125);
+border: 1px solid #404656;
+box-sizing: border-box;
+border-radius: 5px;
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(95, 85, 200);
+}</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>230</y>
+     <width>220</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 14pt &quot;Arial&quot;;
+color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Повторите новый пароль</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_4">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>260</y>
+     <width>300</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit { 
+background: #283046;
+font: 12pt &quot;Arial&quot;;
+color: rgb(103, 109, 125);
+border: 1px solid #404656;
+box-sizing: border-box;
+border-radius: 5px;
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(95, 85, 200);
+}</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>300</y>
+     <width>180</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 14pt &quot;Arial&quot;;
+color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Привязать соц. сети</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

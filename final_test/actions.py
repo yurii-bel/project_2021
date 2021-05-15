@@ -37,7 +37,7 @@ class Actions(QMainWindow):
         self.ui.tableView.setModel(self.model)
         self.ui.button_add.clicked.connect(self.addToDb)
         
-        self.ui.button_refresh.clicked.connect(self.updaterow)
+        self.ui.button_refresh.clicked.connect(self.updaterow)  #!!!!
         self.ui.button_delete.clicked.connect(self.delrow)
         self.i = self.model.rowCount()
         self.ui.lcdNumber.display(self.i)
@@ -49,6 +49,7 @@ class Actions(QMainWindow):
         self.ui.comboBox.addItems(self.categories)
         self.show()
 
+
     def addToDb(self):
         print(self.i)
         self.model.insertRows(self.i,1)
@@ -56,9 +57,10 @@ class Actions(QMainWindow):
         self.model.setData(self.model.index(self.i,2), self.ui.comboBox.currentText())  # str? # add text to db from comboBox
         self.model.setData(self.model.index(self.i,3), self.ui.lineEdit_spend_time.text())  # add text to db from spend_time
         self.model.setData(self.model.index(self.i,4), self.current_date)  # add text of today's date to db 
-        self.model.submitAll()
         self.i += 1
+        self.model.submitAll()
         self.ui.lcdNumber.display(self.i)
+
 
     def delrow(self):
         if self.ui.tableView.currentIndex().row() > -1:
@@ -69,6 +71,7 @@ class Actions(QMainWindow):
         else:
             QMessageBox.question(self,'Message', "Пожалуйста, выберите строку для удаления", QMessageBox.Ok)
             self.show()
+
 
     def updaterow(self):
         if self.ui.tableView.currentIndex().row() > -1:
@@ -82,9 +85,11 @@ class Actions(QMainWindow):
             QMessageBox.question(self,'Message', 
             "Пожалуйста, выберите строку для обновления", QMessageBox.Ok)
             self.show()
-    
+
+
     def closeEvent(self, event):
         print('window closed')
+        self.model.submitAll()
         event.accept() # let the window close
 
 if __name__ == '__main__':

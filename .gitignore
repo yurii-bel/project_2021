@@ -2,3 +2,4 @@
 .vscode
 .qt_for_python
 __pycache__
+*.pdn

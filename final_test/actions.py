@@ -1,16 +1,14 @@
 import sys
-import sqlite3
 sys.path.append(".")
 # from design.new_editUI import Ui_MainWindow
 from design.new_editUI_view import *
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QTableView
-from PyQt5.QtWidgets import QTableWidget 
 from PyQt5 import QtSql
 from PyQt5 import QtCore
 from datetime import datetime
 
 
-class form(QMainWindow):
+class Actions(QMainWindow):
     def __init__(self):
         super().__init__()
         self.now = datetime.now()
@@ -44,6 +42,9 @@ class form(QMainWindow):
         self.i = self.model.rowCount()
         self.ui.lcdNumber.display(self.i)
         print(self.ui.tableView.currentIndex().row())
+
+        self.ui.lineEdit_action_name.setPlaceholderText('Бег')
+        self.ui.lineEdit_spend_time.setPlaceholderText('1ч 43м')
 
         self.ui.comboBox.addItems(self.categories)
         self.show()
@@ -81,8 +82,13 @@ class form(QMainWindow):
             QMessageBox.question(self,'Message', 
             "Пожалуйста, выберите строку для обновления", QMessageBox.Ok)
             self.show()
+    
+    def closeEvent(self, event):
+        print('window closed')
+        event.accept() # let the window close
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    frm = form()
+    frm = Actions()
     sys.exit(app.exec_())
+    

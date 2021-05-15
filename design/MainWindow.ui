@@ -16,6 +16,9 @@
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(40, 48, 70);</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
@@ -30,143 +33,6 @@
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
-     <item row="3" column="1">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QLabel" name="textLbl_comparison">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Сравнения по каждому дню</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="textLbl_filter">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>ФИЛЬТР</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_see_all">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Посмотреть все</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_health">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Здоровье</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_work">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Работа</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_family">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Семья</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_relaxation">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Отдых</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_entertainment">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Развлечение</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="checkBoxlbl_dinamic">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Динамический лейбл</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>200</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
      <item row="1" column="2">
       <layout class="QHBoxLayout" name="horizontalLayout_9">
        <item>
@@ -174,8 +40,26 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+           <underline>false</underline>
+           <strikeout>false</strikeout>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
          </property>
          <property name="text">
           <string>+</string>
@@ -200,8 +84,25 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
          </property>
          <property name="text">
           <string>День</string>
@@ -213,8 +114,25 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
          </property>
          <property name="text">
           <string>Неделя</string>
@@ -226,8 +144,25 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
          </property>
          <property name="text">
           <string>Месяц</string>
@@ -239,8 +174,25 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
          </property>
          <property name="text">
           <string>Год</string>
@@ -254,6 +206,9 @@
            <family>Arial</family>
            <pointsize>10</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(185, 185, 195);</string>
          </property>
          <property name="text">
           <string>Иконка</string>
@@ -271,12 +226,279 @@
            <pointsize>10</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(185, 185, 195);</string>
+         </property>
          <property name="text">
           <string>Дата</string>
          </property>
         </widget>
        </item>
       </layout>
+     </item>
+     <item row="3" column="1">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="textLbl_filter">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(185, 185, 195);</string>
+         </property>
+         <property name="text">
+          <string>ФИЛЬТР/КАТЕГОРИИ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_see_all">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Посмотреть все</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_health">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Здоровье</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_work">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Работа</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_family">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Семья</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_relaxation">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Отдых</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_entertainment">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Развлечение</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="checkBoxlbl_dinamic">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+color: rgb(180, 183, 189);
+}
+
+QLabel:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Динамический лейбл</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>200</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLabel" name="lbl_diagram">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(208, 210, 214);</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="text">
+        <string>Diagram</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lbl_logoimg">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>18</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(115, 103, 240);</string>
+       </property>
+       <property name="text">
+        <string>Лого TimeSoft</string>
+       </property>
+      </widget>
      </item>
      <item row="3" column="0">
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -285,10 +507,13 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>14</pointsize>
+           <pointsize>16</pointsize>
            <weight>50</weight>
            <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(185, 185, 195);</string>
          </property>
          <property name="text">
           <string>Меню</string>
@@ -300,8 +525,26 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+border-radius: 2px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
          </property>
          <property name="text">
           <string>Тип диаграммы</string>
@@ -313,8 +556,26 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+border-radius: 2px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
          </property>
          <property name="text">
           <string>Прогноз</string>
@@ -326,8 +587,26 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+border-radius: 2px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
          </property>
          <property name="text">
           <string>Тема</string>
@@ -339,8 +618,26 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+border-radius: 2px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
          </property>
          <property name="text">
           <string>Настройки</string>
@@ -352,8 +649,26 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+border-radius: 2px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
          </property>
          <property name="text">
           <string>Выход</string>
@@ -378,32 +693,8 @@
        </item>
       </layout>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="lbl_logoimg">
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>16</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Лого TimeSoft</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QLabel" name="lbl_diagram">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+     <item row="4" column="2">
+      <widget class="QLabel" name="lbl_about">
        <property name="font">
         <font>
          <family>Arial</family>
@@ -413,11 +704,13 @@
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+color: rgb(185, 185, 195);
+}</string>
        </property>
        <property name="text">
-        <string>Diagram</string>
+        <string>Design by Evgeny K. Copyright © 2021 TimeSoft All rights reserved.</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>

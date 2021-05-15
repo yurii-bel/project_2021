@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Редактировать событие</string>
+   <string>Добавить событие</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(40, 48, 70);</string>
@@ -26,8 +26,8 @@
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
-    <item row="1" column="0">
-     <widget class="QLabel" name="r_lbl_name">
+    <item row="0" column="0">
+     <widget class="QLabel" name="a_lbl_name">
       <property name="font">
        <font>
         <family>Arial</family>
@@ -42,8 +42,8 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QPlainTextEdit" name="r_te_name">
+    <item row="0" column="1">
+     <widget class="QPlainTextEdit" name="a_te_name">
       <property name="styleSheet">
        <string notr="true">QPlainTextEdit {
 background-color: #283046;
@@ -62,8 +62,8 @@ QPlainTextEdit:hover {
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="r_lbl_category">
+    <item row="1" column="0">
+     <widget class="QLabel" name="a_lbl_category">
       <property name="font">
        <font>
         <family>Arial</family>
@@ -78,8 +78,8 @@ QPlainTextEdit:hover {
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
-     <widget class="QComboBox" name="r_comboBox">
+    <item row="1" column="1">
+     <widget class="QComboBox" name="a_comboBox">
       <property name="font">
        <font>
         <family>Arial</family>
@@ -117,8 +117,8 @@ QComboBox:hover {
       </item>
      </widget>
     </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="r_lbl_time">
+    <item row="2" column="0">
+     <widget class="QLabel" name="a_lbl_time">
       <property name="font">
        <font>
         <family>Arial</family>
@@ -133,60 +133,8 @@ QComboBox:hover {
       </property>
      </widget>
     </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="r_lbl_fdate">
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(185, 185, 195);</string>
-      </property>
-      <property name="text">
-       <string>Дата</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QDateEdit" name="r_dateEdit">
-      <property name="styleSheet">
-       <string notr="true">QDateEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
-border-radius: 5px;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
-transition-duration: 0.4s;
-}
-QDateEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(95, 85, 200);
-	border-radius: 5px;
-}</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="r_lbl_comment">
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(185, 185, 195);</string>
-      </property>
-      <property name="text">
-       <string>Комментарий</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QPlainTextEdit" name="r_te_comment">
+    <item row="2" column="1">
+     <widget class="QPlainTextEdit" name="a_te_time">
       <property name="styleSheet">
        <string notr="true">QPlainTextEdit {
 background-color: #283046;
@@ -205,8 +153,60 @@ QPlainTextEdit:hover {
       </property>
      </widget>
     </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="a_lbl_fdate">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(185, 185, 195);</string>
+      </property>
+      <property name="text">
+       <string>Дата</string>
+      </property>
+     </widget>
+    </item>
     <item row="3" column="1">
-     <widget class="QPlainTextEdit" name="r_te_time">
+     <widget class="QDateEdit" name="a_dateEdit">
+      <property name="styleSheet">
+       <string notr="true">QDateEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QDateEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="a_lbl_comment">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(185, 185, 195);</string>
+      </property>
+      <property name="text">
+       <string>Комментарий</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QPlainTextEdit" name="a_te_comment">
       <property name="styleSheet">
        <string notr="true">QPlainTextEdit {
 background-color: #283046;
@@ -238,7 +238,7 @@ QPlainTextEdit:hover {
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QPushButton" name="r_btn_save">
+     <widget class="QPushButton" name="a_btn_save">
       <property name="font">
        <font>
         <family>Arial</family>
@@ -268,7 +268,7 @@ QPushButton:hover {
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="r_btn_del">
+     <widget class="QPushButton" name="a_btn_del">
       <property name="font">
        <font>
         <family>Arial</family>

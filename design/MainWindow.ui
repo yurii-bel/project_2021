@@ -440,41 +440,41 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="action_8"/>
-    <addaction name="action_5"/>
+    <addaction name="act_make_prediction"/>
+    <addaction name="act_settings"/>
     <addaction name="separator"/>
-    <addaction name="action_7"/>
+    <addaction name="act_exit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>Edit</string>
     </property>
-    <widget class="QMenu" name="menu">
+    <widget class="QMenu" name="dropdown_menu_select_chart">
      <property name="title">
       <string>Выбор типа диаграммы</string>
      </property>
-     <addaction name="action_10"/>
-     <addaction name="action_11"/>
-     <addaction name="action_12"/>
+     <addaction name="act_linear"/>
+     <addaction name="act_circular"/>
+     <addaction name="act_table"/>
     </widget>
-    <widget class="QMenu" name="menu_2">
+    <widget class="QMenu" name="dropdown_menu_theme">
      <property name="title">
       <string>Тема</string>
      </property>
-     <addaction name="action_14"/>
-     <addaction name="action_15"/>
+     <addaction name="act_light"/>
+     <addaction name="act_dark"/>
     </widget>
-    <addaction name="menu"/>
-    <addaction name="action_2"/>
-    <addaction name="action"/>
-    <addaction name="menu_2"/>
+    <addaction name="dropdown_menu_select_chart"/>
+    <addaction name="act_add_event"/>
+    <addaction name="act_edit_event"/>
+    <addaction name="dropdown_menu_theme"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="action_3"/>
-    <addaction name="action_4"/>
+    <addaction name="act_help"/>
+    <addaction name="act_about_program"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -485,62 +485,62 @@
     <bool>true</bool>
    </property>
   </widget>
-  <action name="action">
+  <action name="act_edit_event">
    <property name="text">
     <string>Редактировать выбранное событие</string>
    </property>
   </action>
-  <action name="action_2">
+  <action name="act_add_event">
    <property name="text">
     <string>Добавить событие</string>
    </property>
   </action>
-  <action name="action_3">
+  <action name="act_help">
    <property name="text">
     <string>Справка</string>
    </property>
   </action>
-  <action name="action_4">
+  <action name="act_about_program">
    <property name="text">
     <string>О программе</string>
    </property>
   </action>
-  <action name="action_5">
+  <action name="act_settings">
    <property name="text">
     <string>Настройки</string>
    </property>
   </action>
-  <action name="action_7">
+  <action name="act_exit">
    <property name="text">
     <string>Выход</string>
    </property>
   </action>
-  <action name="action_8">
+  <action name="act_make_prediction">
    <property name="text">
     <string>Сделать прогноз</string>
    </property>
   </action>
-  <action name="action_10">
+  <action name="act_linear">
    <property name="text">
     <string>Линейная</string>
    </property>
   </action>
-  <action name="action_11">
+  <action name="act_circular">
    <property name="text">
     <string>Круговая</string>
    </property>
   </action>
-  <action name="action_12">
+  <action name="act_table">
    <property name="text">
     <string>Табличная</string>
    </property>
   </action>
-  <action name="action_14">
+  <action name="act_light">
    <property name="text">
     <string>Светлая</string>
    </property>
   </action>
-  <action name="action_15">
+  <action name="act_dark">
    <property name="text">
     <string>Темная</string>
    </property>

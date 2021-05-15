@@ -22,11 +22,11 @@
      <x>20</x>
      <y>10</y>
      <width>401</width>
-     <height>531</height>
+     <height>231</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
-    <item row="1" column="0">
+    <item row="0" column="0">
      <widget class="QLabel" name="r_lbl_name">
       <property name="font">
        <font>
@@ -42,27 +42,7 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QPlainTextEdit" name="r_te_name">
-      <property name="styleSheet">
-       <string notr="true">QPlainTextEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
-border-radius: 5px;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
-transition-duration: 0.4s;
-}
-QPlainTextEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(95, 85, 200);
-	border-radius: 5px;
-}</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
+    <item row="1" column="0">
      <widget class="QLabel" name="r_lbl_category">
       <property name="font">
        <font>
@@ -78,7 +58,7 @@ QPlainTextEdit:hover {
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
+    <item row="1" column="1">
      <widget class="QComboBox" name="r_comboBox">
       <property name="font">
        <font>
@@ -117,7 +97,7 @@ QComboBox:hover {
       </item>
      </widget>
     </item>
-    <item row="3" column="0">
+    <item row="2" column="0">
      <widget class="QLabel" name="r_lbl_time">
       <property name="font">
        <font>
@@ -133,7 +113,47 @@ QComboBox:hover {
       </property>
      </widget>
     </item>
-    <item row="4" column="0">
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="r_lineEdit_name">
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QLineEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="r_lineEdit_time">
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QLineEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
      <widget class="QLabel" name="r_lbl_fdate">
       <property name="font">
        <font>
@@ -149,7 +169,7 @@ QComboBox:hover {
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
+    <item row="3" column="1">
      <widget class="QDateEdit" name="r_dateEdit">
       <property name="styleSheet">
        <string notr="true">QDateEdit {
@@ -169,7 +189,7 @@ QDateEdit:hover {
       </property>
      </widget>
     </item>
-    <item row="5" column="0">
+    <item row="4" column="0">
      <widget class="QLabel" name="r_lbl_comment">
       <property name="font">
        <font>
@@ -185,28 +205,8 @@ QDateEdit:hover {
       </property>
      </widget>
     </item>
-    <item row="5" column="1">
+    <item row="4" column="1">
      <widget class="QPlainTextEdit" name="r_te_comment">
-      <property name="styleSheet">
-       <string notr="true">QPlainTextEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
-border-radius: 5px;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
-transition-duration: 0.4s;
-}
-QPlainTextEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(95, 85, 200);
-	border-radius: 5px;
-}</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QPlainTextEdit" name="r_te_time">
       <property name="styleSheet">
        <string notr="true">QPlainTextEdit {
 background-color: #283046;
@@ -231,9 +231,9 @@ QPlainTextEdit:hover {
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>540</y>
-     <width>261</width>
-     <height>80</height>
+     <y>240</y>
+     <width>401</width>
+     <height>91</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">

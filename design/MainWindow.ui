@@ -26,7 +26,7 @@
       <x>10</x>
       <y>10</y>
       <width>1381</width>
-      <height>841</height>
+      <height>849</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -204,7 +204,7 @@ QPushButton:hover {
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -219,18 +219,74 @@ QPushButton:hover {
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="lbl_date">
+        <widget class="QLabel" name="textlbl_s">
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>10</pointsize>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">color: rgb(185, 185, 195);</string>
          </property>
          <property name="text">
-          <string>Дата</string>
+          <string>C</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dateEdit_s">
+         <property name="styleSheet">
+          <string notr="true">QDateEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QDateEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="textlbl_po">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(185, 185, 195);</string>
+         </property>
+         <property name="text">
+          <string>По</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dateEdit_po">
+         <property name="styleSheet">
+          <string notr="true">QDateEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QDateEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
          </property>
         </widget>
        </item>
@@ -250,7 +306,10 @@ QPushButton:hover {
           <string notr="true">color: rgb(185, 185, 195);</string>
          </property>
          <property name="text">
-          <string>ФИЛЬТР/КАТЕГОРИИ</string>
+          <string>КАТЕГОРИИ</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -496,7 +555,7 @@ border-radius: 5px;
         <string notr="true">color: rgb(115, 103, 240);</string>
        </property>
        <property name="text">
-        <string>Лого TimeSoft</string>
+        <string>TimeSoft</string>
        </property>
       </widget>
      </item>
@@ -504,6 +563,15 @@ border-radius: 5px;
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QLabel" name="textLbl_Menu">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
          <property name="font">
           <font>
            <family>Arial</family>
@@ -518,36 +586,102 @@ border-radius: 5px;
          <property name="text">
           <string>Меню</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btn_chart_type">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
-           <weight>9</weight>
-           <italic>false</italic>
-           <bold>false</bold>
-          </font>
-         </property>
+        <widget class="QLabel" name="textlbl_chart_type">
          <property name="styleSheet">
-          <string notr="true">QPushButton {
-background-color: #283046;
+          <string notr="true">background-color: #283046;
 border-radius: 2px;
 font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
-transition-duration: 0.4s;
-}
-QPushButton:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(95, 85, 200);
-	border-radius: 5px;
-}</string>
+color: rgb(255, 255, 255);</string>
          </property>
          <property name="text">
           <string>Тип диаграммы</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="rbtn_linear">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton {
+color: rgb(180, 183, 189);
+}
+
+QRadioButton:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Линейная</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="rbtn_circular">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton {
+color: rgb(180, 183, 189);
+}
+
+QRadioButton:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Круговая</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="rbtn_table">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton {
+color: rgb(180, 183, 189);
+}
+
+QRadioButton:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Табличная</string>
          </property>
         </widget>
        </item>

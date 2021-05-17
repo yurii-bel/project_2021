@@ -6,51 +6,156 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
-    <height>776</height>
+    <width>1440</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Добавить событие</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(40, 48, 70);</string>
+   <string notr="true">background-color:rgba(34,39,51,0.137);</string>
   </property>
-  <widget class="QWidget" name="formLayoutWidget">
+  <widget class="QWidget" name="a_widget_2" native="true">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>401</width>
-     <height>231</height>
+     <x>1080</x>
+     <y>0</y>
+     <width>360</width>
+     <height>1080</height>
     </rect>
    </property>
-   <layout class="QFormLayout" name="formLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="lbl_name">
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(185, 185, 195);</string>
-      </property>
-      <property name="text">
-       <string>Название:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="lE_name">
-      <property name="styleSheet">
-       <string notr="true">QLineEdit {
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(40, 48, 70);</string>
+   </property>
+   <widget class="QWidget" name="a_widget_1" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>360</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(22, 29, 49);</string>
+    </property>
+    <widget class="QLabel" name="a_txtlbl_title">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>12</y>
+       <width>197</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Roboto</family>
+       <pointsize>-1</pointsize>
+       <weight>62</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+color: #D0D2D6;</string>
+     </property>
+     <property name="text">
+      <string>Редактировать событие</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="a_btn_exit">
+     <property name="geometry">
+      <rect>
+       <x>319</x>
+       <y>13</y>
+       <width>20</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Roboto</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(208, 210, 214);</string>
+     </property>
+     <property name="text">
+      <string>X</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="formLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>341</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout">
+     <property name="topMargin">
+      <number>23</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>5</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="a_lbl_name">
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 12pt &quot;Roboto&quot;;
+color: #B4B7BD;</string>
+       </property>
+       <property name="text">
+        <string>Название</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="a_lineEdit_name">
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLineEdit {
 background-color: #283046;
 border: 1px solid rgb(122, 122, 122);
 border-radius: 5px;
-font: 75 12pt &quot;Arial&quot;;
+font: 12pt &quot;Roboto&quot;;
 color: rgb(255, 255, 255);
+transition-duration: 0.4s;
 }
 QLineEdit:hover {
 	background-color: rgb(40, 48, 70); 
@@ -58,43 +163,44 @@ QLineEdit:hover {
 	border: 2px solid rgb(95, 85, 200);
 	border-radius: 5px;
 }</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="lbl_category">
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(185, 185, 195);</string>
-      </property>
-      <property name="text">
-       <string>Категория:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QComboBox" name="cB_category">
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>12</pointsize>
-        <weight>9</weight>
-        <italic>false</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QComboBox {
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="a_lbl_category">
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(185, 185, 195);</string>
+       </property>
+       <property name="text">
+        <string>Категория</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="a_comboBox">
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QComboBox {
 background-color: #283046;
 border: 1px solid rgb(122, 122, 122);
 border-radius: 5px;
-font: 75 12pt &quot;Arial&quot;;
+font: 12pt &quot;Roboto&quot;;
 color: rgb(255, 255, 255);
+transition-duration: 0.4s;
 }
 QComboBox:hover {
 	background-color: rgb(40, 48, 70); 
@@ -102,104 +208,45 @@ QComboBox:hover {
 	border: 2px solid rgb(95, 85, 200);
 	border-radius: 5px;
 }</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="lbl_time">
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(185, 185, 195);</string>
-      </property>
-      <property name="text">
-       <string>Потратил времени:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="lbl_fdate">
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(185, 185, 195);</string>
-      </property>
-      <property name="text">
-       <string>Дата:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QDateEdit" name="dE_date">
-      <property name="styleSheet">
-       <string notr="true">QDateEdit {
+       </property>
+       <item>
+        <property name="text">
+         <string>Гулял с семьей</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Ходил в магазин</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="a_lbl_time">
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(185, 185, 195);</string>
+       </property>
+       <property name="text">
+        <string>Потратил времени</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="a_lineEdit_time">
+       <property name="styleSheet">
+        <string notr="true">QLineEdit {
 background-color: #283046;
 border: 1px solid rgb(122, 122, 122);
 border-radius: 5px;
-font: 75 12pt &quot;Arial&quot;;
+font: 12pt &quot;Roboto&quot;;
 color: rgb(255, 255, 255);
-}
-QDateEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(95, 85, 200);
-	border-radius: 5px;
-}</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="lbl_comment">
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(185, 185, 195);</string>
-      </property>
-      <property name="text">
-       <string>Комментарий:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QPlainTextEdit" name="tE_comment">
-      <property name="styleSheet">
-       <string notr="true">QPlainTextEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
-border-radius: 5px;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
-}
-QPlainTextEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
-	border: 2px solid rgb(95, 85, 200);
-	border-radius: 5px;
-}</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="lE_duration">
-      <property name="styleSheet">
-       <string notr="true">QLineEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
-border-radius: 5px;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+transition-duration: 0.4s;
 }
 QLineEdit:hover {
 	background-color: rgb(40, 48, 70); 
@@ -207,80 +254,201 @@ QLineEdit:hover {
 	border: 2px solid rgb(95, 85, 200);
 	border-radius: 5px;
 }</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>240</y>
-     <width>401</width>
-     <height>91</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QPushButton" name="btn_save">
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>14</pointsize>
-        <weight>9</weight>
-        <italic>false</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="a_lbl_fdate">
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(185, 185, 195);</string>
+       </property>
+       <property name="text">
+        <string>Дата</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDateEdit" name="a_dateEdit">
+       <property name="styleSheet">
+        <string notr="true">QDateEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+	font: 12pt &quot;Roboto&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QDateEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="a_lbl_comment">
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(185, 185, 195);</string>
+       </property>
+       <property name="text">
+        <string>Комментарий</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QPlainTextEdit" name="a_te_comment">
+       <property name="maximumSize">
+        <size>
+         <width>316</width>
+         <height>126</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPlainTextEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);
+transition-duration: 0.4s;
+}
+QPlainTextEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>280</y>
+      <width>341</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+     <property name="rightMargin">
+      <number>149</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="a_btn_save">
+       <property name="maximumSize">
+        <size>
+         <width>102</width>
+         <height>37</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+         <pointsize>-1</pointsize>
+         <weight>62</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
 background-color: #7367F0;
 border-radius: 5px;
-font: 75 14pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+text-align: center;
+letter-spacing: 0.4px;
+color: #FFFFFF;
+transition-duration: 0.4s;
 }
 QPushButton:hover {
   background-color: rgb(40, 48, 70); 
   color: rgb(115, 103, 240);
   border: 2px solid rgb(95, 85, 200);
 }</string>
-      </property>
-      <property name="text">
-       <string>Сохранить</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="btn_del">
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>14</pointsize>
-        <weight>9</weight>
-        <italic>false</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-background-color: rgb(234, 84, 85);
+       </property>
+       <property name="text">
+        <string>Сохранить</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="a_btn_del">
+       <property name="maximumSize">
+        <size>
+         <width>102</width>
+         <height>37</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+         <pointsize>-1</pointsize>
+         <weight>62</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+background-color: rgb(40, 48, 70); 
 border-radius: 5px;
-font: 75 14pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+border: 2px solid rgb(234, 84, 85);
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+text-align: center;
+letter-spacing: 0.4px;
+color: rgb(234, 84, 85);
+transition-duration: 0.4s;
 }
 QPushButton:hover {
-  background-color: rgb(40, 48, 70); 
-  color: rgb(234, 84, 85);
-  border: 2px solid rgb(234, 84, 85);
+background-color: rgb(234, 84, 85);
+color: rgb(255, 255, 255);
+border: 2px solid rgb(234, 84, 85);
 }</string>
-      </property>
-      <property name="text">
-       <string>Удалить</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+       </property>
+       <property name="text">
+        <string>Удалить</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <resources/>

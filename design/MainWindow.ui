@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1400</width>
-    <height>900</height>
+    <width>1440</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,23 +24,72 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>1381</width>
-      <height>849</height>
+      <y>0</y>
+      <width>1497</width>
+      <height>971</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
+     <item row="3" column="2">
+      <widget class="QLabel" name="lbl_diagram">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 21px;
+text-align: right;
+color: #B4B7BD;</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="text">
+        <string>Diagram</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="2">
       <layout class="QHBoxLayout" name="horizontalLayout_9">
        <item>
         <widget class="QPushButton" name="btn_plus">
+         <property name="maximumSize">
+          <size>
+           <width>102</width>
+           <height>37</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
+           <family>Roboto</family>
+           <pointsize>14</pointsize>
            <weight>50</weight>
            <italic>false</italic>
            <bold>false</bold>
@@ -62,7 +111,17 @@ QPushButton:hover {
 }</string>
          </property>
          <property name="text">
-          <string>+</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/icons/plus.png</normaloff>img/icons/plus.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>40</width>
+           <height>27</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -70,6 +129,9 @@ QPushButton:hover {
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -81,20 +143,32 @@ QPushButton:hover {
        </item>
        <item>
         <widget class="QPushButton" name="btn_daily">
+         <property name="maximumSize">
+          <size>
+           <width>102</width>
+           <height>37</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
-           <weight>9</weight>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
            <italic>false</italic>
-           <bold>false</bold>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
 background-color: #283046;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+font-family:	Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+text-align: center;
+letter-spacing: 0.4px;
+color: #FFFFFF;
 transition-duration: 0.4s;
 }
 QPushButton:hover {
@@ -111,20 +185,32 @@ QPushButton:hover {
        </item>
        <item>
         <widget class="QPushButton" name="btn_weekly">
+         <property name="maximumSize">
+          <size>
+           <width>102</width>
+           <height>37</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
-           <weight>9</weight>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
            <italic>false</italic>
-           <bold>false</bold>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
 background-color: #283046;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+font-family:	Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+text-align: center;
+letter-spacing: 0.4px;
+color: #FFFFFF;
 transition-duration: 0.4s;
 }
 QPushButton:hover {
@@ -141,20 +227,32 @@ QPushButton:hover {
        </item>
        <item>
         <widget class="QPushButton" name="btn_monthly">
+         <property name="maximumSize">
+          <size>
+           <width>102</width>
+           <height>37</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
-           <weight>9</weight>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
            <italic>false</italic>
-           <bold>false</bold>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
 background-color: #283046;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+font-family:	Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+text-align: center;
+letter-spacing: 0.4px;
+color: #FFFFFF;
 transition-duration: 0.4s;
 }
 QPushButton:hover {
@@ -171,20 +269,32 @@ QPushButton:hover {
        </item>
        <item>
         <widget class="QPushButton" name="btn_annually">
+         <property name="maximumSize">
+          <size>
+           <width>102</width>
+           <height>37</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
-           <weight>9</weight>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
            <italic>false</italic>
-           <bold>false</bold>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
 background-color: #283046;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+font-family:	Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+text-align: center;
+letter-spacing: 0.4px;
+color: #FFFFFF;
 transition-duration: 0.4s;
 }
 QPushButton:hover {
@@ -201,17 +311,31 @@ QPushButton:hover {
        </item>
        <item>
         <widget class="QLabel" name="lbl_user_icon">
+         <property name="maximumSize">
+          <size>
+           <width>60</width>
+           <height>36</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
+           <italic>false</italic>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">color: rgb(185, 185, 195);</string>
+          <string notr="true">font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 24px;
+color: #D0D2D6;</string>
          </property>
          <property name="text">
-          <string>Иконка</string>
+          <string>Аватар</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -222,12 +346,20 @@ QPushButton:hover {
         <widget class="QLabel" name="textlbl_s">
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
+           <italic>false</italic>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">color: rgb(185, 185, 195);</string>
+          <string notr="true">font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 24px;
+color: #D0D2D6;</string>
          </property>
          <property name="text">
           <string>C</string>
@@ -236,12 +368,20 @@ QPushButton:hover {
        </item>
        <item>
         <widget class="QDateEdit" name="dateEdit_s">
+         <property name="font">
+          <font>
+           <family>Roboto</family>
+           <pointsize>14</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true">QDateEdit {
 background-color: #283046;
 border: 1px solid rgb(122, 122, 122);
 border-radius: 5px;
-font: 75 12pt &quot;Arial&quot;;
 color: rgb(255, 255, 255);
 transition-duration: 0.4s;
 }
@@ -258,12 +398,20 @@ QDateEdit:hover {
         <widget class="QLabel" name="textlbl_po">
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
+           <italic>false</italic>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">color: rgb(185, 185, 195);</string>
+          <string notr="true">font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 24px;
+color: #D0D2D6;</string>
          </property>
          <property name="text">
           <string>По</string>
@@ -272,12 +420,17 @@ QDateEdit:hover {
        </item>
        <item>
         <widget class="QDateEdit" name="dateEdit_po">
+         <property name="font">
+          <font>
+           <family>Roboto</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true">QDateEdit {
 background-color: #283046;
 border: 1px solid rgb(122, 122, 122);
 border-radius: 5px;
-font: 75 12pt &quot;Arial&quot;;
 color: rgb(255, 255, 255);
 transition-duration: 0.4s;
 }
@@ -292,273 +445,6 @@ QDateEdit:hover {
        </item>
       </layout>
      </item>
-     <item row="3" column="1">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QLabel" name="textLbl_filter">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(185, 185, 195);</string>
-         </property>
-         <property name="text">
-          <string>КАТЕГОРИИ</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_see_all">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QCheckBox {
-color: rgb(180, 183, 189);
-}
-
-QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
-border: 2px solid #7666F8;
-border-radius: 5px;
-}
-</string>
-         </property>
-         <property name="text">
-          <string>Посмотреть все</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_health">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QCheckBox {
-color: rgb(180, 183, 189);
-}
-
-QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
-border: 2px solid #7666F8;
-border-radius: 5px;
-}</string>
-         </property>
-         <property name="text">
-          <string>Здоровье</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_work">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QCheckBox {
-color: rgb(180, 183, 189);
-}
-
-QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
-border: 2px solid #7666F8;
-border-radius: 5px;
-}</string>
-         </property>
-         <property name="text">
-          <string>Работа</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_family">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QCheckBox {
-color: rgb(180, 183, 189);
-}
-
-QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
-border: 2px solid #7666F8;
-border-radius: 5px;
-}</string>
-         </property>
-         <property name="text">
-          <string>Семья</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_relaxation">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QCheckBox {
-color: rgb(180, 183, 189);
-}
-
-QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
-border: 2px solid #7666F8;
-border-radius: 5px;
-}</string>
-         </property>
-         <property name="text">
-          <string>Отдых</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_entertainment">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QCheckBox {
-color: rgb(180, 183, 189);
-}
-
-QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
-border: 2px solid #7666F8;
-border-radius: 5px;
-}</string>
-         </property>
-         <property name="text">
-          <string>Развлечение</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="checkBoxlbl_dinamic">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QLabel {
-color: rgb(180, 183, 189);
-}
-
-QLabel:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
-border: 2px solid #7666F8;
-border-radius: 5px;
-}</string>
-         </property>
-         <property name="text">
-          <string>Динамический лейбл</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>200</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item row="3" column="2">
-      <widget class="QLabel" name="lbl_diagram">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(208, 210, 214);</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="text">
-        <string>Diagram</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="lbl_logoimg">
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>18</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(115, 103, 240);</string>
-       </property>
-       <property name="text">
-        <string>TimeSoft</string>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="0">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -566,22 +452,37 @@ border-radius: 5px;
          <property name="enabled">
           <bool>true</bool>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>20</height>
+           <width>230</width>
+           <height>24</height>
           </size>
          </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>16</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
+           <italic>false</italic>
+           <bold>true</bold>
           </font>
          </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
          <property name="styleSheet">
-          <string notr="true">color: rgb(185, 185, 195);</string>
+          <string notr="true">font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 24px;
+color: #D0D2D6;</string>
          </property>
          <property name="text">
           <string>Меню</string>
@@ -593,11 +494,28 @@ border-radius: 5px;
        </item>
        <item>
         <widget class="QLabel" name="textlbl_chart_type">
+         <property name="maximumSize">
+          <size>
+           <width>230</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
+           <italic>false</italic>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="styleSheet">
-          <string notr="true">background-color: #283046;
-border-radius: 2px;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);</string>
+          <string notr="true">font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 24px;
+color: #D0D2D6;</string>
          </property>
          <property name="text">
           <string>Тип диаграммы</string>
@@ -609,15 +527,29 @@ color: rgb(255, 255, 255);</string>
        </item>
        <item>
         <widget class="QRadioButton" name="rbtn_linear">
+         <property name="maximumSize">
+          <size>
+           <width>230</width>
+           <height>16777215</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QRadioButton {
-color: rgb(180, 183, 189);
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 21px;
+color: #B4B7BD;
 }
 
 QRadioButton:hover {
@@ -635,15 +567,29 @@ border-radius: 5px;
        </item>
        <item>
         <widget class="QRadioButton" name="rbtn_circular">
+         <property name="maximumSize">
+          <size>
+           <width>230</width>
+           <height>16777215</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QRadioButton {
-color: rgb(180, 183, 189);
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 21px;
+color: #B4B7BD;
 }
 
 QRadioButton:hover {
@@ -661,15 +607,29 @@ border-radius: 5px;
        </item>
        <item>
         <widget class="QRadioButton" name="rbtn_table">
+         <property name="maximumSize">
+          <size>
+           <width>230</width>
+           <height>16777215</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QRadioButton {
-color: rgb(180, 183, 189);
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 21px;
+color: #B4B7BD;
 }
 
 QRadioButton:hover {
@@ -687,21 +647,40 @@ border-radius: 5px;
        </item>
        <item>
         <widget class="QPushButton" name="btn_forecast">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>230</width>
+           <height>37</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
-           <weight>9</weight>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
            <italic>false</italic>
-           <bold>false</bold>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::NoContextMenu</enum>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
 background-color: #283046;
 border-radius: 2px;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 24px;
+color: #D0D2D6;
 transition-duration: 0.4s;
 }
 QPushButton:hover {
@@ -714,25 +693,39 @@ QPushButton:hover {
          <property name="text">
           <string>Прогноз</string>
          </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/icons/activity.png</normaloff>img/icons/activity.png</iconset>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="btn_background">
+         <property name="maximumSize">
+          <size>
+           <width>230</width>
+           <height>37</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
-           <weight>9</weight>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
            <italic>false</italic>
-           <bold>false</bold>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
 background-color: #283046;
 border-radius: 2px;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 24px;
+color: #D0D2D6;
 transition-duration: 0.4s;
 }
 QPushButton:hover {
@@ -745,25 +738,39 @@ QPushButton:hover {
          <property name="text">
           <string>Тема</string>
          </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/icons/sun.png</normaloff>img/icons/sun.png</iconset>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="btn_settings">
+         <property name="maximumSize">
+          <size>
+           <width>230</width>
+           <height>37</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
-           <weight>9</weight>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
            <italic>false</italic>
-           <bold>false</bold>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
 background-color: #283046;
 border-radius: 2px;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 24px;
+color: #D0D2D6;
 transition-duration: 0.4s;
 }
 QPushButton:hover {
@@ -776,25 +783,41 @@ QPushButton:hover {
          <property name="text">
           <string>Настройки</string>
          </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/icons/settings.png</normaloff>img/icons/settings.png</iconset>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="btn_exit">
+         <property name="maximumSize">
+          <size>
+           <width>230</width>
+           <height>37</height>
+          </size>
+         </property>
          <property name="font">
           <font>
-           <family>Arial</family>
-           <pointsize>12</pointsize>
-           <weight>9</weight>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>62</weight>
            <italic>false</italic>
-           <bold>false</bold>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
 background-color: #283046;
 border-radius: 2px;
-font: 75 12pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+/* font: 14pt &quot;Roboto&quot;;
+color: rgb(255, 255, 255); */
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 24px;
+color: #D0D2D6;
 transition-duration: 0.4s;
 }
 QPushButton:hover {
@@ -806,6 +829,10 @@ QPushButton:hover {
          </property>
          <property name="text">
           <string>Выход</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/icons/power.png</normaloff>img/icons/power.png</iconset>
          </property>
         </widget>
        </item>
@@ -819,29 +846,637 @@ QPushButton:hover {
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>20</width>
-           <height>550</height>
+           <width>260</width>
+           <height>500</height>
           </size>
          </property>
         </spacer>
        </item>
       </layout>
      </item>
-     <item row="4" column="2">
+     <item row="3" column="1">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="1">
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <spacer name="verticalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>13</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbl_time_all">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+color: rgb(180, 183, 189);
+}
+
+QLabel:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>8'355 мин.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbl_time_health">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+color: rgb(180, 183, 189);
+}
+
+QLabel:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>8'355 мин.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbl_time_work">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+color: rgb(180, 183, 189);
+}
+
+QLabel:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>8'355 мин.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbl_time_family">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+color: rgb(180, 183, 189);
+}
+
+QLabel:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>8'355 мин.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbl_time_relaxation">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+color: rgb(180, 183, 189);
+}
+
+QLabel:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>8'355 мин.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbl_time_entertainment">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+color: rgb(180, 183, 189);
+}
+
+QLabel:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>8'355 мин.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbl_time_dinamic">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+color: rgb(180, 183, 189);
+}
+
+QLabel:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>8'355 мин.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>200</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="textLbl_filter">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>-1</pointsize>
+             <weight>62</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 23px;
+letter-spacing: 0.6px;
+text-transform: uppercase;
+color: #B9B9C3;</string>
+           </property>
+           <property name="text">
+            <string>КАТЕГОРИИ</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_see_all">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>-1</pointsize>
+             <weight>62</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QCheckBox {
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 23px;
+color: #D0D2D6;
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Посмотреть все</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_health">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>-1</pointsize>
+             <weight>62</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QCheckBox {
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 23px;
+color: #D0D2D6;
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Здоровье</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_work">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>-1</pointsize>
+             <weight>62</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QCheckBox {
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 23px;
+color: #D0D2D6;
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Работа</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_family">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>-1</pointsize>
+             <weight>62</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QCheckBox {
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 23px;
+color: #D0D2D6;
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Семья</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_relaxation">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>-1</pointsize>
+             <weight>62</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QCheckBox {
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 23px;
+color: #D0D2D6;
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Отдых</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_entertainment">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>-1</pointsize>
+             <weight>62</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QCheckBox {
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 23px;
+color: #D0D2D6;
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Развлечение</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="checkBoxlbl_dinamic">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>-1</pointsize>
+             <weight>62</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 23px;
+color: #D0D2D6;
+}
+
+QLabel:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Динамический лейбл</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>150</width>
+             <height>200</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="3">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>70</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="5" column="2">
       <widget class="QLabel" name="lbl_about">
        <property name="font">
         <font>
-         <family>Arial</family>
-         <pointsize>10</pointsize>
+         <family>Roboto</family>
+         <pointsize>-1</pointsize>
+         <weight>62</weight>
+         <italic>false</italic>
+         <bold>true</bold>
         </font>
        </property>
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="styleSheet">
-        <string notr="true">QLabel {
-color: rgb(185, 185, 195);
-}</string>
+        <string notr="true">font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 24px;
+color: #D0D2D6;</string>
        </property>
        <property name="text">
         <string>Design by Evgeny K. Copyright © 2021 TimeSoft All rights reserved.</string>
@@ -851,6 +1486,79 @@ color: rgb(185, 185, 195);
        </property>
       </widget>
      </item>
+     <item row="1" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="lbl_logoimg">
+         <property name="maximumSize">
+          <size>
+           <width>37</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>img/Logo.png</pixmap>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_logotitle">
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>29</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Roboto</family>
+           <pointsize>-1</pointsize>
+           <weight>75</weight>
+           <italic>false</italic>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 24px;
+line-height: 29px;
+letter-spacing: -0.428571px;
+color: #7367F0;</string>
+         </property>
+         <property name="text">
+          <string>TimeSoft</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>114</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
     </layout>
    </widget>
   </widget>
@@ -859,11 +1567,21 @@ color: rgb(185, 185, 195);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1400</width>
+     <width>1440</width>
      <height>21</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
    <widget class="QMenu" name="menuFile">
+    <property name="font">
+     <font>
+      <family>Roboto</family>
+     </font>
+    </property>
     <property name="title">
      <string>File</string>
     </property>
@@ -873,10 +1591,20 @@ color: rgb(185, 185, 195);
     <addaction name="act_exit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
+    <property name="font">
+     <font>
+      <family>Roboto</family>
+     </font>
+    </property>
     <property name="title">
      <string>Edit</string>
     </property>
     <widget class="QMenu" name="dropdown_menu_select_chart">
+     <property name="font">
+      <font>
+       <family>Roboto</family>
+      </font>
+     </property>
      <property name="title">
       <string>Выбор типа диаграммы</string>
      </property>
@@ -885,6 +1613,11 @@ color: rgb(185, 185, 195);
      <addaction name="act_table"/>
     </widget>
     <widget class="QMenu" name="dropdown_menu_theme">
+     <property name="font">
+      <font>
+       <family>Roboto</family>
+      </font>
+     </property>
      <property name="title">
       <string>Тема</string>
      </property>
@@ -897,6 +1630,11 @@ color: rgb(185, 185, 195);
     <addaction name="dropdown_menu_theme"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
+    <property name="font">
+     <font>
+      <family>Roboto</family>
+     </font>
+    </property>
     <property name="title">
      <string>Help</string>
     </property>
@@ -916,60 +1654,121 @@ color: rgb(185, 185, 195);
    <property name="text">
     <string>Редактировать выбранное событие</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
   </action>
   <action name="act_add_event">
    <property name="text">
     <string>Добавить событие</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
    </property>
   </action>
   <action name="act_help">
    <property name="text">
     <string>Справка</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
   </action>
   <action name="act_about_program">
    <property name="text">
     <string>О программе</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
    </property>
   </action>
   <action name="act_settings">
    <property name="text">
     <string>Настройки</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
   </action>
   <action name="act_exit">
    <property name="text">
     <string>Выход</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
    </property>
   </action>
   <action name="act_make_prediction">
    <property name="text">
     <string>Сделать прогноз</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
   </action>
   <action name="act_linear">
    <property name="text">
     <string>Линейная</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
    </property>
   </action>
   <action name="act_circular">
    <property name="text">
     <string>Круговая</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
   </action>
   <action name="act_table">
    <property name="text">
     <string>Табличная</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
    </property>
   </action>
   <action name="act_light">
    <property name="text">
     <string>Светлая</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
   </action>
   <action name="act_dark">
    <property name="text">
     <string>Темная</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
    </property>
   </action>
  </widget>

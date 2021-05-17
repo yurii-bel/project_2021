@@ -1,7 +1,7 @@
 import sys
 sys.path.append(".")
 # from design.new_editUI import Ui_MainWindow
-from design.new_editUI_view import *
+from design.yurii_bel.new_editUI_view import *
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QTableView
 from PyQt5 import QtSql
 from PyQt5 import QtCore
@@ -22,7 +22,7 @@ class Actions(QMainWindow):
         self.ui.setupUi(self)
 
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-        self.db.setDatabaseName('fieldlista.db')
+        self.db.setDatabaseName('database\\yurii_bel\\fieldlista.db')
 
         
         self.model = QtSql.QSqlTableModel()

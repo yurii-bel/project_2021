@@ -1,28 +1,31 @@
 import sys
-#import json
+sys.path.append('.')
 import sqlite3
+import time
 
-from PyQt5.QtCore import QTime, QDate
-from PyQt5 import QtWidgets
+from PyQt5.QtCore import QDate
+from PyQt5 import QtWidgets, uic
 
 from logic.addding_editing_actions import Actions
-from design.edit_event import EditUI
 
 
 class ActionUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
-        # self.aUi = uic.loadUi('design\\edit_event.ui')
-        self.aUi = EditUI()
-        self.aUi.setupUi(self)
-        
-        self.userId = []
-        userId = [i +1 for i in self.userId]
-        #self.eventId = 0
+        self.aUi = uic.loadUi('design\\add_event.ui')
+        self.eUi = uic.loadUi('design\\edit_event.ui')
+
+        # This method of showing ui is broken.
+        # self.eUi = EditUI()
+        # self.eUi.setupUi(self)
+
+        # For time of event cration in a_save_event.
+        time_ = time.localtime()
+        self._time = time.strftime('%X', time_)
 
         # Connecting to db.
-        self.db = sqlite3.connect('database\\TimeSoft.db')
+        self.db = sqlite3.connect('database\\timo364\\TimeSoft.db')
         self.curs = self.db.cursor()
 
         # Categories for cB_category control element.
@@ -34,136 +37,55 @@ class ActionUI(QtWidgets.QMainWindow):
         self.aUi.dE_date.setDate(QDate(QDate.currentDate()))
         self.aUi.dE_date.setMaximumDate(QDate(QDate.currentDate()))
 
-        # Settings for 'tE_time' control element.
-        self.aUi.tE_time.setTime(QTime.currentTime())
-
         # Settings for cB_category control element.
         self.aUi.cB_category.addItems(self.categs)
 
-        # Connecting button.
-        self.aUi.btn_save.clicked.connect(self.save_event)
-        
+        self.aUi.btn_save.clicked.connect(self.add_event)
+        self.aUi.btn_cancel.clicked.connect(self.aUi.close)
+
         self.act = Actions
 
-    def save_event(self):
+    def add_event(self):
         title = self.aUi.lE_name.text()
         category = self.aUi.cB_category.currentText()
-        
-        time = self.aUi.tE_time.time()
-        hour = time.hour()
-        minute = time.minute()
 
+        hour_ = int(self._time[:2])
+        minute_ = int(self._time[3:5])
+        second_ = int(self._time[6:9])
+        hour = hour_
+        minute = minute_
+        second = second_
+        
         date = self.aUi.dE_date.date()
         year = date.year()
         month = date.month()
         day = date.day()
-
+        
         duration = self.aUi.lE_duration.text()        
         comment = self.aUi.tE_comment.toPlainText()
 
-        self.added_event = self.act(title, category, hour, minute, year, \
-            month, day, duration, comment)
+        self.added_event = self.act(title, category, hour, minute, second, \
+            year, month, day, duration, comment)
 
-        # try:
-        #     self.userId + 1
-        #     self.eventId + 1
-        #     event = {'self.userId':'self.eventId', 
-        # 'EventDetails':{
-        #     'title':self.added_event.action,
-        #     'category':self.added_event.category,
-        #     'time':[
-        #         self.added_event.hour, self.added_event.minute,
-        #     ],
-        #     'date':[
-        #         self.added_event.year, self.added_event.month, \
-        #             self.added_event.day,
-        #     ],
-        #     'duration':self.added_event.duration,
-        #     'comment':self.added_event.comment
-        # }}
-        # except Exception:
-        #     pass
-        # else:
-        #     f = open('Events.json', 'w')
-        #     json.dump(event, f, sort_keys=True, indent=4)
-        #     f.close()
-        # if self.aUi.btn_save.clicked:
-        #     self.close()
-
+        # Writing created event to db.
         data = (self.added_event.action, \
             self.added_event.category, self.added_event.duration, \
                 self.added_event.time, self.added_event.date, \
                     self.added_event.comment)
         self.curs.execute('insert into Actions values(?,?,?,?,?,?)', \
-            data)
+            data)       
+
         self.db.commit()
-        
-        if self.aUi.btn_save.clicked:
-            self.close()
+        self.aUi.close()
+
+    def close_add_event(self):
+        self.aUi.close()
 
     def edit_event(self):
-        # Settings for 'lE_name' control element.
-        self.aUi.lE_name.setText(self.added_event.action)
-
-        # Settings for cB_category control element.
-        self.aUi.cB_category.setCurrentText(self.added_event.category)
-        self.aUi.cB_category.addItems(self.categs)
-
-        # Settings for 'dE_date' input element.
-        self.aUi.dE_date.setCalendarPopup(True)
-        edit_date = QDate(int(self.added_event.year), \
-            int(self.added_event.month), int(self.added_event.day))
-        self.aUi.dE_date.setDate(edit_date)
-        self.aUi.dE_date.setMaximumDate(QDate(QDate.currentDate()))
-
-        # Settings for 'tE_time' input element.
-        edit_time = QTime(int(self.added_event.hour), \
-            int(self.added_event.minute))
-        self.aUi.tE_time.setTime(edit_time)
-
-        # Settings for 'lE_duration' input element.
-        self.aUi.lE_duration.setText(self.added_event.duration)
-
-        # Settings for 'lE_duration' input element.
-        self.aUi.tE_comment.setPlainText(self.added_event.comment)
-
-        title = self.aUi.lE_name.text()
-        category = self.aUi.cB_category.currentText()
-        
-        time = self.aUi.tE_time.time()
-        hour = time.hour()
-        minute = time.minute()
-
-        date = self.aUi.dE_date.date()
-        year = date.year()
-        month = date.month()
-        day = date.day()
-
-        duration = self.aUi.lE_duration.text()        
-        comment = self.aUi.tE_comment.toPlainText()
-
-        self.added_event = self.act(title, category, hour, minute, year, \
-            month, day, duration, comment)
-
-        json_event = {self.userId:self.eventId, 
-        'EventDetails':{
-            'title':self.added_event.action,
-            'category':self.added_event.category,
-            'time':[
-                self.added_event.hour, self.added_event.minute,
-            ],
-            'date':[
-                self.added_event.year, self.added_event.month, \
-                    self.added_event.day,
-            ],
-            'duration':self.added_event.duration,
-            'comment':self.added_event.comment
-        }}
-        self.json_event.update(json_event)
+        pass
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     win = ActionUI()
-    win.show()
     sys.exit(app.exec())
     

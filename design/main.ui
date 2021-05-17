@@ -1,0 +1,1079 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1199</width>
+    <height>841</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TimeSoft</string>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(40, 48, 70);</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>1181</width>
+      <height>781</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
+     <item row="3" column="1">
+      <widget class="Line" name="line_9">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="textLbl_filter">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(185, 185, 195);</string>
+         </property>
+         <property name="text">
+          <string>КАТЕГОРИИ</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_8">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_see_all">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Посмотреть все</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_health">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Здоровье</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_work">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Работа</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_family">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Семья</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_relaxation">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Отдых</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_entertainment">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox {
+color: rgb(180, 183, 189);
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Развлечение</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="checkBoxlbl_dinamic">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+color: rgb(180, 183, 189);
+}
+
+QLabel:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Динамический лейбл</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>200</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="textLbl_Menu">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>16</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(185, 185, 195);</string>
+         </property>
+         <property name="text">
+          <string>Меню</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="textlbl_chart_type">
+         <property name="styleSheet">
+          <string notr="true">background-color: #283046;
+border-radius: 2px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>Тип диаграммы</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="rbtn_linear">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton {
+color: rgb(180, 183, 189);
+}
+
+QRadioButton:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Линейная</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="rbtn_circular">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton {
+color: rgb(180, 183, 189);
+}
+
+QRadioButton:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Круговая</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="rbtn_table">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QRadioButton {
+color: rgb(180, 183, 189);
+}
+
+QRadioButton:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Табличная</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_forecast">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+border-radius: 2px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Прогноз</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_background">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+border-radius: 2px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Тема</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_settings">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+border-radius: 2px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Настройки</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_7">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_exit">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+border-radius: 2px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Выход</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>550</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="4" column="4">
+      <widget class="QLabel" name="lbl_about">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+color: rgb(185, 185, 195);
+}</string>
+       </property>
+       <property name="text">
+        <string>Design by Evgeny K. Copyright © 2021 TimeSoft All rights reserved.</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lbl_logoimg">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>18</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(115, 103, 240);</string>
+       </property>
+       <property name="text">
+        <string>TimeSoft</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QLabel" name="lbl_diagram">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(208, 210, 214);</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="text">
+        <string>Diagram</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <item>
+        <widget class="QPushButton" name="btn_plus">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+           <underline>false</underline>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>+</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_15">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="Line" name="line_16">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_daily">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>День</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_weekly">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Неделя</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_monthly">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Месяц</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_annually">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #283046;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Год</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_12">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_user_icon">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(185, 185, 195);</string>
+         </property>
+         <property name="text">
+          <string>Иконка</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_13">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="textlbl_s">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(185, 185, 195);</string>
+         </property>
+         <property name="text">
+          <string>C</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dateEdit_s">
+         <property name="styleSheet">
+          <string notr="true">QDateEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+}
+QDateEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_14">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="textlbl_po">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(185, 185, 195);</string>
+         </property>
+         <property name="text">
+          <string>По</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dateEdit_po">
+         <property name="styleSheet">
+          <string notr="true">QDateEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+font: 75 12pt &quot;Arial&quot;;
+color: rgb(255, 255, 255);
+}
+QDateEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(95, 85, 200);
+	border-radius: 5px;
+}</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="3">
+      <widget class="Line" name="line_10">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="Line" name="line_11">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1199</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="act_make_prediction"/>
+    <addaction name="act_settings"/>
+    <addaction name="separator"/>
+    <addaction name="act_exit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <widget class="QMenu" name="dropdown_menu_select_chart">
+     <property name="title">
+      <string>Выбор типа диаграммы</string>
+     </property>
+     <addaction name="act_linear"/>
+     <addaction name="act_circular"/>
+     <addaction name="act_table"/>
+    </widget>
+    <widget class="QMenu" name="dropdown_menu_theme">
+     <property name="title">
+      <string>Тема</string>
+     </property>
+     <addaction name="act_light"/>
+     <addaction name="act_dark"/>
+    </widget>
+    <addaction name="dropdown_menu_select_chart"/>
+    <addaction name="act_add_event"/>
+    <addaction name="act_edit_event"/>
+    <addaction name="dropdown_menu_theme"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="act_help"/>
+    <addaction name="act_about_program"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="sizeGripEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <action name="act_edit_event">
+   <property name="text">
+    <string>Редактировать выбранное событие</string>
+   </property>
+  </action>
+  <action name="act_add_event">
+   <property name="text">
+    <string>Добавить событие</string>
+   </property>
+  </action>
+  <action name="act_help">
+   <property name="text">
+    <string>Справка</string>
+   </property>
+  </action>
+  <action name="act_about_program">
+   <property name="text">
+    <string>О программе</string>
+   </property>
+  </action>
+  <action name="act_settings">
+   <property name="text">
+    <string>Настройки</string>
+   </property>
+  </action>
+  <action name="act_exit">
+   <property name="text">
+    <string>Выход</string>
+   </property>
+  </action>
+  <action name="act_make_prediction">
+   <property name="text">
+    <string>Сделать прогноз</string>
+   </property>
+  </action>
+  <action name="act_linear">
+   <property name="text">
+    <string>Линейная</string>
+   </property>
+  </action>
+  <action name="act_circular">
+   <property name="text">
+    <string>Круговая</string>
+   </property>
+  </action>
+  <action name="act_table">
+   <property name="text">
+    <string>Табличная</string>
+   </property>
+  </action>
+  <action name="act_light">
+   <property name="text">
+    <string>Светлая</string>
+   </property>
+  </action>
+  <action name="act_dark">
+   <property name="text">
+    <string>Темная</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

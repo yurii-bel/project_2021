@@ -21,7 +21,7 @@ class Actions:
     :type comment: str
     """
     def __init__(self, action=None, category=None, \
-        hour=None, minute=None, year=None, month=None, day=None, \
+        hour=None, minute=None, second=None, year=None, month=None, day=None, \
         duration=str, comment=None):
 
         self.action = action
@@ -29,6 +29,7 @@ class Actions:
 
         self.hour = hour
         self.minute = minute
+        self.second = second
 
         self.year = year
         self.month = month
@@ -37,10 +38,11 @@ class Actions:
         self.duration = duration
         self.comment = comment
 
-        time_ = time.localtime()
+        t = f'{self.hour}:{self.minute}:{self.second}'
+        time_ = time.strptime(t, '%X')
         self.time = time.strftime('%X', time_)
 
-        date_ = date.today()
+        date_ = date(self.year, self.month, self.day)
         self.date = date_.strftime('%Y.%m.%d')
     
     def __str__(self):

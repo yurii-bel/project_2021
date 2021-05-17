@@ -1,27 +1,26 @@
 import sys
 sys.path.append(".")
+
 from PyQt5 import QtWidgets, uic
 
-from design.new_mainUI import Ui_MainWindow as main_ui  # Main win
-from design.new_editUI_view import Ui_MainWindow as edit_ui  # Add action win
-from final_test.actions import Actions
-
+from logic.addding_editing_actions_ui import ActionUI
 
 class MainUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.mui = main_ui()
-        self.mui.setupUi(self)
+        self.mUi = uic.loadUi('design\\main.ui')
+        self.aUi = ActionUI()
 
-        self.mui.btn_add_action.clicked.connect(self.add_action)
+        self.mUi.btn_plus.clicked.connect(self.add_action)
+        
+        self.mUi.show()
 
     def add_action(self):
-        self.aui = Actions()
+        self.aUi.aUi.show()
 
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     win = MainUI()
-    win.show()
     sys.exit(app.exec())

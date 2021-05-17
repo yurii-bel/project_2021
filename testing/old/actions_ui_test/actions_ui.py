@@ -4,10 +4,7 @@ import os
 
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QTime, QDate
-from PyQt5 import QtCore, QtGui, QtWidgets
-
-#from actions import Actions
-#from ..design.edit_event import Ui_Form
+from PyQt5 import QtCore, QtGui
 
 sys.path.append(os.getcwd())
 

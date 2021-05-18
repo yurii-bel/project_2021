@@ -6,7 +6,7 @@ import time
 from PyQt5.QtCore import QDate
 from PyQt5 import QtWidgets, uic
 
-from logic.addding_editing_actions import Actions
+from logic.actions import Actions
 
 
 class ActionsUI(QtWidgets.QMainWindow):
@@ -52,9 +52,9 @@ class ActionsUI(QtWidgets.QMainWindow):
         title = self.aUi.a_lineEdit_name.text()
         category = self.aUi.a_comboBox.currentText()
 
-        hour_ = int(self._time[:2])
-        minute_ = int(self._time[3:5])
-        second_ = int(self._time[6:9])
+        hour_ = int(self._time[:2])  # getting hours from time.localtime()
+        minute_ = int(self._time[3:5])  # getting minutes from time.localtime()
+        second_ = int(self._time[6:9])  # getting seconds from time.localtime()
         hour = hour_
         minute = minute_
         second = second_

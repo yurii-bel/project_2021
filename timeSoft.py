@@ -32,7 +32,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Setting pixmap for 'lbl_logoimg' element.
         logo = QtGui.QPixmap('design\\img\\icons\\Logo.png')
         self.mUi.lbl_logoimg.setPixmap(logo)
-
+        
         self.mUi.show()
 
     def add_action(self):

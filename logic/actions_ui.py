@@ -71,7 +71,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         # Using main logic and writing all recieved info.
         self.added_event = self.act(title, category, hour, minute, second, \
             year, month, day, duration, comment)
-
+    
         # Using test database!
         # Writing created event to db.
         data = (self.added_event.action, \

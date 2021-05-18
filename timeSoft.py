@@ -6,6 +6,7 @@ from PyQt5 import QtGui, QtWidgets, uic
 
 from logic.addding_editing_actions_ui import ActionsUI
 
+
 class MainUI(QtWidgets.QMainWindow):
     '''
     This class implements Main Window of TimeSoft program.

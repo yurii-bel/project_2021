@@ -40,6 +40,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         # Settings for 'a_cB_category' control element.
         self.aUi.a_comboBox.addItems(self.categs)
 
+        # Connecting buttons to appropriate slots.
         self.aUi.a_btn_save.clicked.connect(self.add_event)
         self.aUi.a_btn_del.clicked.connect(self.aUi.close)
         self.aUi.a_btn_exit.clicked.connect(self.aUi.close)

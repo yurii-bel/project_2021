@@ -29,7 +29,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>../../../!EDU/KROK/Project/project_2021/design/img/login-dark 1.svg</pixmap>
+    <pixmap>img/login-dark 1.svg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -371,7 +371,7 @@ color: #7367F0;</string>
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>../../../!EDU/KROK/Project/project_2021/design/img/main/Logo.svg</pixmap>
+    <pixmap>img/main/Logo.svg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

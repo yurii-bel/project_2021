@@ -33,15 +33,15 @@ class ActionsUI(QtWidgets.QMainWindow):
             'Другое']
 
         # Settings for 'a_dE_date' control element.
-        self.aUi.a_dE_date.setCalendarPopup(True)
-        self.aUi.a_dE_date.setDate(QDate(QDate.currentDate()))
-        self.aUi.a_dE_date.setMaximumDate(QDate(QDate.currentDate()))
+        self.aUi.a_dateEdit.setCalendarPopup(True)
+        self.aUi.a_dateEdit.setDate(QDate(QDate.currentDate()))
+        self.aUi.a_dateEdit.setMaximumDate(QDate(QDate.currentDate()))
 
         # Settings for 'a_cB_category' control element.
-        self.aUi.a_cB_category.addItems(self.categs)
+        self.aUi.a_comboBox.addItems(self.categs)
 
         self.aUi.a_btn_save.clicked.connect(self.add_event)
-        self.aUi.a_btn_cancel.clicked.connect(self.aUi.close)
+        self.aUi.a_btn_del.clicked.connect(self.aUi.close)
         self.aUi.a_btn_exit.clicked.connect(self.aUi.close)
 
         # Instance of main logic.
@@ -49,8 +49,8 @@ class ActionsUI(QtWidgets.QMainWindow):
 
     def add_event(self):
         # Getting all info, entered by user. 
-        title = self.aUi.a_lE_name.text()
-        category = self.aUi.a_cB_category.currentText()
+        title = self.aUi.a_lineEdit_name.text()
+        category = self.aUi.a_comboBox.currentText()
 
         hour_ = int(self._time[:2])
         minute_ = int(self._time[3:5])
@@ -59,13 +59,13 @@ class ActionsUI(QtWidgets.QMainWindow):
         minute = minute_
         second = second_
         
-        date = self.aUi.a_dE_date.date()
+        date = self.aUi.a_dateEdit.date()
         year = date.year()
         month = date.month()
         day = date.day()
         
-        duration = self.aUi.a_lE_duration.text()        
-        comment = self.aUi.a_tE_comment.toPlainText()
+        duration = self.aUi.a_lineEdit_time.text()        
+        comment = self.aUi.a_te_comment.toPlainText()
 
         # Using main logic and writing all recieved info.
         self.added_event = self.act(title, category, hour, minute, second, \

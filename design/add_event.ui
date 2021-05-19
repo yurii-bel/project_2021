@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1440</width>
-    <height>1080</height>
+    <height>737</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -395,7 +395,7 @@ QPushButton:hover {
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="a_btn_del">
+      <widget class="QPushButton" name="a_btn_cancel">
        <property name="maximumSize">
         <size>
          <width>102</width>

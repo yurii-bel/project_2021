@@ -33,7 +33,7 @@ class TimeDb:
         args_and_table = (args)  # arguments + table
         table_name = list(args_and_table).pop()  # table 
         args = list(args_and_table)[:-1]  # arguments - table
-   
+
         sql = f'SELECT {str(args)[2:-2]} FROM {table_name}'
         self.cursor.execute(sql)
         full_data = self.cursor.fetchall()

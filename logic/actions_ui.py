@@ -7,6 +7,7 @@ from PyQt5.QtCore import QDate
 from PyQt5 import QtWidgets, uic
 
 from logic.actions import Actions
+from logic.time_db import TimeDb
 
 
 class ActionsUI(QtWidgets.QMainWindow):
@@ -25,8 +26,8 @@ class ActionsUI(QtWidgets.QMainWindow):
         self._time = time.strftime('%X', time_)
 
         # Connecting to db.
-        self.db = sqlite3.connect('database\\timo364\\TimeSoft.db')
-        self.curs = self.db.cursor()
+        # self.db = sqlite3.connect('database\\timo364\\TimeSoft.db')
+        # self.curs = self.db.cursor()
 
         # Categories for 'a_cB_category' control element.
         self.categs = ['Здоровье', 'Работа', 'Семья', 'Отдых', 'Развлечения', \
@@ -47,6 +48,9 @@ class ActionsUI(QtWidgets.QMainWindow):
 
         # Instance of main logic.
         self.act = Actions
+
+        # Connecting database using db logic.
+        self.db = TimeDb('database\\yurii_bel\\time_db.db')
 
     def add_event(self):
         # Getting all info, entered by user. 
@@ -73,16 +77,11 @@ class ActionsUI(QtWidgets.QMainWindow):
             year, month, day, duration, comment)
     
         # Using test database!
-        # Writing created event to db.
-        data = (self.added_event.action, \
+        # # Writing all changes to db and closing 'Add Event' win.
+        self.db.set_data('1', '43', self.added_event.action, \
             self.added_event.category, self.added_event.duration, \
                 self.added_event.time, self.added_event.date, \
-                    self.added_event.comment)
-        self.curs.execute('insert into Actions values(?,?,?,?,?,?)', \
-            data)       
-
-        # Writing all changes to db and closing 'Add Event' win.
-        self.db.commit()
+                    self.added_event.comment, 'Activity')
         self.aUi.close()
 
     def edit_event(self):

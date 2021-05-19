@@ -47,6 +47,4 @@ class Actions:
     
     def __str__(self):
         pass
-                
-
         

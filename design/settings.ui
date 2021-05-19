@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>700</height>
+    <width>1440</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,17 +19,21 @@
   <widget class="QLineEdit" name="s_lE_email">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>120</y>
-     <width>300</width>
-     <height>20</height>
+     <x>58</x>
+     <y>110</y>
+     <width>384</width>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QLineEdit { 
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 24px;
+color: #676D7D;
 background: #283046;
-font: 12pt &quot;Arial&quot;;
-color: rgb(103, 109, 125);
 border: 1px solid #404656;
 box-sizing: border-box;
 border-radius: 5px;
@@ -37,24 +41,27 @@ border-radius: 5px;
 
 QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
-}
-</string>
+}</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="s_lE_oldpass">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>190</y>
-     <width>300</width>
-     <height>20</height>
+     <x>58</x>
+     <y>184</y>
+     <width>384</width>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QLineEdit { 
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 24px;
+color: #676D7D;
 background: #283046;
-font: 12pt &quot;Arial&quot;;
-color: rgb(103, 109, 125);
 border: 1px solid #404656;
 box-sizing: border-box;
 border-radius: 5px;
@@ -62,24 +69,29 @@ border-radius: 5px;
 
 QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
-}
-</string>
+}</string>
    </property>
   </widget>
   <widget class="QPushButton" name="s_btn_telegram">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>330</y>
-     <width>90</width>
-     <height>30</height>
+     <x>58</x>
+     <y>343</y>
+     <width>102</width>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
 background-color: rgb(40, 48, 70);
 border-radius: 5px;
-font: 75 12pt &quot;Arial&quot;;
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+text-align: center;
+letter-spacing: 0.4px;
 color: rgb(180, 183, 189);
 transition-duration: 0.4s;
 }
@@ -90,24 +102,40 @@ QPushButton:hover {
 }</string>
    </property>
    <property name="text">
-    <string>Телеграмм</string>
+    <string>Телеграм</string>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>img/icons/telegram.svg</normaloff>img/icons/telegram.svg</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
    </property>
   </widget>
   <widget class="QPushButton" name="s_btn_apply">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>650</y>
+     <x>600</x>
+     <y>970</y>
      <width>120</width>
-     <height>30</height>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
 background-color: #7367F0;
 border-radius: 5px;
-font: 75 14pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+text-align: center;
+letter-spacing: 0.4px;
+color: #FFFFFF;
 transition-duration: 0.4s;
 }
 QPushButton:hover {
@@ -123,18 +151,24 @@ QPushButton:hover {
   <widget class="QPushButton" name="s_btn_undo">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>650</y>
+     <x>750</x>
+     <y>970</y>
      <width>120</width>
-     <height>30</height>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
 background-color: rgb(234, 84, 85);
 border-radius: 5px;
-font: 75 14pt &quot;Arial&quot;;
-color: rgb(255, 255, 255);
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+text-align: center;
+letter-spacing: 0.4px;
+color: #FFFFFF;
 transition-duration: 0.4s;
 }
 QPushButton:hover {
@@ -150,48 +184,31 @@ QPushButton:hover {
   <widget class="QLabel" name="s_txt_oldpass">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>160</y>
-     <width>140</width>
+     <x>58</x>
+     <y>164</y>
+     <width>115</width>
      <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 14pt &quot;Arial&quot;;
+    <string notr="true">font: 12pt &quot;Roboto&quot;;
 color: rgb(180, 183, 189);</string>
    </property>
    <property name="text">
     <string>Старый пароль</string>
    </property>
   </widget>
-  <widget class="QLabel" name="s_txt_email">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>90</y>
-     <width>50</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 75 14pt &quot;Arial&quot;;
-color: rgb(180, 183, 189);</string>
-   </property>
-   <property name="text">
-    <string>Email</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="s_txt_newpass">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>230</y>
-     <width>130</width>
+     <x>58</x>
+     <y>238</y>
+     <width>108</width>
      <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 14pt &quot;Arial&quot;;
+    <string notr="true">font: 12pt &quot;Roboto&quot;;
 color: rgb(180, 183, 189);</string>
    </property>
    <property name="text">
@@ -201,15 +218,20 @@ color: rgb(180, 183, 189);</string>
   <widget class="QLabel" name="s_txt_section_name">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>58</x>
      <y>30</y>
-     <width>300</width>
-     <height>30</height>
+     <width>193</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 20pt &quot;Arial&quot;;
-color: rgb(208, 210, 214);</string>
+    <string notr="true">font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 24px;
+color: #FFFFFF;
+</string>
    </property>
    <property name="text">
     <string>Изменить информацию</string>
@@ -218,17 +240,21 @@ color: rgb(208, 210, 214);</string>
   <widget class="QLineEdit" name="s_lE_newpass">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>260</y>
-     <width>300</width>
-     <height>20</height>
+     <x>58</x>
+     <y>258</y>
+     <width>384</width>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QLineEdit { 
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 24px;
+color: #676D7D;
 background: #283046;
-font: 12pt &quot;Arial&quot;;
-color: rgb(103, 109, 125);
 border: 1px solid #404656;
 box-sizing: border-box;
 border-radius: 5px;
@@ -242,14 +268,14 @@ border: 2px solid rgb(95, 85, 200);
   <widget class="QLabel" name="s_txt_repnewpass">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>230</y>
-     <width>220</width>
+     <x>464</x>
+     <y>238</y>
+     <width>190</width>
      <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 14pt &quot;Arial&quot;;
+    <string notr="true">font: 12pt &quot;Roboto&quot;;
 color: rgb(180, 183, 189);</string>
    </property>
    <property name="text">
@@ -259,17 +285,21 @@ color: rgb(180, 183, 189);</string>
   <widget class="QLineEdit" name="s_lE_repnewpass">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>260</y>
-     <width>300</width>
-     <height>20</height>
+     <x>464</x>
+     <y>258</y>
+     <width>384</width>
+     <height>38</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QLineEdit { 
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 24px;
+color: #676D7D;
 background: #283046;
-font: 12pt &quot;Arial&quot;;
-color: rgb(103, 109, 125);
 border: 1px solid #404656;
 box-sizing: border-box;
 border-radius: 5px;
@@ -283,18 +313,44 @@ border: 2px solid rgb(95, 85, 200);
   <widget class="QLabel" name="s_txt_internet">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>300</y>
-     <width>180</width>
+     <x>58</x>
+     <y>312</y>
+     <width>156</width>
      <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 14pt &quot;Arial&quot;;
+    <string notr="true">font: 12pt &quot;Roboto&quot;;
 color: rgb(180, 183, 189);</string>
    </property>
    <property name="text">
     <string>Привязать соц. сети</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="l_txt_email">
+   <property name="geometry">
+    <rect>
+     <x>58</x>
+     <y>90</y>
+     <width>160</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 12pt &quot;Roboto&quot;;
+color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Электронное письмо</string>
    </property>
   </widget>
  </widget>

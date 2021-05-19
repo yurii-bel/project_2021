@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Login</string>
+   <string>TimeSoft login</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(22, 29, 49);</string>
@@ -29,72 +29,53 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>img/Illustration.png</pixmap>
+    <pixmap>img/login-dark 1.svg</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>916</x>
+     <x>956</x>
      <y>0</y>
-     <width>526</width>
+     <width>484</width>
      <height>1080</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>MS Serif</family>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(40, 48, 70);</string>
    </property>
-   <widget class="QCheckBox" name="l_checkbox_rem">
-    <property name="geometry">
-     <rect>
-      <x>71</x>
-      <y>541</y>
-      <width>134</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font-family: Roboto;
-font-style: normal;
-font-weight: normal;
-font-size: 14px;
-line-height: 21px;
-/* identical to box height, or 150% */
-
-
-/* 1) Theme Color / Body - Text */
-
-color: #B4B7BD;</string>
-    </property>
-    <property name="text">
-     <string>Запомни меня</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="l_btn_login">
     <property name="geometry">
      <rect>
       <x>71</x>
-      <y>576</y>
-      <width>380</width>
+      <y>598</y>
+      <width>340</width>
       <height>38</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
 background-color: #7367F0;
 border-radius: 5px;
-font-family: Roboto;
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 17px;
-/* identical to box height */
-
-text-align: center;
-letter-spacing: 0.4px;
-
-color: #FFFFFF;
-transition-duration: 0.4s;
+border: 2px solid #7367F0;
+color: rgb(255, 255, 255);
 }
 QPushButton:hover {
   background-color: rgb(40, 48, 70); 
@@ -112,123 +93,74 @@ QPushButton:hover {
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="l_txt_title_log">
+   <widget class="QLabel" name="l_txt_title">
     <property name="geometry">
      <rect>
       <x>71</x>
       <y>298</y>
-      <width>307</width>
+      <width>350</width>
       <height>30</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Roboto</family>
-      <pointsize>-1</pointsize>
-      <weight>62</weight>
-      <italic>false</italic>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font-family: Roboto;
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-line-height: 22px;
-color: #D0D2D6;
-</string>
-    </property>
-    <property name="text">
-     <string>Добро пожаловать в TimeSoft 👋</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="l_txt_reg">
-    <property name="geometry">
-     <rect>
-      <x>96</x>
-      <y>628</y>
-      <width>207</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Roboto</family>
-      <pointsize>-1</pointsize>
+      <pointsize>18</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-family: Roboto;
-font-style: normal;
-font-weight: normal;
-font-size: 14px;
-line-height: 21px;
-/* identical to box height, or 150% */
-
-
-color: #6E6B7B;</string>
+     <string notr="true">color: rgb(208, 210, 214); </string>
+    </property>
+    <property name="text">
+     <string>Добро пожаловать в TimeSoft!</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="l_txt_reg">
+    <property name="geometry">
+     <rect>
+      <x>71</x>
+      <y>650</y>
+      <width>342</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto Light</family>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(110, 107, 123);</string>
     </property>
     <property name="text">
      <string>Новичок на нашей платформе?</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="l_txt_pragrah_log">
     <property name="geometry">
      <rect>
       <x>72</x>
-      <y>330</y>
-      <width>380</width>
-      <height>42</height>
+      <y>340</y>
+      <width>342</width>
+      <height>52</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Roboto</family>
-      <pointsize>-1</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font-family: Roboto;
-font-style: normal;
-font-weight: normal;
-font-size: 14px;
-line-height: 21px;
-/* or 150% */
-
-
-/* 1) Theme Color / Body - Text */
-
-color: #B4B7BD;</string>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p style=&quot; font-size:14pt;line-height:0.1;&quot;&gt;Пожалуйста, войдите в свою учетную &lt;/p&gt;&lt;p style=&quot; font-size:14pt;line-height:2.0;&quot;&gt;запись и начните приключение&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="textFormat">
-     <enum>Qt::AutoText</enum>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="l_txt_password">
-    <property name="geometry">
-     <rect>
-      <x>71</x>
-      <y>469</y>
-      <width>65</width>
-      <height>18</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Roboto</family>
+      <family>Roboto Light</family>
       <pointsize>12</pointsize>
       <weight>50</weight>
       <italic>false</italic>
@@ -236,8 +168,36 @@ color: #B4B7BD;</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 12pt &quot;Roboto&quot;;
-color: rgb(180, 183, 189);</string>
+     <string notr="true">color: rgb(208, 210, 214); 
+</string>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Пожалуйста, войдите в свою учетную запись &lt;/p&gt;&lt;p&gt;и начните приключение&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="l_txt_password">
+    <property name="geometry">
+     <rect>
+      <x>71</x>
+      <y>491</y>
+      <width>65</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto Light</family>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(180, 183, 189);</string>
     </property>
     <property name="text">
      <string>Пароль</string>
@@ -247,14 +207,14 @@ color: rgb(180, 183, 189);</string>
     <property name="geometry">
      <rect>
       <x>71</x>
-      <y>395</y>
+      <y>417</y>
       <width>160</width>
       <height>18</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Roboto</family>
+      <family>Roboto Light</family>
       <pointsize>12</pointsize>
       <weight>50</weight>
       <italic>false</italic>
@@ -262,8 +222,7 @@ color: rgb(180, 183, 189);</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 12pt &quot;Roboto&quot;;
-color: rgb(180, 183, 189);</string>
+     <string notr="true">color: rgb(180, 183, 189);</string>
     </property>
     <property name="text">
      <string>Электронное письмо</string>
@@ -272,27 +231,25 @@ color: rgb(180, 183, 189);</string>
    <widget class="QPushButton" name="l_btn_create">
     <property name="geometry">
      <rect>
-      <x>316</x>
-      <y>628</y>
-      <width>129</width>
-      <height>21</height>
+      <x>71</x>
+      <y>680</y>
+      <width>342</width>
+      <height>25</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto Light</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-font-family: Roboto;
-font-style: normal;
-font-weight: normal;
-font-size: 14px;
-line-height: 21px;
-/* identical to box height, or 150% */
-
-
-color: #7367F0;
+    color: rgb(115, 103, 240);
+    background-color: rgba(0,0,0,0);
 }
 
 QPushButton:hover {
-	border: 2px solid rgb(95, 85, 200);
 	color: rgb(180, 183, 189);
 }</string>
     </property>
@@ -304,48 +261,43 @@ QPushButton:hover {
     <property name="geometry">
      <rect>
       <x>71</x>
-      <y>489</y>
-      <width>380</width>
+      <y>512</y>
+      <width>342</width>
       <height>38</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit { 
-font-family: Roboto;
-font-style: normal;
-font-weight: normal;
-font-size: 12px;
-line-height: 24px;
-/* or 200% */
-
-
-/* 1) Theme Color / Muted &amp; Placeholder - Text */
-
-color: #676D7D;
 background: #283046;
+font: 14pt &quot;Roboto&quot;;
+color: rgb(103, 109, 125);
 border: 1px solid #404656;
 box-sizing: border-box;
 border-radius: 5px;
+padding-left: 15px;
 }
 
 QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
+    <property name="text">
+     <string>⚉⚉⚉⚉⚉⚉⚉⚉</string>
+    </property>
    </widget>
    <widget class="QLineEdit" name="l_lE_email">
     <property name="geometry">
      <rect>
       <x>71</x>
-      <y>415</y>
-      <width>380</width>
+      <y>438</y>
+      <width>342</width>
       <height>38</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Roboto</family>
-      <pointsize>-1</pointsize>
+      <pointsize>12</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -356,50 +308,31 @@ border: 2px solid rgb(95, 85, 200);
     </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit { 
-font-family: Roboto;
-font-style: normal;
-font-weight: normal;
-font-size: 12px;
-line-height: 24px;
-color: #676D7D;
 background: #283046;
+font: 12pt &quot;Roboto&quot;;
+color: rgb(103, 109, 125);
 border: 1px solid #404656;
 box-sizing: border-box;
 border-radius: 5px;
+padding-left: 15px;
 }
 
 QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
+    <property name="text">
+     <string>my@email.com</string>
+    </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="l_imglbl_logo">
-   <property name="geometry">
-    <rect>
-     <x>42</x>
-     <y>39</y>
-     <width>37</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap>img/Logo.png</pixmap>
-   </property>
-  </widget>
   <widget class="QLabel" name="l_txt_timesoft">
    <property name="geometry">
     <rect>
-     <x>88</x>
+     <x>92</x>
      <y>37</y>
      <width>100</width>
      <height>29</height>
@@ -425,6 +358,25 @@ color: #7367F0;</string>
    </property>
    <property name="text">
     <string>TimeSoft</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="l_imglbl_logo">
+   <property name="geometry">
+    <rect>
+     <x>44</x>
+     <y>39</y>
+     <width>36</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>img/main/Logo.svg</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

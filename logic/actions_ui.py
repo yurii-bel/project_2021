@@ -42,7 +42,7 @@ class ActionsUI(QtWidgets.QMainWindow):
 
         # Connecting buttons to appropriate slots.
         self.aUi.a_btn_save.clicked.connect(self.add_event)
-        self.aUi.a_btn_del.clicked.connect(self.aUi.close)
+        self.aUi.a_btn_cancel.clicked.connect(self.aUi.close)
         self.aUi.a_btn_exit.clicked.connect(self.aUi.close)
 
         # Instance of main logic.

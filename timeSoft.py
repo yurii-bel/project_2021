@@ -4,7 +4,7 @@ sys.path.append(".")
 
 from PyQt5 import QtGui, QtWidgets, uic
 
-from logic.actions_ui import ActionsUI
+from logic.time_add_activity import ActionsUI
 
 
 class MainUI(QtWidgets.QMainWindow):
@@ -16,7 +16,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Loading UI interfaces.
         self.mUi = uic.loadUi('design\\MainWindow.ui')  # Main window ui.
-        self.aUi = ActionsUI()  # Loading ActionsUI class from logic.
+        # self.aUi = ActionsUI  # Loading ActionsUI class from logic.
         self.rUi = uic.loadUi('design\\register.ui')  # Registration window ui.
         self.lUi = uic.loadUi('design\\login.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings.ui')  # Settings window ui.
@@ -39,7 +39,7 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         Current method shows user interface action adding.
         '''
-        self.aUi.aUi.show()
+        self.aUi = ActionsUI()  # Loading ActionsUI class from logic.
 
     def settings(self):
         '''

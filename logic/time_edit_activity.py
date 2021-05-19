@@ -4,13 +4,12 @@ import sqlite3
 from datetime import datetime
 
 from logic.time_db import TimeDb
-from logic.actions_ui import ActionsUI
 from PyQt5.QtCore import QDate
 from PyQt5 import QtWidgets, uic
 
 class ActionsUI(QtWidgets.QMainWindow):
     '''
-    This class implements adding actions.
+    This class implements editing actions.
     '''
     def __init__(self):
         super().__init__()
@@ -19,8 +18,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.timedb = TimeDb
 
         # Loading appropriate UI's.
-        self.addEventUi = uic.loadUi('design\\add_event.ui')
-        # self.editEventUi = uic.loadUi('design\\edit_event.ui')
+        self.editEventUi = uic.loadUi('design\\edit_event.ui')
         
         self.addEventUi.show()
         # Categories for 'a_cB_category' control element.
@@ -36,11 +34,11 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.addEventUi.a_comboBox.addItems(self.categs)
 
         # Connecting buttons to appropriate slots.
-        self.addEventUi.a_btn_save.clicked.connect(self.add_event)
+        self.addEventUi.a_btn_save.clicked.connect(self.edit_event)
         self.addEventUi.a_btn_cancel.clicked.connect(self.addEventUi.close)
         self.addEventUi.a_btn_exit.clicked.connect(self.addEventUi.close)
 
-    def add_event(self):
+    def edit_event(self):
         # Get activities information entered by user. 
         event_title = self.addEventUi.a_lineEdit_name.text()
         event_category = self.addEventUi.a_comboBox.currentText()
@@ -48,10 +46,9 @@ class ActionsUI(QtWidgets.QMainWindow):
         event_date = datetime.now().strftime('%d/%m/%Y')   
         event_comment = self.addEventUi.a_te_comment.toPlainText()
 
-        # Pushing obtained data to db
-        self.timedb('database\\yurii_bel\\time_db.db').set_data(event_title, \
-            event_category, event_duration, event_date, event_comment,\
-                'Activity')   
+        # Pushing choosen data to db 
+        self.timedb('database\\yurii_bel\\time_db.db').set_data(event_title, event_category, event_duration, 
+        event_date, event_comment, 'Activity')  
         
         QtWidgets.QMessageBox.question(self,'Message', 
         "Активность успешно добавлена!", QtWidgets.QMessageBox.Ok)

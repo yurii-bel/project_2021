@@ -6,8 +6,12 @@ class TimeDb:
     def __init__(self, db):
         self.db = sqlite3.connect(f'{db}')
         self.cursor = self.db.cursor()
+
+        self.activity_id = 0
+        self.user_id = None
     
     def set_data(self, *args):
+        self.activity_id += 1
         args_and_table = (args)  # arguments + table
         table_name = list(args_and_table).pop()  # table 
         args = list(args_and_table)[:-1]  # arguments - table
@@ -39,20 +43,16 @@ class TimeDb:
         full_data = self.cursor.fetchall()
         return str(full_data)[3:-4]
 
-    # def get_data_where_user(self, *args):
-    #     args_and_table = (args)  # arguments + table.
-    #     table_name = list(args_and_table).pop()  # table.
-    #     args_ = str(list(args_and_table)[0:-1])  # arguments - table and user id.
-    #     user_id = str(list(args_and_table)[0]) # user id.
+    def get_data_with_user(self, *args):
+        args_and_table = (args)  # arguments + table.
+        table_name = list(args_and_table).pop()  # table.
+        args_ = str(list(args_and_table)[0:-1])  # arguments - table and user id.
+        user_id = str(list(args_and_table)[0]) # user id.
    
-    #     sql = f'SELECT {str(args)[2:-2]} FROM {table_name} WHERE user_id = {user_id}'
-    #     print(args_and_table)
-    #     print(table_name)
-    #     print(args_)
-    #     print(user_id)
-    #     # self.cursor.execute(sql)
-    #     # full_data = self.cursor.fetchall()
-    #     # return str(full_data)[3:-4]
+        sql = f'SELECT {str(args)[2:-2]} FROM {table_name} WHERE user_id = {user_id}'
+        self.cursor.execute(sql)
+        full_data = self.cursor.fetchall()
+        return str(full_data)[3:-4]
 
     def del_data(self, *args):
         args_and_table = (args)  # arguments + table
@@ -65,10 +65,15 @@ class TimeDb:
         self.cursor.execute(sql)
         self.db.commit()
 
-    def custom_sql(self, sql=str):
+    def set_custom_sql(self, sql=str):
         sql_ = sql
         self.cursor.execute(sql_)
         self.db.commit()
+
+    def get_custom_sql(self, sql=str):
+        sql_ = sql
+        self.cursor.execute(sql_)
+        return str(self.cursor.fetchone())
 
 
 if __name__ == '__main__':

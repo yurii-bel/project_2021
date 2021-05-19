@@ -16,7 +16,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         super().__init__()
 
         # Loading class for db operations.
-        self.timedb = TimeDb
+        self.timedb = TimeDb('database\\yurii_bel\\time_db.db')
 
         # Loading appropriate UI's.
         self.addEventUi = uic.loadUi('design\\add_event.ui')
@@ -39,9 +39,12 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.addEventUi.a_btn_save.clicked.connect(self.add_event)
         self.addEventUi.a_btn_cancel.clicked.connect(self.addEventUi.close)
         self.addEventUi.a_btn_exit.clicked.connect(self.addEventUi.close)
+        
+        self.addEventUi.activity_id.setText(f'{self.timedb.activity_id}')
 
     def add_event(self):
         # Get activities information entered by user. 
+        activity_id = self.addEventUi.activity_id.text()
         event_title = self.addEventUi.a_lineEdit_name.text()
         event_category = self.addEventUi.a_comboBox.currentText()
         event_duration = self.addEventUi.a_lineEdit_time.text()
@@ -49,9 +52,9 @@ class ActionsUI(QtWidgets.QMainWindow):
         event_comment = self.addEventUi.a_te_comment.toPlainText()
 
         # Pushing obtained data to db
-        self.timedb('database\\yurii_bel\\time_db.db').set_data(event_title, \
-            event_category, event_duration, event_date, event_comment,\
-                'Activity')   
+        self.timedb.set_data(activity_id, '43', \
+            event_title, event_category, event_duration, event_date, \
+                event_comment, 'Activity')
         
         QtWidgets.QMessageBox.question(self,'Message', 
         "Активность успешно добавлена!", QtWidgets.QMessageBox.Ok)

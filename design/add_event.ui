@@ -26,7 +26,8 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(40, 48, 70);</string>
+    <string notr="true">background-color: rgb(40, 48, 70);
+color: red;</string>
    </property>
    <widget class="QWidget" name="a_widget_1" native="true">
     <property name="geometry">
@@ -438,6 +439,26 @@ border: 2px solid rgb(234, 84, 85);
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="activity_id">
+    <property name="geometry">
+     <rect>
+      <x>206</x>
+      <y>642</y>
+      <width>141</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
   </widget>
  </widget>

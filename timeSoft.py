@@ -38,7 +38,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Setting pixmap for 'lbl_logoimg' element.
         logo = QtGui.QPixmap('design\\img\\icons\\Logo.png')
         self.mUi.lbl_logoimg.setPixmap(logo)
-        
+
         self.table()
 
         self.mUi.show()
@@ -48,6 +48,7 @@ class MainUI(QtWidgets.QMainWindow):
         Current method shows user interface action adding.
         '''
         self.aUi = ActionsUI()  # Loading ActionsUI class from logic.
+        self.table
 
     def settings(self):
         '''
@@ -93,8 +94,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.table.setHorizontalHeaderItem(4, act_comment)
 
         name = QtWidgets.QTableWidgetItem(\
-            self.timedb.custom_sql(f'SELECT act_name FROM Activity \
-                WHERE user_id = 43'))
+            self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity \
+                WHERE user_id = 43 and activity_id = {self.timedb.activity_id}'))
         self.table.setItem(0, 0, name)
 
         lay.addWidget(self.table)

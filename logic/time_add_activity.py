@@ -4,6 +4,7 @@ import sqlite3
 from datetime import datetime
 
 from logic.time_db import TimeDb
+from logic.actions_ui import ActionsUI
 from PyQt5.QtCore import QDate
 from PyQt5 import QtWidgets, uic
 
@@ -48,8 +49,9 @@ class ActionsUI(QtWidgets.QMainWindow):
         event_comment = self.addEventUi.a_te_comment.toPlainText()
 
         # Pushing obtained data to db
-        self.timedb('database\\yurii_bel\\time_db.db').set_data(event_title, event_category, event_duration, 
-        event_date, event_comment, 'Activity')  
+        self.timedb('database\\yurii_bel\\time_db.db').set_data(event_title, \
+            event_category, event_duration, event_date, event_comment,\
+                'Activity')  
         
         QtWidgets.QMessageBox.question(self,'Message', 
         "Активность успешно добавлена!", QtWidgets.QMessageBox.Ok)

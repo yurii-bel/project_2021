@@ -1,6 +1,4 @@
-from sqlite3.dbapi2 import Time
 import sys
-
 sys.path.append(".")
 
 from PyQt5 import QtGui, QtWidgets, uic
@@ -8,7 +6,6 @@ from PyQt5 import QtGui, QtWidgets, uic
 # from logic.actions_ui import ActionsUI
 from logic.time_db import TimeDb
 from logic.time_add_activity import ActionsUI
-
 
 
 class MainUI(QtWidgets.QMainWindow):
@@ -25,6 +22,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi = uic.loadUi('design\\register.ui')  # Registration window ui.
         self.lUi = uic.loadUi('design\\login.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings.ui')  # Settings window ui.
+        self.tUi = uic.loadUi('design\\table.ui')
         self.wUi = self.mUi.viewWidget
 
         # Connecting buttons to slots.
@@ -39,16 +37,13 @@ class MainUI(QtWidgets.QMainWindow):
         logo = QtGui.QPixmap('design\\img\\icons\\Logo.png')
         self.mUi.lbl_logoimg.setPixmap(logo)
 
-        self.table()
-
         self.mUi.show()
 
     def add_action(self):
         '''
         Current method shows user interface action adding.
         '''
-        self.aUi = ActionsUI()  # Loading ActionsUI class from logic.
-        self.table
+        self.aUi = ActionsUI() # Loading ActionsUI class from logic.
 
     def settings(self):
         '''
@@ -74,32 +69,54 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         pass
 
-    def table(self):
-        lay = QtWidgets.QVBoxLayout()
+    # def table(self):
+    #     lay = QtWidgets.QVBoxLayout()
 
-        self.table = QtWidgets.QTableWidget()
-        self.table.setColumnCount(5)
-        self.table.setRowCount(2)
-        self.table.resizeColumnsToContents()
+    #     self.tabLe = QtWidgets.QTableWidget()
+    #     self.tabLe.setColumnCount(6)
+    #     self.tabLe.setRowCount(2)
+    #     self.tabLe.resizeColumnsToContents()
 
-        act_name = QtWidgets.QTableWidgetItem('Название события')
-        self.table.setHorizontalHeaderItem(0, act_name)
-        act_category = QtWidgets.QTableWidgetItem('Категория')
-        self.table.setHorizontalHeaderItem(1, act_category)
-        act_duration_time = QtWidgets.QTableWidgetItem('Длительность')
-        self.table.setHorizontalHeaderItem(2, act_duration_time)
-        act_user_date = QtWidgets.QTableWidgetItem('Дата создания')
-        self.table.setHorizontalHeaderItem(3, act_user_date)
-        act_comment = QtWidgets.QTableWidgetItem('Комментарий')
-        self.table.setHorizontalHeaderItem(4, act_comment)
+    #     act_name = QtWidgets.QTableWidgetItem('Название события')
+    #     self.tabLe.setHorizontalHeaderItem(0, act_name)
+    #     act_category = QtWidgets.QTableWidgetItem('Категория')
+    #     self.tabLe.setHorizontalHeaderItem(1, act_category)
+    #     act_duration_time = QtWidgets.QTableWidgetItem('Длительность')
+    #     self.tabLe.setHorizontalHeaderItem(2, act_duration_time)
+    #     act_user_date = QtWidgets.QTableWidgetItem('Дата создания')
+    #     self.tabLe.setHorizontalHeaderItem(3, act_user_date)
+    #     act_comment = QtWidgets.QTableWidgetItem('Комментарий')
+    #     self.tabLe.setHorizontalHeaderItem(4, act_comment)
+    #     edit_del = QtWidgets.QTableWidgetItem('Изменить\Удалить')
+    #     self.tabLe.setHorizontalHeaderItem(5, edit_del)
 
-        name = QtWidgets.QTableWidgetItem(\
-            self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity \
-                WHERE user_id = 43 and activity_id = {self.timedb.activity_id}'))
-        self.table.setItem(0, 0, name)
+    #     name1 = QtWidgets.QTableWidgetItem(\
+    #         self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity \
+    #             WHERE activity_id = 6'))
+    #     self.tabLe.setItem(0, 0, name1)
 
-        lay.addWidget(self.table)
-        self.wUi.setLayout(lay)
+    #     name2 = QtWidgets.QTableWidgetItem(\
+    #         self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity \
+    #             WHERE activity_id = 7'))
+    #     self.tabLe.setItem(1, 0, name2)
+
+    #     lay.addWidget(self.tabLe)
+    #     self.wUi.setLayout(lay)
+
+    def view_table(self):
+        rows = 0
+        self.lay = QtWidgets.QHBoxLayout()
+        
+        d1 = self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity')
+        name1 = QtWidgets.QTableWidgetItem(d1[2:-3])
+        name1.setBackground(QtGui.QColor('Yellow'))
+        
+        rows += 1
+        self.tUi.tableW.setRowCount(rows)
+        self.tUi.tableW.setItem(0, 0, name1)
+
+        self.lay.addWidget(self.tUi.tableW)
+        self.wUi.setLayout(self.lay)
 
 
 if __name__ == '__main__':

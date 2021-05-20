@@ -65,14 +65,12 @@ class TimeDb:
         self.cursor.execute(sql)
         self.db.commit()
 
-    def set_custom_sql(self, sql=str):
-        sql_ = sql
-        self.cursor.execute(sql_)
+    def set_custom_sql(self, sql):
+        self.cursor.execute(sql)
         self.db.commit()
 
-    def get_custom_sql(self, sql=str):
-        sql_ = sql
-        self.cursor.execute(sql_)
+    def get_custom_sql(self, sql):
+        self.cursor.execute(sql)
         return str(self.cursor.fetchone())
 
 

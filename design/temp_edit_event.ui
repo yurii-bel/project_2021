@@ -40,7 +40,7 @@
      <height>1081</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <layout class="QHBoxLayout" name="edit_event_hL_window">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -64,7 +64,7 @@
      </spacer>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="edit_event_verticalLayout_menu">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -72,7 +72,7 @@
        <enum>QLayout::SetMaximumSize</enum>
       </property>
       <item>
-       <widget class="QWidget" name="a_widget_1" native="true">
+       <widget class="QWidget" name="e_widget_1" native="true">
         <property name="maximumSize">
          <size>
           <width>360</width>
@@ -142,7 +142,7 @@ color: rgb(234, 84, 85);
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="a_widget_2" native="true">
+       <widget class="QWidget" name="e_widget_2" native="true">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -170,7 +170,7 @@ color: rgb(234, 84, 85);
            <height>1021</height>
           </rect>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
+         <layout class="QVBoxLayout" name="edit_event_verticalLayout_">
           <property name="spacing">
            <number>4</number>
           </property>

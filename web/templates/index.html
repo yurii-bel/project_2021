@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% load design %}
+{% load static %}
 
 {% block content %}
 
 <div class="jumbotron text-center">
   <div class="container">
     <a href="/" class="lang-logo">
-      <img src="{% design 'img/main/Logo.svg'%}">
+      <img src="{% static 'Logo.svg'%}">
     </a>
     <h1>Getting Started with Python on Heroku</h1>
     <p>This is a sample Python application deployed to Heroku. It's a reasonably simple app - but a good foundation for

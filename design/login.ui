@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>login_dialog</class>
+ <widget class="QDialog" name="login_dialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(22, 29, 49);</string>
   </property>
-  <widget class="QLabel" name="l_imglbl_img">
+  <widget class="QLabel" name="login_imglbl_img">
    <property name="geometry">
     <rect>
      <x>114</x>
@@ -35,7 +35,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QWidget" name="widget" native="true">
+  <widget class="QWidget" name="login_widget" native="true">
    <property name="geometry">
     <rect>
      <x>956</x>
@@ -52,7 +52,7 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(40, 48, 70);</string>
    </property>
-   <widget class="QPushButton" name="l_btn_login">
+   <widget class="QPushButton" name="login_btn_login">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -93,7 +93,7 @@ QPushButton:hover {
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="l_txt_title">
+   <widget class="QLabel" name="login_text_title">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -118,7 +118,7 @@ QPushButton:hover {
      <string>Добро пожаловать в TimeSoft!</string>
     </property>
    </widget>
-   <widget class="QLabel" name="l_txt_reg">
+   <widget class="QLabel" name="login_text_account">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -149,7 +149,7 @@ QPushButton:hover {
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="l_txt_pragrah_log">
+   <widget class="QLabel" name="login_text_paragrah_log">
     <property name="geometry">
      <rect>
       <x>72</x>
@@ -178,7 +178,7 @@ QPushButton:hover {
      <enum>Qt::AutoText</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="l_txt_password">
+   <widget class="QLabel" name="login_text_password">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -203,7 +203,7 @@ QPushButton:hover {
      <string>Пароль</string>
     </property>
    </widget>
-   <widget class="QLabel" name="l_txt_email">
+   <widget class="QLabel" name="login_text_email">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -228,7 +228,7 @@ QPushButton:hover {
      <string>Электронное письмо</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="l_btn_create">
+   <widget class="QPushButton" name="login_btn_create_account">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -257,7 +257,7 @@ QPushButton:hover {
      <string>Завести аккаунт</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="l_lE_password">
+   <widget class="QLineEdit" name="login_lineedit_password">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -285,7 +285,7 @@ border: 2px solid rgb(95, 85, 200);
      <string>⚉⚉⚉⚉⚉⚉⚉⚉</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="l_lE_email">
+   <widget class="QLineEdit" name="login_lineedit_email">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -329,7 +329,7 @@ border: 2px solid rgb(95, 85, 200);
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="l_txt_timesoft">
+  <widget class="QLabel" name="login_text_timesoft">
    <property name="geometry">
     <rect>
      <x>92</x>
@@ -360,7 +360,7 @@ color: #7367F0;</string>
     <string>TimeSoft</string>
    </property>
   </widget>
-  <widget class="QLabel" name="l_imglbl_logo">
+  <widget class="QLabel" name="login_imglbl_logo">
    <property name="geometry">
     <rect>
      <x>44</x>

@@ -101,7 +101,7 @@ class DbLogic:
             # Сделано в Китае. Разработано в России.
             lst = str(self.cursor.fetchall())
             if not 'True' in lst:
-                return f'Данный пользователь не найден. Зарегестрируйтесь.'
+                return True
 
             self.cursor.execute(\
                 f'SELECT user_n_name, user_p_password FROM "USER_NAME", "USER_PRIVAT"\
@@ -110,9 +110,7 @@ class DbLogic:
 
             lst = self.cursor.fetchall()
             if lst == []:
-                return f'Неверный пароль.'
-            else:
-                return lst
+                return False
         except (Exception, Error) as error:
             return f'{error}'
         finally:
@@ -139,4 +137,4 @@ if __name__ == '__main__':
     # print(dbl.register_user('', 'wow@wow.ru', 'woooowowow'))
     # dbl.register_user('Leva9', 'leya9@ukr.net', 'qwerty9')
     # dbl.drop_user('Leva9')
-    print(dbl.login_user('John', 'ok john'))
+    # print(dbl.login_user('John', 'ok john'))

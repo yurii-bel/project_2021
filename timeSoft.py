@@ -4,7 +4,7 @@ sys.path.append(".")
 from PyQt5 import QtGui, QtWidgets, uic
 
 # from logic.actions_ui import ActionsUI
-from logic.time_db import TimeDb
+from database.DBLogic.dblogic import DbLogic as db
 from logic.time_add_activity import ActionsUI
 
 
@@ -14,7 +14,7 @@ class MainUI(QtWidgets.QMainWindow):
     '''
     def __init__(self):
         super().__init__()
-        self.timedb = TimeDb('database\\yurii_bel\\time_db.db')
+        self.timedb = db()
 
         # Нужно автоматизировать разделителей (module os).
         # Loading UI interfaces.
@@ -33,6 +33,8 @@ class MainUI(QtWidgets.QMainWindow):
         #self.mUi.btn_background.clicked.connect(self.change_theme)
         self.mUi.btn_settings.clicked.connect(self.settings)
         self.mUi.btn_exit.clicked.connect(self.mUi.close)
+
+        self.lUi.login_btn_login.clicked.connect(self.login_check)
         
         # Setting pixmap for 'lbl_logoimg' element.
         logo = QtGui.QPixmap('design\\img\\icons\\Logo.png')
@@ -40,7 +42,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         # self.table()
 
-        self.mUi.show()
+        self.login()
 
     def add_action(self):
         '''
@@ -59,13 +61,30 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         Current method shows user interface login window.
         '''
-        pass
+        self.lUi.show()
+
+    def login_check(self):
+        login = self.lUi.login_lineedit_email.text()
+        password = self.lUi.login_lineedit_password.text()
+
+        self.log = self.timedb.login_user(login, password)
+
+        while self.log == True:
+            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+                'Данный пользователь не найден. Зарегестрируйтесь.', QtWidgets.QMessageBox.Ok)
+            continue
+                
+        while self.log == False:
+            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+                'Неверный пароль.', QtWidgets.QMessageBox.Ok)
+            break
+            
 
     def registration(self):
         '''
         Current method shows user interface registration window.
         '''
-        pass
+        self.rUi.show()
 
     def visualize(self, object):
         '''

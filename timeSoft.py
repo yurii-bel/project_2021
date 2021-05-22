@@ -16,12 +16,13 @@ class MainUI(QtWidgets.QMainWindow):
         super().__init__()
         self.timedb = TimeDb('database\\yurii_bel\\time_db.db')
 
+        # Нужно автоматизировать разделителей (module os).
         # Loading UI interfaces.
         self.mUi = uic.loadUi('design\\MainWindow.ui')  # Main window ui.
         # self.aUi = ActionsUI  # Loading ActionsUI class from logic.
         self.rUi = uic.loadUi('design\\register.ui')  # Registration window ui.
         self.lUi = uic.loadUi('design\\login.ui')  # Login window ui.
-        self.sUi = uic.loadUi('design\\settings.ui')  # Settings window ui.
+        # self.sUi = uic.loadUi('design\\settings.ui')  # Settings window ui.
         self.tUi = uic.loadUi('design\\table.ui')
         self.wUi = self.mUi.viewWidget
 

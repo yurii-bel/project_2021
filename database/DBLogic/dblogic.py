@@ -72,6 +72,8 @@ class DbLogic:
             # Сделано в Китае. Разработано в России.
             # Нужна проверка в основной.
             lst = str(self.cursor.fetchall())
+            if user_n_name == '':
+                return f'Нельзя создать пустого пользователя.'
             if 'True' in lst:
                 return f'Данное мыло уже зарегано.'
 
@@ -84,6 +86,33 @@ class DbLogic:
             self.cursor.execute('INSERT INTO "USER_PRIVAT" (user_p_id, user_p_email, user_p_password)\
                 VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (user_p_id, user_p_email, user_p_password))
             
+        except (Exception, Error) as error:
+            return f'{error}'
+        finally:
+            self.cursor.close()
+            self.connection.close()
+
+    def login_user(self, user_n_name, user_p_password):
+        try:
+            self.connection.autocommit = True
+
+            self.cursor.execute(\
+                f'SELECT "USER_NAME".user_n_name = \'{user_n_name}\' FROM "USER_NAME"')
+            # Сделано в Китае. Разработано в России.
+            lst = str(self.cursor.fetchall())
+            if not 'True' in lst:
+                return f'Данный пользователь не найден. Зарегестрируйтесь.'
+
+            self.cursor.execute(\
+                f'SELECT user_n_name, user_p_password FROM "USER_NAME", "USER_PRIVAT"\
+                    WHERE user_n_name = \'{user_n_name}\'\
+                        and user_p_password = \'{user_p_password}\'')
+
+            lst = self.cursor.fetchall()
+            if lst == []:
+                return f'Неверный пароль.'
+            else:
+                return lst
         except (Exception, Error) as error:
             return f'{error}'
         finally:
@@ -107,6 +136,7 @@ class DbLogic:
 if __name__ == '__main__':
     dbl = DbLogic()
     # print(dbl.get_user_id('Sif'))
-    print(dbl.register_user('', 'wow@wow.ru', 'woooowowow'))
+    # print(dbl.register_user('', 'wow@wow.ru', 'woooowowow'))
     # dbl.register_user('Leva9', 'leya9@ukr.net', 'qwerty9')
     # dbl.drop_user('Leva9')
+    print(dbl.login_user('John', 'ok john'))

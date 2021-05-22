@@ -22,7 +22,7 @@ class MainUI(QtWidgets.QMainWindow):
         # self.aUi = ActionsUI  # Loading ActionsUI class from logic.
         self.rUi = uic.loadUi('design\\register.ui')  # Registration window ui.
         self.lUi = uic.loadUi('design\\login.ui')  # Login window ui.
-        # self.sUi = uic.loadUi('design\\settings.ui')  # Settings window ui.
+        self.sUi = uic.loadUi('design\\settings.ui')  # Settings window ui.
         self.tUi = uic.loadUi('design\\table.ui')
         self.wUi = self.mUi.viewWidget
 

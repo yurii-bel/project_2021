@@ -1,5 +1,6 @@
-.git
-.vscode
-.qt_for_python
-__pycache__
-*.pdn
+venv
+*.pyc
+staticfiles
+.env
+db.sqlite3
+getting-started/*

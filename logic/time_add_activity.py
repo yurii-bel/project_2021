@@ -1,12 +1,13 @@
 import sys
 sys.path.append('.')
-import sqlite3
 from datetime import datetime
+
+from PyQt5.QtCore import QDate
+from PyQt5 import QtWidgets, uic
 
 from logic.time_db import TimeDb
 from logic.actions_ui import ActionsUI
-from PyQt5.QtCore import QDate
-from PyQt5 import QtWidgets, uic
+
 
 class ActionsUI(QtWidgets.QMainWindow):
     '''
@@ -43,23 +44,28 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.addEventUi.activity_id.setText(f'{self.timedb.activity_id}')
 
     def add_event(self):
-        # Get activities information entered by user. 
-        activity_id = self.addEventUi.activity_id.text()
-        event_title = self.addEventUi.a_lineEdit_name.text()
-        event_category = self.addEventUi.a_comboBox.currentText()
-        event_duration = self.addEventUi.a_lineEdit_time.text()
-        event_date = datetime.now().strftime('%d/%m/%Y')   
-        event_comment = self.addEventUi.a_te_comment.toPlainText()
+        try:
+            # Get activities information entered by user. 
+            event_title = self.addEventUi.a_lineEdit_name.text()
+            event_category = self.addEventUi.a_comboBox.currentText()
+            event_duration = self.addEventUi.a_lineEdit_time.text()
+            event_date = datetime.now().strftime('%d/%m/%Y')   
+            event_comment = self.addEventUi.a_te_comment.toPlainText()
 
-        # Pushing obtained data to db
-        self.timedb.set_data(activity_id, '43', \
-            event_title, event_category, event_duration, event_date, \
-                event_comment, 'Activity')
-        
-        QtWidgets.QMessageBox.question(self,'Message', 
-        "Активность успешно добавлена!", QtWidgets.QMessageBox.Ok)
-        self.addEventUi.close()
-        # self.show()
+            # Pushing obtained data to db
+            self.timedb.set_custom_sql(f'''\
+                INSERT INTO Activity (activity_name,category_name,\
+                    activity_duration,activity_creation_date,activity_comment)\
+                        VALUES ('{event_title}', '{event_category}',\
+                            '{event_duration}', '{event_date}', '{event_comment}')
+                ''')
+            
+            QtWidgets.QMessageBox.question(self,'Message', 
+            "Активность успешно добавлена!", QtWidgets.QMessageBox.Ok)
+            self.addEventUi.close()
+            return True
+        except Exception as e:
+            return e
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

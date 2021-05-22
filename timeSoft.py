@@ -39,7 +39,7 @@ class MainUI(QtWidgets.QMainWindow):
         logo = QtGui.QPixmap('design\\img\\icons\\Logo.png')
         self.mUi.lbl_logoimg.setPixmap(logo)
 
-        self.table()
+        # self.table()
 
         self.mUi.show()
 
@@ -48,7 +48,7 @@ class MainUI(QtWidgets.QMainWindow):
         Current method shows user interface action adding.
         '''
         self.aUi = ActionsUI()  # Loading ActionsUI class from logic.
-        self.table
+        # self.table
 
     def settings(self):
         '''
@@ -74,32 +74,32 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         pass
 
-    def table(self):
-        lay = QtWidgets.QVBoxLayout()
+    # def table(self):
+    #     lay = QtWidgets.QVBoxLayout()
 
-        self.table = QtWidgets.QTableWidget()
-        self.table.setColumnCount(5)
-        self.table.setRowCount(2)
-        self.table.resizeColumnsToContents()
+    #     self.table = QtWidgets.QTableWidget()
+    #     self.table.setColumnCount(5)
+    #     self.table.setRowCount(2)
+    #     self.table.resizeColumnsToContents()
 
-        act_name = QtWidgets.QTableWidgetItem('Название события')
-        self.table.setHorizontalHeaderItem(0, act_name)
-        act_category = QtWidgets.QTableWidgetItem('Категория')
-        self.table.setHorizontalHeaderItem(1, act_category)
-        act_duration_time = QtWidgets.QTableWidgetItem('Длительность')
-        self.table.setHorizontalHeaderItem(2, act_duration_time)
-        act_user_date = QtWidgets.QTableWidgetItem('Дата создания')
-        self.table.setHorizontalHeaderItem(3, act_user_date)
-        act_comment = QtWidgets.QTableWidgetItem('Комментарий')
-        self.table.setHorizontalHeaderItem(4, act_comment)
+    #     act_name = QtWidgets.QTableWidgetItem('Название события')
+    #     self.table.setHorizontalHeaderItem(0, act_name)
+    #     act_category = QtWidgets.QTableWidgetItem('Категория')
+    #     self.table.setHorizontalHeaderItem(1, act_category)
+    #     act_duration_time = QtWidgets.QTableWidgetItem('Длительность')
+    #     self.table.setHorizontalHeaderItem(2, act_duration_time)
+    #     act_user_date = QtWidgets.QTableWidgetItem('Дата создания')
+    #     self.table.setHorizontalHeaderItem(3, act_user_date)
+    #     act_comment = QtWidgets.QTableWidgetItem('Комментарий')
+    #     self.table.setHorizontalHeaderItem(4, act_comment)
 
-        name = QtWidgets.QTableWidgetItem(\
-            self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity \
-                WHERE user_id = 43 and activity_id = {self.timedb.activity_id}'))
-        self.table.setItem(0, 0, name)
+    #     name = QtWidgets.QTableWidgetItem(\
+    #         self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity \
+    #             WHERE user_id = 43 and activity_id = {self.timedb.activity_id}'))
+    #     self.table.setItem(0, 0, name)
 
-        lay.addWidget(self.table)
-        self.wUi.setLayout(lay)
+    #     lay.addWidget(self.table)
+    #     self.wUi.setLayout(lay)
 
 
 if __name__ == '__main__':

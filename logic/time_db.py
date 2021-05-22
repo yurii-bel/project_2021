@@ -7,8 +7,14 @@ class TimeDb:
         self.db = sqlite3.connect(f'{db}')
         self.cursor = self.db.cursor()
 
-        self.activity_id = 0
+ 
         self.user_id = None
+
+        try:
+            self.cursor.execute(f'SELECT activity_id FROM Activity')
+            self.activity_id = self.cursor.fetchone()
+        except:
+            pass
     
     def set_data(self, *args):
         self.activity_id += 1

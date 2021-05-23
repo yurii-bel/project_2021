@@ -18,6 +18,8 @@ class DbLogic:
 
         self.cursor = self.connection.cursor()
 
+        self.correct_login_info = False
+
 #Не трогать, не работает пока что
     # def set_data(self, table_name, stolbec, *args):
     #     table_name = table_name
@@ -78,7 +80,7 @@ class DbLogic:
                 return f'Данное мыло уже зарегано.'
 
             self.cursor.execute('INSERT INTO "USER" (user_n_id, user_p_id)\
-             VALUES (%s,%s) ON CONFLICT DO NOTHING', (user_n_id, user_p_id))
+                VALUES (%s,%s) ON CONFLICT DO NOTHING', (user_n_id, user_p_id))
 
             self.cursor.execute('INSERT INTO "USER_NAME" (user_n_id, user_n_name)\
                 VALUES (%s,%s) ON CONFLICT DO NOTHING', (user_n_id, user_n_name))
@@ -95,22 +97,80 @@ class DbLogic:
     def login_user(self, user_n_name, user_p_password):
         try:
             self.connection.autocommit = True
+            
+            self.current_user_id = None
 
-            self.cursor.execute(\
-                f'SELECT "USER_NAME".user_n_name = \'{user_n_name}\' FROM "USER_NAME"')
-            # Сделано в Китае. Разработано в России.
-            lst = str(self.cursor.fetchall())
-            if not 'True' in lst:
-                return True
+            self.current_user_n_id = None
+            self.current_user_n_name = None
+            self.current_user_n_telegram = None
 
-            self.cursor.execute(\
-                f'SELECT user_n_name, user_p_password FROM "USER_NAME", "USER_PRIVAT"\
-                    WHERE user_n_name = \'{user_n_name}\'\
-                        and user_p_password = \'{user_p_password}\'')
+            self.current_user_p_id = None
+            self.current_user_p_email = None
+            self.current_user_p_password = None
 
-            lst = self.cursor.fetchall()
-            if lst == []:
-                return False
+
+            # working with USER_NAME table
+            self.cursor.execute(f'SELECT user_n_id, user_n_name, user_n_telegram from "USER_NAME"')
+            user_name_table_rows = self.cursor.fetchall()
+
+            for row in user_name_table_rows:
+                # print(f'\nuser_n_id: {row[0]} \nuser_n_name: {row[1]} \nuser_n_telegram: {row[2]}')
+                if user_n_name == row[1]:
+                    self.current_user_n_id = row[0]
+                    self.current_user_n_name = row[1]
+                    self.current_user_n_telegram = row[2]
+                    # print(self.current_user_n_id, self.current_user_n_name, self.current_user_n_telegram)
+                    # print('11111111111111111111')
+                else: 
+                    pass
+
+
+            # working with USER table
+            self.cursor.execute(f'SELECT user_id, user_n_id, user_p_id from "USER"')
+            user_table_rows = self.cursor.fetchall()
+            for row in user_table_rows:
+                if self.current_user_n_id == row[1]:
+                    self.current_user_id = row[0]
+                    self.current_user_p_id = row[2]
+                    # print(f'\nUser: \nuser_id: {self.current_user_id} \nuser_n_id: {self.current_user_n_id} \nuser_p_id: {self.current_user_p_id}')
+                else:
+                    pass
+
+
+            # working with USER_PRIVAT table
+            self.cursor.execute(f'SELECT user_p_id, user_p_email, user_p_password from "USER_PRIVATE"')
+            user_private_table_rows = self.cursor.fetchall()
+            
+            for row in user_private_table_rows:
+                # print(f'\nuser_p_id: {row[0]} \nuser_p_email: {row[1]} \nuser_p_password: {row[2]}')
+                if user_p_password == row[2] and self.current_user_p_id == row[0]:
+                    self.current_user_p_email = row[1]
+                    self.current_user_p_password = row[2]
+                    print(f'\nUser: \nuser_id: {self.current_user_id} \nuser_n_id: {self.current_user_n_id} \nuser_p_id: {self.current_user_p_id}')
+
+                else: 
+                    self.correct_login_info = True
+
+
+
+            # self.cursor.execute(\
+            #     f'SELECT "USER_NAME".user_n_name = \'{user_n_name}\' FROM "USER_NAME"')
+            # # Сделано в Китае. Разработано в России.
+            # lst = str(self.cursor.fetchall())
+            # if not 'True' in lst:
+            #     return 'error_name'
+
+            # self.cursor.execute(\
+            #     f'SELECT user_n_name, user_p_password FROM "USER_NAME", "USER_PRIVAT"\
+            #         WHERE user_n_name = \'{user_n_name}\'\
+            #             and user_p_password = \'{user_p_password}\'')
+
+            # lst = self.cursor.fetchall()
+            # if lst == []:
+            #     return 'error_password'
+            # else: 
+            #     return True
+                
         except (Exception, Error) as error:
             return f'{error}'
         finally:

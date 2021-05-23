@@ -69,20 +69,20 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.info = self.timedb.login_user(login, password)
 
-        while self.info == 'error_name' or self.info == 'error_password':
-            if self.info == 'error_name':
-                QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                'Данный пользователь не найден. Зарегестрируйтесь.', QtWidgets.QMessageBox.Ok)
-                self.login_check()
+        # while self.info == 'error_name' or self.info == 'error_password':
+        #     if self.info == 'error_name':
+        #         QtWidgets.QMessageBox.question(self,'Ошибка!',\
+        #         'Данный пользователь не найден. Зарегестрируйтесь.', QtWidgets.QMessageBox.Ok)
+        #         self.login_check()
                 
-            elif self.info == 'error_password':
-                QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                'Неверный пароль.', QtWidgets.QMessageBox.Ok)
-                self.login_check()
+        #     elif self.info == 'error_password':
+        #         QtWidgets.QMessageBox.question(self,'Ошибка!',\
+        #         'Неверный пароль.', QtWidgets.QMessageBox.Ok)
+        #         self.login_check()
             
-            elif self.info == True:
-                self.lUi.close()
-                self.mUi.show()
+        #     elif self.info == True:
+        #         self.lUi.close()
+        #         self.mUi.show()
 
             
             

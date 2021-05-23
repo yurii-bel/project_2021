@@ -67,17 +67,34 @@ class MainUI(QtWidgets.QMainWindow):
         login = self.lUi.login_lineedit_email.text()
         password = self.lUi.login_lineedit_password.text()
 
-        self.log = self.timedb.login_user(login, password)
+        self.info = self.timedb.login_user(login, password)
 
-        while self.log == True:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+        while self.info == 'error_name' or self.info == 'error_password':
+            if self.info == 'error_name':
+                QtWidgets.QMessageBox.question(self,'Ошибка!',\
                 'Данный пользователь не найден. Зарегестрируйтесь.', QtWidgets.QMessageBox.Ok)
-            continue
+                self.login_check()
                 
-        while self.log == False:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+            elif self.info == 'error_password':
+                QtWidgets.QMessageBox.question(self,'Ошибка!',\
                 'Неверный пароль.', QtWidgets.QMessageBox.Ok)
-            break
+                self.login_check()
+            
+            elif self.info == True:
+                self.lUi.close()
+                self.mUi.show()
+
+            
+            
+
+            # QtWidgets.QMessageBox.question(self,'Ошибка!',\
+            #     'Данный пользователь не найден. Зарегестрируйтесь.', QtWidgets.QMessageBox.Ok)
+            # continue
+                
+        # while self.info == False:
+            # QtWidgets.QMessageBox.question(self,'Ошибка!',\
+            #     'Неверный пароль.', QtWidgets.QMessageBox.Ok)
+        #     break
             
 
     def registration(self):

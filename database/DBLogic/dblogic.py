@@ -101,7 +101,7 @@ class DbLogic:
             # Сделано в Китае. Разработано в России.
             lst = str(self.cursor.fetchall())
             if not 'True' in lst:
-                return True
+                return 'error_name'
 
             self.cursor.execute(\
                 f'SELECT user_n_name, user_p_password FROM "USER_NAME", "USER_PRIVAT"\
@@ -110,7 +110,10 @@ class DbLogic:
 
             lst = self.cursor.fetchall()
             if lst == []:
-                return False
+                return 'error_password'
+            else: 
+                return True
+                
         except (Exception, Error) as error:
             return f'{error}'
         finally:

@@ -399,6 +399,81 @@ border: 2px solid rgb(234, 84, 85);
     </item>
    </layout>
   </widget>
+  <widget class="QLabel" name="settings_imglbl_telegram_verify">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>408</y>
+     <width>38</width>
+     <height>38</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>18</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(40, 199, 111);</string>
+   </property>
+   <property name="text">
+    <string>🗸</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_imglbl_telegram_noverify">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>408</y>
+     <width>38</width>
+     <height>38</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>14</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(234, 84, 85);</string>
+   </property>
+   <property name="text">
+    <string>✕</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <zorder>settings_imglbl_telegram_noverify</zorder>
+  <zorder>settings_lineedit_email</zorder>
+  <zorder>settings_lineedit_oldpass</zorder>
+  <zorder>settings_btn_telegram</zorder>
+  <zorder>settings_text_oldpass</zorder>
+  <zorder>settings_text_newpass</zorder>
+  <zorder>settings_text_edit_info</zorder>
+  <zorder>settings_lineedit_newpass</zorder>
+  <zorder>settings_text_repnewpass</zorder>
+  <zorder>settings_lineedit_repnewpass</zorder>
+  <zorder>settings_text_internet</zorder>
+  <zorder>settings_text_email</zorder>
+  <zorder>settings_imglbl_img</zorder>
+  <zorder>horizontalLayoutWidget</zorder>
+  <zorder>settings_imglbl_telegram_verify</zorder>
  </widget>
  <resources/>
  <connections/>

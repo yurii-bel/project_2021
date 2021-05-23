@@ -326,13 +326,13 @@ border: 2px solid rgb(95, 85, 200);
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>58</x>
-     <y>447</y>
+     <x>57</x>
+     <y>526</y>
      <width>381</width>
      <height>80</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="settings_horizontalLayout_btns">
+   <layout class="QHBoxLayout" name="settings_horizontalLayout_btns_apply_cancel">
     <item>
      <widget class="QPushButton" name="settings_btn_apply">
       <property name="font">
@@ -459,6 +459,92 @@ border: 2px solid rgb(234, 84, 85);
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>57</x>
+     <y>458</y>
+     <width>251</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="settings_horizontalLayout_btns_imp_exp">
+    <item>
+     <widget class="QPushButton" name="settings_btn_import">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>38</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Roboto</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgb(40, 48, 70);
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+color: rgb(180, 183, 189);
+padding-top: 5 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 5 px;
+margin-right: 10px;
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(115, 103, 240);
+  border: 2px solid rgb(95, 85, 200);
+}</string>
+      </property>
+      <property name="text">
+       <string>Импорт</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="settings_btn_export">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>38</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Roboto</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgb(40, 48, 70);
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+color: rgb(180, 183, 189);
+padding-top: 5 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 5 px;
+margin-right: 10px;
+}
+QPushButton:hover {
+background-color: rgb(40, 48, 70); 
+color: rgb(115, 103, 240);
+border: 2px solid rgb(95, 85, 200);
+}</string>
+      </property>
+      <property name="text">
+       <string>Экспорт</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <zorder>settings_imglbl_telegram_noverify</zorder>
   <zorder>settings_lineedit_email</zorder>
   <zorder>settings_lineedit_oldpass</zorder>
@@ -474,6 +560,7 @@ border: 2px solid rgb(234, 84, 85);
   <zorder>settings_imglbl_img</zorder>
   <zorder>horizontalLayoutWidget</zorder>
   <zorder>settings_imglbl_telegram_verify</zorder>
+  <zorder>horizontalLayoutWidget_2</zorder>
  </widget>
  <resources/>
  <connections/>

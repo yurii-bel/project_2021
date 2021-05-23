@@ -183,7 +183,7 @@ QPushButton:hover {
      <rect>
       <x>71</x>
       <y>491</y>
-      <width>65</width>
+      <width>342</width>
       <height>18</height>
      </rect>
     </property>
@@ -208,7 +208,7 @@ QPushButton:hover {
      <rect>
       <x>71</x>
       <y>417</y>
-      <width>160</width>
+      <width>342</width>
       <height>18</height>
      </rect>
     </property>
@@ -225,7 +225,7 @@ QPushButton:hover {
      <string notr="true">color: rgb(180, 183, 189);</string>
     </property>
     <property name="text">
-     <string>Электронное письмо</string>
+     <string>Логин</string>
     </property>
    </widget>
    <widget class="QPushButton" name="login_btn_create_account">

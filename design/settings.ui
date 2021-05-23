@@ -76,8 +76,8 @@ border: 2px solid rgb(95, 85, 200);
    <property name="geometry">
     <rect>
      <x>58</x>
-     <y>417</y>
-     <width>102</width>
+     <y>408</y>
+     <width>111</width>
      <height>38</height>
     </rect>
    </property>
@@ -91,9 +91,12 @@ border: 2px solid rgb(95, 85, 200);
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
-background-color: rgb(40, 48, 70);
-border-radius: 5px;
-color: rgb(180, 183, 189);
+	background-color: rgb(40, 48, 70);
+	border: 1px solid rgb(122, 122, 122);
+	border-radius: 5px;
+	color: rgb(180, 183, 189);
+	padding-left: 10px;
+	padding-right: 10px;
 }
 QPushButton:hover {
   background-color: rgb(40, 48, 70); 
@@ -109,68 +112,6 @@ QPushButton:hover {
      <normaloff>img/icons/telegram.png</normaloff>img/icons/telegram.png</iconset>
    </property>
   </widget>
-  <widget class="QPushButton" name="settings_btn_apply">
-   <property name="geometry">
-    <rect>
-     <x>58</x>
-     <y>477</y>
-     <width>120</width>
-     <height>38</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Roboto</family>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton {
-background-color: #7367F0;
-border-radius: 5px;
-color: #FFFFFF;
-}
-QPushButton:hover {
-  background-color: rgb(40, 48, 70); 
-  color: rgb(115, 103, 240);
-  border: 2px solid rgb(95, 85, 200);
-}</string>
-   </property>
-   <property name="text">
-    <string>Применить</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="settings_btn_undo">
-   <property name="geometry">
-    <rect>
-     <x>208</x>
-     <y>477</y>
-     <width>120</width>
-     <height>38</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Roboto</family>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton {
-background-color: rgb(234, 84, 85);
-border-radius: 5px;
-color: #FFFFFF;
-}
-QPushButton:hover {
-  background-color: rgb(40, 48, 70); 
-  color: rgb(234, 84, 85);
-  border: 2px solid rgb(234, 84, 85);
-}</string>
-   </property>
-   <property name="text">
-    <string>Отменить</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="settings_text_oldpass">
    <property name="geometry">
     <rect>
@@ -182,7 +123,7 @@ QPushButton:hover {
    </property>
    <property name="font">
     <font>
-     <family>Roboto</family>
+     <family>Roboto-Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -204,7 +145,7 @@ QPushButton:hover {
    </property>
    <property name="font">
     <font>
-     <family>Roboto</family>
+     <family>Roboto-Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -228,8 +169,6 @@ QPushButton:hover {
     <font>
      <family>Roboto</family>
      <pointsize>15</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
@@ -279,7 +218,7 @@ border: 2px solid rgb(95, 85, 200);
    </property>
    <property name="font">
     <font>
-     <family>Roboto</family>
+     <family>Roboto-Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -323,13 +262,13 @@ border: 2px solid rgb(95, 85, 200);
     <rect>
      <x>58</x>
      <y>386</y>
-     <width>156</width>
+     <width>384</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Roboto</family>
+     <family>Roboto-Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -383,6 +322,82 @@ border: 2px solid rgb(95, 85, 200);
    <property name="scaledContents">
     <bool>true</bool>
    </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>58</x>
+     <y>447</y>
+     <width>381</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="settings_horizontalLayout_btns">
+    <item>
+     <widget class="QPushButton" name="settings_btn_apply">
+      <property name="font">
+       <font>
+        <family>Roboto</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: #7367F0;
+border-radius: 5px;
+border: 2px solid #7367F0;
+color: rgb(255, 255, 255);
+padding-top: 10 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 10 px;
+text-align: center;
+margin-right: 5px;
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(115, 103, 240);
+  border: 2px solid rgb(95, 85, 200);
+}</string>
+      </property>
+      <property name="text">
+       <string>Применить</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="settings_btn_undo">
+      <property name="font">
+       <font>
+        <family>Roboto</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgb(40, 48, 70); 
+border-radius: 5px;
+border: 2px solid rgb(234, 84, 85);
+color: rgb(234, 84, 85);
+padding-top: 10 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 10 px;
+text-align: center;
+margin-left: 5px;
+}
+QPushButton:hover {
+background-color: rgb(234, 84, 85);
+color: rgb(255, 255, 255);
+border: 2px solid rgb(234, 84, 85);
+}</string>
+      </property>
+      <property name="text">
+       <string>Отменить</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

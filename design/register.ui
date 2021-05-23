@@ -228,7 +228,7 @@ QPushButton:hover {
      <string notr="true">color: rgb(180, 183, 189);</string>
     </property>
     <property name="text">
-     <string>Электронное письмо</string>
+     <string>Почта</string>
     </property>
    </widget>
    <widget class="QPushButton" name="register_btn_create">

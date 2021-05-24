@@ -58,76 +58,9 @@
       </item>
       <item row="1" column="0">
        <layout class="QVBoxLayout" name="mainwindow_verticalLayout_menu">
-        <item>
-         <widget class="QLabel" name="mainwindow_textlbl_display_style">
-          <property name="maximumSize">
-           <size>
-            <width>230</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Roboto-Light</family>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: #D0D2D6;</string>
-          </property>
-          <property name="text">
-           <string>Стиль отображения</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="mainwindow_comboBox_display_style">
-          <property name="maximumSize">
-           <size>
-            <width>150</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Roboto-Light</family>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QComboBox {
-color: rgb(185, 185, 195);
-border: 2px solid #7666F8;
-border-radius: 5px;
-}
-
-QComboBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
-border: 2px solid #7666F8;
-border-radius: 5px;
-}</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>Таблица</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Диаграмма</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>График</string>
-           </property>
-          </item>
-         </widget>
-        </item>
+        <property name="spacing">
+         <number>10</number>
+        </property>
         <item>
          <widget class="QPushButton" name="mainwindow_btn_forecast">
           <property name="sizePolicy">
@@ -139,7 +72,7 @@ border-radius: 5px;
           <property name="maximumSize">
            <size>
             <width>230</width>
-            <height>37</height>
+            <height>57</height>
            </size>
           </property>
           <property name="font">
@@ -161,6 +94,7 @@ border-radius: 5px;
 	text-align: left;
 	padding-left: 10px;
 	padding-right: 10px;
+	margin-top: 27px;
 }
 QPushButton:hover {
 	background-color: rgb(0, 0, 0, 0);  
@@ -291,6 +225,80 @@ QPushButton:hover {
            <iconset>
             <normaloff>img/icons/power.png</normaloff>img/icons/power.png</iconset>
           </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="mainwindow_textlbl_display_style">
+          <property name="maximumSize">
+           <size>
+            <width>230</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Roboto-Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: #D0D2D6;
+margin-top: 20px;</string>
+          </property>
+          <property name="text">
+           <string>Стиль отображения</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="mainwindow_comboBox_display_style">
+          <property name="maximumSize">
+           <size>
+            <width>150</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Roboto-Light</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QComboBox {
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+padding-left: 20px;
+padding-right: 10px;
+margin-left: 10px;
+}
+
+QComboBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Таблица</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Диаграмма</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>График</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item>

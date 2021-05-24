@@ -88,13 +88,36 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi.show()
 
     def registration(self):
+        self.db = self.timedb()
         login = self.rUi.register_lineEdit_name.text()
         email = self.rUi.register_lineEdit_email.text()
         password = self.rUi.register_lineEdit_password.text()
 
-        self.timedb().register_user(login, email, password)
-        self.rUi.close()
-        self.lUi.show()
+        self.db.register_user(login, email, password)
+
+        if self.db.user_exists_bool == False:
+            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+                self.db.user_exists_message, QtWidgets.QMessageBox.Ok)
+
+        elif self.db.user_email_bool == False:
+            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+                self.db.user_email_message, QtWidgets.QMessageBox.Ok)
+
+        elif self.db.user_empty_name_bool == False:
+            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+                self.db.user_empty_name_message, QtWidgets.QMessageBox.Ok)
+        
+        elif self.db.user_empty_email_bool == False:
+            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+                self.db.user_empty_email_message, QtWidgets.QMessageBox.Ok)
+
+        elif self.db.user_empty_password_bool == False:
+            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+                self.db.user_empty_password_message, QtWidgets.QMessageBox.Ok)
+
+        else:
+            self.rUi.close()
+            self.lUi.show()
 
     def visualize(self, object):
         '''

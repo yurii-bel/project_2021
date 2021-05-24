@@ -21,7 +21,7 @@ class TelegramBot:
 
         self.correct_login_info = False
 
-    bot = telebot.TeleBot(tk)
+        self.bot = telebot.TeleBot(tk)
 
     @bot.message_handler(commands=['start'])
     def welcome_help(message):

@@ -1,3 +1,4 @@
+import re
 import psycopg2 as db
 from psycopg2 import Error
 from uuid import uuid4
@@ -12,12 +13,10 @@ class DbLogic:
     host = 'ec2-54-74-60-70.eu-west-1.compute.amazonaws.com'
 
     def __init__(self):
-        self.connection = db.connect(database=self.database,
-                                     user=self.user,
-                                     password=self.password,
-                                     host=self.host)
+        self.connection = db.connect(database=self.database, user=self.user, \
+        password=self.password, host=self.host)
 
-        self.cursor = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        self.cursor = self.connection.cursor()
 
         self.correct_login_info = False
 
@@ -31,6 +30,13 @@ class DbLogic:
                 self.user_empty_password_message,\
                     self.user_incorrect_password_message =\
                         None, None, None, None, None, None
+
+        self.user_login_exists_bool, self.user_login_incorrect_password_bool = \
+            None, None
+
+        self.user_login_exists_message, self.user_login_incorrect_password_message = \
+            None, None
+        
 
     def register_user(self, user_n_name, user_p_email, user_p_password):
         try:
@@ -120,10 +126,12 @@ class DbLogic:
                     self.current_user_n_name = row[1]
                     self.current_user_n_telegram = row[2]
                     break
+                elif user_n_name != row[1]:
+                    self.user_login_exists_message = \
+                        f'Пользователя {user_n_name} не существует. Зарегестрируйтесь!'
+                    self.user_login_exists_bool = False
+                    return
                 else:
-                    # self.user_exists_bool = False
-                    # self.user_exists_message =\
-                    #     f'Пользователя {self.current_user_n_name} не существует. Зарегестрируйтесь!'
                     pass
 
 
@@ -139,7 +147,7 @@ class DbLogic:
                 else:
                     pass
 
-            # working with USER_PRIVAT table
+            # working with USER_PRIVATE table
             self.cursor.execute(
                 f'SELECT user_p_id, user_p_email, user_p_password from "USER_PRIVATE"')
             user_private_table_rows = self.cursor.fetchall()
@@ -150,11 +158,16 @@ class DbLogic:
                     self.current_user_p_password = row[2]
                     self.correct_login_info = True
                     break
+                elif user_p_password != row[2] and self.current_user_p_id != row[0]:
+                    self.user_login_incorrect_password_message = \
+                        f'Такого пароля не существует!'
+                    self.user_login_incorrect_password_bool = False
+                    return
                 else:
                     # self.user_incorrect_password_bool = False
                     # self.user_incorrect_password_message =\
                     #     f'Пароли не совпадают. Попробуйте ещё раз.'
-                    self.correct_login_info = True
+                    self.correct_login_info = False
 
         except (Exception, Error) as error:
             return f'{error}'

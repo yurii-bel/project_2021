@@ -3,8 +3,8 @@ sys.path.append(".")
 
 from PyQt5 import QtGui, QtWidgets, uic
 
-from database.DBLogic.dblogic import DbLogic as db
-from logic.time_add_activity import ActionsUI
+from logic.dblogic import DbLogic as db
+from logic.actions_ui import ActionsUI
 
 
 class MainUI(QtWidgets.QMainWindow):
@@ -13,12 +13,16 @@ class MainUI(QtWidgets.QMainWindow):
     '''
     def __init__(self):
         super().__init__()
+        # Creating database instance.
         self.timedb = db
+
+        # Creating variable for future storing name of user in it.
+        self.user_n_name = None
 
         # Нужно автоматизировать разделителей (module os).
         # Loading UI interfaces.
         self.mUi = uic.loadUi('design\\MainWindow.ui')  # Main window ui.
-        # self.aUi = ActionsUI  # Loading ActionsUI class from logic.
+        self.aUi = ActionsUI()  # Loading ActionsUI class from logic.
         self.rUi = uic.loadUi('design\\register.ui')  # Registration window ui.
         self.lUi = uic.loadUi('design\\login.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings.ui')  # Settings window ui.
@@ -45,19 +49,6 @@ class MainUI(QtWidgets.QMainWindow):
         # When starting a program, first login UI appears.
         self.show_login()
 
-    def add_action(self):
-        '''
-        Current method shows user interface action adding.
-        '''
-        self.aUi = ActionsUI()  # Loading ActionsUI class from logic.
-        # self.table
-
-    def settings(self):
-        '''
-        Current method shows user interface settings window.
-        '''
-        self.sUi.show()
-
     def show_login(self):
         '''
         Current method shows user interface login window.
@@ -72,11 +63,20 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.db.login_user(login, password)
 
-        if self.db.correct_login_info == False:
+        if self.db.user_empty_name_bool == False:
             QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                f'Неправильный логин или пароль.\n' \
-                f'Перепроверьте введённые данные.', QtWidgets.QMessageBox.Ok)
+                self.db.user_empty_name_message, QtWidgets.QMessageBox.Ok)
+        elif self.db.user_empty_password_bool == False:
+            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+                self.db.user_empty_password_message, QtWidgets.QMessageBox.Ok)
+        # elif self.db.user_exists_bool == False:
+        #     QtWidgets.QMessageBox.question(self,'Ошибка!',\
+        #         self.db.user_exists_message, QtWidgets.QMessageBox.Ok)
+        # elif self.db.user_incorrect_password_bool == False:
+        #     QtWidgets.QMessageBox.question(self,'Ошибка!',\
+        #         self.db.user_incorrect_password_message, QtWidgets.QMessageBox.Ok)
         elif self.db.correct_login_info == True:
+            self.user_n_name = login
             self.lUi.close()
             self.mUi.show()
 
@@ -98,32 +98,43 @@ class MainUI(QtWidgets.QMainWindow):
         if self.db.user_exists_bool == False:
             QtWidgets.QMessageBox.question(self,'Ошибка!',\
                 self.db.user_exists_message, QtWidgets.QMessageBox.Ok)
-
         elif self.db.user_email_bool == False:
             QtWidgets.QMessageBox.question(self,'Ошибка!',\
                 self.db.user_email_message, QtWidgets.QMessageBox.Ok)
-
         elif self.db.user_empty_name_bool == False:
             QtWidgets.QMessageBox.question(self,'Ошибка!',\
                 self.db.user_empty_name_message, QtWidgets.QMessageBox.Ok)
-        
         elif self.db.user_empty_email_bool == False:
             QtWidgets.QMessageBox.question(self,'Ошибка!',\
                 self.db.user_empty_email_message, QtWidgets.QMessageBox.Ok)
-
         elif self.db.user_empty_password_bool == False:
             QtWidgets.QMessageBox.question(self,'Ошибка!',\
                 self.db.user_empty_password_message, QtWidgets.QMessageBox.Ok)
-
+        elif self.db.user_incorrect_password_bool == False:
+            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+                self.db.user_incorrect_password_message, QtWidgets.QMessageBox.Ok)
         else:
             self.rUi.close()
             self.lUi.show()
+
+    def add_action(self):
+        '''
+        Current method shows user interface action adding.
+        '''
+        self.aUi.show_add_event() # Loading ActionsUI class from logic.
+        # self.table
 
     def visualize(self, object):
         '''
         Current method displays table/graph/chart view containing all actions. 
         '''
         pass
+
+    def settings(self):
+        '''
+        Current method shows user interface settings window.
+        '''
+        self.sUi.show()
 
     # def table(self):
     #     lay = QtWidgets.QVBoxLayout()
@@ -199,6 +210,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.lay.addWidget(self.tUi.tableW)
         self.wUi.setLayout(self.lay)
 
+    def get_user_n_name(self):
+        return self.user_n_name
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

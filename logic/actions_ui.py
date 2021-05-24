@@ -1,13 +1,14 @@
 import sys
-sys.path.append('.')
-import sqlite3
 import time
 
 from PyQt5.QtCore import QDate
 from PyQt5 import QtWidgets, uic
 
+sys.path.append('.')
 from logic.actions import Actions
-from logic.time_db import TimeDb
+from logic.dblogic import DbLogic as db
+sys.path.append('..')
+from timeSoft import MainUI
 
 
 class ActionsUI(QtWidgets.QMainWindow):
@@ -16,41 +17,47 @@ class ActionsUI(QtWidgets.QMainWindow):
     '''
     def __init__(self):
         super().__init__()
+        # Creating database instance.
+        self.timedb = db
+        
+        # Getting current user name.
+        self.user_n_name = MainUI.get_user_n_name()
+
+        # Instance of main logic.
+        self.act = Actions
 
         # Loading appropriate UI's.
         self.aUi = uic.loadUi('design\\add_event.ui')
         self.eUi = uic.loadUi('design\\edit_event.ui')
 
-        # For time of event cration in a_save_event.
+        # Connecting buttons to appropriate slots.
+        self.aUi.add_event_btn_add.clicked.connect(self.add_event)
+        self.aUi.add_event_btn_cancel.clicked.connect(self.aUi.close)
+        self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
+
+        # Connecting line edits to appropriate slots.
+        self.aUi.add_event_lineEdit_name.textChanged.connect(\
+            self.suppose_category)
+
+        # Settings and preparations for many control elements.
+        self.ui_preparations()
+
+    def ui_preparations(self):
+        # For time of event cration in add_event_btn_add.
         time_ = time.localtime()
         self._time = time.strftime('%X', time_)
 
-        # Connecting to db.
-        # self.db = sqlite3.connect('database\\timo364\\TimeSoft.db')
-        # self.curs = self.db.cursor()
-
-        # Categories for 'a_cB_category' control element.
-        self.categs = ['Здоровье', 'Работа', 'Семья', 'Отдых', 'Развлечения', \
-            'Другое']
-
         # Settings for 'a_dE_date' control element.
-        self.aUi.a_dateEdit.setCalendarPopup(True)
-        self.aUi.a_dateEdit.setDate(QDate(QDate.currentDate()))
-        self.aUi.a_dateEdit.setMaximumDate(QDate(QDate.currentDate()))
+        self.aUi.add_event_dateEdit.setCalendarPopup(True)
+        self.aUi.add_event_dateEdit.setDate(QDate(QDate.currentDate()))
+        self.aUi.add_event_dateEdit.setMaximumDate(QDate(QDate.currentDate()))
 
-        # Settings for 'a_cB_category' control element.
-        self.aUi.a_comboBox.addItems(self.categs)
+        categs = self.timedb().get_user_categories(self.user_n_name)
+        for categ in categs:
+            self.aUi.add_event_comboBox_category.setItems(categ)
 
-        # Connecting buttons to appropriate slots.
-        self.aUi.a_btn_save.clicked.connect(self.add_event)
-        self.aUi.a_btn_cancel.clicked.connect(self.aUi.close)
-        self.aUi.a_btn_exit.clicked.connect(self.aUi.close)
-
-        # Instance of main logic.
-        self.act = Actions
-
-        # Connecting database using db logic.
-        self.db = TimeDb('database\\yurii_bel\\time_db.db')
+    def show_add_event(self):
+        self.aUi.show()
 
     def add_event(self):
         # Getting all info, entered by user. 
@@ -83,6 +90,9 @@ class ActionsUI(QtWidgets.QMainWindow):
                 self.added_event.time, self.added_event.date, \
                     self.added_event.comment, 'Activity')
         self.aUi.close()
+
+    def suppose_category(self):
+        pass
 
     def edit_event(self):
         # This method is reserved for future editing actions.

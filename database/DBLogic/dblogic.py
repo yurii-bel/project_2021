@@ -120,8 +120,7 @@ class DbLogic:
                     self.current_user_n_id = row[0]
                     self.current_user_n_name = row[1]
                     self.current_user_n_telegram = row[2]
-                    # print(self.current_user_n_id, self.current_user_n_name, self.current_user_n_telegram)
-                    # print('11111111111111111111')
+                    break
                 else:
                     pass
 
@@ -129,11 +128,11 @@ class DbLogic:
             self.cursor.execute(
                 f'SELECT user_id, user_n_id, user_p_id from "USER"')
             user_table_rows = self.cursor.fetchall()
+
             for row in user_table_rows:
                 if self.current_user_n_id == row[1]:
                     self.current_user_id = row[0]
                     self.current_user_p_id = row[2]
-                    # print(f'\nUser: \nuser_id: {self.current_user_id} \nuser_n_id: {self.current_user_n_id} \nuser_p_id: {self.current_user_p_id}')
                 else:
                     pass
 
@@ -143,15 +142,15 @@ class DbLogic:
             user_private_table_rows = self.cursor.fetchall()
 
             for row in user_private_table_rows:
-                # print(f'\nuser_p_id: {row[0]} \nuser_p_email: {row[1]} \nuser_p_password: {row[2]}')
                 if user_p_password == row[2] and self.current_user_p_id == row[0]:
                     self.current_user_p_email = row[1]
                     self.current_user_p_password = row[2]
                     print(
                         f'\nUser: \nuser_id: {self.current_user_id} \nuser_n_id: {self.current_user_n_id} \nuser_p_id: {self.current_user_p_id}')
-
-                else:
                     self.correct_login_info = True
+                    break
+                else:
+                    self.correct_login_info = False
 
             # self.cursor.execute(\
             #     f'SELECT "USER_NAME".user_n_name = \'{user_n_name}\' FROM "USER_NAME"')

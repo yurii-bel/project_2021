@@ -3,7 +3,6 @@ sys.path.append(".")
 
 from PyQt5 import QtGui, QtWidgets, uic
 
-# from logic.actions_ui import ActionsUI
 from database.DBLogic.dblogic import DbLogic as db
 from logic.time_add_activity import ActionsUI
 
@@ -14,7 +13,7 @@ class MainUI(QtWidgets.QMainWindow):
     '''
     def __init__(self):
         super().__init__()
-        self.timedb = db()
+        self.timedb = db
 
         # Нужно автоматизировать разделителей (module os).
         # Loading UI interfaces.
@@ -36,16 +35,15 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.btn_exit.clicked.connect(self.mUi.close)
 
         # Login UI
-        self.lUi.login_btn_login.clicked.connect(self.login_check)
+        self.lUi.login_btn_login.pressed.connect(self.login_check)
         self.lUi.login_btn_create_account.clicked.connect(self.registration)
 
         # Register UI
+        self.rUi.register_btn_login.pressed.connect(self.registration_check)
         self.rUi.register_btn_create.clicked.connect(self.login)
-        self.rUi.register_btn_login.clicked.connect(self.registration_check)
 
         logo = QtGui.QPixmap('design\\img\\icons\\Logo.png')
         self.mUi.lbl_logoimg.setPixmap(logo)
-
 
         self.login()
 
@@ -73,7 +71,7 @@ class MainUI(QtWidgets.QMainWindow):
         login = self.lUi.login_lineedit_email.text()
         password = self.lUi.login_lineedit_password.text()
 
-        self.info = self.timedb.login_user(login, password)
+        self.timedb().login_user(login, password)
 
         # while self.info == 'error_name' or self.info == 'error_password':
         #     if self.info == 'error_name':
@@ -112,9 +110,14 @@ class MainUI(QtWidgets.QMainWindow):
         email = self.rUi.register_lineEdit_email.text()
         password = self.rUi.register_lineEdit_password.text()
 
-        self.timedb.register_user(login, email, password)
+        self.timedb().register_user(login, email, password)
         self.rUi.close()
         self.lUi.show()
+        # self.restart_program()
+
+    # def restart_program(self):
+    #     python = sys.executable
+    #     os.execl(python, python, * sys.argv)
 
     def visualize(self, object):
         '''

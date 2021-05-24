@@ -26,26 +26,24 @@ class MainUI(QtWidgets.QMainWindow):
         self.wUi = self.mUi.viewWidget
 
         # Connecting buttons to slots.
-        # All commented stuff is not yet realized.
-
-        # Main UI 
+        # Main UI.
         self.mUi.btn_plus.clicked.connect(self.add_action)
-
         self.mUi.btn_settings.clicked.connect(self.settings)
         self.mUi.btn_exit.clicked.connect(self.mUi.close)
 
-        # Login UI
-        self.lUi.login_btn_login.pressed.connect(self.login_check)
-        self.lUi.login_btn_create_account.clicked.connect(self.registration)
+        # Login UI.
+        self.lUi.login_btn_login.clicked.connect(self.login)
+        self.lUi.login_btn_create_account.clicked.connect(self.show_registration)
 
-        # Register UI
-        self.rUi.register_btn_login.pressed.connect(self.registration_check)
-        self.rUi.register_btn_create.clicked.connect(self.login)
+        # Register UI.
+        self.rUi.register_btn_login.clicked.connect(self.registration)
+        self.rUi.register_btn_create.clicked.connect(self.show_login)
 
         logo = QtGui.QPixmap('design\\img\\icons\\Logo.png')
         self.mUi.lbl_logoimg.setPixmap(logo)
 
-        self.login()
+        # When starting a program, first login UI appears.
+        self.show_login()
 
     def add_action(self):
         '''
@@ -60,14 +58,14 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         self.sUi.show()
 
-    def login(self):
+    def show_login(self):
         '''
         Current method shows user interface login window.
         '''
         self.rUi.close()
         self.lUi.show()
 
-    def login_check(self):
+    def login(self):
         login = self.lUi.login_lineedit_email.text()
         password = self.lUi.login_lineedit_password.text()
 
@@ -98,14 +96,14 @@ class MainUI(QtWidgets.QMainWindow):
         #     break
             
 
-    def registration(self):
+    def show_registration(self):
         '''
         Current method shows user interface registration window.
         '''
         self.lUi.close()
         self.rUi.show()
 
-    def registration_check(self):
+    def registration(self):
         login = self.rUi.register_lineEdit_name.text()
         email = self.rUi.register_lineEdit_email.text()
         password = self.rUi.register_lineEdit_password.text()
@@ -113,11 +111,6 @@ class MainUI(QtWidgets.QMainWindow):
         self.timedb().register_user(login, email, password)
         self.rUi.close()
         self.lUi.show()
-        # self.restart_program()
-
-    # def restart_program(self):
-    #     python = sys.executable
-    #     os.execl(python, python, * sys.argv)
 
     def visualize(self, object):
         '''

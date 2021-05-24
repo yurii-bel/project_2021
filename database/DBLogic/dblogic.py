@@ -60,6 +60,7 @@ class DbLogic:
         try:
             user_n_id = str(uuid4())
             user_p_id = str(uuid4())
+            self.correct_register_info = None
             self.connection.autocommit = True
 
             self.cursor.execute(
@@ -145,30 +146,10 @@ class DbLogic:
                 if user_p_password == row[2] and self.current_user_p_id == row[0]:
                     self.current_user_p_email = row[1]
                     self.current_user_p_password = row[2]
-                    print(
-                        f'\nUser: \nuser_id: {self.current_user_id} \nuser_n_id: {self.current_user_n_id} \nuser_p_id: {self.current_user_p_id}')
                     self.correct_login_info = True
                     break
                 else:
                     self.correct_login_info = False
-
-            # self.cursor.execute(\
-            #     f'SELECT "USER_NAME".user_n_name = \'{user_n_name}\' FROM "USER_NAME"')
-            # # Сделано в Китае. Разработано в России.
-            # lst = str(self.cursor.fetchall())
-            # if not 'True' in lst:
-            #     return 'error_name'
-
-            # self.cursor.execute(\
-            #     f'SELECT user_n_name, user_p_password FROM "USER_NAME", "USER_PRIVAT"\
-            #         WHERE user_n_name = \'{user_n_name}\'\
-            #             and user_p_password = \'{user_p_password}\'')
-
-            # lst = self.cursor.fetchall()
-            # if lst == []:
-            #     return 'error_password'
-            # else:
-            #     return True
 
         except (Exception, Error) as error:
             return f'{error}'
@@ -183,6 +164,7 @@ class DbLogic:
                                 {'user': user_n_name})
 
             self.connection.commit()
+
         except (Exception, Error) as error:
             return f'{error}'
         finally:

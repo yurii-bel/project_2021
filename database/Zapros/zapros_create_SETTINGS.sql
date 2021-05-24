@@ -1,0 +1,1 @@
+INSERT INTO "SETTINGS" (USER_ID, SET_theme, SET_preferences) VALUES ('1', 'Ночная тема', 'Разные настройки')

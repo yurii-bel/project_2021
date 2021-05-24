@@ -1,3 +1,4 @@
+import re
 import psycopg2 as db
 from psycopg2 import Error
 from uuid import uuid4
@@ -60,8 +61,15 @@ class DbLogic:
         try:
             user_n_id = str(uuid4())
             user_p_id = str(uuid4())
-            self.correct_register_info = None
             self.connection.autocommit = True
+
+            self.user_exists_bool, self.user_email_bool, self.user_empty_name_bool, \
+                self.user_empty_email_bool, self.user_empty_password_bool = \
+                    None, None, None, None, None
+
+            self.user_exists_message, self.user_email_message, self.user_empty_name_message,\
+                self.user_empty_email_message, self.user_empty_password_message = \
+                    None, None, None, None, None
 
             self.cursor.execute(
                 f'SELECT "USER_NAME".user_n_name = \'{user_n_name}\' FROM "USER_NAME"')
@@ -69,17 +77,36 @@ class DbLogic:
             # Нужна проверка в основной.
             lst = str(self.cursor.fetchall())
             if 'True' in lst:
-                return f'Данный пользователь уже зареган.'
+                self.user_exists_message = f'Данный пользователь уже зарегистрирован.'
+                self.user_exists_bool = False
+                return 
 
-            self.cursor.execute(
-                f'SELECT "USER_PRIVATE".user_p_email = \'{user_p_email}\' FROM "USER_PRIVATE"')
-            # Сделано в Китае. Разработано в России.
-            # Нужна проверка в основной.
-            lst = str(self.cursor.fetchall())
-            if user_n_name == '':
-                return f'Нельзя создать пустого пользователя.'
+            # self.cursor.execute(
+            #     f'SELECT "USER_PRIVATE".user_p_email = \'{user_p_email}\' FROM "USER_PRIVATE"')
+            # # Сделано в Китае. Разработано в России.
+            # # Нужна проверка в основной.
+            # lst = str(self.cursor.fetchall())
+
             if 'True' in lst:
-                return f'Данное мыло уже зарегано.'
+                self.user_email_message = f'Данный емейл уже зарегистрирован.'
+                self.user_email_bool = False
+                return
+
+            if user_n_name == '':
+                self.user_empty_name_message = f'Нельзя создать пустой логин пользователя.'
+                self.user_empty_name_bool = False
+                return
+
+            if user_p_email == '':
+                self.user_empty_email_message = f'Нельзя создать пустой емейл пользователя.'
+                self.user_empty_email_bool = False
+                return
+
+            if user_p_password == '':
+                self.user_empty_password_message = f'Нельзя создать пустой пароль пользователя.'
+                self.user_empty_password_bool = False
+                return
+                
 
             self.cursor.execute('INSERT INTO "USER" (user_n_id, user_p_id)\
                 VALUES (%s,%s) ON CONFLICT DO NOTHING', (user_n_id, user_p_id))
@@ -89,6 +116,8 @@ class DbLogic:
 
             self.cursor.execute('INSERT INTO "USER_PRIVATE" (user_p_id, user_p_email, user_p_password)\
                 VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (user_p_id, user_p_email, user_p_password))
+
+
 
         except (Exception, Error) as error:
             return f'{error}'

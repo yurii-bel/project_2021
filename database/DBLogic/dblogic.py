@@ -71,7 +71,7 @@ class DbLogic:
                 return f'Данный пользователь уже зареган.'
 
             self.cursor.execute(
-                f'SELECT "USER_PRIVAT".user_p_email = \'{user_p_email}\' FROM "USER_PRIVAT"')
+                f'SELECT "USER_PRIVATE".user_p_email = \'{user_p_email}\' FROM "USER_PRIVATE"')
             # Сделано в Китае. Разработано в России.
             # Нужна проверка в основной.
             lst = str(self.cursor.fetchall())
@@ -86,7 +86,7 @@ class DbLogic:
             self.cursor.execute('INSERT INTO "USER_NAME" (user_n_id, user_n_name)\
                 VALUES (%s,%s) ON CONFLICT DO NOTHING', (user_n_id, user_n_name))
 
-            self.cursor.execute('INSERT INTO "USER_PRIVAT" (user_p_id, user_p_email, user_p_password)\
+            self.cursor.execute('INSERT INTO "USER_PRIVATE" (user_p_id, user_p_email, user_p_password)\
                 VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (user_p_id, user_p_email, user_p_password))
 
         except (Exception, Error) as error:

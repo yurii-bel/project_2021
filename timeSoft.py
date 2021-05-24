@@ -28,19 +28,24 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Connecting buttons to slots.
         # All commented stuff is not yet realized.
+
+        # Main UI 
         self.mUi.btn_plus.clicked.connect(self.add_action)
-        #self.mUi.btn_forecast.clicked.connect(self.forecasting)
-        #self.mUi.btn_background.clicked.connect(self.change_theme)
+
         self.mUi.btn_settings.clicked.connect(self.settings)
         self.mUi.btn_exit.clicked.connect(self.mUi.close)
 
+        # Login UI
         self.lUi.login_btn_login.clicked.connect(self.login_check)
-        
-        # Setting pixmap for 'lbl_logoimg' element.
+        self.lUi.login_btn_create_account.clicked.connect(self.registration)
+
+        # Register UI
+        self.rUi.register_btn_create.clicked.connect(self.login)
+        self.rUi.register_btn_login.clicked.connect(self.registration_check)
+
         logo = QtGui.QPixmap('design\\img\\icons\\Logo.png')
         self.mUi.lbl_logoimg.setPixmap(logo)
 
-        # self.table()
 
         self.login()
 
@@ -61,6 +66,7 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         Current method shows user interface login window.
         '''
+        self.rUi.close()
         self.lUi.show()
 
     def login_check(self):
@@ -84,9 +90,6 @@ class MainUI(QtWidgets.QMainWindow):
         #         self.lUi.close()
         #         self.mUi.show()
 
-            
-            
-
             # QtWidgets.QMessageBox.question(self,'Ошибка!',\
             #     'Данный пользователь не найден. Зарегестрируйтесь.', QtWidgets.QMessageBox.Ok)
             # continue
@@ -101,7 +104,17 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         Current method shows user interface registration window.
         '''
+        self.lUi.close()
         self.rUi.show()
+
+    def registration_check(self):
+        login = self.rUi.register_lineEdit_name.text()
+        email = self.rUi.register_lineEdit_email.text()
+        password = self.rUi.register_lineEdit_password.text()
+
+        self.timedb.register_user(login, email, password)
+        self.rUi.close()
+        self.lUi.show()
 
     def visualize(self, object):
         '''

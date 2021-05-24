@@ -329,7 +329,7 @@ border: 2px solid rgb(95, 85, 200);
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="login_text_timesoft">
+  <widget class="QLabel" name="login_text_logo">
    <property name="geometry">
     <rect>
      <x>92</x>

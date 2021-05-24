@@ -684,7 +684,7 @@ QDateEdit:hover {
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>img/icons/Logo.png</pixmap>
+           <pixmap>img/main/Logo.svg</pixmap>
           </property>
          </widget>
         </item>
@@ -699,23 +699,17 @@ QDateEdit:hover {
           <property name="font">
            <font>
             <family>Roboto</family>
-            <pointsize>-1</pointsize>
-            <weight>75</weight>
+            <pointsize>18</pointsize>
+            <weight>50</weight>
             <italic>false</italic>
-            <bold>true</bold>
+            <bold>false</bold>
            </font>
           </property>
           <property name="layoutDirection">
            <enum>Qt::LeftToRight</enum>
           </property>
           <property name="styleSheet">
-           <string notr="true">font-family: Roboto;
-font-style: normal;
-font-weight: bold;
-font-size: 24px;
-line-height: 29px;
-letter-spacing: -0.428571px;
-color: #7367F0;</string>
+           <string notr="true">color: #7367F0;</string>
           </property>
           <property name="text">
            <string>TimeSoft</string>

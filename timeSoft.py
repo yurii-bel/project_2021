@@ -66,35 +66,19 @@ class MainUI(QtWidgets.QMainWindow):
         self.lUi.show()
 
     def login(self):
+        self.db = self.timedb()
         login = self.lUi.login_lineedit_email.text()
         password = self.lUi.login_lineedit_password.text()
 
-        self.timedb().login_user(login, password)
+        self.db.login_user(login, password)
 
-        # while self.info == 'error_name' or self.info == 'error_password':
-        #     if self.info == 'error_name':
-        #         QtWidgets.QMessageBox.question(self,'Ошибка!',\
-        #         'Данный пользователь не найден. Зарегестрируйтесь.', QtWidgets.QMessageBox.Ok)
-        #         self.login_check()
-                
-        #     elif self.info == 'error_password':
-        #         QtWidgets.QMessageBox.question(self,'Ошибка!',\
-        #         'Неверный пароль.', QtWidgets.QMessageBox.Ok)
-        #         self.login_check()
-            
-        #     elif self.info == True:
-        #         self.lUi.close()
-        #         self.mUi.show()
-
-            # QtWidgets.QMessageBox.question(self,'Ошибка!',\
-            #     'Данный пользователь не найден. Зарегестрируйтесь.', QtWidgets.QMessageBox.Ok)
-            # continue
-                
-        # while self.info == False:
-            # QtWidgets.QMessageBox.question(self,'Ошибка!',\
-            #     'Неверный пароль.', QtWidgets.QMessageBox.Ok)
-        #     break
-            
+        if self.db.correct_login_info == False:
+            QtWidgets.QMessageBox.question(self,'Ошибка!',\
+                f'Неправильный логин или пароль.\n' \
+                f'Перепроверьте введённые данные.', QtWidgets.QMessageBox.Ok)
+        elif self.db.correct_login_info == True:
+            self.lUi.close()
+            self.mUi.show()
 
     def show_registration(self):
         '''

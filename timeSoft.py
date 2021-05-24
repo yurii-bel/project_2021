@@ -31,9 +31,9 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Connecting buttons to slots.
         # Main UI.
-        self.mUi.btn_plus.clicked.connect(self.add_action)
-        self.mUi.btn_settings.clicked.connect(self.settings)
-        self.mUi.btn_exit.clicked.connect(self.mUi.close)
+        self.mUi.mainwindow_btn_nav_plus.clicked.connect(self.add_action)
+        self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
+        self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
 
         # Login UI.
         self.lUi.login_btn_login.clicked.connect(self.login)
@@ -42,9 +42,6 @@ class MainUI(QtWidgets.QMainWindow):
         # Register UI.
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
-
-        logo = QtGui.QPixmap('design\\img\\icons\\Logo.png')
-        self.mUi.lbl_logoimg.setPixmap(logo)
 
         # When starting a program, first login UI appears.
         self.show_login()

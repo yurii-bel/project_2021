@@ -218,4 +218,4 @@ if __name__ == '__main__':
     # dbl.register_user('Leva9', 'leya9@ukr.net', 'qwerty91')
     # dbl.drop_user('Leva9')
     # print(dbl.login_user('John', 'ok john'))
-    print(dbl.get_user_categories('Sif'))
+    # print(dbl.get_user_categories('Sif'))

@@ -141,10 +141,10 @@ class MainUI(QtWidgets.QMainWindow):
         data = self.timedb().copy_user('CATEGORY', '2')
         settingsSave = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file', '/', 'CSV file (*.csv)')
         if settingsSave[0]:
-            f = open(settingsSave[0], 'w')
+            f = open(settingsSave[0], 'w+')
             with f:
                 for d in data:
-                    f.write({d[2]})
+                    f.write(f'{d[2]}')
 
     # def table(self):
     #     lay = QtWidgets.QVBoxLayout()

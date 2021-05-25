@@ -36,7 +36,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>361</width>
+     <width>364</width>
      <height>641</height>
     </rect>
    </property>
@@ -234,7 +234,7 @@ color: rgb(255, 255, 255);
 }
 QLineEdit:hover {
 	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	border: 1px solid rgb(95, 85, 200);
 }</string>
             </property>
            </widget>
@@ -291,7 +291,7 @@ color: rgb(255, 255, 255);
 }
 QComboBox:hover {
 	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	border: 1px solid rgb(95, 85, 200);
 }</string>
             </property>
             <property name="editable">
@@ -356,7 +356,7 @@ color: rgb(255, 255, 255);
 }
 QLineEdit:hover {
 	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	border: 1px solid rgb(95, 85, 200);
 }</string>
             </property>
            </widget>
@@ -413,7 +413,7 @@ color: rgb(255, 255, 255);
 }
 QDateEdit:hover {
 	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	border: 1px solid rgb(95, 85, 200);
 }</string>
             </property>
             <property name="correctionMode">
@@ -488,7 +488,7 @@ color: rgb(255, 255, 255);
 }
 QPlainTextEdit:hover {
 	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	border: 1px solid rgb(95, 85, 200);
 }</string>
             </property>
            </widget>

@@ -263,13 +263,12 @@ background: #283046;
 font: 14pt &quot;Roboto&quot;;
 color: rgb(103, 109, 125);
 border: 1px solid #404656;
-box-sizing: border-box;
 border-radius: 5px;
 padding-left: 15px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
     </property>
     <property name="echoMode">
@@ -306,13 +305,12 @@ background: #283046;
 font: 12pt &quot;Roboto&quot;;
 color: rgb(103, 109, 125);
 border: 1px solid #404656;
-box-sizing: border-box;
 border-radius: 5px;
 padding-left: 15px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
     </property>
     <property name="alignment">
@@ -349,13 +347,12 @@ background: #283046;
 font: 12pt &quot;Roboto&quot;;
 color: rgb(103, 109, 125);
 border: 1px solid #404656;
-box-sizing: border-box;
 border-radius: 5px;
 padding-left: 15px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
     </property>
     <property name="alignment">

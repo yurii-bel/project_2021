@@ -277,13 +277,12 @@ QPushButton:hover {
 background: #FFFFFF;
 color: rgb(103, 109, 125);
 border: 1px solid #D8D6DE;
-box-sizing: border-box;
 border-radius: 5px;
 padding-left: 15px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
     </property>
     <property name="echoMode">
@@ -319,13 +318,12 @@ border: 2px solid rgb(95, 85, 200);
 background: #FFFFFF;
 color: rgb(103, 109, 125);
 border: 1px solid #D8D6DE;
-box-sizing: border-box;
 border-radius: 5px;
 padding-left: 15px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
     </property>
     <property name="alignment">
@@ -361,13 +359,12 @@ border: 2px solid rgb(95, 85, 200);
 background: #FFFFFF;
 color: rgb(103, 109, 125);
 border: 1px solid #D8D6DE;
-box-sizing: border-box;
 border-radius: 5px;
 padding-left: 15px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
     </property>
     <property name="alignment">

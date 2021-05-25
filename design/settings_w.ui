@@ -40,7 +40,7 @@ border-radius: 5px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
    </property>
   </widget>
@@ -68,7 +68,7 @@ border-radius: 5px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
    </property>
    <property name="echoMode">
@@ -126,7 +126,7 @@ QPushButton:hover {
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -148,7 +148,7 @@ QPushButton:hover {
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -205,7 +205,7 @@ border-radius: 5px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
    </property>
    <property name="echoMode">
@@ -223,7 +223,7 @@ border: 2px solid rgb(95, 85, 200);
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -258,7 +258,7 @@ border-radius: 5px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
    </property>
    <property name="echoMode">
@@ -276,7 +276,7 @@ border: 2px solid rgb(95, 85, 200);
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -298,7 +298,7 @@ border: 2px solid rgb(95, 85, 200);
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>12</pointsize>
      <weight>50</weight>
      <italic>false</italic>
@@ -418,7 +418,7 @@ border: 2px solid rgb(234, 84, 85);
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>18</pointsize>
      <weight>50</weight>
      <bold>false</bold>
@@ -448,7 +448,7 @@ border: 2px solid rgb(234, 84, 85);
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>14</pointsize>
      <weight>50</weight>
      <bold>false</bold>
@@ -506,7 +506,7 @@ margin-right: 10px;
 QPushButton:hover {
   background-color: rgb(255, 255, 255); 
   color: rgb(115, 103, 240);
-  border: 2px solid rgb(95, 85, 200);
+  border: 1px solid rgb(95, 85, 200);
 }</string>
       </property>
       <property name="text">
@@ -543,7 +543,7 @@ margin-right: 10px;
 QPushButton:hover {
 background-color: rgb(255, 255, 255); 
 color: rgb(115, 103, 240);
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
       </property>
       <property name="text">

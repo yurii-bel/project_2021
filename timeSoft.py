@@ -144,7 +144,7 @@ class MainUI(QtWidgets.QMainWindow):
             f = open(settingsSave[0], 'w')
             with f:
                 for d in data:
-                    f.write('d[1], d[2]')
+                    f.write({d[2]})
 
     # def table(self):
     #     lay = QtWidgets.QVBoxLayout()

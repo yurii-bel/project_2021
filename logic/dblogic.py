@@ -21,18 +21,6 @@ class DbLogic:
         self.correct_login_info = False
         self.user_input_check = None
 
-        # TODO: избавиться от этих блоков:
-        self.user_exists_bool, self.user_email_bool, self.user_empty_name_bool,\
-            self.user_empty_email_bool, self.user_empty_password_bool,\
-                self.user_incorrect_password_bool =\
-                    None, None, None, None, None, None
-
-        self.user_exists_message, self.user_email_message,\
-            self.user_empty_name_message, self.user_empty_email_message,\
-                self.user_empty_password_message,\
-                    self.user_incorrect_password_message =\
-                        None, None, None, None, None, None
-
     def register_user(self, user_n_name, user_p_email, user_p_password):
         try:
             user_n_id = str(uuid4())
@@ -44,29 +32,22 @@ class DbLogic:
             # Сделано в Китае. Разработано в России.
             lst = str(self.cursor.fetchall())
             if 'True' in lst:
-                self.user_exists_message = f'Данный пользователь уже зарегистрирован.'
-                self.user_exists_bool = False
+                self.user_input_check = '1'
                 return 
             elif 'True' in lst:
-                self.user_email_message = f'Данный емейл уже зарегистрирован.'
-                self.user_email_bool = False
+                self.user_input_check = '2'
                 return
             elif user_n_name == '':
-                self.user_empty_name_message = f'Нельзя создать пустой логин пользователя.'
-                self.user_empty_name_bool = False
+                self.user_input_check = '3'
                 return
             elif user_p_email == '':
-                self.user_empty_email_message = f'Нельзя создать пустой емейл пользователя.'
-                self.user_empty_email_bool = False
+                self.user_input_check = '4'
                 return
             elif user_p_password == '':
-                self.user_empty_password_message = f'Нельзя создать пустой пароль пользователя.'
-                self.user_empty_password_bool = False
+                self.user_input_check = '5'
                 return
             elif len(user_p_password) <= 7:
-                self.user_incorrect_password_message =\
-                    f'Длина пароля должна быть не менее 8 символов.'
-                self.user_incorrect_password_bool = False
+                self.user_input_check = '6'
                 return
 
             self.cursor.execute('INSERT INTO "USER" (user_n_id, user_p_id)\
@@ -98,14 +79,10 @@ class DbLogic:
             self.current_user_p_password = None
 
             if user_n_name == '':
-                self.user_empty_name_message =\
-                    f'Строка логина пуста. Пожалуйста, введите Ваш логин.'
-                self.user_empty_name_bool = False
+                self.user_input_check = '7'
                 return
             elif user_p_password == '':
-                self.user_empty_password_message =\
-                    f'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.'
-                self.user_empty_password_bool = False
+                self.user_input_check = '8'
                 return
 
             # working with USER_NAME table
@@ -121,7 +98,6 @@ class DbLogic:
                     break
                 else:
                     pass
-
 
             # working with USER table
             self.cursor.execute(

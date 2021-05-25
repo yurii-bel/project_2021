@@ -5,13 +5,13 @@ from PyQt5 import Qt
 import sys
 sys.path.append(".")
 
-class AlignDelegate(QtWidgets.QStyledItemDelegate):
-    '''
-    This class implements center positioning for icons in TableView widget
-    '''
-    def initStyleOption(self, option, index):
-        super().initStyleOption(option, index)
-        option.decorationSize = option.rect.size()
+# class AlignDelegate(QtWidgets.QStyledItemDelegate):
+#     '''
+#     This class implements center positioning for icons in TableView widget
+#     '''
+#     def initStyleOption(self, option, index):
+#         super().initStyleOption(option, index)
+#         option.decorationSize = option.rect.size()
 
 
 class MainUI(QtWidgets.QMainWindow):
@@ -194,31 +194,31 @@ class MainUI(QtWidgets.QMainWindow):
             self.tUi.tableW.setItem(i, 3, QtWidgets.QTableWidgetItem(self.db.activity_duration[i]))
             self.tUi.tableW.setItem(i, 4, QtWidgets.QTableWidgetItem(self.db.activity_comment[i]))
             
-            # setting edit and delete icons to fields.
-            icon_edit = 'design\\img\\icons\\tableview_edit_icon.png'
-            icon_delete = 'design\\img\\icons\\tableview_delete_icon.png'
+            # # setting edit and delete icons to fields.
+            # icon_edit = 'design\\img\\icons\\tableview_edit_icon.png'
+            # icon_delete = 'design\\img\\icons\\tableview_delete_icon.png'
 
-            status_item_edit = QtWidgets.QTableWidgetItem()
+            # status_item_edit = QtWidgets.QTableWidgetItem()
 
-            status_icon_edit = QtGui.QIcon()
-            status_icon_edit.addPixmap(QtGui.QPixmap(icon_edit), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            status_item_edit.setIcon(status_icon_edit)
-            self.tUi.tableW.setItem(i, 5, status_item_edit)
+            # status_icon_edit = QtGui.QIcon()
+            # status_icon_edit.addPixmap(QtGui.QPixmap(icon_edit), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            # status_item_edit.setIcon(status_icon_edit)
+            # self.tUi.tableW.setItem(i, 5, status_item_edit)
 
-            status_item_delete = QtWidgets.QTableWidgetItem()
+            # status_item_delete = QtWidgets.QTableWidgetItem()
 
-            status_icon_delete = QtGui.QIcon()
-            status_icon_delete.addPixmap(QtGui.QPixmap(icon_delete), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            status_item_delete.setIcon(status_icon_delete)
-            self.tUi.tableW.setItem(i, 6, status_item_delete)
+            # status_icon_delete = QtGui.QIcon()
+            # status_icon_delete.addPixmap(QtGui.QPixmap(icon_delete), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            # status_item_delete.setIcon(status_icon_delete)
+            # self.tUi.tableW.setItem(i, 6, status_item_delete)
 
             # coloring background cells for edit and delete.
-            self.tUi.tableW.item(i, 5).setBackground(QtGui.QColor(115, 103, 240))
-            self.tUi.tableW.item(i, 6).setBackground(QtGui.QColor(115, 103, 240))
+            # self.tUi.tableW.item(i, 5).setBackground(QtGui.QColor(115, 103, 240))
+            # self.tUi.tableW.item(i, 6).setBackground(QtGui.QColor(115, 103, 240))
 
             # centering icons.
-            delegate = AlignDelegate(self.tUi.tableW)
-            self.tUi.tableW.setItemDelegate(delegate)
+            # delegate = AlignDelegate(self.tUi.tableW)
+            # self.tUi.tableW.setItemDelegate(delegate)
 
 
             # forbiding cell selection.

@@ -281,6 +281,9 @@ QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
     <property name="placeholderText">
      <string>⚉⚉⚉⚉⚉⚉⚉⚉</string>
     </property>

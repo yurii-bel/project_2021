@@ -1,17 +1,19 @@
-from logic.actions_ui import ActionsUI
-from logic.dblogic import DbLogic as db
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from PyQt5 import Qt
 import sys
 sys.path.append(".")
 
-# class AlignDelegate(QtWidgets.QStyledItemDelegate):
-#     '''
-#     This class implements center positioning for icons in TableView widget
-#     '''
-#     def initStyleOption(self, option, index):
-#         super().initStyleOption(option, index)
-#         option.decorationSize = option.rect.size()
+from PyQt5 import QtCore, QtGui, QtWidgets, uic
+
+from logic.actions_ui import ActionsUI
+from logic.dblogic import DbLogic as db
+
+
+class AlignDelegate(QtWidgets.QStyledItemDelegate):
+    '''
+    This class implements center positioning for icons in TableView widget
+    '''
+    def initStyleOption(self, option, index):
+        super().initStyleOption(option, index)
+        option.decorationSize = option.rect.size()
 
 
 class MainUI(QtWidgets.QMainWindow):
@@ -212,11 +214,11 @@ class MainUI(QtWidgets.QMainWindow):
             # status_item_delete.setIcon(status_icon_delete)
             # self.tUi.tableW.setItem(i, 6, status_item_delete)
 
-            # coloring background cells for edit and delete.
+            # # coloring background cells for edit and delete.
             # self.tUi.tableW.item(i, 5).setBackground(QtGui.QColor(115, 103, 240))
             # self.tUi.tableW.item(i, 6).setBackground(QtGui.QColor(115, 103, 240))
 
-            # centering icons.
+            # # centering icons.
             # delegate = AlignDelegate(self.tUi.tableW)
             # self.tUi.tableW.setItemDelegate(delegate)
 

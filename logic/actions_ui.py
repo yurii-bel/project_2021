@@ -12,7 +12,6 @@ class ActionsUI(QtWidgets.QMainWindow):
     '''
     This class implements adding and editing actions.
     '''
-
     def __init__(self, user):
         super().__init__()
         # Creating database instance.
@@ -33,14 +32,13 @@ class ActionsUI(QtWidgets.QMainWindow):
         # Connecting line edits to appropriate slots.
         self.aUi.add_event_lineEdit_name.textChanged.connect(
             self.suppose_category)
-        
 
     def ui_add_event_preparations(self):
         # Settings for 'a_dE_date' control element.
         self.aUi.add_event_dateEdit.setCalendarPopup(True)
         self.aUi.add_event_dateEdit.setDate(QDate(QDate.currentDate()))
         self.aUi.add_event_dateEdit.setMaximumDate(QDate(QDate.currentDate()))
-
+        
         categs = self.timedb().get_user_categories(self.user_n_name)
         i = 0
         for categ in categs:
@@ -88,8 +86,8 @@ class ActionsUI(QtWidgets.QMainWindow):
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        self.timedb().add_event(self.user_n_name, title, int_duration, str_date,\
-            category, comment)
+        self.timedb().add_event(self.user_n_name, title, int_duration,\
+            str_date, category, comment)
         self.aUi.close()
 
     def suppose_category(self):

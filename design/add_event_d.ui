@@ -12,7 +12,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1440</width>
+    <width>1446</width>
     <height>1080</height>
    </rect>
   </property>
@@ -294,19 +294,12 @@ QComboBox:hover {
 	border: 2px solid rgb(95, 85, 200);
 }</string>
             </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
             <item>
              <property name="text">
-              <string>Выберите категорию</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Гулял с семьей</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Ходил в магазин</string>
+              <string/>
              </property>
             </item>
            </widget>

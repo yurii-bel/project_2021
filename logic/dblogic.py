@@ -20,6 +20,7 @@ class DbLogic:
 
         self.correct_login_info = False
 
+        # TODO: избавиться от этих блоков:
         self.user_exists_bool, self.user_email_bool, self.user_empty_name_bool,\
             self.user_empty_email_bool, self.user_empty_password_bool,\
                 self.user_incorrect_password_bool =\
@@ -30,7 +31,6 @@ class DbLogic:
                 self.user_empty_password_message,\
                     self.user_incorrect_password_message =\
                         None, None, None, None, None, None
-
 
     def register_user(self, user_n_name, user_p_email, user_p_password):
         try:
@@ -176,34 +176,32 @@ class DbLogic:
 
     def get_user_n_id(self, user):
         try:
-            self.cursor.execute(
+            self.cursor2.execute(
                 'SELECT user_n_id FROM "USER_NAME"\
                     WHERE user_n_name = %(user)s', {'user': user})
-            return str(self.cursor.fetchone())[2:-3]
+            return str(self.cursor2.fetchone())[2:-2]
         except (Exception, Error) as error:
             return f'{error}'
 
     def get_user_id(self, user_n_id):
-        self.cursor.execute(\
+        self.cursor2.execute(\
             'SELECT user_id FROM "USER"\
                 WHERE user_n_id = %(user_n_id)s', {'user_n_id': user_n_id})
-        return str(self.cursor.fetchall())[2:-3]
+        return str(self.cursor2.fetchall())[2:-2]
         # except (Exception, Error) as error:
         #     return f'{error}'
 
     def get_user_categories(self, user):
-        try:
+            self.connection.autocommit = True
             user_n_id = self.get_user_n_id(user)
             user_id = self.get_user_id(user_n_id)
-            self.cursor.execute(\
+            self.cursor2.execute(\
                 'SELECT cat_name FROM "CATEGORY"\
                     WHERE user_id = %(userID)s', {'userID': user_id})
-            return str(self.cursor.fetchall())
-        except (Exception, Error) as error:
-            return f'{error}'
-        finally:
-            self.cursor.close()
-            self.connection.close()
+            categs = []
+            for row in self.cursor2.fetchall():
+                categs += row
+            return categs
 
     def copy_user(self, table_name, column):
         # try:
@@ -218,6 +216,54 @@ class DbLogic:
         #     self.cursor.close()
         #     self.connection.close()
 
+    def add_event(self, user, actl_name, act_time, act_date, cat_name,\
+        act_comment):
+        self.connection.autocommit = True
+        user_n_id = self.get_user_n_id(user)
+        user_id = self.get_user_id(user_n_id)
+
+        self.cursor2.execute(\
+            f'SELECT cat_name FROM "CATEGORY" WHERE user_id = \'{user_id}\'')
+        user_categories = self.cursor2.fetchall()
+        for row in user_categories:
+            if cat_name == row[0]:
+                break
+        else:
+            self.cursor2.execute(\
+                f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',\
+                    (user_id, cat_name))
+
+        self.cursor2.execute(\
+            f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name)\
+                VALUES (%s,%s,%s)', (user_id, actl_name, cat_name))
+
+        self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
+                    act_time, act_date, cat_name, act_comment)\
+                        VALUES (%s,%s,%s,%s,%s,%s)',\
+                    (user_id, actl_name, act_time, act_date, cat_name, act_comment))
+
+    def drop_event(self, user, actl_name):
+        self.connection.autocommit = True
+        user_n_id = self.get_user_n_id(user)
+        user_id = self.get_user_id(user_n_id)
+
+        self.cursor2.execute(\
+            f'DELETE FROM "ACTIVITY"\
+                WHERE user_id = \'{user_id}\' and actl_name = \'{actl_name}\'')
+
+        self.cursor2.execute(\
+            f'DELETE FROM "ACTIVITY_LIST"\
+                WHERE user_id = \'{user_id}\' and actl_name = \'{actl_name}\'')
+
+    def drop_category(self, user, cat_name):
+        self.connection.autocommit = True
+        user_n_id = self.get_user_n_id(user)
+        user_id = self.get_user_id(user_n_id)
+
+        self.cursor2.execute(\
+            f'DELETE FROM "CATEGORY"\
+                WHERE user_id = \'{user_id}\' and cat_name = \'{cat_name}\'')
+
 
 if __name__ == '__main__':
     dbl = DbLogic()
@@ -226,5 +272,8 @@ if __name__ == '__main__':
     # dbl.register_user('Leva9', 'leya9@ukr.net', 'qwerty91')
     # dbl.drop_user('Leva9')
     # print(dbl.login_user('John', 'ok john'))
-    # print(dbl.get_user_categories('Sif'))
-    print(dbl.copy_user('CATEGORY', '2'))
+    print(dbl.get_user_categories('Timofey'))
+    # print(dbl.copy_user('CATEGORY', '2'))
+    # dbl.add_event('Timofey', 'Прогулка', '60', '2021-03-31', 'Отдых', 'Вражений')
+    # dbl.drop_event('Timofey', 'Катание на лыжах')
+    # dbl.drop_category('Timofey', 'Спорт')

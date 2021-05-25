@@ -121,7 +121,7 @@ class MainUI(QtWidgets.QMainWindow):
         Current method shows user interface action adding.
         '''
         self.aUi.show_add_event()  # Loading ActionsUI class from logic.
-        # self.table
+        
 
     def visualize(self, object):
         '''

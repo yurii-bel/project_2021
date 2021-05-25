@@ -1,8 +1,17 @@
 from logic.actions_ui import ActionsUI
 from logic.dblogic import DbLogic as db
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from PyQt5 import Qt
 import sys
 sys.path.append(".")
+
+# class AlignDelegate(QtWidgets.QStyledItemDelegate):
+#     '''
+#     This class implements center positioning for icons in TableView widget
+#     '''
+#     def initStyleOption(self, option, index):
+#         super().initStyleOption(option, index)
+#         option.decorationSize = option.rect.size()
 
 
 class MainUI(QtWidgets.QMainWindow):
@@ -21,12 +30,12 @@ class MainUI(QtWidgets.QMainWindow):
         # Нужно автоматизировать разделителей (module os).
         # Loading UI interfaces.
         self.mUi = uic.loadUi('design\\MainWindow_d.ui') # Main window ui.
-        self.aUi = ActionsUI() # Loading ActionsUI class from logic.
+        self.aUi = ActionsUI # Loading ActionsUI class from logic.
         self.rUi = uic.loadUi('design\\register_d.ui') # Registration window ui.
         self.lUi = uic.loadUi('design\\login_d.ui') # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui') # Settings window ui.
         self.tUi = uic.loadUi('design\\table.ui') # Table ui.
-        self.wUi = self.mUi.viewWidget # Widget for viewing various data.
+        self.wUi = self.mUi.mainwindow_widget_view # Widget for viewing various data.
 
         # Connecting buttons to slots.
         # Main UI.
@@ -66,15 +75,17 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.db.login_user(login, password)
 
-        if self.db.user_empty_name_bool == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           self.db.user_empty_name_message, QtWidgets.QMessageBox.Ok)
-        elif self.db.user_empty_password_bool == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           self.db.user_empty_password_message, QtWidgets.QMessageBox.Ok)
+        if self.db.user_input_check == '7':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Строка логина пуста. Пожалуйста, введите Ваш логин.',\
+                    QtWidgets.QMessageBox.Ok)
+        elif self.db.user_input_check == '8':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+            'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',\
+                QtWidgets.QMessageBox.Ok)
         elif self.db.correct_login_info == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           f'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+            'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
 
         elif self.db.correct_login_info == True:
             self.user_n_name = login
@@ -97,24 +108,24 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.db.register_user(login, email, password)
 
-        if self.db.user_exists_bool == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           self.db.user_exists_message, QtWidgets.QMessageBox.Ok)
-        elif self.db.user_email_bool == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           self.db.user_email_message, QtWidgets.QMessageBox.Ok)
-        elif self.db.user_empty_name_bool == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           self.db.user_empty_name_message, QtWidgets.QMessageBox.Ok)
-        elif self.db.user_empty_email_bool == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           self.db.user_empty_email_message, QtWidgets.QMessageBox.Ok)
-        elif self.db.user_empty_password_bool == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           self.db.user_empty_password_message, QtWidgets.QMessageBox.Ok)
-        elif self.db.user_incorrect_password_bool == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           self.db.user_incorrect_password_message, QtWidgets.QMessageBox.Ok)
+        if self.db.user_input_check == '1':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Данный пользователь уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
+        elif self.db.user_input_check == '2':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Данный email уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
+        elif self.db.user_input_check == '3':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Нельзя создать пустой логин пользователя.', QtWidgets.QMessageBox.Ok)
+        elif self.db.user_input_check == '4':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Нельзя создать пустой email пользователя.', QtWidgets.QMessageBox.Ok)
+        elif self.db.user_input_check == '5':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Нельзя создать пустой пароль пользователя.', QtWidgets.QMessageBox.Ok)
+        elif self.db.user_input_check == '6':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Длина пароля должна быть не менее 8 символов.', QtWidgets.QMessageBox.Ok)
         else:
             self.rUi.close()
             self.lUi.show()
@@ -133,8 +144,11 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         Current method shows user interface action adding.
         '''
-        self.aUi.show_add_event()  # Loading ActionsUI class from logic.
-        # self.table
+        self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
+        self.act.show_add_event()
+
+    def edit_action(self):
+        self.act.show_edit_event()
 
     def visualize(self, object):
         '''
@@ -157,64 +171,6 @@ class MainUI(QtWidgets.QMainWindow):
                 for d in data:
                     f.write(f'{d[2]}')
 
-    # def table(self):
-    #     lay = QtWidgets.QVBoxLayout()
-
-    #     self.table = QtWidgets.QTableWidget()
-    #     self.table.setColumnCount(5)
-    #     self.table.setRowCount(2)
-    #     self.table.resizeColumnsToContents()
-
-    #     act_name = QtWidgets.QTableWidgetItem('Название события')
-    #     self.table.setHorizontalHeaderItem(0, act_name)
-    #     act_category = QtWidgets.QTableWidgetItem('Категория')
-    #     self.table.setHorizontalHeaderItem(1, act_category)
-    #     act_duration_time = QtWidgets.QTableWidgetItem('Длительность')
-    #     self.table.setHorizontalHeaderItem(2, act_duration_time)
-    #     act_user_date = QtWidgets.QTableWidgetItem('Дата создания')
-    #     self.table.setHorizontalHeaderItem(3, act_user_date)
-    #     act_comment = QtWidgets.QTableWidgetItem('Комментарий')
-    #     self.table.setHorizontalHeaderItem(4, act_comment)
-
-    #     name = QtWidgets.QTableWidgetItem(\
-    #         self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity \
-    #             WHERE user_id = 43 and activity_id = {self.timedb.activity_id}'))
-    #     self.table.setItem(0, 0, name)
-
-    #     lay.addWidget(self.table)
-    #     self.wUi.setLayout(lay)
-
-    #     self.tabLe = QtWidgets.QTableWidget()
-    #     self.tabLe.setColumnCount(6)
-    #     self.tabLe.setRowCount(2)
-    #     self.tabLe.resizeColumnsToContents()
-
-    #     act_name = QtWidgets.QTableWidgetItem('Название события')
-    #     self.tabLe.setHorizontalHeaderItem(0, act_name)
-    #     act_category = QtWidgets.QTableWidgetItem('Категория')
-    #     self.tabLe.setHorizontalHeaderItem(1, act_category)
-    #     act_duration_time = QtWidgets.QTableWidgetItem('Длительность')
-    #     self.tabLe.setHorizontalHeaderItem(2, act_duration_time)
-    #     act_user_date = QtWidgets.QTableWidgetItem('Дата создания')
-    #     self.tabLe.setHorizontalHeaderItem(3, act_user_date)
-    #     act_comment = QtWidgets.QTableWidgetItem('Комментарий')
-    #     self.tabLe.setHorizontalHeaderItem(4, act_comment)
-    #     edit_del = QtWidgets.QTableWidgetItem('Изменить\Удалить')
-    #     self.tabLe.setHorizontalHeaderItem(5, edit_del)
-
-    #     name1 = QtWidgets.QTableWidgetItem(\
-    #         self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity \
-    #             WHERE activity_id = 6'))
-    #     self.tabLe.setItem(0, 0, name1)
-
-    #     name2 = QtWidgets.QTableWidgetItem(\
-    #         self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity \
-    #             WHERE activity_id = 7'))
-    #     self.tabLe.setItem(1, 0, name2)
-
-    #     lay.addWidget(self.tabLe)
-    #     self.wUi.setLayout(lay)
-
     def view_table(self): # Table creation method.
 
 
@@ -228,38 +184,49 @@ class MainUI(QtWidgets.QMainWindow):
         # rows += 1
         
 
+
         self.tUi.tableW.setRowCount(rows)
         for i in range(rows):
+            # setting all activities data.
             self.tUi.tableW.setItem(i, 0, QtWidgets.QTableWidgetItem(self.db.activity_creation_date[i]))
             self.tUi.tableW.setItem(i, 1, QtWidgets.QTableWidgetItem(self.db.activity_category[i]))
             self.tUi.tableW.setItem(i, 2, QtWidgets.QTableWidgetItem(self.db.activity_name[i]))
             self.tUi.tableW.setItem(i, 3, QtWidgets.QTableWidgetItem(self.db.activity_duration[i]))
             self.tUi.tableW.setItem(i, 4, QtWidgets.QTableWidgetItem(self.db.activity_comment[i]))
             
-            # setting icons to edit fields
-            # item = QtGui.QTableWidgetItem()
-            
-            # icon = QtGui.QIcon()
-            # pixmap_edit_file = QtGui.QPixmap("tableview_edit_icon.png")
-            # pixmap_edit = pixmap_edit_file.scaled(16, 16, QtCore.Qt.KeepAspectRatio)
-            # icon.addPixmap(pixmap_edit, QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            # # setting edit and delete icons to fields.
+            # icon_edit = 'design\\img\\icons\\tableview_edit_icon.png'
+            # icon_delete = 'design\\img\\icons\\tableview_delete_icon.png'
 
-            # item = QtGui.QItem
-            # item.setIcon(icon)
+            # status_item_edit = QtWidgets.QTableWidgetItem()
 
-            # self.tUi.tableW.setItem(5, 0, item)
+            # status_icon_edit = QtGui.QIcon()
+            # status_icon_edit.addPixmap(QtGui.QPixmap(icon_edit), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            # status_item_edit.setIcon(status_icon_edit)
+            # self.tUi.tableW.setItem(i, 5, status_item_edit)
+
+            # status_item_delete = QtWidgets.QTableWidgetItem()
+
+            # status_icon_delete = QtGui.QIcon()
+            # status_icon_delete.addPixmap(QtGui.QPixmap(icon_delete), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            # status_item_delete.setIcon(status_icon_delete)
+            # self.tUi.tableW.setItem(i, 6, status_item_delete)
+
+            # coloring background cells for edit and delete.
+            # self.tUi.tableW.item(i, 5).setBackground(QtGui.QColor(115, 103, 240))
+            # self.tUi.tableW.item(i, 6).setBackground(QtGui.QColor(115, 103, 240))
+
+            # centering icons.
+            # delegate = AlignDelegate(self.tUi.tableW)
+            # self.tUi.tableW.setItemDelegate(delegate)
 
 
-            # self.tUi.tableW.setItem(self.db.activity_creation_date[i], \
-            #     self.db.activity_category[i], self.db.activity_name[i], \
-            #         self.db.activity_duration[i], self.db.activity_comment[i])
-        # self.tUi.tableW.setItem(0, 0, name1)
+            # forbiding cell selection.
+            self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+
 
         self.lay.addWidget(self.tUi.tableW)
         self.wUi.setLayout(self.lay)
-
-    def get_user_n_name(self):
-        return self.user_n_name
 
 
 if __name__ == '__main__':

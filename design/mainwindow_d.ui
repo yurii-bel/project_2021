@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1440</width>
-    <height>1080</height>
+    <width>1280</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,7 +26,7 @@
       <x>0</x>
       <y>0</y>
       <width>232</width>
-      <height>971</height>
+      <height>751</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="mainwindow_verticalLayout_logo_and_menu">
@@ -127,7 +127,7 @@
           <x>1</x>
           <y>0</y>
           <width>231</width>
-          <height>891</height>
+          <height>631</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="mainwindow_verticalLayout_menu">
@@ -437,7 +437,7 @@ selection-color: rgb(0, 0, 0);
      <rect>
       <x>259</x>
       <y>13</y>
-      <width>1153</width>
+      <width>1001</width>
       <height>62</height>
      </rect>
     </property>
@@ -452,8 +452,8 @@ border-radius: 5px;
       <rect>
        <x>23</x>
        <y>15</y>
-       <width>1111</width>
-       <height>34</height>
+       <width>961</width>
+       <height>35</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_navigation" stretch="0,0,0,0,0,0,0,0,0,0,0">
@@ -803,7 +803,7 @@ QDateEdit:hover {
       <x>259</x>
       <y>103</y>
       <width>291</width>
-      <height>821</height>
+      <height>621</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -819,7 +819,7 @@ border-bottom-left-radius: 5px;
        <x>10</x>
        <y>10</y>
        <width>271</width>
-       <height>801</height>
+       <height>601</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="mainwindow_gridLayout_category">
@@ -923,41 +923,6 @@ border-radius: 5px;
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_work">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>23</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Roboto-Light</family>
-          <pointsize>12</pointsize>
-          <weight>50</weight>
-          <italic>false</italic>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCheckBox {
-color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
-}
-
-QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
-border: 2px solid #7666F8;
-border-radius: 5px;
-}</string>
-        </property>
-        <property name="text">
-         <string>Работа</string>
-        </property>
-       </widget>
-      </item>
       <item row="5" column="0">
        <widget class="QCheckBox" name="mainwindow_checkBox_health">
         <property name="maximumSize">
@@ -990,6 +955,41 @@ border-radius: 5px;
         </property>
         <property name="text">
          <string>Здоровье</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QCheckBox" name="mainwindow_checkBox_work">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>23</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto-Light</family>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QCheckBox {
+color: #B4B7BD;
+border: 2px solid rgb(0, 0, 0, 0) ;
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+        </property>
+        <property name="text">
+         <string>Работа</string>
         </property>
        </widget>
       </item>
@@ -1176,38 +1176,6 @@ QPushButton:hover {
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_relaxation">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>23</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Roboto-Light</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QLabel {
-color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
-}
-
-QLabel:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
-border: 2px solid #7666F8;
-border-radius: 5px;
-}</string>
-        </property>
-        <property name="text">
-         <string>8'355 мин.</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
        <widget class="QCheckBox" name="mainwindow_checkBox_see_all">
         <property name="maximumSize">
@@ -1275,8 +1243,8 @@ border-radius: 5px;
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_relaxation">
+      <item row="3" column="1">
+       <widget class="QLabel" name="mainwindow_lbl_time_relaxation">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1287,18 +1255,15 @@ border-radius: 5px;
          <font>
           <family>Roboto-Light</family>
           <pointsize>12</pointsize>
-          <weight>50</weight>
-          <italic>false</italic>
-          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">QCheckBox {
+         <string notr="true">QLabel {
 color: #B4B7BD;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
-QCheckBox:hover {
+QLabel:hover {
 background-color: rgb(40, 48, 70);
 color: rgb(185, 185, 195);
 border: 2px solid #7666F8;
@@ -1306,7 +1271,7 @@ border-radius: 5px;
 }</string>
         </property>
         <property name="text">
-         <string>Отдых</string>
+         <string>8'355 мин.</string>
         </property>
        </widget>
       </item>
@@ -1374,6 +1339,41 @@ border-radius: 5px;
         </property>
        </widget>
       </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="mainwindow_checkBox_relaxation">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>23</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto-Light</family>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QCheckBox {
+color: #B4B7BD;
+border: 2px solid rgb(0, 0, 0, 0) ;
+}
+
+QCheckBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}</string>
+        </property>
+        <property name="text">
+         <string>Отдых</string>
+        </property>
+       </widget>
+      </item>
       <item row="8" column="0">
        <spacer name="mainwindow_verticalSpacer_category">
         <property name="orientation">
@@ -1393,56 +1393,29 @@ border-radius: 5px;
      </layout>
     </widget>
    </widget>
-   <widget class="QLabel" name="mainwindow_lbl_about">
+   <widget class="QWidget" name="mainwindow_widget_view" native="true">
     <property name="geometry">
      <rect>
-      <x>259</x>
-      <y>945</y>
-      <width>481</width>
-      <height>20</height>
+      <x>550</x>
+      <y>103</y>
+      <width>710</width>
+      <height>621</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Roboto-Light</family>
+      <family>Roboto Light</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
      </font>
     </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
     <property name="styleSheet">
-     <string notr="true">color: #D0D2D6;</string>
-    </property>
-    <property name="text">
-     <string>Design by Evgeny K. Copyright © 2021 TimeSoft All rights reserved.</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QWidget" name="viewWidget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>550</x>
-      <y>110</y>
-      <width>862</width>
-      <height>811</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel { 
-background-color: #283046;
-color: rgb(208, 210, 214);
-border-left: 1px solid #4B4B4B;
+     <string notr="true">background-color: #283046;
+color: rgb(110, 107, 123);
+border-left: 1px solid #3B4253;
 border-top-right-radius: 5px;
 border-bottom-right-radius: 5px;
 border-left-radius: 0px;
-padding-left: 20px;
-}</string>
+padding-left: 20px;</string>
     </property>
    </widget>
   </widget>
@@ -1451,8 +1424,8 @@ padding-left: 20px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1440</width>
-     <height>21</height>
+     <width>1280</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">
@@ -1598,11 +1571,6 @@ QMenu::item:pressed {
    <addaction name="mainwindow_menuFile"/>
    <addaction name="mainwindow_menuEdit"/>
    <addaction name="mainwindow_menuHelp"/>
-  </widget>
-  <widget class="QStatusBar" name="mainwindow_statusbar">
-   <property name="sizeGripEnabled">
-    <bool>true</bool>
-   </property>
   </widget>
   <action name="mainwindow_act_edit_event">
    <property name="text">

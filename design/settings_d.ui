@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1440</width>
-    <height>1080</height>
+    <width>1280</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,6 +70,9 @@ border-radius: 5px;
 QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
    </property>
   </widget>
   <widget class="QPushButton" name="settings_btn_telegram">
@@ -206,6 +209,9 @@ QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
    </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
   </widget>
   <widget class="QLabel" name="settings_text_repnewpass">
    <property name="geometry">
@@ -255,6 +261,9 @@ border-radius: 5px;
 QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
    </property>
   </widget>
   <widget class="QLabel" name="settings_text_internet">
@@ -307,10 +316,10 @@ border: 2px solid rgb(95, 85, 200);
   <widget class="QLabel" name="settings_imglbl_img">
    <property name="geometry">
     <rect>
-     <x>592</x>
-     <y>240</y>
-     <width>698</width>
-     <height>531</height>
+     <x>570</x>
+     <y>110</y>
+     <width>600</width>
+     <height>456</height>
     </rect>
    </property>
    <property name="text">
@@ -545,6 +554,7 @@ border: 2px solid rgb(95, 85, 200);
     </item>
    </layout>
   </widget>
+  <zorder>settings_imglbl_telegram_verify</zorder>
   <zorder>settings_imglbl_telegram_noverify</zorder>
   <zorder>settings_lineedit_email</zorder>
   <zorder>settings_lineedit_oldpass</zorder>
@@ -559,7 +569,6 @@ border: 2px solid rgb(95, 85, 200);
   <zorder>settings_text_email</zorder>
   <zorder>settings_imglbl_img</zorder>
   <zorder>horizontalLayoutWidget</zorder>
-  <zorder>settings_imglbl_telegram_verify</zorder>
   <zorder>horizontalLayoutWidget_2</zorder>
  </widget>
  <resources/>

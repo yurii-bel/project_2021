@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>register_main_window</class>
- <widget class="QDialog" name="register_main_window">
+ <class>register_w_main_window</class>
+ <widget class="QDialog" name="register_w_main_window">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(22, 29, 49);</string>
   </property>
-  <widget class="QLabel" name="register_imglbl_img">
+  <widget class="QLabel" name="register_w_imglbl_img">
    <property name="geometry">
     <rect>
      <x>114</x>
@@ -35,7 +35,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QWidget" name="register_widget" native="true">
+  <widget class="QWidget" name="register_w_widget" native="true">
    <property name="geometry">
     <rect>
      <x>956</x>
@@ -52,7 +52,7 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(40, 48, 70);</string>
    </property>
-   <widget class="QPushButton" name="register_btn_login">
+   <widget class="QPushButton" name="register_w_btn_login">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -93,7 +93,7 @@ QPushButton:hover {
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="register_txtlbl_title">
+   <widget class="QLabel" name="register_w_txtlbl_title">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -118,7 +118,7 @@ QPushButton:hover {
      <string>Да начнеться приключение!</string>
     </property>
    </widget>
-   <widget class="QLabel" name="register_txtlbl_reg">
+   <widget class="QLabel" name="register_w_txtlbl_reg">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -149,7 +149,7 @@ QPushButton:hover {
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="register_txtlbl_pragrah_log">
+   <widget class="QLabel" name="register_w_txtlbl_pragrah_log">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -181,7 +181,7 @@ QPushButton:hover {
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="register_txtlbl_password">
+   <widget class="QLabel" name="register_w_txtlbl_password">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -206,7 +206,7 @@ QPushButton:hover {
      <string>Пароль</string>
     </property>
    </widget>
-   <widget class="QLabel" name="register_txtlbl_email">
+   <widget class="QLabel" name="register_w_txtlbl_email">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -231,7 +231,7 @@ QPushButton:hover {
      <string>Почта</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="register_btn_create">
+   <widget class="QPushButton" name="register_w_btn_create">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -260,7 +260,7 @@ QPushButton:hover {
      <string>Войти</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="register_lineEdit_password">
+   <widget class="QLineEdit" name="register_w_lineEdit_password">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -284,11 +284,11 @@ QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
-    <property name="text">
+    <property name="placeholderText">
      <string>⚉⚉⚉⚉⚉⚉⚉⚉</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="register_lineEdit_email">
+   <widget class="QLineEdit" name="register_w_lineEdit_email">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -324,14 +324,14 @@ QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
-    <property name="text">
-     <string>my@email.com</string>
-    </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
+    <property name="placeholderText">
+     <string>my@email.com</string>
+    </property>
    </widget>
-   <widget class="QLineEdit" name="register_lineEdit_name">
+   <widget class="QLineEdit" name="register_w_lineEdit_name">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -367,14 +367,14 @@ QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
-    <property name="text">
-     <string>JekaK21</string>
-    </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
+    <property name="placeholderText">
+     <string>JekaK21</string>
+    </property>
    </widget>
-   <widget class="QLabel" name="register_txtlbl_name">
+   <widget class="QLabel" name="register_w_txtlbl_name">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -399,7 +399,7 @@ border: 2px solid rgb(95, 85, 200);
      <string>Ваше имя</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="register_checkbox_agree">
+   <widget class="QCheckBox" name="register_w_checkbox_agree">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -426,7 +426,7 @@ color: #B4B7BD;</string>
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="register_txtlbl_logo">
+  <widget class="QLabel" name="register_w_txtlbl_logo">
    <property name="geometry">
     <rect>
      <x>92</x>
@@ -457,7 +457,7 @@ color: #7367F0;</string>
     <string>TimeSoft</string>
    </property>
   </widget>
-  <widget class="QLabel" name="register_imglbl_logo">
+  <widget class="QLabel" name="register_w_imglbl_logo">
    <property name="geometry">
     <rect>
      <x>44</x>

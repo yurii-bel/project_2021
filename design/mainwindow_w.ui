@@ -19,7 +19,7 @@
   <property name="styleSheet">
    <string notr="true">background-color: #F8F8F8;</string>
   </property>
-  <widget class="QWidget" name="mainwindow_centralwidget_w">
+  <widget class="QWidget" name="mainwindow_w_centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
@@ -29,12 +29,12 @@
       <height>971</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="mainwindow_verticalLayout_logo_and_menu_w">
+    <layout class="QVBoxLayout" name="mainwindow_w_verticalLayout_logo_and_menu">
      <property name="spacing">
       <number>0</number>
      </property>
      <item>
-      <widget class="QWidget" name="mainwindow_widget_logo_w" native="true">
+      <widget class="QWidget" name="mainwindow_w_widget_logo" native="true">
        <property name="maximumSize">
         <size>
          <width>230</width>
@@ -53,9 +53,9 @@
           <height>51</height>
          </rect>
         </property>
-        <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_logo_w">
+        <layout class="QHBoxLayout" name="mainwindow_w_horizontalLayout_logo">
          <item>
-          <widget class="QLabel" name="mainwindow_lbl_logo_img_w">
+          <widget class="QLabel" name="mainwindow_w_lbl_logo_img">
            <property name="maximumSize">
             <size>
              <width>44</width>
@@ -77,7 +77,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="mainwindow_lbl_logo_title_w">
+          <widget class="QLabel" name="mainwindow_w_lbl_logo_title">
            <property name="maximumSize">
             <size>
              <width>120</width>
@@ -111,7 +111,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QWidget" name="mainwindow_widget_menu_w" native="true">
+      <widget class="QWidget" name="mainwindow_w_widget_menu" native="true">
        <property name="maximumSize">
         <size>
          <width>230</width>
@@ -130,12 +130,12 @@
           <height>891</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="mainwindow_verticalLayout_menu_w">
+        <layout class="QVBoxLayout" name="mainwindow_w_verticalLayout_menu">
          <property name="spacing">
           <number>18</number>
          </property>
          <item>
-          <widget class="QPushButton" name="mainwindow_btn_forecast_w">
+          <widget class="QPushButton" name="mainwindow_w_btn_forecast">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -190,7 +190,7 @@ QPushButton:hover {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="mainwindow_btn_theme_w">
+          <widget class="QPushButton" name="mainwindow_w_btn_theme">
            <property name="maximumSize">
             <size>
              <width>230</width>
@@ -229,7 +229,7 @@ QPushButton:hover {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="mainwindow_btn_settings_w">
+          <widget class="QPushButton" name="mainwindow_w_btn_settings">
            <property name="maximumSize">
             <size>
              <width>230</width>
@@ -268,7 +268,7 @@ QPushButton:hover {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="mainwindow_btn_exit_w">
+          <widget class="QPushButton" name="mainwindow_w_btn_exit">
            <property name="maximumSize">
             <size>
              <width>230</width>
@@ -307,7 +307,7 @@ QPushButton:hover {
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="mainwindow_textlbl_display_style_w">
+          <widget class="QLabel" name="mainwindow_w_textlbl_display_style">
            <property name="maximumSize">
             <size>
              <width>230</width>
@@ -335,7 +335,7 @@ padding-left: 7px;</string>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="mainwindow_comboBox_display_style_w">
+          <widget class="QComboBox" name="mainwindow_w_comboBox_display_style">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -414,7 +414,7 @@ selection-color: rgb(0, 0, 0);
           </widget>
          </item>
          <item>
-          <spacer name="mainwindow_verticalSpacer_menu_w">
+          <spacer name="mainwindow_w_verticalSpacer_menu">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -432,7 +432,7 @@ selection-color: rgb(0, 0, 0);
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="mainwindow_widget_navigation_w" native="true">
+   <widget class="QWidget" name="mainwindow_w_widget_navigation" native="true">
     <property name="geometry">
      <rect>
       <x>259</x>
@@ -456,12 +456,12 @@ border-radius: 5px;
        <height>35</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_navigation_w" stretch="0,0,0,0,0,0,0,0,0,0,0">
+     <layout class="QHBoxLayout" name="mainwindow_w_horizontalLayout_navigation" stretch="0,0,0,0,0,0,0,0,0,0,0">
       <property name="spacing">
        <number>0</number>
       </property>
       <item>
-       <widget class="QPushButton" name="mainwindow_btn_nav_add_act_w">
+       <widget class="QPushButton" name="mainwindow_w_btn_nav_add_act">
         <property name="font">
          <font>
           <family>Roboto-Light</family>
@@ -497,7 +497,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item>
-       <spacer name="mainwindow_horizontalSpacer_navigation_w">
+       <spacer name="mainwindow_w_horizontalSpacer_navigation">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -513,7 +513,7 @@ QPushButton:hover {
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="mainwindow_btn_daily_w">
+       <widget class="QPushButton" name="mainwindow_w_btn_daily">
         <property name="maximumSize">
          <size>
           <width>102</width>
@@ -557,7 +557,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="mainwindow_btn_weekly_w">
+       <widget class="QPushButton" name="mainwindow_w_btn_weekly">
         <property name="maximumSize">
          <size>
           <width>102</width>
@@ -595,7 +595,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="mainwindow_btn_monthly_w">
+       <widget class="QPushButton" name="mainwindow_w_btn_monthly">
         <property name="maximumSize">
          <size>
           <width>102</width>
@@ -633,7 +633,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="mainwindow_btn_annually_w">
+       <widget class="QPushButton" name="mainwindow_w_btn_annually">
         <property name="maximumSize">
          <size>
           <width>102</width>
@@ -676,7 +676,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="mainwindow_lbl_icon_clendar_w">
+       <widget class="QLabel" name="mainwindow_w_lbl_icon_clendar">
         <property name="maximumSize">
          <size>
           <width>60</width>
@@ -704,7 +704,7 @@ color: #D0D2D6;</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="mainwindow_textlbl_s_w">
+       <widget class="QLabel" name="mainwindow_w_textlbl_s">
         <property name="font">
          <font>
           <family>Roboto-Light</family>
@@ -722,7 +722,7 @@ color: #6E6B7B;</string>
        </widget>
       </item>
       <item>
-       <widget class="QDateEdit" name="mainwindow_dateEdit_s_w">
+       <widget class="QDateEdit" name="mainwindow_w_dateEdit_s">
         <property name="font">
          <font>
           <family>Roboto Light</family>
@@ -749,7 +749,7 @@ QDateEdit:hover {
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="mainwindow_textlbl_po_w">
+       <widget class="QLabel" name="mainwindow_w_textlbl_po">
         <property name="font">
          <font>
           <family>Roboto-Light</family>
@@ -767,7 +767,7 @@ color: #6E6B7B;</string>
        </widget>
       </item>
       <item>
-       <widget class="QDateEdit" name="mainwindow_dateEdit_po_w">
+       <widget class="QDateEdit" name="mainwindow_w_dateEdit_po">
         <property name="font">
          <font>
           <family>Roboto Light</family>
@@ -803,7 +803,7 @@ QDateEdit:hover {
      </layout>
     </widget>
    </widget>
-   <widget class="QLabel" name="mainwindow_lbl_diagram_w">
+   <widget class="QLabel" name="mainwindow_w_lbl_diagram">
     <property name="geometry">
      <rect>
       <x>550</x>
@@ -835,7 +835,7 @@ padding-left: 20px;
      <string>Diagram</string>
     </property>
    </widget>
-   <widget class="QWidget" name="mainwindow_widget_category_w" native="true">
+   <widget class="QWidget" name="mainwindow_w_widget_category" native="true">
     <property name="geometry">
      <rect>
       <x>259</x>
@@ -860,12 +860,12 @@ border-bottom-left-radius: 5px;
        <height>801</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="mainwindow_gridLayout_category_w">
+     <layout class="QGridLayout" name="mainwindow_w_gridLayout_category">
       <property name="verticalSpacing">
        <number>18</number>
       </property>
       <item row="0" column="0">
-       <widget class="QLabel" name="mainwindow_textlbl_category_w">
+       <widget class="QLabel" name="mainwindow_w_textlbl_category">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -895,7 +895,7 @@ margin-top: 2px;</string>
        </widget>
       </item>
       <item row="7" column="0">
-       <widget class="QLabel" name="mainwindow_checkBoxlbl_dinamic_w">
+       <widget class="QLabel" name="mainwindow_w_checkBoxlbl_dinamic">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -929,7 +929,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_family_w">
+       <widget class="QLabel" name="mainwindow_w_lbl_time_family">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -960,7 +960,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="6" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_work_w">
+       <widget class="QCheckBox" name="mainwindow_w_checkBox_work">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -994,7 +994,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_health_w">
+       <widget class="QCheckBox" name="mainwindow_w_checkBox_health">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1028,7 +1028,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_health_w">
+       <widget class="QLabel" name="mainwindow_w_lbl_time_health">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1059,7 +1059,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="7" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_dinamic_w">
+       <widget class="QLabel" name="mainwindow_w_lbl_time_dinamic">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1090,7 +1090,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_entertainment_w">
+       <widget class="QCheckBox" name="mainwindow_w_checkBox_entertainment">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1124,7 +1124,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_family_w">
+       <widget class="QCheckBox" name="mainwindow_w_checkBox_family">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1158,7 +1158,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QPushButton" name="mainwindow_btn_cat_plus_w">
+       <widget class="QPushButton" name="mainwindow_w_btn_cat_plus">
         <property name="minimumSize">
          <size>
           <width>29</width>
@@ -1207,7 +1207,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_relaxation_w">
+       <widget class="QLabel" name="mainwindow_w_lbl_time_relaxation">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1238,7 +1238,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_see_all_w">
+       <widget class="QCheckBox" name="mainwindow_w_checkBox_see_all">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1272,7 +1272,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_work_w">
+       <widget class="QLabel" name="mainwindow_w_lbl_time_work">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1303,7 +1303,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_relaxation_w">
+       <widget class="QCheckBox" name="mainwindow_w_checkBox_relaxation">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1337,7 +1337,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_all_w">
+       <widget class="QLabel" name="mainwindow_w_lbl_time_all">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1368,7 +1368,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_entertainment_w">
+       <widget class="QLabel" name="mainwindow_w_lbl_time_entertainment">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1399,7 +1399,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="8" column="0">
-       <spacer name="mainwindow_verticalSpacer_category_w">
+       <spacer name="mainwindow_w_verticalSpacer_category">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -1417,7 +1417,7 @@ border-radius: 5px;
      </layout>
     </widget>
    </widget>
-   <widget class="QLabel" name="mainwindow_lbl_about_w">
+   <widget class="QLabel" name="mainwindow_w_lbl_about">
     <property name="geometry">
      <rect>
       <x>259</x>
@@ -1449,7 +1449,7 @@ border-radius: 5px;
     </property>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="mainwindow_menubar_w">
+  <widget class="QMenuBar" name="mainwindow_w_menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -1477,7 +1477,7 @@ QMenuBar::item:pressed {
 	color: rgb(0, 0, 0);
 }</string>
    </property>
-   <widget class="QMenu" name="mainwindow_menuFile_w">
+   <widget class="QMenu" name="mainwindow_w_menuFile">
     <property name="font">
      <font>
       <family>Roboto</family>
@@ -1500,12 +1500,12 @@ QMenu::item:pressed {
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="mainwindow_act_make_prediction_w"/>
-    <addaction name="mainwindow_act_settings_w"/>
+    <addaction name="mainwindow_w_act_make_prediction"/>
+    <addaction name="mainwindow_w_act_settings"/>
     <addaction name="separator"/>
-    <addaction name="mainwindow_act_exit_w"/>
+    <addaction name="mainwindow_w_act_exit"/>
    </widget>
-   <widget class="QMenu" name="mainwindow_menuEdit_w">
+   <widget class="QMenu" name="mainwindow_w_menuEdit">
     <property name="font">
      <font>
       <family>Roboto</family>
@@ -1528,7 +1528,7 @@ QMenu::item:pressed {
     <property name="title">
      <string>Edit</string>
     </property>
-    <widget class="QMenu" name="mainwindow_dropdown_menu_select_chart_w">
+    <widget class="QMenu" name="mainwindow_w_dropdown_menu_select_chart">
      <property name="font">
       <font>
        <family>Roboto</family>
@@ -1551,11 +1551,11 @@ QMenu::item:pressed {
      <property name="title">
       <string>Выбор типа диаграммы</string>
      </property>
-     <addaction name="mainwindow_act_diagram_w"/>
-     <addaction name="mainwindow_act_graph_w"/>
-     <addaction name="mainwindow_act_table_w"/>
+     <addaction name="mainwindow_w_act_diagram"/>
+     <addaction name="mainwindow_w_act_graph"/>
+     <addaction name="mainwindow_w_act_table"/>
     </widget>
-    <widget class="QMenu" name="mainwindow_dropdown_menu_theme_w">
+    <widget class="QMenu" name="mainwindow_w_dropdown_menu_theme">
      <property name="font">
       <font>
        <family>Roboto</family>
@@ -1564,15 +1564,15 @@ QMenu::item:pressed {
      <property name="title">
       <string>Тема</string>
      </property>
-     <addaction name="mainwindow_act_light_w"/>
-     <addaction name="mainwindow_act_dark_w"/>
+     <addaction name="mainwindow_w_act_light"/>
+     <addaction name="mainwindow_w_act_dark"/>
     </widget>
-    <addaction name="mainwindow_dropdown_menu_select_chart_w"/>
-    <addaction name="mainwindow_act_add_event_w"/>
-    <addaction name="mainwindow_act_edit_event_w"/>
-    <addaction name="mainwindow_dropdown_menu_theme_w"/>
+    <addaction name="mainwindow_w_dropdown_menu_select_chart"/>
+    <addaction name="mainwindow_w_act_add_event"/>
+    <addaction name="mainwindow_w_act_edit_event"/>
+    <addaction name="mainwindow_w_dropdown_menu_theme"/>
    </widget>
-   <widget class="QMenu" name="mainwindow_menuHelp_w">
+   <widget class="QMenu" name="mainwindow_w_menuHelp">
     <property name="font">
      <font>
       <family>Roboto</family>
@@ -1595,19 +1595,19 @@ QMenu::item:pressed {
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="mainwindow_act_help_w"/>
-    <addaction name="mainwindow_act_about_program_w"/>
+    <addaction name="mainwindow_w_act_help"/>
+    <addaction name="mainwindow_w_act_about_program"/>
    </widget>
-   <addaction name="mainwindow_menuFile_w"/>
-   <addaction name="mainwindow_menuEdit_w"/>
-   <addaction name="mainwindow_menuHelp_w"/>
+   <addaction name="mainwindow_w_menuFile"/>
+   <addaction name="mainwindow_w_menuEdit"/>
+   <addaction name="mainwindow_w_menuHelp"/>
   </widget>
-  <widget class="QStatusBar" name="mainwindow_statusbar_w">
+  <widget class="QStatusBar" name="mainwindow_w_statusbar">
    <property name="sizeGripEnabled">
     <bool>true</bool>
    </property>
   </widget>
-  <action name="mainwindow_act_edit_event_w">
+  <action name="mainwindow_w_act_edit_event">
    <property name="text">
     <string>Редактировать выбранное событие</string>
    </property>
@@ -1617,7 +1617,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_add_event_w">
+  <action name="mainwindow_w_act_add_event">
    <property name="text">
     <string>Добавить событие</string>
    </property>
@@ -1627,7 +1627,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_help_w">
+  <action name="mainwindow_w_act_help">
    <property name="text">
     <string>Справка</string>
    </property>
@@ -1637,7 +1637,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_about_program_w">
+  <action name="mainwindow_w_act_about_program">
    <property name="text">
     <string>О программе</string>
    </property>
@@ -1647,7 +1647,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_settings_w">
+  <action name="mainwindow_w_act_settings">
    <property name="text">
     <string>Настройки</string>
    </property>
@@ -1657,7 +1657,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_exit_w">
+  <action name="mainwindow_w_act_exit">
    <property name="text">
     <string>Выход</string>
    </property>
@@ -1667,7 +1667,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_make_prediction_w">
+  <action name="mainwindow_w_act_make_prediction">
    <property name="text">
     <string>Сделать прогноз</string>
    </property>
@@ -1678,7 +1678,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_diagram_w">
+  <action name="mainwindow_w_act_diagram">
    <property name="text">
     <string>Диаграмма</string>
    </property>
@@ -1688,7 +1688,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_graph_w">
+  <action name="mainwindow_w_act_graph">
    <property name="text">
     <string>График</string>
    </property>
@@ -1698,7 +1698,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_table_w">
+  <action name="mainwindow_w_act_table">
    <property name="text">
     <string>Табличная</string>
    </property>
@@ -1708,7 +1708,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_light_w">
+  <action name="mainwindow_w_act_light">
    <property name="text">
     <string>Светлая</string>
    </property>
@@ -1718,7 +1718,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_dark_w">
+  <action name="mainwindow_w_act_dark">
    <property name="text">
     <string>Темная</string>
    </property>

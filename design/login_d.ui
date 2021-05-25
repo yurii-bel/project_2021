@@ -281,7 +281,7 @@ QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
-    <property name="text">
+    <property name="placeholderText">
      <string>⚉⚉⚉⚉⚉⚉⚉⚉</string>
     </property>
    </widget>
@@ -321,11 +321,11 @@ QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
-    <property name="text">
-     <string>jeynak21@gmail.com</string>
-    </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>jeynak21</string>
     </property>
    </widget>
   </widget>

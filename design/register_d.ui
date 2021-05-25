@@ -284,7 +284,7 @@ QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
-    <property name="text">
+    <property name="placeholderText">
      <string>⚉⚉⚉⚉⚉⚉⚉⚉</string>
     </property>
    </widget>
@@ -324,11 +324,11 @@ QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
-    <property name="text">
-     <string>my@email.com</string>
-    </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>my@email.com</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="register_lineEdit_name">
@@ -367,11 +367,11 @@ QLineEdit:hover {
 border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
-    <property name="text">
-     <string>JekaK21</string>
-    </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>JekaK21</string>
     </property>
    </widget>
    <widget class="QLabel" name="register_txtlbl_name">

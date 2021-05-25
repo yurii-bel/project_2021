@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>setttings_form</class>
- <widget class="QWidget" name="setttings_form">
+ <class>settings_w_form</class>
+ <widget class="QWidget" name="settings_w_form">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(40, 48, 70);</string>
   </property>
-  <widget class="QLineEdit" name="settings_lineedit_email">
+  <widget class="QLineEdit" name="settings_w_lineedit_email">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -44,7 +44,7 @@ border: 2px solid rgb(95, 85, 200);
 }</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="settings_lineedit_oldpass">
+  <widget class="QLineEdit" name="settings_w_lineedit_oldpass">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -72,7 +72,7 @@ border: 2px solid rgb(95, 85, 200);
 }</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="settings_btn_telegram">
+  <widget class="QPushButton" name="settings_w_btn_telegram">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -112,7 +112,7 @@ QPushButton:hover {
      <normaloff>img/icons/telegram.png</normaloff>img/icons/telegram.png</iconset>
    </property>
   </widget>
-  <widget class="QLabel" name="settings_text_oldpass">
+  <widget class="QLabel" name="settings_w_text_oldpass">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -134,7 +134,7 @@ QPushButton:hover {
     <string>Старый пароль</string>
    </property>
   </widget>
-  <widget class="QLabel" name="settings_text_newpass">
+  <widget class="QLabel" name="settings_w_text_newpass">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -156,7 +156,7 @@ QPushButton:hover {
     <string>Новый пароль</string>
    </property>
   </widget>
-  <widget class="QLabel" name="settings_text_edit_info">
+  <widget class="QLabel" name="settings_w_text_edit_info">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -179,7 +179,7 @@ QPushButton:hover {
     <string>Изменить информацию</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="settings_lineedit_newpass">
+  <widget class="QLineEdit" name="settings_w_lineedit_newpass">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -207,7 +207,7 @@ border: 2px solid rgb(95, 85, 200);
 }</string>
    </property>
   </widget>
-  <widget class="QLabel" name="settings_text_repnewpass">
+  <widget class="QLabel" name="settings_w_text_repnewpass">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -229,7 +229,7 @@ border: 2px solid rgb(95, 85, 200);
     <string>Повторите новый пароль</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="settings_lineedit_repnewpass">
+  <widget class="QLineEdit" name="settings_w_lineedit_repnewpass">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -257,7 +257,7 @@ border: 2px solid rgb(95, 85, 200);
 }</string>
    </property>
   </widget>
-  <widget class="QLabel" name="settings_text_internet">
+  <widget class="QLabel" name="settings_w_text_internet">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -279,7 +279,7 @@ border: 2px solid rgb(95, 85, 200);
     <string>Привязать соц. сети</string>
    </property>
   </widget>
-  <widget class="QLabel" name="settings_text_email">
+  <widget class="QLabel" name="settings_w_text_email">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -301,10 +301,10 @@ border: 2px solid rgb(95, 85, 200);
     <string notr="true">color: rgb(180, 183, 189);</string>
    </property>
    <property name="text">
-    <string>Электронное письмо</string>
+    <string>Почта</string>
    </property>
   </widget>
-  <widget class="QLabel" name="settings_imglbl_img">
+  <widget class="QLabel" name="settings_w_imglbl_img">
    <property name="geometry">
     <rect>
      <x>592</x>
@@ -332,9 +332,9 @@ border: 2px solid rgb(95, 85, 200);
      <height>80</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="settings_horizontalLayout_btns_apply_cancel">
+   <layout class="QHBoxLayout" name="settings_w_horizontalLayout_btns_apply_cancel">
     <item>
-     <widget class="QPushButton" name="settings_btn_apply">
+     <widget class="QPushButton" name="settings_w_btn_apply">
       <property name="font">
        <font>
         <family>Roboto</family>
@@ -366,7 +366,7 @@ QPushButton:hover {
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="settings_btn_undo">
+     <widget class="QPushButton" name="settings_w_btn_undo">
       <property name="font">
        <font>
         <family>Roboto</family>
@@ -399,7 +399,7 @@ border: 2px solid rgb(234, 84, 85);
     </item>
    </layout>
   </widget>
-  <widget class="QLabel" name="settings_imglbl_telegram_verify">
+  <widget class="QLabel" name="settings_w_imglbl_telegram_verify">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -429,7 +429,7 @@ border: 2px solid rgb(234, 84, 85);
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="settings_imglbl_telegram_noverify">
+  <widget class="QLabel" name="settings_w_imglbl_telegram_noverify">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -468,9 +468,9 @@ border: 2px solid rgb(234, 84, 85);
      <height>50</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="settings_horizontalLayout_btns_imp_exp">
+   <layout class="QHBoxLayout" name="settings_w_horizontalLayout_btns_imp_exp">
     <item>
-     <widget class="QPushButton" name="settings_btn_import">
+     <widget class="QPushButton" name="settings_w_btn_import">
       <property name="maximumSize">
        <size>
         <width>16777215</width>
@@ -507,7 +507,7 @@ QPushButton:hover {
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="settings_btn_export">
+     <widget class="QPushButton" name="settings_w_btn_export">
       <property name="maximumSize">
        <size>
         <width>16777215</width>
@@ -545,21 +545,21 @@ border: 2px solid rgb(95, 85, 200);
     </item>
    </layout>
   </widget>
-  <zorder>settings_imglbl_telegram_noverify</zorder>
-  <zorder>settings_lineedit_email</zorder>
-  <zorder>settings_lineedit_oldpass</zorder>
-  <zorder>settings_btn_telegram</zorder>
-  <zorder>settings_text_oldpass</zorder>
-  <zorder>settings_text_newpass</zorder>
-  <zorder>settings_text_edit_info</zorder>
-  <zorder>settings_lineedit_newpass</zorder>
-  <zorder>settings_text_repnewpass</zorder>
-  <zorder>settings_lineedit_repnewpass</zorder>
-  <zorder>settings_text_internet</zorder>
-  <zorder>settings_text_email</zorder>
-  <zorder>settings_imglbl_img</zorder>
+  <zorder>settings_w_imglbl_telegram_noverify</zorder>
+  <zorder>settings_w_lineedit_email</zorder>
+  <zorder>settings_w_lineedit_oldpass</zorder>
+  <zorder>settings_w_btn_telegram</zorder>
+  <zorder>settings_w_text_oldpass</zorder>
+  <zorder>settings_w_text_newpass</zorder>
+  <zorder>settings_w_text_edit_info</zorder>
+  <zorder>settings_w_lineedit_newpass</zorder>
+  <zorder>settings_w_text_repnewpass</zorder>
+  <zorder>settings_w_lineedit_repnewpass</zorder>
+  <zorder>settings_w_text_internet</zorder>
+  <zorder>settings_w_text_email</zorder>
+  <zorder>settings_w_imglbl_img</zorder>
   <zorder>horizontalLayoutWidget</zorder>
-  <zorder>settings_imglbl_telegram_verify</zorder>
+  <zorder>settings_w_imglbl_telegram_verify</zorder>
   <zorder>horizontalLayoutWidget_2</zorder>
  </widget>
  <resources/>

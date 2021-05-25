@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>edit_event_widget_window</class>
- <widget class="QWidget" name="edit_event_widget_window">
+ <class>edit_event_w_widget_window</class>
+ <widget class="QWidget" name="edit_event_w_widget_window">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -40,7 +40,7 @@
      <height>1081</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="edit_event_horizontalLayout_main">
+   <layout class="QHBoxLayout" name="edit_event_w_horizontalLayout_main">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -48,7 +48,7 @@
      <enum>QLayout::SetMaximumSize</enum>
     </property>
     <item>
-     <spacer name="edit_event_horizontalSpacer_main">
+     <spacer name="edit_event_w_horizontalSpacer_main">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -64,7 +64,7 @@
      </spacer>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="edit_event_verticalLayout_menu">
+     <layout class="QVBoxLayout" name="edit_event_w_verticalLayout_menu">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -72,7 +72,7 @@
        <enum>QLayout::SetMaximumSize</enum>
       </property>
       <item>
-       <widget class="QWidget" name="edit_event_widget_edit_btn" native="true">
+       <widget class="QWidget" name="edit_event_w_widget_edit_btn" native="true">
         <property name="maximumSize">
          <size>
           <width>360</width>
@@ -82,7 +82,7 @@
         <property name="styleSheet">
          <string notr="true">background-color: rgb(22, 29, 49);</string>
         </property>
-        <widget class="QLabel" name="edit_event_textlbl_title">
+        <widget class="QLabel" name="edit_event_w_textlbl_title">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -110,7 +110,7 @@
           <string>Редактировать событие</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="edit_event_btn_exit">
+        <widget class="QPushButton" name="edit_event_w_btn_exit">
          <property name="geometry">
           <rect>
            <x>324</x>
@@ -142,7 +142,7 @@ color: rgb(234, 84, 85);
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="edit_event_widget_form" native="true">
+       <widget class="QWidget" name="edit_event_w_widget_form" native="true">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -170,7 +170,7 @@ color: rgb(234, 84, 85);
            <height>1021</height>
           </rect>
          </property>
-         <layout class="QVBoxLayout" name="edit_event_verticalLayout_shape_alignment">
+         <layout class="QVBoxLayout" name="edit_event_w_verticalLayout_shape_alignment">
           <property name="spacing">
            <number>4</number>
           </property>
@@ -184,7 +184,7 @@ color: rgb(234, 84, 85);
            <number>20</number>
           </property>
           <item>
-           <widget class="QLabel" name="edit_event_textlbl_name">
+           <widget class="QLabel" name="edit_event_w_textlbl_name">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -206,7 +206,7 @@ color: rgb(234, 84, 85);
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="edit_event_lineEdit_name">
+           <widget class="QLineEdit" name="edit_event_w_lineEdit_name">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -240,7 +240,7 @@ QLineEdit:hover {
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="edit_event_textlbl_category">
+           <widget class="QLabel" name="edit_event_w_textlbl_category">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -263,7 +263,7 @@ color: rgb(185, 185, 195);</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="edit_event_comboBox_category">
+           <widget class="QComboBox" name="edit_event_w_comboBox_category">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -312,7 +312,7 @@ QComboBox:hover {
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="edit_event_textlbl_time">
+           <widget class="QLabel" name="edit_event_w_textlbl_time">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -335,7 +335,7 @@ color: rgb(185, 185, 195);</string>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="edit_event_lineEdit_time">
+           <widget class="QLineEdit" name="edit_event_w_lineEdit_time">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -369,7 +369,7 @@ QLineEdit:hover {
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="edit_event_textlbl_date">
+           <widget class="QLabel" name="edit_event_w_textlbl_date">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -392,7 +392,7 @@ color: rgb(185, 185, 195);</string>
            </widget>
           </item>
           <item>
-           <widget class="QDateEdit" name="edit_event_dateEdit">
+           <widget class="QDateEdit" name="edit_event_w_dateEdit">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -456,7 +456,7 @@ QDateEdit:hover {
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="edit_event_textlbl_comment">
+           <widget class="QLabel" name="edit_event_w_textlbl_comment">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -479,7 +479,7 @@ color: rgb(185, 185, 195);</string>
            </widget>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="edit_event_plaintextedit_comment">
+           <widget class="QPlainTextEdit" name="edit_event_w_plaintextedit_comment">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -501,7 +501,7 @@ QPlainTextEdit:hover {
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="edit_event_horizontalLayout_btns">
+           <layout class="QHBoxLayout" name="edit_event_w_horizontalLayout_btns">
             <property name="spacing">
              <number>0</number>
             </property>
@@ -509,7 +509,7 @@ QPlainTextEdit:hover {
              <number>40</number>
             </property>
             <item>
-             <widget class="QPushButton" name="edit_event_btn_save">
+             <widget class="QPushButton" name="edit_event_w_btn_save">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -545,7 +545,7 @@ QPushButton:hover {
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="edit_event_btn_del">
+             <widget class="QPushButton" name="edit_event_w_btn_del">
               <property name="font">
                <font>
                 <family>Roboto</family>
@@ -582,7 +582,7 @@ border: 2px solid rgb(234, 84, 85);
              </widget>
             </item>
             <item>
-             <spacer name="edit_event_horizontalSpacer_btns">
+             <spacer name="edit_event_w_horizontalSpacer_btns">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -597,7 +597,7 @@ border: 2px solid rgb(234, 84, 85);
            </layout>
           </item>
           <item>
-           <spacer name="edit_event_verticalSpacer_btns">
+           <spacer name="edit_event_w_verticalSpacer_btns">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>

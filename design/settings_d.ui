@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>setttings_form</class>
- <widget class="QWidget" name="setttings_form">
+ <class>settings_form</class>
+ <widget class="QWidget" name="settings_form">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -301,7 +301,7 @@ border: 2px solid rgb(95, 85, 200);
     <string notr="true">color: rgb(180, 183, 189);</string>
    </property>
    <property name="text">
-    <string>Электронное письмо</string>
+    <string>Почта</string>
    </property>
   </widget>
   <widget class="QLabel" name="settings_imglbl_img">

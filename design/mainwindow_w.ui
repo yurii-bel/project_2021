@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>mainwindow</class>
- <widget class="QMainWindow" name="mainwindow">
+ <class>mainwindow_w</class>
+ <widget class="QMainWindow" name="mainwindow_w">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,9 +17,9 @@
    <enum>Qt::LeftToRight</enum>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #161D31;</string>
+   <string notr="true">background-color: #F8F8F8;</string>
   </property>
-  <widget class="QWidget" name="mainwindow_centralwidget">
+  <widget class="QWidget" name="mainwindow_centralwidget_w">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
@@ -29,12 +29,12 @@
       <height>971</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="mainwindow_verticalLayout_logo_and_menu">
+    <layout class="QVBoxLayout" name="mainwindow_verticalLayout_logo_and_menu_w">
      <property name="spacing">
       <number>0</number>
      </property>
      <item>
-      <widget class="QWidget" name="mainwindow_widget_logo" native="true">
+      <widget class="QWidget" name="mainwindow_widget_logo_w" native="true">
        <property name="maximumSize">
         <size>
          <width>230</width>
@@ -42,7 +42,7 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: #283046;</string>
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
        </property>
        <widget class="QWidget" name="layoutWidget_2">
         <property name="geometry">
@@ -53,9 +53,9 @@
           <height>51</height>
          </rect>
         </property>
-        <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_logo">
+        <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_logo_w">
          <item>
-          <widget class="QLabel" name="mainwindow_lbl_logo_img">
+          <widget class="QLabel" name="mainwindow_lbl_logo_img_w">
            <property name="maximumSize">
             <size>
              <width>44</width>
@@ -77,7 +77,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="mainwindow_lbl_logo_title">
+          <widget class="QLabel" name="mainwindow_lbl_logo_title_w">
            <property name="maximumSize">
             <size>
              <width>120</width>
@@ -111,7 +111,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QWidget" name="mainwindow_widget_menu" native="true">
+      <widget class="QWidget" name="mainwindow_widget_menu_w" native="true">
        <property name="maximumSize">
         <size>
          <width>230</width>
@@ -119,7 +119,7 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: #283046;</string>
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
        </property>
        <widget class="QWidget" name="layoutWidget_3">
         <property name="geometry">
@@ -130,12 +130,12 @@
           <height>891</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="mainwindow_verticalLayout_menu">
+        <layout class="QVBoxLayout" name="mainwindow_verticalLayout_menu_w">
          <property name="spacing">
           <number>18</number>
          </property>
          <item>
-          <widget class="QPushButton" name="mainwindow_btn_forecast">
+          <widget class="QPushButton" name="mainwindow_btn_forecast_w">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -163,7 +163,7 @@
            <property name="styleSheet">
             <string notr="true">QPushButton {
 	background-color: rgb(0, 0, 0, 0);	
-	color: rgb(208, 210, 214);
+	color: #5E5873;
 	text-align: left;
 	padding-left: 10px;
 	padding-right: 10px;
@@ -171,11 +171,11 @@
 }
 QPushButton:hover {
 	background-color: rgb(0, 0, 0, 0);  
-	color: rgb(95, 85, 200);
+	color: #7367F0;
 }</string>
            </property>
            <property name="text">
-            <string>Прогноз</string>
+            <string> Прогноз</string>
            </property>
            <property name="icon">
             <iconset>
@@ -190,7 +190,7 @@ QPushButton:hover {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="mainwindow_btn_theme">
+          <widget class="QPushButton" name="mainwindow_btn_theme_w">
            <property name="maximumSize">
             <size>
              <width>230</width>
@@ -209,18 +209,18 @@ QPushButton:hover {
            <property name="styleSheet">
             <string notr="true">QPushButton {
 	background-color: rgb(0, 0, 0, 0);	
-	color: rgb(208, 210, 214);
+	color: #5E5873;
 	text-align: left;
 	padding-left: 10px;
 	padding-right: 10px;
 }
 QPushButton:hover {
 	background-color: rgb(0, 0, 0, 0);  
-	color: rgb(95, 85, 200);
+	color: #7367F0;
 }</string>
            </property>
            <property name="text">
-            <string>Тема</string>
+            <string> Тема</string>
            </property>
            <property name="icon">
             <iconset>
@@ -229,7 +229,7 @@ QPushButton:hover {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="mainwindow_btn_settings">
+          <widget class="QPushButton" name="mainwindow_btn_settings_w">
            <property name="maximumSize">
             <size>
              <width>230</width>
@@ -248,18 +248,18 @@ QPushButton:hover {
            <property name="styleSheet">
             <string notr="true">QPushButton {
 	background-color: rgb(0, 0, 0, 0);	
-	color: rgb(208, 210, 214);
+	color: #5E5873;
 	text-align: left;
 	padding-left: 10px;
 	padding-right: 10px;
 }
 QPushButton:hover {
 	background-color: rgb(0, 0, 0, 0);  
-	color: rgb(95, 85, 200);
+	color: #7367F0;
 }</string>
            </property>
            <property name="text">
-            <string>Настройки</string>
+            <string> Настройки</string>
            </property>
            <property name="icon">
             <iconset>
@@ -268,7 +268,7 @@ QPushButton:hover {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="mainwindow_btn_exit">
+          <widget class="QPushButton" name="mainwindow_btn_exit_w">
            <property name="maximumSize">
             <size>
              <width>230</width>
@@ -287,18 +287,18 @@ QPushButton:hover {
            <property name="styleSheet">
             <string notr="true">QPushButton {
 	background-color: rgb(0, 0, 0, 0);	
-	color: rgb(208, 210, 214);
+	color: #5E5873;
 	text-align: left;
 	padding-left: 10px;
 	padding-right: 10px;
 }
 QPushButton:hover {
 	background-color: rgb(0, 0, 0, 0);  
-	color: rgb(95, 85, 200);
+	color: #7367F0;
 }</string>
            </property>
            <property name="text">
-            <string>Выход</string>
+            <string> Выход</string>
            </property>
            <property name="icon">
             <iconset>
@@ -307,7 +307,7 @@ QPushButton:hover {
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="mainwindow_textlbl_display_style">
+          <widget class="QLabel" name="mainwindow_textlbl_display_style_w">
            <property name="maximumSize">
             <size>
              <width>230</width>
@@ -322,7 +322,7 @@ QPushButton:hover {
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">color: #D0D2D6;
+            <string notr="true">color: rgb(94, 88, 115);
 margin-top: 20px;
 padding-left: 7px;</string>
            </property>
@@ -335,7 +335,7 @@ padding-left: 7px;</string>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="mainwindow_comboBox_display_style">
+          <widget class="QComboBox" name="mainwindow_comboBox_display_style_w">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -356,8 +356,8 @@ padding-left: 7px;</string>
            </property>
            <property name="styleSheet">
             <string notr="true">QComboBox {
-background-color: rgb(22, 29, 49);
-color: rgb(208, 210, 214);
+background-color: rgb(248, 248, 248);
+color: rgb(94, 88, 115);
 border: 2px solid rgb(0, 0, 0, 0);
 border-radius: 5px;
 padding-left: 20px;
@@ -366,16 +366,16 @@ margin-left: 10px;
 }
 
 QComboBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+background-color: rgb(230, 230, 230);
+color: rgb(94, 88, 115);
 border: 2px solid #7666F8;
 border-radius: 5px;
 }
 
 QComboBox QAbstractItemView {
-background-color: rgb(22, 29, 49);
+background-color: rgb(230, 230, 230);
 border: 2px solid #7666F8;
-color: rgb(203, 203, 203);
+color: rgb(94, 88, 115);
 margin-left: 10px;
 selection-background-color: rgb(94, 80, 238);
 selection-color: rgb(0, 0, 0);
@@ -414,7 +414,7 @@ selection-color: rgb(0, 0, 0);
           </widget>
          </item>
          <item>
-          <spacer name="mainwindow_verticalSpacer_menu">
+          <spacer name="mainwindow_verticalSpacer_menu_w">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -432,7 +432,7 @@ selection-color: rgb(0, 0, 0);
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="mainwindow_widget_navigation" native="true">
+   <widget class="QWidget" name="mainwindow_widget_navigation_w" native="true">
     <property name="geometry">
      <rect>
       <x>259</x>
@@ -443,7 +443,7 @@ selection-color: rgb(0, 0, 0);
     </property>
     <property name="styleSheet">
      <string notr="true">QWidget { 
-background-color: #283046;
+background-color: #FFFFFF;
 border-radius: 5px;
 }</string>
     </property>
@@ -453,15 +453,15 @@ border-radius: 5px;
        <x>23</x>
        <y>15</y>
        <width>1111</width>
-       <height>31</height>
+       <height>35</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_navigation" stretch="0,0,0,0,0,0,0,0,0,0,0">
+     <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_navigation_w" stretch="0,0,0,0,0,0,0,0,0,0,0">
       <property name="spacing">
        <number>0</number>
       </property>
       <item>
-       <widget class="QPushButton" name="mainwindow_btn_nav_plus">
+       <widget class="QPushButton" name="mainwindow_btn_nav_add_act_w">
         <property name="font">
          <font>
           <family>Roboto-Light</family>
@@ -481,7 +481,7 @@ border-radius: 5px;
 }
 QPushButton:hover {
 	background-color: rgba(0, 0, 0, 0);
-	color: rgb(115, 103, 240);
+	color: rgb(94, 88, 115);
 	border: 2px solid rgb(115, 103, 240);
 }</string>
         </property>
@@ -497,7 +497,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item>
-       <spacer name="mainwindow_horizontalSpacer_navigation">
+       <spacer name="mainwindow_horizontalSpacer_navigation_w">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -513,7 +513,7 @@ QPushButton:hover {
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="mainwindow_btn_daily">
+       <widget class="QPushButton" name="mainwindow_btn_daily_w">
         <property name="maximumSize">
          <size>
           <width>102</width>
@@ -531,8 +531,7 @@ QPushButton:hover {
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
-	background-color: #283046;
-	color: #FFFFFF;
+	color: #7367F0;
 	border: 2px solid rgb(95, 85, 200);
 	border-right: 0px;
 	border-top-left-radius: 5px;
@@ -543,8 +542,8 @@ QPushButton:hover {
 	padding-right: 20px;
 }
 QPushButton:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
+	background-color: rgba(104, 93, 216, 0.2); 
+	color: #7367F0;
 	border: 2px solid rgb(121, 109, 255);
 	border-top-left-radius: 5px;
 	border-top-right-radius: 0px;
@@ -558,7 +557,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="mainwindow_btn_weekly">
+       <widget class="QPushButton" name="mainwindow_btn_weekly_w">
         <property name="maximumSize">
          <size>
           <width>102</width>
@@ -576,8 +575,7 @@ QPushButton:hover {
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
-	background-color: #283046;
-	color: #FFFFFF;
+	color: #7367F0;
 	border: 2px solid rgb(95, 85, 200);
 	border-right: 0px;
 	border-radius: 0;
@@ -585,8 +583,8 @@ QPushButton:hover {
 	padding-right: 20px;
 }
 QPushButton:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
+	background-color: rgba(104, 93, 216, 0.2); 
+	color: #7367F0;
 	border: 2px solid rgb(121, 109, 255);
 	border-radius: 0;
 }</string>
@@ -597,7 +595,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="mainwindow_btn_monthly">
+       <widget class="QPushButton" name="mainwindow_btn_monthly_w">
         <property name="maximumSize">
          <size>
           <width>102</width>
@@ -615,8 +613,7 @@ QPushButton:hover {
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
-	background-color: #283046;
-	color: #FFFFFF;
+	color: #7367F0;
 	border: 2px solid rgb(95, 85, 200);
 	border-right: 0px;
 	border-radius: 0;
@@ -624,8 +621,8 @@ QPushButton:hover {
 	padding-right: 20px;
 }
 QPushButton:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
+	background-color: rgba(104, 93, 216, 0.2); 
+	color: #7367F0;
 	border: 2px solid rgb(121, 109, 255);
 	border-radius: 0;
 }</string>
@@ -636,7 +633,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="mainwindow_btn_annually">
+       <widget class="QPushButton" name="mainwindow_btn_annually_w">
         <property name="maximumSize">
          <size>
           <width>102</width>
@@ -654,8 +651,7 @@ QPushButton:hover {
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
-	background-color: #283046;
-	color: #FFFFFF;
+	color: #7367F0;
 	border: 2px solid rgb(95, 85, 200);
 	border-top-left-radius: 0px;
 	border-top-right-radius: 5px;
@@ -665,8 +661,8 @@ QPushButton:hover {
 	padding-right: 20px;
 }
 QPushButton:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
+	background-color: rgba(104, 93, 216, 0.2); 
+	color: #7367F0;
 	border: 2px solid rgb(121, 109, 255);
 	border-top-left-radius: 0px;
 	border-top-right-radius: 5px;
@@ -680,7 +676,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="mainwindow_lbl_icon_clendar">
+       <widget class="QLabel" name="mainwindow_lbl_icon_clendar_w">
         <property name="maximumSize">
          <size>
           <width>60</width>
@@ -708,7 +704,7 @@ color: #D0D2D6;</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="mainwindow_textlbl_s">
+       <widget class="QLabel" name="mainwindow_textlbl_s_w">
         <property name="font">
          <font>
           <family>Roboto-Light</family>
@@ -718,7 +714,7 @@ color: #D0D2D6;</string>
         <property name="styleSheet">
          <string notr="true">padding-left: 5px;
 padding-right: 5px;
-color: #D0D2D6;</string>
+color: #6E6B7B;</string>
         </property>
         <property name="text">
          <string>c</string>
@@ -726,7 +722,7 @@ color: #D0D2D6;</string>
        </widget>
       </item>
       <item>
-       <widget class="QDateEdit" name="mainwindow_dateEdit_s">
+       <widget class="QDateEdit" name="mainwindow_dateEdit_s_w">
         <property name="font">
          <font>
           <family>Roboto Light</family>
@@ -738,13 +734,13 @@ color: #D0D2D6;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QDateEdit {
-	background-color: #283046;
+	background-color: rgb(248, 248, 248);
 	border-radius: 5px;
-	color: rgb(255, 255, 255);
+	color: #5E5873;
 }
 QDateEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
+	background-color: rgb(230, 230, 230);
+	color: #5E5873;
 }</string>
         </property>
         <property name="calendarPopup">
@@ -753,7 +749,7 @@ QDateEdit:hover {
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="mainwindow_textlbl_po">
+       <widget class="QLabel" name="mainwindow_textlbl_po_w">
         <property name="font">
          <font>
           <family>Roboto-Light</family>
@@ -763,7 +759,7 @@ QDateEdit:hover {
         <property name="styleSheet">
          <string notr="true">padding-left: 5px;
 padding-right: 5px;
-color: #D0D2D6;</string>
+color: #6E6B7B;</string>
         </property>
         <property name="text">
          <string>по</string>
@@ -771,7 +767,7 @@ color: #D0D2D6;</string>
        </widget>
       </item>
       <item>
-       <widget class="QDateEdit" name="mainwindow_dateEdit_po">
+       <widget class="QDateEdit" name="mainwindow_dateEdit_po_w">
         <property name="font">
          <font>
           <family>Roboto Light</family>
@@ -779,14 +775,24 @@ color: #D0D2D6;</string>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">QDateEdit {
-	background-color: #283046;
+         <string notr="true">/* QDateEdit {
+	background-color: rgb(255, 255, 255);
 	border-radius: 5px;
-	color: rgb(255, 255, 255);
+	color: #5E5873;
 }
 QDateEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	color: rgb(255, 255, 255);
+	background-color: rgb(248, 248, 248); 
+	color: #5E5873;
+}
+*/
+QDateEdit {
+	background-color: rgb(248, 248, 248);
+	border-radius: 5px;
+	color: #5E5873;
+}
+QDateEdit:hover {
+	background-color: rgb(230, 230, 230);
+	color: #5E5873;
 }</string>
         </property>
         <property name="calendarPopup">
@@ -797,7 +803,7 @@ QDateEdit:hover {
      </layout>
     </widget>
    </widget>
-   <widget class="QLabel" name="mainwindow_lbl_diagram">
+   <widget class="QLabel" name="mainwindow_lbl_diagram_w">
     <property name="geometry">
      <rect>
       <x>550</x>
@@ -816,9 +822,9 @@ QDateEdit:hover {
     </property>
     <property name="styleSheet">
      <string notr="true">QLabel { 
-background-color: #283046;
-color: rgb(208, 210, 214);
-border-left: 1px solid #4B4B4B;
+background-color: #FFFFFF;
+color: rgb(110, 107, 123);
+border-left: 1px solid #EBE9F1;
 border-top-right-radius: 5px;
 border-bottom-right-radius: 5px;
 border-left-radius: 0px;
@@ -829,7 +835,7 @@ padding-left: 20px;
      <string>Diagram</string>
     </property>
    </widget>
-   <widget class="QWidget" name="mainwindow_widget_category" native="true">
+   <widget class="QWidget" name="mainwindow_widget_category_w" native="true">
     <property name="geometry">
      <rect>
       <x>259</x>
@@ -840,7 +846,7 @@ padding-left: 20px;
     </property>
     <property name="styleSheet">
      <string notr="true">QWidget { 
-background-color: #283046;
+background-color: rgb(255, 255, 255);
 border-top-left-radius: 5px;
 border-bottom-left-radius: 5px;
 }</string>
@@ -854,12 +860,12 @@ border-bottom-left-radius: 5px;
        <height>801</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="mainwindow_gridLayout_category">
+     <layout class="QGridLayout" name="mainwindow_gridLayout_category_w">
       <property name="verticalSpacing">
        <number>18</number>
       </property>
       <item row="0" column="0">
-       <widget class="QLabel" name="mainwindow_textlbl_category">
+       <widget class="QLabel" name="mainwindow_textlbl_category_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -876,7 +882,7 @@ border-bottom-left-radius: 5px;
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">color: #B4B7BD;
+         <string notr="true">color: #B9B9C3;
 border: 2px solid rgb(0, 0, 0, 0);
 margin-top: 2px;</string>
         </property>
@@ -889,7 +895,7 @@ margin-top: 2px;</string>
        </widget>
       </item>
       <item row="7" column="0">
-       <widget class="QLabel" name="mainwindow_checkBoxlbl_dinamic">
+       <widget class="QLabel" name="mainwindow_checkBoxlbl_dinamic_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -907,13 +913,12 @@ margin-top: 2px;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -924,7 +929,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_family">
+       <widget class="QLabel" name="mainwindow_lbl_time_family_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -939,13 +944,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -956,7 +960,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="6" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_work">
+       <widget class="QCheckBox" name="mainwindow_checkBox_work_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -974,13 +978,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QCheckBox {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -991,7 +994,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_health">
+       <widget class="QCheckBox" name="mainwindow_checkBox_health_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1009,13 +1012,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QCheckBox {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -1026,7 +1028,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_health">
+       <widget class="QLabel" name="mainwindow_lbl_time_health_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1041,13 +1043,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -1058,7 +1059,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="7" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_dinamic">
+       <widget class="QLabel" name="mainwindow_lbl_time_dinamic_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1073,13 +1074,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -1090,7 +1090,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_entertainment">
+       <widget class="QCheckBox" name="mainwindow_checkBox_entertainment_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1108,13 +1108,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QCheckBox {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -1125,7 +1124,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_family">
+       <widget class="QCheckBox" name="mainwindow_checkBox_family_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1143,13 +1142,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QCheckBox {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -1160,7 +1158,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QPushButton" name="mainwindow_btn_cat_plus">
+       <widget class="QPushButton" name="mainwindow_btn_cat_plus_w">
         <property name="minimumSize">
          <size>
           <width>29</width>
@@ -1186,14 +1184,14 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
-	background-color: rgb(40, 48, 70);
-	color: rgb(205, 205, 205);
-	border: 2px solid rgb(40, 48, 70);
+	background-color: rgb(115, 103, 240);
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(115, 103, 240);
 	border-radius: 5px;
 }
 QPushButton:hover {
 	background-color: rgba(0, 0, 0, 0);
-	color: rgb(205, 205, 205);
+	color: rgb(94, 88, 115);
 	border: 2px solid #7666F8;
 }</string>
         </property>
@@ -1209,7 +1207,7 @@ QPushButton:hover {
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_relaxation">
+       <widget class="QLabel" name="mainwindow_lbl_time_relaxation_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1224,13 +1222,12 @@ QPushButton:hover {
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -1241,7 +1238,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_see_all">
+       <widget class="QCheckBox" name="mainwindow_checkBox_see_all_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1259,13 +1256,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QCheckBox {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -1276,7 +1272,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_work">
+       <widget class="QLabel" name="mainwindow_lbl_time_work_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1291,13 +1287,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -1308,7 +1303,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QCheckBox" name="mainwindow_checkBox_relaxation">
+       <widget class="QCheckBox" name="mainwindow_checkBox_relaxation_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1326,13 +1321,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QCheckBox {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -1343,7 +1337,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_all">
+       <widget class="QLabel" name="mainwindow_lbl_time_all_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1358,13 +1352,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -1375,7 +1368,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLabel" name="mainwindow_lbl_time_entertainment">
+       <widget class="QLabel" name="mainwindow_lbl_time_entertainment_w">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -1390,13 +1383,12 @@ border-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
-color: #B4B7BD;
+color: #5E5873;
 border: 2px solid rgb(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
-background-color: rgb(40, 48, 70);
-color: rgb(185, 185, 195);
+color: #5E5873;
 border: 2px solid #7666F8;
 border-radius: 5px;
 }</string>
@@ -1407,7 +1399,7 @@ border-radius: 5px;
        </widget>
       </item>
       <item row="8" column="0">
-       <spacer name="mainwindow_verticalSpacer_category">
+       <spacer name="mainwindow_verticalSpacer_category_w">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -1425,7 +1417,7 @@ border-radius: 5px;
      </layout>
     </widget>
    </widget>
-   <widget class="QLabel" name="mainwindow_lbl_about">
+   <widget class="QLabel" name="mainwindow_lbl_about_w">
     <property name="geometry">
      <rect>
       <x>259</x>
@@ -1447,7 +1439,7 @@ border-radius: 5px;
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: #D0D2D6;</string>
+     <string notr="true">color: rgb(110, 107, 123);</string>
     </property>
     <property name="text">
      <string>Design by Evgeny K. Copyright © 2021 TimeSoft All rights reserved.</string>
@@ -1457,7 +1449,7 @@ border-radius: 5px;
     </property>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="mainwindow_menubar">
+  <widget class="QMenuBar" name="mainwindow_menubar_w">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -1485,7 +1477,7 @@ QMenuBar::item:pressed {
 	color: rgb(0, 0, 0);
 }</string>
    </property>
-   <widget class="QMenu" name="mainwindow_menuFile">
+   <widget class="QMenu" name="mainwindow_menuFile_w">
     <property name="font">
      <font>
       <family>Roboto</family>
@@ -1508,12 +1500,12 @@ QMenu::item:pressed {
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="mainwindow_act_make_prediction"/>
-    <addaction name="mainwindow_act_settings"/>
+    <addaction name="mainwindow_act_make_prediction_w"/>
+    <addaction name="mainwindow_act_settings_w"/>
     <addaction name="separator"/>
-    <addaction name="mainwindow_act_exit"/>
+    <addaction name="mainwindow_act_exit_w"/>
    </widget>
-   <widget class="QMenu" name="mainwindow_menuEdit">
+   <widget class="QMenu" name="mainwindow_menuEdit_w">
     <property name="font">
      <font>
       <family>Roboto</family>
@@ -1536,7 +1528,7 @@ QMenu::item:pressed {
     <property name="title">
      <string>Edit</string>
     </property>
-    <widget class="QMenu" name="mainwindow_dropdown_menu_select_chart">
+    <widget class="QMenu" name="mainwindow_dropdown_menu_select_chart_w">
      <property name="font">
       <font>
        <family>Roboto</family>
@@ -1559,11 +1551,11 @@ QMenu::item:pressed {
      <property name="title">
       <string>Выбор типа диаграммы</string>
      </property>
-     <addaction name="mainwindow_act_linear"/>
-     <addaction name="mainwindow_act_circular"/>
-     <addaction name="mainwindow_act_table"/>
+     <addaction name="mainwindow_act_diagram_w"/>
+     <addaction name="mainwindow_act_graph_w"/>
+     <addaction name="mainwindow_act_table_w"/>
     </widget>
-    <widget class="QMenu" name="mainwindow_dropdown_menu_theme">
+    <widget class="QMenu" name="mainwindow_dropdown_menu_theme_w">
      <property name="font">
       <font>
        <family>Roboto</family>
@@ -1572,15 +1564,15 @@ QMenu::item:pressed {
      <property name="title">
       <string>Тема</string>
      </property>
-     <addaction name="mainwindow_act_light"/>
-     <addaction name="mainwindow_act_dark"/>
+     <addaction name="mainwindow_act_light_w"/>
+     <addaction name="mainwindow_act_dark_w"/>
     </widget>
-    <addaction name="mainwindow_dropdown_menu_select_chart"/>
-    <addaction name="mainwindow_act_add_event"/>
-    <addaction name="mainwindow_act_edit_event"/>
-    <addaction name="mainwindow_dropdown_menu_theme"/>
+    <addaction name="mainwindow_dropdown_menu_select_chart_w"/>
+    <addaction name="mainwindow_act_add_event_w"/>
+    <addaction name="mainwindow_act_edit_event_w"/>
+    <addaction name="mainwindow_dropdown_menu_theme_w"/>
    </widget>
-   <widget class="QMenu" name="mainwindow_menuHelp">
+   <widget class="QMenu" name="mainwindow_menuHelp_w">
     <property name="font">
      <font>
       <family>Roboto</family>
@@ -1603,19 +1595,19 @@ QMenu::item:pressed {
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="mainwindow_act_help"/>
-    <addaction name="mainwindow_act_about_program"/>
+    <addaction name="mainwindow_act_help_w"/>
+    <addaction name="mainwindow_act_about_program_w"/>
    </widget>
-   <addaction name="mainwindow_menuFile"/>
-   <addaction name="mainwindow_menuEdit"/>
-   <addaction name="mainwindow_menuHelp"/>
+   <addaction name="mainwindow_menuFile_w"/>
+   <addaction name="mainwindow_menuEdit_w"/>
+   <addaction name="mainwindow_menuHelp_w"/>
   </widget>
-  <widget class="QStatusBar" name="mainwindow_statusbar">
+  <widget class="QStatusBar" name="mainwindow_statusbar_w">
    <property name="sizeGripEnabled">
     <bool>true</bool>
    </property>
   </widget>
-  <action name="mainwindow_act_edit_event">
+  <action name="mainwindow_act_edit_event_w">
    <property name="text">
     <string>Редактировать выбранное событие</string>
    </property>
@@ -1625,7 +1617,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_add_event">
+  <action name="mainwindow_act_add_event_w">
    <property name="text">
     <string>Добавить событие</string>
    </property>
@@ -1635,7 +1627,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_help">
+  <action name="mainwindow_act_help_w">
    <property name="text">
     <string>Справка</string>
    </property>
@@ -1645,7 +1637,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_about_program">
+  <action name="mainwindow_act_about_program_w">
    <property name="text">
     <string>О программе</string>
    </property>
@@ -1655,7 +1647,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_settings">
+  <action name="mainwindow_act_settings_w">
    <property name="text">
     <string>Настройки</string>
    </property>
@@ -1665,7 +1657,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_exit">
+  <action name="mainwindow_act_exit_w">
    <property name="text">
     <string>Выход</string>
    </property>
@@ -1675,7 +1667,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_make_prediction">
+  <action name="mainwindow_act_make_prediction_w">
    <property name="text">
     <string>Сделать прогноз</string>
    </property>
@@ -1686,9 +1678,9 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_linear">
+  <action name="mainwindow_act_diagram_w">
    <property name="text">
-    <string>Линейная</string>
+    <string>Диаграмма</string>
    </property>
    <property name="font">
     <font>
@@ -1696,9 +1688,9 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_circular">
+  <action name="mainwindow_act_graph_w">
    <property name="text">
-    <string>Круговая</string>
+    <string>График</string>
    </property>
    <property name="font">
     <font>
@@ -1706,7 +1698,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_table">
+  <action name="mainwindow_act_table_w">
    <property name="text">
     <string>Табличная</string>
    </property>
@@ -1716,7 +1708,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_light">
+  <action name="mainwindow_act_light_w">
    <property name="text">
     <string>Светлая</string>
    </property>
@@ -1726,7 +1718,7 @@ QMenu::item:pressed {
     </font>
    </property>
   </action>
-  <action name="mainwindow_act_dark">
+  <action name="mainwindow_act_dark_w">
    <property name="text">
     <string>Темная</string>
    </property>

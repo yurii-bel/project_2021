@@ -322,7 +322,7 @@ border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
     <property name="text">
-     <string>my@email.com</string>
+     <string>jeynak21@gmail.com</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>

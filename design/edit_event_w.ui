@@ -36,7 +36,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>361</width>
+     <width>364</width>
      <height>641</height>
     </rect>
    </property>
@@ -234,7 +234,7 @@ color: #6E6B7B;
 }
 QLineEdit:hover {
 	background-color: rgba(108, 117, 125, 0.04); 
-	border: 2px solid #82868B;
+	border: 1px solid #82868B;
 }</string>
             </property>
            </widget>
@@ -291,24 +291,9 @@ color: #6E6B7B;
 }
 QComboBox:hover {
 	background-color: rgba(108, 117, 125, 0.04); 
-	border: 2px solid #82868B;
+	border: 1px solid #82868B;
 }</string>
             </property>
-            <item>
-             <property name="text">
-              <string>Выберите категорию</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Гулял с семьей</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Ходил в магазин</string>
-             </property>
-            </item>
            </widget>
           </item>
           <item>
@@ -363,7 +348,7 @@ color: #6E6B7B;
 }
 QLineEdit:hover {
 	background-color: rgba(108, 117, 125, 0.04); 
-	border: 2px solid #82868B;
+	border: 1px solid #82868B;
 }</string>
             </property>
            </widget>
@@ -420,7 +405,7 @@ color: #6E6B7B;
 }
 QDateEdit:hover {
 	background-color: rgba(108, 117, 125, 0.04); 
-	border: 2px solid #82868B;
+	border: 1px solid #82868B;
 }</string>
             </property>
             <property name="correctionMode">
@@ -495,7 +480,7 @@ color: #6E6B7B;
 }
 QPlainTextEdit:hover {
 	background-color: rgba(108, 117, 125, 0.04); 
-	border: 2px solid #82868B;
+	border: 1px solid #82868B;
 }</string>
             </property>
            </widget>

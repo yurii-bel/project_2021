@@ -36,7 +36,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>361</width>
+     <width>364</width>
      <height>1081</height>
     </rect>
    </property>
@@ -234,7 +234,7 @@ color: rgb(255, 255, 255);
 }
 QLineEdit:hover {
 	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	border: 1px solid rgb(95, 85, 200);
 }</string>
             </property>
            </widget>
@@ -291,24 +291,9 @@ color: rgb(255, 255, 255);
 }
 QComboBox:hover {
 	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	border: 1px solid rgb(95, 85, 200);
 }</string>
             </property>
-            <item>
-             <property name="text">
-              <string>Выберите категорию</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Гулял с семьей</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Ходил в магазин</string>
-             </property>
-            </item>
            </widget>
           </item>
           <item>
@@ -363,7 +348,7 @@ color: rgb(255, 255, 255);
 }
 QLineEdit:hover {
 	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	border: 1px solid rgb(95, 85, 200);
 }</string>
             </property>
            </widget>
@@ -420,7 +405,7 @@ color: rgb(255, 255, 255);
 }
 QDateEdit:hover {
 	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	border: 1px solid rgb(95, 85, 200);
 }</string>
             </property>
             <property name="correctionMode">
@@ -486,6 +471,12 @@ color: rgb(185, 185, 195);</string>
               <height>126</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>Roboto Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="styleSheet">
              <string notr="true">QPlainTextEdit {
 background-color: #283046;
@@ -495,7 +486,7 @@ color: rgb(255, 255, 255);
 }
 QPlainTextEdit:hover {
 	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	border: 1px solid rgb(95, 85, 200);
 }</string>
             </property>
            </widget>

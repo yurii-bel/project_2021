@@ -399,7 +399,7 @@ border: 2px solid rgb(95, 85, 200);
      <string notr="true">color: rgb(180, 183, 189);</string>
     </property>
     <property name="text">
-     <string>Ваше имя</string>
+     <string>Логин</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="register_checkbox_agree">

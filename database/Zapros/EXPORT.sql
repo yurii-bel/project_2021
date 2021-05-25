@@ -50,10 +50,10 @@ TO 'C:\Users\Game-PC\Desktop\Proekt\neew/ACTIVITY_LIST.csv' (format CSV);
 
 -- Экспорт данных о пользователе USER_ID = 1 таблица ACTIVITY.
 COPY (
-SELECT "USER".USER_ID, ACTL_NAME, CAT_NAME, ACT_TIME, 
-ACT_DATE, ACT_COMMENT  FROM "USER" LEFT JOIN "ACTIVITY" ON "USER".USER_ID="ACTIVITY".USER_ID WHERE "USER".USER_ID = 1
+SELECT "USER".USER_ID, ACTL_NAME, ACT_TIME, 
+ACT_DATE, CAT_NAME, ACT_COMMENT  FROM "USER" LEFT JOIN "ACTIVITY" ON "USER".USER_ID="ACTIVITY".USER_ID WHERE "USER".USER_ID = 1
 )
-TO 'C:\Users\Game-PC\Desktop\Proekt\neew/ACTIVITY.csv' (format CSV);
+TO 'C:\Users\Game-PC\Desktop\Proekt\neew\ACTIVITYFJGHJY.csv' (format CSV);
 -- /.
 
 

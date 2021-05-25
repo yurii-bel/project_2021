@@ -2,6 +2,7 @@ import re
 import psycopg2 as db
 from psycopg2 import Error
 from uuid import uuid4
+import psycopg2.extras
 
 
 class DbLogic:
@@ -10,7 +11,6 @@ class DbLogic:
     user = 'ryxcgrjdgvrsxx'
     password = '2e4d8cbc5b0f94259507584c6868f20ae0d4da79fdc618f6c2602d18045b2b61'
     host = 'ec2-54-74-60-70.eu-west-1.compute.amazonaws.com'
-# рабочий коннект
 
     def __init__(self):
         self.connection = db.connect(database=self.database,
@@ -18,30 +18,46 @@ class DbLogic:
                                      password=self.password,
                                      host=self.host)
 
-        self.cursor = self.connection.cursor()
+        self.cursor = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         self.correct_login_info = False
 
-# Не трогать, не работает пока что
-    # def set_data(self, table_name, stolbec, *args):
-    #     table_name = table_name
-    #     table_record = ', '.join(['%s']*len(args))
-    #     insert_query = (f'(INSERT INTO "{table_name}" {stolbec} VALUES {table_record})')
-    #     self.connection.autocommit = True
-    #     cursor = self.connection.cursor()
-    #     cursor.execute(insert_query, args)
+    def set_data(self, table_name, column, *args):
+        with self.connection:
+            with self.cursor:
+                table_name = table_name
+                table_record = ', '.join(['%s']*len(args))
+                insert_query = (f'INSERT INTO "{table_name}" {column} VALUES {(table_record)}')
+                self.cursor.execute(insert_query, args)
 
-# наброски
     def get_data(self, table_name):
-        self.cursor.execute(f'(SELECT * FROM "{table_name}")')
-        return self.cursor.fetchall()
+        with self.connection:
+            with self.cursor:
+                self.cursor.execute(f'(SELECT * FROM "{table_name}")')
+                return self.cursor.fetchall()
+
+    def get_data_selectively(self, table_name, column, condition):
+        with self.connection:
+            with self.cursor:
+                self.cursor.execute(f'Select * FROM "{table_name}" WHERE {column} = %s;',(f'{condition}',))
+                return self.cursor.fetchone()
+
+    def get_data_cell(self, table_name, column, condition, index):
+        with self.connection:
+            with self.cursor:
+                self.cursor.execute(f'Select * FROM "{table_name}" WHERE {column} = %s;',(f'{condition}',))
+                return self.cursor.fetchone()[index]
 
     def del_data(self, table_name, condition):
-        self.cursor.execute(f'(DELETE FROM "{table_name}" WHERE {condition} ')
-        return self.cursor.fetchall()
+        with self.connection:
+            with self.cursor:
+                self.cursor.execute(f'(DELETE FROM "{table_name}" WHERE {condition} ')
 
-    def __stop__(self):
-        self.connection.close()
+    def update_data(self, table_name, description, condition):
+        with self.connection:
+            with self.cursor:
+                self.cursor.execute(f'UPDATE "{table_name}" SET {description} WHERE {condition}')
+
 
     # timo364 get user id and add user info test methods.
     def get_user_id(self, user):
@@ -79,7 +95,7 @@ class DbLogic:
             if 'True' in lst:
                 self.user_exists_message = f'Данный пользователь уже зарегистрирован.'
                 self.user_exists_bool = False
-                return 
+                return
 
             # self.cursor.execute(
             #     f'SELECT "USER_PRIVATE".user_p_email = \'{user_p_email}\' FROM "USER_PRIVATE"')
@@ -106,7 +122,6 @@ class DbLogic:
                 self.user_empty_password_message = f'Нельзя создать пустой пароль пользователя.'
                 self.user_empty_password_bool = False
                 return
-                
 
             self.cursor.execute('INSERT INTO "USER" (user_n_id, user_p_id)\
                 VALUES (%s,%s) ON CONFLICT DO NOTHING', (user_n_id, user_p_id))
@@ -203,6 +218,11 @@ class DbLogic:
 
 if __name__ == '__main__':
     dbl = DbLogic()
+    #print(dbl.get_data('USER'))
+    print(dbl.update_data('USER','user_n_id = 5555','user_id = 37'))
+    #print(dbl.get_data_selectively('ACTIVITY','USER_ID', 4))
+    #print(dbl.get_data_cell('ACTIVITY','USER_ID', 4, 4))
+    #print(dbl.set_data('USER', '(user_n_id, user_p_id)',('565', '34567') ))
     # print(dbl.get_user_id('Sif'))
     # print(dbl.register_user('', 'wow@wow.ru', 'woooowowow'))
     # dbl.register_user('Leva9', 'leya9@ukr.net', 'qwerty9')

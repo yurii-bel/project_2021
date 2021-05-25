@@ -26,12 +26,12 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi = uic.loadUi('design\\register_d.ui')
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
-        self.tUi = uic.loadUi('design\\table_d.ui')
+        # self.tUi = uic.loadUi('design\\table_d.ui')
         self.wUi = self.mUi.viewWidget
 
         # Connecting buttons to slots.
         # Main UI.
-        self.mUi.mainwindow_btn_nav_plus.clicked.connect(self.add_action)
+        self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
 

@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1440</width>
-    <height>1080</height>
+    <width>360</width>
+    <height>640</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -36,8 +36,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1441</width>
-     <height>1081</height>
+     <width>361</width>
+     <height>641</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="add_event_horizontalLayout_main">

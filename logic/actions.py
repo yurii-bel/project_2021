@@ -1,5 +1,6 @@
-import time
-from datetime import date
+import datetime
+
+from PyQt5.QtCore import QDate
 
 
 class Actions:
@@ -20,31 +21,17 @@ class Actions:
     :param comment: used for adding some comments to action/task.
     :type comment: str
     """
-    def __init__(self, action=None, category=None, \
-        hour=None, minute=None, second=None, year=None, month=None, day=None, \
-        duration=str, comment=None):
+    def __init__(self, action=str, category=str, date=QDate,\
+        duration=str, comment=str):
 
         self.action = action
         self.category = category
-
-        self.hour = hour
-        self.minute = minute
-        self.second = second
-
-        self.year = year
-        self.month = month
-        self.day = day
-        
         self.duration = duration
         self.comment = comment
 
-        t = f'{self.hour}:{self.minute}:{self.second}'
-        time_ = time.strptime(t, '%X')
-        self.time = time.strftime('%X', time_)
-
-        date_ = date(self.year, self.month, self.day)
-        self.date = date_.strftime('%Y.%m.%d')
+        self.date_ = datetime.date(date.year(), date.month(), date.day())
+        self.date = self.date_.strftime('%Y-%m-%d')
     
     def __str__(self):
-        pass
+        return self.date
         

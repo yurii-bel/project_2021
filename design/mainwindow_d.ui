@@ -124,9 +124,9 @@
        <widget class="QWidget" name="layoutWidget_3">
         <property name="geometry">
          <rect>
-          <x>1</x>
+          <x>11</x>
           <y>0</y>
-          <width>231</width>
+          <width>221</width>
           <height>631</height>
          </rect>
         </property>
@@ -165,7 +165,6 @@
 	background-color: rgba(0, 0, 0, 0);	
 	color: rgb(208, 210, 214);
 	text-align: left;
-	padding-left: 10px;
 	padding-right: 10px;
 	margin-top: 27px;
 }
@@ -211,7 +210,6 @@ QPushButton:hover {
 	background-color: rgba(0, 0, 0, 0);	
 	color: rgb(208, 210, 214);
 	text-align: left;
-	padding-left: 10px;
 	padding-right: 10px;
 }
 QPushButton:hover {
@@ -250,7 +248,6 @@ QPushButton:hover {
 	background-color: rgba(0, 0, 0, 0);	
 	color: rgb(208, 210, 214);
 	text-align: left;
-	padding-left: 10px;
 	padding-right: 10px;
 }
 QPushButton:hover {
@@ -289,7 +286,6 @@ QPushButton:hover {
 	background-color: rgba(0, 0, 0, 0);	
 	color: rgb(208, 210, 214);
 	text-align: left;
-	padding-left: 10px;
 	padding-right: 10px;
 }
 QPushButton:hover {
@@ -323,8 +319,7 @@ QPushButton:hover {
            </property>
            <property name="styleSheet">
             <string notr="true">color: #D0D2D6;
-margin-top: 20px;
-padding-left: 7px;</string>
+margin-top: 20px;</string>
            </property>
            <property name="text">
             <string>СТИЛЬ ОТОБРАЖЕНИЯ</string>
@@ -360,9 +355,8 @@ background-color: rgb(22, 29, 49);
 color: rgb(208, 210, 214);
 border: 2px solid rgba(0, 0, 0, 0);
 border-radius: 5px;
-padding-left: 20px;
+padding-left: 10px;
 padding-right: 10px;
-margin-left: 10px;
 }
 
 QComboBox:hover {
@@ -376,7 +370,6 @@ QComboBox QAbstractItemView {
 background-color: rgb(22, 29, 49);
 border: 2px solid #7666F8;
 color: rgb(203, 203, 203);
-margin-left: 10px;
 selection-background-color: rgb(94, 80, 238);
 selection-color: rgb(0, 0, 0);
 }</string>
@@ -1424,7 +1417,7 @@ padding-left: 20px;</string>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">

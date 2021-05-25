@@ -26,7 +26,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.lUi = uic.loadUi('design\\login_d.ui') # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui') # Settings window ui.
         self.tUi = uic.loadUi('design\\table.ui') # Table ui.
-        self.wUi = self.mUi.viewWidget # Widget for viewing various data.
+        self.wUi = self.mUi.mainwindow_widget_view # Widget for viewing various data.
 
         # Connecting buttons to slots.
         # Main UI.

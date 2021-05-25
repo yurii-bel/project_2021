@@ -52,7 +52,7 @@ class ActionsUI(QtWidgets.QMainWindow):
             self.aUi.add_event_comboBox_category.insertItem(i, categ)
             i += 1
 
-        self.show_add_event()
+        # self.show_add_event()
 
     def show_add_event(self):
         self.aUi.show()

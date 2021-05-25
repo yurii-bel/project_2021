@@ -18,19 +18,40 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>930</width>
-     <height>905</height>
+     <width>710</width>
+     <height>621</height>
     </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>710</width>
+     <height>621</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
    </property>
    <property name="styleSheet">
     <string notr="true">QTableWidget { 
 background-color: #283046;
-color: rgb(208, 210, 214);
+color: rgb(110, 107, 123);
 }</string>
    </property>
    <column>
     <property name="text">
-     <string>Дата создания</string>
+     <string>Дата</string>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto Light</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="foreground">
      <brush brushstyle="NoBrush">
@@ -46,6 +67,12 @@ color: rgb(208, 210, 214);
     <property name="text">
      <string>Категория</string>
     </property>
+    <property name="font">
+     <font>
+      <family>Roboto Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="foreground">
      <brush brushstyle="NoBrush">
       <color alpha="255">
@@ -58,7 +85,13 @@ color: rgb(208, 210, 214);
    </column>
    <column>
     <property name="text">
-     <string>Название</string>
+     <string>Событие</string>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto Light</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="foreground">
      <brush brushstyle="NoBrush">
@@ -74,6 +107,12 @@ color: rgb(208, 210, 214);
     <property name="text">
      <string>Длительность</string>
     </property>
+    <property name="font">
+     <font>
+      <family>Roboto Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="foreground">
      <brush brushstyle="NoBrush">
       <color alpha="255">
@@ -88,6 +127,12 @@ color: rgb(208, 210, 214);
     <property name="text">
      <string>Комментарий</string>
     </property>
+    <property name="font">
+     <font>
+      <family>Roboto Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="foreground">
      <brush brushstyle="NoBrush">
       <color alpha="255">
@@ -96,16 +141,6 @@ color: rgb(208, 210, 214);
        <blue>0</blue>
       </color>
      </brush>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Изменить</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Удалить</string>
     </property>
    </column>
   </widget>

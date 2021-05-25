@@ -1385,7 +1385,7 @@ border-radius: 5px;
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="mainwindow_w_widget_diagram" native="true">
+   <widget class="QWidget" name="mainwindow_w_widget_view" native="true">
     <property name="geometry">
      <rect>
       <x>550</x>

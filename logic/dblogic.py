@@ -150,6 +150,46 @@ class DbLogic:
                 else:
                     self.correct_login_info = False
 
+            if self.correct_login_info == True: 
+                self.load_user_activities()   # loading activities from db
+
+        except (Exception, Error) as error:
+            return f'{error}'
+        finally:
+            self.cursor.close()
+            self.connection.close()
+
+    def load_user_activities(self):
+        # working with ACTIVITY table.
+        self.activity_creation_date = []
+        self.activity_category = []
+        self.activity_name = []
+        self.activity_duration = []
+        self.activity_comment = []
+        self.table_rows_num = 0  # The number of rows in current TableView widget.
+
+        try:
+            self.connection.autocommit = True
+            self.cursor.execute(
+                f'SELECT act_id, user_id, actl_name, act_time, act_date, cat_name,\
+                    act_comment from "ACTIVITY"')
+            user_activities_table_rows = self.cursor.fetchall()
+                
+            for row in user_activities_table_rows:
+                if row[1] == self.current_user_id:
+                    # print(f'act id: {row[0]}| id: {row[1]}| activity: {row[2]}' )
+                    self.activity_creation_date.append(str(row[4]))  # act_date
+                    self.activity_category.append(str(row[5]))  # cat_name
+                    self.activity_name.append(str(row[2]))  # actl_name
+                    self.activity_duration.append(str(row[3]))  # act_time
+                    self.activity_comment.append(str(row[6]))  # act_comment
+            self.table_rows_num = len(self.activity_name)      
+                    # print(f'{row[4]}')
+            # print(f'\nDate: {self.activity_creation_date} \nCategory: \
+            #     {self.activity_category} \nActivity: {self.activity_name} \
+            #         \nDuration: {self.activity_duration} \nComment: {self.activity_comment}')
+            
+
         except (Exception, Error) as error:
             return f'{error}'
         finally:
@@ -272,8 +312,10 @@ if __name__ == '__main__':
     # dbl.register_user('Leva9', 'leya9@ukr.net', 'qwerty91')
     # dbl.drop_user('Leva9')
     # print(dbl.login_user('John', 'ok john'))
-    print(dbl.get_user_categories('Timofey'))
+    # print(dbl.get_user_categories('Timofey'))
     # print(dbl.copy_user('CATEGORY', '2'))
     # dbl.add_event('Timofey', 'Прогулка', '60', '2021-03-31', 'Отдых', 'Вражений')
     # dbl.drop_event('Timofey', 'Катание на лыжах')
     # dbl.drop_category('Timofey', 'Спорт')
+    # print(dbl.get_user_categories('Sif'))
+    # print(dbl.copy_user('CATEGORY', '2'))

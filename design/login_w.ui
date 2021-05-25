@@ -14,7 +14,7 @@
    <string>TimeSoft login</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(22, 29, 49);</string>
+   <string notr="true">background-color: #F8F8F8;</string>
   </property>
   <widget class="QLabel" name="login_w_imglbl_img">
    <property name="geometry">
@@ -29,7 +29,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>img/login-dark 1.svg</pixmap>
+    <pixmap>img/login-white 1.svg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -50,7 +50,7 @@
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(40, 48, 70);</string>
+    <string notr="true">background-color: #FFFFFF;</string>
    </property>
    <widget class="QPushButton" name="login_w_btn_login">
     <property name="geometry">
@@ -78,8 +78,8 @@ border: 2px solid #7367F0;
 color: rgb(255, 255, 255);
 }
 QPushButton:hover {
-  background-color: rgb(40, 48, 70); 
-  color: rgb(255, 255, 255);
+  background-color: #FFFFFF;
+  color: #5E5873; 
   border: 2px solid rgb(95, 85, 200);
 }</string>
     </property>
@@ -112,7 +112,7 @@ QPushButton:hover {
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(208, 210, 214); </string>
+     <string notr="true">color: #5E5873; </string>
     </property>
     <property name="text">
      <string>Добро пожаловать в TimeSoft!</string>
@@ -129,18 +129,15 @@ QPushButton:hover {
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
      </font>
     </property>
     <property name="focusPolicy">
      <enum>Qt::StrongFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(110, 107, 123);</string>
+     <string notr="true">color: #6E6B7B;</string>
     </property>
     <property name="text">
      <string>Новичок на нашей платформе?</string>
@@ -160,15 +157,12 @@ QPushButton:hover {
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(208, 210, 214); 
+     <string notr="true">color: #6E6B7B; 
 </string>
     </property>
     <property name="text">
@@ -189,15 +183,12 @@ QPushButton:hover {
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(180, 183, 189);</string>
+     <string notr="true">color: #6E6B7B;</string>
     </property>
     <property name="text">
      <string>Пароль</string>
@@ -214,15 +205,12 @@ QPushButton:hover {
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(180, 183, 189);</string>
+     <string notr="true">color: #6E6B7B;</string>
     </property>
     <property name="text">
      <string>Логин</string>
@@ -239,18 +227,18 @@ QPushButton:hover {
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-    color: rgb(115, 103, 240);
+    color: #7367F0;
     background-color: rgba(0,0,0,0);
 }
 
 QPushButton:hover {
-	color: rgb(180, 183, 189);
+	color: #6E6B7B;
 }</string>
     </property>
     <property name="text">
@@ -266,19 +254,23 @@ QPushButton:hover {
       <height>38</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Roboto</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit { 
-background: #283046;
-font: 14pt &quot;Roboto&quot;;
+background: #FFFFFF;
 color: rgb(103, 109, 125);
-border: 1px solid #404656;
-box-sizing: border-box;
+border: 1px solid #D8D6DE;
 border-radius: 5px;
 padding-left: 15px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
     </property>
     <property name="echoMode">
@@ -301,9 +293,6 @@ border: 2px solid rgb(95, 85, 200);
      <font>
       <family>Roboto</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
      </font>
     </property>
     <property name="layoutDirection">
@@ -311,17 +300,15 @@ border: 2px solid rgb(95, 85, 200);
     </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit { 
-background: #283046;
-font: 12pt &quot;Roboto&quot;;
+background: #FFFFFF;
 color: rgb(103, 109, 125);
-border: 1px solid #404656;
-box-sizing: border-box;
+border: 1px solid #D8D6DE;
 border-radius: 5px;
 padding-left: 15px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
     </property>
     <property name="alignment">
@@ -337,27 +324,20 @@ border: 2px solid rgb(95, 85, 200);
     <rect>
      <x>92</x>
      <y>37</y>
-     <width>100</width>
+     <width>110</width>
      <height>29</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Roboto</family>
-     <pointsize>-1</pointsize>
+     <pointsize>20</pointsize>
      <weight>75</weight>
-     <italic>false</italic>
      <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">font-family: Roboto;
-font-style: normal;
-font-weight: bold;
-font-size: 24px;
-line-height: 29px;
-letter-spacing: -0.428571px;
-color: #7367F0;</string>
+    <string notr="true">color: #7367F0;</string>
    </property>
    <property name="text">
     <string>TimeSoft</string>

@@ -1,0 +1,518 @@
+.block {
+    display: block;
+}
+.hidden {
+    display: none;
+}
+.clear {
+    clear: both;
+}
+.float-left {
+    float: left;
+}
+.float-right {
+    float: right;
+}
+.line-height {
+    line-height: 0;
+}
+.clear-right {
+    clear: right;
+}
+.clear-left {
+    clear: left;
+}
+.center-relative {
+    margin-left: auto;
+    margin-right: auto;
+}
+.center-absolute {
+    left: 50%;
+}
+.center-text,
+.center {
+    text-align: center;
+}
+.text-left,
+.left {
+    text-align: left;
+}
+.text-right,
+.right {
+    text-align: right;
+}
+.absolute {
+    position: absolute;
+}
+.fixed {
+    position: fixed;
+}
+.relative {
+    position: relative;
+}
+.margin-0 {
+    margin: 0 !important;
+    line-height: 0;
+}
+.top-0 {
+    margin-top: 0 !important;
+}
+.top-5 {
+    margin-top: 5px !important;
+}
+.top-10 {
+    margin-top: 10px;
+}
+.top-15 {
+    margin-top: 15px;
+}
+.top-20 {
+    margin-top: 20px;
+}
+.top-25 {
+    margin-top: 25px;
+}
+.top-30 {
+    margin-top: 30px;
+}
+.top-50 {
+    margin-top: 50px;
+}
+.top-60 {
+    margin-top: 60px;
+}
+.top-70 {
+    margin-top: 70px;
+}
+.top-75 {
+    margin-top: 75px;
+}
+.top-80 {
+    margin-top: 80px;
+}
+.top-100 {
+    margin-top: 100px;
+}
+.top-105 {
+    margin-top: 105px;
+}
+.top-120 {
+    margin-top: 120px;
+}
+.top-150 {
+    margin-top: 150px;
+}
+.top-200 {
+    margin-top: 200px;
+}
+.top-negative-30 {
+    margin-top: -30px;
+}
+.left-35 {
+    margin-left: 35px;
+}
+.right-35 {
+    margin-right: 35px;
+}
+.bottom-0 {
+    margin-bottom: 0 !important;
+}
+.bottom-10 {
+    margin-bottom: 10px !important;
+}
+.bottom-20 {
+    margin-bottom: 20px !important;
+}
+.bottom-25 {
+    margin-bottom: 25px !important;
+}
+.bottom-30 {
+    margin-bottom: 30px !important;
+}
+.bottom-50 {
+    margin-bottom: 50px !important;
+}
+.bottom-100 {
+    margin-bottom: 100px !important;
+}
+.bottom-150 {
+    margin-bottom: 150px !important;
+}
+.bottom-200 {
+    margin-bottom: 200px !important;
+}
+blockquote {
+    font-weight: 300;
+    font-style: italic;
+    border-left: 10px solid #e625a4;
+    padding-left: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 24px;
+    line-height: 35px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+iframe {
+    width: 100%;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    padding: 20px 0;
+}
+h1 {
+    font-size: 38px;
+    line-height: 38px;
+}
+h2 {
+    font-size: 34px;
+    line-height: 34px;
+}
+h3 {
+    font-size: 32px;
+    line-height: 32px;
+}
+h4 {
+    font-size: 30px;
+}
+h5 {
+    font-size: 28px;
+}
+h6 {
+    font-size: 26px;
+}
+em {
+    font-style: italic;
+}
+ol {
+    list-style-type: decimal;
+}
+pre {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+table,
+th,
+td {
+    border: 1px solid black;
+    padding: 10px;
+    vertical-align: middle;
+}
+sup {
+    vertical-align: super;
+    font-size: smaller;
+}
+sub {
+    vertical-align: sub;
+    font-size: smaller;
+}
+
+/* ===================================
+    1.1 Columns CSS
+====================================== */
+
+.one,
+.one_half,
+.one_third,
+.two_third,
+.three_fourth,
+.one_fourth {
+    margin-right: 8%;
+    float: left;
+    position: relative;
+    margin-bottom: 30px;
+}
+.last {
+    margin-right: 0 !important;
+    clear: right;
+}
+.one {
+    float: none;
+    display: block;
+    clear: both;
+    margin-right: 0;
+}
+.one_half {
+    width: 46%;
+}
+.one_third {
+    width: 28%;
+}
+.two_third {
+    width: 64%;
+}
+.one_fourth {
+    width: 19%;
+}
+.three_fourth {
+    width: 73%;
+}
+
+/* ===================================
+    1.1 Animation CSS
+====================================== */
+
+.animate {
+    opacity: 0;
+    transition: 0.3s ease-in;
+    -ms-transform: translate(0px, 70px);
+    -webkit-transform: translate(0px, 70px);
+    transform: translate(0px, 70px);
+}
+
+.animate.show-it {
+    opacity: 1;
+    -ms-transform: translate(0px, 0px);
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+}
+
+.wait-01s {
+    -webkit-transition-delay: 0.1s;
+    transition-delay: 0.1s;
+}
+
+.wait-02s {
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+}
+
+.wait-03s {
+    -webkit-transition-delay: 0.3s;
+    transition-delay: 0.3s;
+}
+
+.wait-04s {
+    -webkit-transition-delay: 0.4s;
+    transition-delay: 0.4s;
+}
+
+.wait-05s {
+    -webkit-transition-delay: 0.5s;
+    transition-delay: 0.5s;
+}
+
+.wait-06s {
+    -webkit-transition-delay: 0.6s;
+    transition-delay: 0.6s;
+}
+
+.wait-07s {
+    -webkit-transition-delay: 0.7s;
+    transition-delay: 0.7s;
+}
+
+.wait-08s {
+    -webkit-transition-delay: 0.8s;
+    transition-delay: 0.8s;
+}
+
+.wait-09s {
+    -webkit-transition-delay: 0.9s;
+    transition-delay: 0.9s;
+}
+
+.wait-10s {
+    -webkit-transition-delay: 1s;
+    transition-delay: 1s;
+}
+
+.wait-11s {
+    -webkit-transition-delay: 1.1s;
+    transition-delay: 1.1s;
+}
+
+.wait-12s {
+    -webkit-transition-delay: 1.2s;
+    transition-delay: 1.2s;
+}
+
+.wait-13s {
+    -webkit-transition-delay: 1.3s;
+    transition-delay: 1.3s;
+}
+
+.wait-14s {
+    -webkit-transition-delay: 1.4s;
+    transition-delay: 1.4s;
+}
+
+.wait-15s {
+    -webkit-transition-delay: 1.5s;
+    transition-delay: 1.5s;
+}
+
+/* ===================================
+    2. Image Slider CSS
+====================================== */
+
+.image-slider-wrapper {
+    margin-bottom: 45px;
+}
+
+.owl-theme .owl-dots .owl-dot span {
+    margin: 5px;
+    background: #e3e3e3;
+    transition: all 0.2s ease;
+    border: 4px solid transparent;
+}
+
+.owl-theme .owl-dots .owl-dot.active span,
+.owl-theme .owl-dots .owl-dot:hover span {
+    background: white;
+    border-color: #f1576b;
+}
+
+/* ===================================
+    3. Button CSS
+====================================== */
+
+a.button {
+    display: inline-block;
+    color: #fff !important;
+    background-color: #6b62d3;
+    text-align: left;
+    padding-bottom: 17px;
+    padding-top: 17px;
+    padding-left: 60px;
+    padding-right: 60px;
+    cursor: pointer;
+    vertical-align: middle;
+    text-decoration: none;
+    transition: all 0.2s linear;
+    margin-bottom: 17px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+a.button:hover {
+    background-color: #000;
+}
+
+/* ===================================
+    5. Isotope CSS
+====================================== */
+
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+    -webkit-transition-duration: 0s;
+    -moz-transition-duration: 0s;
+    -ms-transition-duration: 0s;
+    -o-transition-duration: 0s;
+    transition-duration: 0s;
+}
+
+/* ===================================
+    8. Image PopUp (PreetyPhoto) CSS
+====================================== */
+
+div.pp_default .pp_loaderIcon {
+    display: none !important;
+}
+
+div.pp_default a.pp_arrow_previous {
+    background-image: url(../images/nav_left.png);
+    background-size: 20px 20px;
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -99999999px;
+    transition: transform 0.3s ease;
+}
+
+div.pp_default a.pp_arrow_next {
+    background-image: url(../images/nav_right.png);
+    background-size: 20px 20px;
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -99999999px;
+    transition: transform 0.3s ease;
+}
+
+div.pp_default a.pp_arrow_previous:hover {
+    transform: translateX(-5px);
+}
+
+div.pp_default a.pp_arrow_next:hover {
+    transform: translateX(5px);
+}
+
+div.pp_default .pp_close {
+    background-image: url(../images/close.png);
+    background-size: 30px 30px;
+    margin-top: 5px;
+    text-indent: -99999999px;
+    font-size: 0;
+    line-height: 0;
+}
+
+div.pp_default .pp_next:hover {
+    background: url(../images/nav_right.png);
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: 95% 50%;
+    background-size: 20px;
+}
+
+div.pp_default .pp_previous:hover {
+    background: url(../images/nav_left.png);
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: 5% 50%;
+    background-size: 20px;
+}
+
+div.pp_default .pp_nav .currentTextHolder {
+    padding: 0 0 0 20px;
+    color: #fff;
+}
+
+div.pp_default .pp_description {
+    font-size: 15px;
+    line-height: 30px;
+    position: absolute;
+    top: -30px;
+    margin: 0;
+    color: #fff;
+    font-weight: 400;
+}
+
+a.video-popup-holder {
+    line-height: 0;
+    font-size: 0;
+    display: block;
+    position: relative;
+    width: 90px;
+    height: 90px;
+    margin: 0 auto;
+}
+
+a.video-popup-holder .thumb {
+    border-radius: 90%;
+}
+
+.popup-play {
+    background-image: url(../images/play_btn.png);
+    width: 90px;
+    height: 90px;
+    background-size: 90px 90px;
+    margin-bottom: 0;
+    transition: opacity 0.3s ease;
+}
+
+a.video-popup-holder:hover .popup-play {
+    opacity: 0.7;
+}

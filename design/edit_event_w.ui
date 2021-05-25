@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1440</width>
-    <height>1080</height>
+    <width>360</width>
+    <height>640</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -36,8 +36,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1441</width>
-     <height>1081</height>
+     <width>361</width>
+     <height>641</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="edit_event_w_horizontalLayout_main">
@@ -80,7 +80,7 @@
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(22, 29, 49);</string>
+         <string notr="true">background-color: #F8F8F8;</string>
         </property>
         <widget class="QLabel" name="edit_event_w_textlbl_title">
          <property name="geometry">
@@ -104,7 +104,7 @@
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">color: rgb(208, 210, 214);</string>
+          <string notr="true">color: #5E5873;</string>
          </property>
          <property name="text">
           <string>Редактировать событие</string>
@@ -127,7 +127,7 @@
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
-color: rgb(208, 210, 214);
+color: #6E6B7B;
 background-color:rgba(0,0,0,0);
 }
 QPushButton:hover {
@@ -159,7 +159,7 @@ color: rgb(234, 84, 85);
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(40, 48, 70);</string>
+         <string notr="true">background-color: #FFFFFF;</string>
         </property>
         <widget class="QWidget" name="verticalLayoutWidget_2">
          <property name="geometry">
@@ -198,7 +198,7 @@ color: rgb(234, 84, 85);
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: rgb(185, 185, 195);</string>
+             <string notr="true">color: #5E5873;</string>
             </property>
             <property name="text">
              <string>Название</string>
@@ -227,14 +227,14 @@ color: rgb(234, 84, 85);
             </property>
             <property name="styleSheet">
              <string notr="true">QLineEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
+background-color: #FFFFFF;
+border: 1px solid #D8D6DE;
 border-radius: 5px;
-color: rgb(255, 255, 255);
+color: #6E6B7B;
 }
 QLineEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	background-color: rgba(108, 117, 125, 0.04); 
+	border: 2px solid #82868B;
 }</string>
             </property>
            </widget>
@@ -255,7 +255,7 @@ QLineEdit:hover {
             </property>
             <property name="styleSheet">
              <string notr="true">margin-top:10px;
-color: rgb(185, 185, 195);</string>
+color: #5E5873;</string>
             </property>
             <property name="text">
              <string>Категория</string>
@@ -284,14 +284,14 @@ color: rgb(185, 185, 195);</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QComboBox {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
+background-color: #FFFFFF;
+border: 1px solid #D8D6DE;
 border-radius: 5px;
-color: rgb(255, 255, 255);
+color: #6E6B7B;
 }
 QComboBox:hover {
-	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	background-color: rgba(108, 117, 125, 0.04); 
+	border: 2px solid #82868B;
 }</string>
             </property>
             <item>
@@ -327,7 +327,7 @@ QComboBox:hover {
             </property>
             <property name="styleSheet">
              <string notr="true">margin-top:10px;
-color: rgb(185, 185, 195);</string>
+color: #5E5873;</string>
             </property>
             <property name="text">
              <string>Потрачено времени</string>
@@ -356,14 +356,14 @@ color: rgb(185, 185, 195);</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QLineEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
+background-color: #FFFFFF;
+border: 1px solid #D8D6DE;
 border-radius: 5px;
-color: rgb(255, 255, 255);
+color: #6E6B7B;
 }
 QLineEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	background-color: rgba(108, 117, 125, 0.04); 
+	border: 2px solid #82868B;
 }</string>
             </property>
            </widget>
@@ -384,7 +384,7 @@ QLineEdit:hover {
             </property>
             <property name="styleSheet">
              <string notr="true">margin-top:10px;
-color: rgb(185, 185, 195);</string>
+color: #5E5873;</string>
             </property>
             <property name="text">
              <string>Дата</string>
@@ -413,14 +413,14 @@ color: rgb(185, 185, 195);</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QDateEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
+background-color: #FFFFFF;
+border: 1px solid #D8D6DE;
 border-radius: 5px;
-color: rgb(255, 255, 255);
+color: #6E6B7B;
 }
 QDateEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	background-color: rgba(108, 117, 125, 0.04); 
+	border: 2px solid #82868B;
 }</string>
             </property>
             <property name="correctionMode">
@@ -471,7 +471,7 @@ QDateEdit:hover {
             </property>
             <property name="styleSheet">
              <string notr="true">margin-top:10px;
-color: rgb(185, 185, 195);</string>
+color: #5E5873;</string>
             </property>
             <property name="text">
              <string>Комментарий</string>
@@ -488,14 +488,14 @@ color: rgb(185, 185, 195);</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QPlainTextEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
+background-color: #FFFFFF;
+border: 1px solid #D8D6DE;
 border-radius: 5px;
-color: rgb(255, 255, 255);
+color: #6E6B7B;
 }
 QPlainTextEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	border: 2px solid rgb(95, 85, 200);
+	background-color: rgba(108, 117, 125, 0.04); 
+	border: 2px solid #82868B;
 }</string>
             </property>
            </widget>
@@ -530,11 +530,10 @@ padding-right: 23 px;
 padding-left: 23 px;
 padding-bottom: 10 px;
 text-align: center;
-letter-spacing: 0.4px;
 margin-right: 8px;
 }
 QPushButton:hover {
-  background-color: rgb(40, 48, 70); 
+  background-color: rgb(255, 255, 255); 
   color: rgb(115, 103, 240);
   border: 2px solid rgb(95, 85, 200);
 }</string>
@@ -557,18 +556,16 @@ QPushButton:hover {
               </property>
               <property name="styleSheet">
                <string notr="true">QPushButton {
-background-color: rgb(40, 48, 70); 
+background-color: #FFFFFF; 
 border-radius: 5px;
-border: 2px solid rgb(234, 84, 85);
-color: rgb(234, 84, 85);
+border: 2px solid  rgb(234, 84, 85);
+color:  rgb(234, 84, 85);
 padding-top: 10 px; 
 padding-right: 23 px;
 padding-left: 23 px;
 padding-bottom: 10 px;
 text-align: center;
-letter-spacing: 0.4px;
 margin-left: 8px;
-
 }
 QPushButton:hover {
 background-color: rgb(234, 84, 85);

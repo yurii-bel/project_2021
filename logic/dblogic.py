@@ -19,18 +19,7 @@ class DbLogic:
         self.cursor2 = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         self.correct_login_info = False
-
-        # TODO: избавиться от этих блоков:
-        self.user_exists_bool, self.user_email_bool, self.user_empty_name_bool,\
-            self.user_empty_email_bool, self.user_empty_password_bool,\
-                self.user_incorrect_password_bool =\
-                    None, None, None, None, None, None
-
-        self.user_exists_message, self.user_email_message,\
-            self.user_empty_name_message, self.user_empty_email_message,\
-                self.user_empty_password_message,\
-                    self.user_incorrect_password_message =\
-                        None, None, None, None, None, None
+        self.user_input_check = None
 
     def register_user(self, user_n_name, user_p_email, user_p_password):
         try:
@@ -43,31 +32,23 @@ class DbLogic:
             # Сделано в Китае. Разработано в России.
             lst = str(self.cursor.fetchall())
             if 'True' in lst:
-                self.user_exists_message = f'Данный пользователь уже зарегистрирован.'
-                self.user_exists_bool = False
+                self.user_input_check = '1'
                 return 
             elif 'True' in lst:
-                self.user_email_message = f'Данный емейл уже зарегистрирован.'
-                self.user_email_bool = False
+                self.user_input_check = '2'
                 return
             elif user_n_name == '':
-                self.user_empty_name_message = f'Нельзя создать пустой логин пользователя.'
-                self.user_empty_name_bool = False
+                self.user_input_check = '3'
                 return
             elif user_p_email == '':
-                self.user_empty_email_message = f'Нельзя создать пустой емейл пользователя.'
-                self.user_empty_email_bool = False
+                self.user_input_check = '4'
                 return
             elif user_p_password == '':
-                self.user_empty_password_message = f'Нельзя создать пустой пароль пользователя.'
-                self.user_empty_password_bool = False
+                self.user_input_check = '5'
                 return
             elif len(user_p_password) <= 7:
-                self.user_incorrect_password_message =\
-                    f'Длина пароля должна быть не менее 8 символов.'
-                self.user_incorrect_password_bool = False
+                self.user_input_check = '6'
                 return
-
 
             self.cursor.execute('INSERT INTO "USER" (user_n_id, user_p_id)\
                 VALUES (%s,%s) ON CONFLICT DO NOTHING', (user_n_id, user_p_id))
@@ -78,11 +59,10 @@ class DbLogic:
             self.cursor.execute('INSERT INTO "USER_PRIVATE" (user_p_id, user_p_email, user_p_password)\
                 VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (user_p_id, user_p_email, user_p_password))
 
-        except (Exception, Error) as error:
-            return f'{error}'
+        except Exception:
+            pass
         finally:
-            self.cursor.close()
-            self.connection.close()
+            self.cursor2.close()
 
     def login_user(self, user_n_name, user_p_password):
         try:
@@ -99,14 +79,10 @@ class DbLogic:
             self.current_user_p_password = None
 
             if user_n_name == '':
-                self.user_empty_name_message =\
-                    f'Строка логина пуста. Пожалуйста, введите Ваш логин.'
-                self.user_empty_name_bool = False
+                self.user_input_check = '7'
                 return
             elif user_p_password == '':
-                self.user_empty_password_message =\
-                    f'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.'
-                self.user_empty_password_bool = False
+                self.user_input_check = '8'
                 return
 
             # working with USER_NAME table
@@ -122,7 +98,6 @@ class DbLogic:
                     break
                 else:
                     pass
-
 
             # working with USER table
             self.cursor.execute(
@@ -205,14 +180,10 @@ class DbLogic:
             self.cursor.execute(\
                 'DELETE FROM "USER" WHERE user_n_id = %(userID)s',\
                                 {'userID': user_id})
-
-            self.connection.commit()
-
-        except (Exception, Error) as error:
-            return f'{error}'
+        except Exception:
+            pass
         finally:
-            self.cursor.close()
-            self.connection.close()
+            self.cursor2.close()
 
     def get_user_n_id(self, user):
         try:
@@ -220,18 +191,24 @@ class DbLogic:
                 'SELECT user_n_id FROM "USER_NAME"\
                     WHERE user_n_name = %(user)s', {'user': user})
             return str(self.cursor2.fetchone())[2:-2]
-        except (Exception, Error) as error:
-            return f'{error}'
+        except Exception:
+            pass
+        finally:
+            self.cursor2.close()
 
     def get_user_id(self, user_n_id):
-        self.cursor2.execute(\
-            'SELECT user_id FROM "USER"\
-                WHERE user_n_id = %(user_n_id)s', {'user_n_id': user_n_id})
-        return str(self.cursor2.fetchall())[2:-2]
-        # except (Exception, Error) as error:
-        #     return f'{error}'
+        try:
+            self.cursor2.execute(\
+                'SELECT user_id FROM "USER"\
+                    WHERE user_n_id = %(user_n_id)s', {'user_n_id': user_n_id})
+            return str(self.cursor2.fetchall())[2:-2]
+        except Exception:
+            pass
+        finally:
+            self.cursor2.close()
 
     def get_user_categories(self, user):
+        try:
             self.connection.autocommit = True
             user_n_id = self.get_user_n_id(user)
             user_id = self.get_user_id(user_n_id)
@@ -242,67 +219,84 @@ class DbLogic:
             for row in self.cursor2.fetchall():
                 categs += row
             return categs
+        except Exception:
+            pass
+        finally:
+            self.cursor2.close()
 
     def copy_user(self, table_name, column):
-        # try:
-        with self.connection:
-            with self.cursor:
-                self.cursor.execute(f'SELECT * FROM "{table_name}"\
-                    WHERE USER_ID = \'{column}\'')
-                return self.cursor.fetchall()
-    # except (Exception, Error) as error:
-        #     return f'{error}'
-        # finally:
-        #     self.cursor.close()
-        #     self.connection.close()
+        try:
+            with self.connection:
+                with self.cursor:
+                    self.cursor.execute(f'SELECT * FROM "{table_name}"\
+                        WHERE USER_ID = \'{column}\'')
+                    return self.cursor.fetchall()
+        except (Exception, Error) as error:
+            return f'{error}'
 
     def add_event(self, user, actl_name, act_time, act_date, cat_name,\
         act_comment):
-        self.connection.autocommit = True
-        user_n_id = self.get_user_n_id(user)
-        user_id = self.get_user_id(user_n_id)
+        try:
+            self.connection.autocommit = True
+            user_n_id = self.get_user_n_id(user)
+            user_id = self.get_user_id(user_n_id)
 
-        self.cursor2.execute(\
-            f'SELECT cat_name FROM "CATEGORY" WHERE user_id = \'{user_id}\'')
-        user_categories = self.cursor2.fetchall()
-        for row in user_categories:
-            if cat_name == row[0]:
-                break
-        else:
             self.cursor2.execute(\
-                f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',\
-                    (user_id, cat_name))
+                f'SELECT cat_name FROM "CATEGORY" WHERE user_id = \'{user_id}\'')
+            user_categories = self.cursor2.fetchall()
+            for row in user_categories:
+                if cat_name == row[0]:
+                    break
+            else:
+                self.cursor2.execute(\
+                    f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',\
+                        (user_id, cat_name))
 
-        self.cursor2.execute(\
-            f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name)\
-                VALUES (%s,%s,%s)', (user_id, actl_name, cat_name))
+            self.cursor2.execute(\
+                f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name)\
+                    VALUES (%s,%s,%s)', (user_id, actl_name, cat_name))
 
-        self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
-                    act_time, act_date, cat_name, act_comment)\
-                        VALUES (%s,%s,%s,%s,%s,%s)',\
-                    (user_id, actl_name, act_time, act_date, cat_name, act_comment))
+            self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
+                        act_time, act_date, cat_name, act_comment)\
+                            VALUES (%s,%s,%s,%s,%s,%s)',\
+                        (user_id, actl_name, act_time, act_date, cat_name, act_comment))
+        except Exception:
+            pass
+        finally:
+            self.cursor2.close()
 
     def drop_event(self, user, actl_name):
-        self.connection.autocommit = True
-        user_n_id = self.get_user_n_id(user)
-        user_id = self.get_user_id(user_n_id)
+        try:
+            self.connection.autocommit = True
+            user_n_id = self.get_user_n_id(user)
+            user_id = self.get_user_id(user_n_id)
 
-        self.cursor2.execute(\
-            f'DELETE FROM "ACTIVITY"\
-                WHERE user_id = \'{user_id}\' and actl_name = \'{actl_name}\'')
+            self.cursor2.execute(\
+                f'DELETE FROM "ACTIVITY"\
+                    WHERE user_id = \'{user_id}\' and actl_name = \'{actl_name}\'')
 
-        self.cursor2.execute(\
-            f'DELETE FROM "ACTIVITY_LIST"\
-                WHERE user_id = \'{user_id}\' and actl_name = \'{actl_name}\'')
+            self.cursor2.execute(\
+                f'DELETE FROM "ACTIVITY_LIST"\
+                    WHERE user_id = \'{user_id}\' and actl_name = \'{actl_name}\'')
+        except Exception:
+            pass
+        finally:
+            self.cursor2.close()
+
 
     def drop_category(self, user, cat_name):
-        self.connection.autocommit = True
-        user_n_id = self.get_user_n_id(user)
-        user_id = self.get_user_id(user_n_id)
+        try:
+            self.connection.autocommit = True
+            user_n_id = self.get_user_n_id(user)
+            user_id = self.get_user_id(user_n_id)
 
-        self.cursor2.execute(\
-            f'DELETE FROM "CATEGORY"\
-                WHERE user_id = \'{user_id}\' and cat_name = \'{cat_name}\'')
+            self.cursor2.execute(\
+                f'DELETE FROM "CATEGORY"\
+                    WHERE user_id = \'{user_id}\' and cat_name = \'{cat_name}\'')
+        except Exception:
+            pass
+        finally:
+            self.cursor2.close()
 
 
 if __name__ == '__main__':

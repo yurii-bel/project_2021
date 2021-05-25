@@ -1,77 +1,769 @@
-{% extends "base.html" %}
+<!DOCTYPE HTML>
 {% load static %}
+<html lang="ru_RU">
 
-{% block content %}
+<head>
+  <title>TimeSoft - One Page Html Template</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="description" content="Проект TimeSoft. Держи под контролем свое время." />
+  <meta name="author" content="Симоновский" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<div class="jumbotron text-center">
-  <div class="container">
-    <a href="/" class="lang-logo">
-      <img src="{% static 'Logo.svg'%}">
-    </a>
-    <h1>Test server Python on Heroku</h1>
-    <p>This is a sample Python application deployed to Heroku. It's a reasonably simple app - but a good foundation for
-      understanding how to get the most out of the Heroku platform.</p>
-    <a type="button" class="btn btn-lg btn-default"
-      href="https://devcenter.heroku.com/articles/getting-started-with-python"><span
-        class="glyphicon glyphicon-flash"></span> Getting Started with Python</a>
-    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/heroku/python-getting-started"><span
-        class="glyphicon glyphicon-download"></span> Source on GitHub</a>
-  </div>
-</div>
-<div class="container">
-  <div class="alert alert-info text-center" role="alert">
-    To deploy your own copy, and learn the fundamentals of the Heroku platform, head over to the <a
-      href="https://devcenter.heroku.com/articles/getting-started-with-python" class="alert-link">Getting Started with
-      Python on Heroku</a> tutorial.
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-info-sign"></span> How this sample app works</h3>
-      <ul>
-        <li>This app was deployed to Heroku, either using Git or by using <a
-            href="https://github.com/heroku/python-getting-started">Heroku Button</a> on the repository.</li>
+  <link rel="shortcut icon" href="{% static 'images/favicon.ico'%}" />
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href='{% static "css/style.css"%}' />
 
-        <li>When Heroku received the source code, it fetched all the dependencies in <a
-            href="https://github.com/heroku/python-getting-started/blob/main/requirements.txt">requirements.txt</a>,
-          creating a deployable slug.</li>
-        <li>The platform then spins up a dyno, a lightweight container that provides an isolated environment in which
-          the slug can be mounted and executed.</li>
-        <li>You can scale your app, manage it, and deploy over <a href="https://addons.heroku.com/">150 add-on
-            services</a>, from the Dashboard or CLI.</li>
-      </ul>
+  <!--[if lt IE 9]>
+                <script src="{% static 'js/html5shiv.js'%}"></script>            
+                <script src="{% static 'js/respond.min.js'%}"></script>                   
+        <![endif]-->
+</head>
+
+<body class="page-template-onepage">
+
+  <div class="site-wrapper">
+
+    <div class="doc-loader">
+      <img src="{% static 'images/preloader.gif'%}" alt="TimeSoft">
     </div>
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-link"></span> Next Steps</h3>
-      <ul>
-        <li>If you are following the <a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting
-            Started</a> guide, then please head back to the tutorial and follow the next steps!</li>
-        <li>If you deployed this app by deploying the Heroku Button, then in a command line shell, run:</li>
-        <ul>
-          <li><code>git clone https://github.com/heroku/python-getting-started.git</code> - this will create a local
-            copy of the source code for the app</li>
-          <li><code>cd python-getting-started</code> - change directory into the local source code repository</li>
-          <li><code>heroku git:remote -a &lt;your-app-name></code> - associate the Heroku app with the repository</li>
-          <li>You'll now be set up to run the app locally, or <a
-              href="https://devcenter.heroku.com/articles/getting-started-with-python#push-local-changes">deploy
-              changes</a> to Heroku</li>
-        </ul>
-      </ul>
-      <h3><span class="glyphicon glyphicon-link"></span> Helpful Links</h3>
-      <ul>
-        <li><a href="https://www.heroku.com/home">Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/">Heroku Dev Center</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started with Python on
-            Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/django-app-configuration">Configuring Django Apps for
-            Heroku</a></li>
-      </ul>
+
+
+    <header class="header-holder">
+      <div class="menu-wrapper center-relative relative">
+        <div class="header-logo">
+          <a href="index.html">
+            <img src="{% static 'images/logo.svg'%}" alt="TimeSoft">
+          </a>
+        </div>
+
+        <div class="toggle-holder">
+          <div id="toggle" class="">
+            <div class="first-menu-line"></div>
+            <div class="second-menu-line"></div>
+            <div class="third-menu-line"></div>
+          </div>
+        </div>
+
+        <div class="menu-holder">
+          <nav id="header-main-menu">
+            <ul class="main-menu sm sm-clean">
+              <li>
+                <a href="#about">О программе</a>
+              </li>
+              <li>
+                <a href="#capabilities">Возможности</a>
+              </li>
+              <li>
+                <a href="#еvents">Новости</a>
+              </li>
+              <li>
+                <a href="#team">Команда</a>
+              </li>
+              <li>
+                <a href="#portfolio">Скриншоты</a>
+              </li>
+              <li>
+                <a href="#skills">Навыки</a>
+              </li>
+              <li>
+                <a href="#video">Видео</a>
+              </li>
+              <li>
+                <a href="#clients">Использовано</a>
+              </li>
+              <!-- <li>
+                <a>More</a>
+                <ul class="sub-menu">
+                  <li>
+                    <a href="blog.html">Blog</a>
+                  </li>
+                  <li>
+                    <a href="single.html">Single Post</a>
+                  </li>
+                  <li>
+                    <a href="page.html">Single Page</a>
+                  </li>
+                </ul>
+              </li> -->
+            </ul>
+          </nav>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </header>
+
+
+
+    <div id="content" class="site-content center-relative">
+
+      <!-- Home Section -->
+      <div id="home" class="section full-width full-screen">
+        <div class="section-wrapper block content-1170 center-relative">
+          <div class="content-wrapper">
+            <h1 class="big-text ">
+              Мы создали потрясный софт <br>
+              с шикарным дизайном<br>
+              лично для тебя
+            </h1>
+            <div class="text-left">
+              <a href="#" class="button scroll top-30">Скачать</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- capabilities Section -->
+      <div id="capabilities" class="section page-split">
+        <div class="section-wrapper block content-1170 center-relative">
+
+          <div class="bg-holder float-left">
+            <img src="{% static 'images/left_obj_01.png'%}" alt="">
+          </div>
+
+          <div class="section-title-holder float-left" data-background="#a13dd7">
+            <div class="section-num">
+              <span class="current-section-num">
+                02
+              </span>
+              <span class="total-section-num">
+                / 09
+              </span>
+            </div>
+            <h2 class="entry-title">
+              Возможности
+            </h2>
+            <p class="page-desc">
+              Только тут, только у нас!
+            </p>
+          </div>
+          <div class="section-content-holder float-right">
+            <div class="content-wrapper">
+
+              <div class="one_third animate wait-07s">
+                <div class="service-item">
+                  <img class="service-icon" src="{% static 'images/icon_01.png'%}" alt="">
+                  <p class="service-title">Лучший</p>
+                  <div class="service-content">
+                    Ты достоин этого!
+                  </div>
+                </div>
+              </div>
+              <div class="one_third animate wait-05s">
+                <div class="service-item">
+                  <img class="service-icon" src="{% static 'images/icon_02.png'%}" alt="">
+                  <p class="service-title">Бесплатный</p>
+                  <div class="service-content">
+                    Зачем платить? Забирай и пользуйся.
+                  </div>
+                </div>
+              </div>
+              <div class="one_third last animate wait-04s">
+                <div class="service-item">
+                  <img class="service-icon" src="{% static 'images/icon_03.png'%}" alt="">
+                  <p class="service-title">Уютный</p>
+                  <div class="service-content">
+                    Следи за всеми своими действиями с комфортом.
+                  </div>
+                </div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="one_third animate wait-07s">
+                <div class="service-item">
+                  <img class="service-icon" src="{% static 'images/icon_04.png'%}" alt="">
+                  <p class="service-title">Быстрый</p>
+                  <div class="service-content">
+                    Не жди! Работай не тратя времени!
+                  </div>
+                </div>
+              </div>
+              <div class="one_third animate wait-03s">
+                <div class="service-item">
+                  <img class="service-icon" src="{% static 'images/icon_05.png'%}" alt="">
+                  <p class="service-title">Считай время</p>
+                  <div class="service-content">
+                    Знай, где можно выигать время.
+                  </div>
+                </div>
+              </div>
+              <div class="one_third last animate wait-05s">
+                <div class="service-item">
+                  <img class="service-icon" src="{% static 'images/icon_06.png'%}" alt="">
+                  <p class="service-title">Ты!</p>
+                  <div class="service-content">
+                    Получи возможность оптимизировать свое вемя.
+                  </div>
+                </div>
+              </div>
+              <div class="clear"></div>
+
+              <div class="one_third animate wait-02s">
+                <div class="service-item">
+                  <img class="service-icon" src="{% static 'images/icon_07.png'%}" alt="">
+                  <p class="service-title">Мультиплатформенный</p>
+                  <div class="service-content">
+                    Используй там, где тебе удобно.
+                  </div>
+                </div>
+              </div>
+              <div class="one_third animate">
+                <div class="service-item">
+                  <img class="service-icon" src="{% static 'images/icon_08.png'%}" alt="">
+                  <p class="service-title">Облачный</p>
+                  <div class="service-content">
+                    Не волнуйся, все данные в надежном месте.
+                  </div>
+                </div>
+              </div>
+              <div class="one_third last animate wait-01s">
+                <div class="service-item">
+                  <img class="service-icon" src="{% static 'images/icon_09.png'%}" alt="">
+                  <p class="service-title">С комментариями</p>
+                  <div class="service-content">
+                    Не забывай о мелочах.
+                  </div>
+                </div>
+              </div>
+              <div class="clear"></div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+
+
+      <!-- Team Section -->
+      <div id="team" class="section page-split">
+        <div class="section-wrapper block content-1170 center-relative">
+          <div class="bg-holder float-right">
+            <img src="{% static 'images/right_obj_02.png'%}" alt="">
+          </div>
+
+          <div class="section-title-holder float-right" data-background="#f1576b">
+            <div class="section-num">
+              <span class="current-section-num">
+                03
+              </span>
+              <span class="total-section-num">
+                / 09
+              </span>
+            </div>
+            <h2 class="entry-title">
+              Команда
+            </h2>
+            <p class="page-desc">
+              Лучший экипаж Солнечной!
+            </p>
+          </div>
+          <div class="section-content-holder float-left">
+            <div class="content-wrapper">
+              <p class="medium-text ">Познакомьтесь с нашим <br>
+                творческим коллективом</p>
+              <p>&nbsp;</p>
+              <div id="team-holder">
+                <div class="team-load-content-holder"></div>
+                <ul class="member-holder-wrapper">
+                  <li class="member-holder one_third">
+                    <a class="img-link ajax-member-content" href="#" data-id="1">
+                      <img src="{% static 'images/team_01.jpg'%}" alt="">
+                    </a>
+                    <p class="member-name">Ластивка Тимофей</p>
+                    <p class="member-position">CODER</p>
+                  </li>
+                  <li class="member-holder one_third">
+                    <a class="img-link ajax-member-content" href="#" data-id="1">
+                      <img src="{% static 'images/team_02.jpg'%}" alt="">
+                    </a>
+                    <p class="member-name">Печкур Aлeкcaндp</p>
+                    <p class="member-position">TELEGRAM BOT</p>
+                  </li>
+                  <li class="member-holder one_third">
+                    <a class="img-link ajax-member-content" href="#" data-id="1">
+                      <img src="{% static 'images/team_03.jpg'%}" alt="">
+                    </a>
+                    <p class="member-name">Белявцев Юрий</p>
+                    <p class="member-position">TL CODER</p>
+                  </li>
+                  <li class="member-holder one_third">
+                    <a class="img-link ajax-member-content" href="#" data-id="2">
+                      <img src="{% static 'images/team_04.jpg'%}" alt="">
+                    </a>
+                    <p class="member-name">Вергун Дмитрий</p>
+                    <p class="member-position">DATABASE</p>
+                  </li>
+                  <li class="member-holder one_third">
+                    <a class="img-link ajax-member-content" href="#" data-id="3">
+                      <img src="{% static 'images/team_05.jpg'%}" alt="">
+                    </a>
+                    <p class="member-name">Тимчук Олег</p>
+                    <p class="member-position">BOSS</p>
+                  </li>
+                  <li class="member-holder one_third">
+                    <a class="img-link ajax-member-content" href="#" data-id="4">
+                      <img src="{% static 'images/team_06.jpg'%}" alt="">
+                    </a>
+                    <p class="member-name">Тырон Владислав</p>
+                    <p class="member-position">CODER</p>
+                  </li>
+                  <li class="member-holder one_third">
+                    <a class="img-link ajax-member-content" href="#" data-id="5">
+                      <img src="{% static 'images/team_07.jpg'%}" alt="">
+                    </a>
+                    <p class="member-name">Колесников Евгений</p>
+                    <p class="member-position">DESIGNER</p>
+                  </li>
+                  <li class="member-holder one_third">
+                    <a class="img-link ajax-member-content" href="#" data-id="6">
+                      <img src="{% static 'images/team_08.jpg'%}" alt="">
+                    </a>
+                    <p class="member-name">Симоновский Евгений</p>
+                    <p class="member-position">CEO</p>
+                  </li>
+                </ul>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+
+      <!-- Skills Section -->
+      <div id="skills" class="section page-split">
+        <div class="section-wrapper block content-1170 center-relative">
+          <div class="bg-holder float-left">
+            <img src="{% static 'images/left_obj_03.png'%}" alt="">
+          </div>
+
+          <div class="section-title-holder float-left" data-background="#29dec0">
+            <div class="section-num">
+              <span class="current-section-num">
+                04
+              </span>
+              <span class="total-section-num">
+                / 09
+              </span>
+            </div>
+            <h2 class="entry-title">
+              Навыки
+            </h2>
+            <p class="page-desc">
+              Мы можем больше, чем вы можете вообразить.
+            </p>
+          </div>
+          <div class="section-content-holder float-right">
+            <div class="content-wrapper">
+              <p class="medium-text ">Мы делаем<br> и то и сё…</p>
+              <p>&nbsp;</p>
+              <div class="v-skills-holder">
+                <div class="v-skill">
+                  <div class="v-skill-fill"></div>
+                  <div class="v-skill-text">
+                    <span data-color="#27E0C0">75%</span>
+                    Разработка
+                  </div>
+                </div>
+                <div class="v-skill">
+                  <div class="v-skill-fill"></div>
+                  <div class="v-skill-text">
+                    <span data-color="#27E0C0">20%</span>
+                    Вредность
+                  </div>
+                </div>
+                <div class="v-skill">
+                  <div class="v-skill-fill"></div>
+                  <div class="v-skill-text">
+                    <span data-color="#27E0C0">90%</span>
+                    Креативность
+                  </div>
+                </div>
+                <div class="v-skill">
+                  <div class="v-skill-fill"></div>
+                  <div class="v-skill-text">
+                    <span data-color="#27E0C0">60%</span>
+                    Перфекционизм
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+
+      <!-- Video Section -->
+      <div id="video" class="section full-width">
+        <div class="section-wrapper block content-1170 center-relative">
+          <div class="content-wrapper">
+            <p class="medium-text center-text bottom-30 top-50">
+              А теперь, специально для тебя, <br> милые котики<br>
+            </p>
+            <a class="video-popup-holder" href="https://vimeo.com/150685211" data-rel="prettyPhoto[gallery-video1]">
+              <p class="popup-play"></p>
+            </a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+
+
+      <!-- еvents Section -->
+      <div id="еvents" class="section page-split">
+        <div class="section-wrapper block content-1170 center-relative">
+          <div class="bg-holder float-right">
+            <img src="{% static 'images/right_obj_04.png'%}" alt="">
+          </div>
+
+          <div class="section-title-holder float-right" data-background="#a13dd7">
+            <div class="section-num">
+              <span class="current-section-num">
+                06
+              </span>
+              <span class="total-section-num">
+                / 09
+              </span>
+            </div>
+            <h2 class="entry-title">
+              События
+            </h2>
+            <p class="page-desc">
+              Мы шли через странные миры, мы переходили из одного состояния в другое…
+            </p>
+          </div>
+          <div class="section-content-holder float-left">
+            <div class="content-wrapper">
+              <div class="blog-holder-scode latest-posts-scode block center-relative">
+                <article class="relative blog-item-holder-scode">
+                  <h4 class="entry-title">
+                    <a href="#">Начало</a>
+                  </h4>
+                  <div class="entry-date published">26 Апр 2021</div>
+                  <div class="cat-links">
+                    <ul>
+                      <li>
+                        <a href="#">Хештег</a>
+                      </li>
+                      <li>
+                        <a href="#">Хештег</a>
+                      </li>
+                    </ul>
+                  </div>
+                </article>
+
+                <article class="relative blog-item-holder-scode">
+                  <h4 class="entry-title">
+                    <a href="#">Событие 2</a>
+                  </h4>
+                  <div class="entry-date published">26 Апр 2021</div>
+                  <div class="cat-links">
+                    <ul>
+                      <li>
+                        <a href="#">Хештег</a>
+                      </li>
+                    </ul>
+                  </div>
+                </article>
+
+                <article class="relative blog-item-holder-scode">
+                  <h4 class="entry-title">
+                    <a href="#">Событие 3</a>
+                  </h4>
+                  <div class="entry-date published">26 Апр 2021</div>
+                  <div class="cat-links">
+                    <ul>
+                      <li>
+                        <a href="#">Хештег</a>
+                      </li>
+                    </ul>
+                  </div>
+                </article>
+
+                <article class="relative blog-item-holder-scode">
+                  <h4 class="entry-title">
+                    <a href="#">Событие 4</a>
+                  </h4>
+                  <div class="entry-date published">26 Апр 2021</div>
+                  <div class="cat-links">
+                    <ul>
+                      <li>
+                        <a href="#">Хештег</a>
+                      </li>
+                    </ul>
+                  </div>
+                </article>
+
+                <article class="relative blog-item-holder-scode">
+                  <h4 class="entry-title">
+                    <a href="#">Релиз!</a>
+                  </h4>
+                  <div class="entry-date published">31 Май 2021</div>
+                  <div class="cat-links">
+                    <ul>
+                      <li>
+                        <a href="#">Хештег</a>
+                      </li>
+                    </ul>
+                  </div>
+                </article>
+
+                <!-- <div class="more-posts-link">
+                  <a href="#">
+                    <img src="{% static 'images/arrow_right@2x.png'%}" alt="">
+                  </a>
+                </div> -->
+
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+
+      <!-- Portfolio Section -->
+      <div id="portfolio" class="section page-split">
+        <div class="section-wrapper block content-1170 center-relative">
+          <div class="bg-holder float-left">
+            <img src="{% static 'images/left_obj_05.png'%}" alt="">
+          </div>
+
+          <div class="section-title-holder float-left" data-background="#F1576B">
+            <div class="section-num">
+              <span class="current-section-num">
+                07
+              </span>
+              <span class="total-section-num">
+                / 09
+              </span>
+            </div>
+            <h2 class="entry-title">
+              Скриншоты
+            </h2>
+            <p class="page-desc">
+              Посмотрим одним глазком, что же скрывается за ширмой.
+            </p>
+          </div>
+          <div class="section-content-holder float-right">
+            <div class="content-wrapper">
+              <div id="portfolio-wrapper">
+                <div class="portfolio-load-content-holder"></div>
+                <div class="grid" id="portfolio-grid">
+                  <div class="gutter-sizer"></div>
+                  <div class="grid-sizer"></div>
+                  <div id="p-item-1" class="grid-item element-item p_one">
+                    <a class="item-link ajax-portfolio" href="{% static 'images/item_01.jpg'%}"
+                      data-rel="prettyPhoto[portfolio]">
+                      <img src="{% static 'images/item_01.jpg'%}" alt="">
+                      <div class="portfolio-text-holder">
+                        <p class="portfolio-title">Скриншот</p>
+                        <p class="portfolio-desc">ОПИСАНИЕ</p>
+                      </div>
+                      <!-- <p class="portfolio-plus">
+                        <img src="{% static 'images/icon_plus.png'%}" alt="">
+                      </p> -->
+                    </a>
+                  </div>
+
+                  <div id="p-item-2" class="grid-item element-item p_one_half">
+                    <a class="item-link ajax-portfolio" href="{% static 'images/item_02.jpg'%}"
+                      data-rel="prettyPhoto[portfolio]">
+                      <img src="{% static 'images/item_02.jpg'%}" alt="">
+                      <div class="portfolio-text-holder">
+                        <p class="portfolio-title">Скриншот</p>
+                        <p class="portfolio-desc">ОПИСАНИЕ</p>
+                      </div>
+                      <!-- <p class="portfolio-plus">
+                        <img src="{% static 'images/icon_plus.png'%}" alt="">
+                      </p> -->
+                    </a>
+                  </div>
+
+                  <div id="p-item-3" class="grid-item element-item p_one_half">
+                    <a class="item-link ajax-portfolio" href="{% static 'images/item_03.jpg'%}"
+                      data-rel="prettyPhoto[portfolio]">
+                      <img src="{% static 'images/item_03.jpg'%}" alt="">
+                      <div class="portfolio-text-holder">
+                        <p class="portfolio-title">Скриншот</p>
+                        <p class="portfolio-desc">ОПИСАНИЕ</p>
+                      </div>
+                      <!-- <p class="portfolio-plus">
+                        <img src="{% static 'images/icon_plus.png'%}" alt="">
+                      </p> -->
+                    </a>
+                  </div>
+
+                  <div id="p-item-4" class="grid-item element-item p_one">
+                    <a class="item-link" href="{% static 'images/item_04.jpg'%}" data-rel="prettyPhoto[portfolio]">
+                      <img src="{% static 'images/item_04.jpg'%}" alt="">
+                      <div class="portfolio-text-holder">
+                        <p class="portfolio-title">Скриншот</p>
+                        <p class="portfolio-desc">ОПИСАНИЕ</p>
+                      </div>
+                      <!-- <p class="portfolio-plus">
+                        <img src="{% static 'images/icon_plus.png'%}" alt="">
+                      </p> -->
+                    </a>
+                  </div>
+
+                  <div class="grid-item element-item p_one">
+                    <a class="item-link" href="{% static 'images/item_05.jpg'%}" data-rel="prettyPhoto[portfolio]">
+                      <img src="{% static 'images/item_05.jpg'%}" alt="">
+                      <div class="portfolio-text-holder">
+                        <p class="portfolio-title">Скриншот</p>
+                        <p class="portfolio-desc">ОПИСАНИЕ</p>
+                      </div>
+                      <!-- <p class="portfolio-plus">
+                        <img src="{% static 'images/icon_plus.png'%}" alt="">
+                      </p> -->
+                    </a>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+              <!-- <div class="block center-relative center-text more-posts-portfolio-holder">
+                <a target="_self" class="more-posts-portfolio">
+                  <img src="{% static 'images/icon_plus.png'%}" alt="">
+                </a>
+              </div> -->
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+
+      <!-- About Section -->
+      <div id="about" class="section page-split">
+        <div class="section-wrapper block content-1170 center-relative">
+          <div class="bg-holder float-right">
+            <img src="{% static 'images/right_obj_04.png'%}" alt="">
+          </div>
+
+          <div class="section-title-holder float-right" data-background="#a13dd7">
+            <div class="section-num">
+              <span class="current-section-num">
+                08
+              </span>
+              <span class="total-section-num">
+                / 09
+              </span>
+            </div>
+            <h2 class="entry-title">
+              О программе
+            </h2>
+            <p class="page-desc">
+              Вы столкнулись с потенцеально революционным решением, не пугайтесь.
+            </p>
+          </div>
+          <div class="section-content-holder float-left">
+            <div class="content-wrapper">
+
+              <div class="three_fourth last">
+                <p class="medium-text ">Two ghostly white <br> figures in coveralls.</p><br>
+              </div>
+              <div class="clear"></div>
+
+              <div class="one_half">
+                <p>
+                  <strong class="color-black">As a patch of light. Euclid cosmic fugue a very small stage in a vast
+                    cosmic arena brain is the seed of intelligence billions upon billions.</strong>
+                </p>
+                <p>
+                  Flatland! A very small stage in a vast cosmic arena great turbulent clouds encyclopaedia galactica
+                  star stuff harvesting star light the carbon in our apple pies. Realm of the galaxies, Cambrian
+                  explosion Flatland for tesseract hundreds of thousands, cosmic ocean. Prime number cosmic ocean for
+                  blue resort white dwarf finite but unbounded
+                </p>
+              </div>
+              <div class="one_half last">
+                <img src="{% static 'images/about_img.png'%}" alt="">
+              </div>
+              <div class="clear"></div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+
+
+      <div id="clients" class="section full-width">
+        <div class="section-wrapper block content-1170 center-relative">
+          <div class="content-wrapper">
+            <div class="one_fourth">
+              <img src="{% static 'images/client_logo_01.png'%}" alt="">
+              <img src="{% static 'images/client_logo_05.png'%}" alt="">
+            </div>
+            <div class="one_fourth ">
+              <img src="{% static 'images/client_logo_02.png'%}" alt="">
+              <img src="{% static 'images/client_logo_06.png'%}" alt="">
+            </div>
+            <div class="one_fourth ">
+              <img src="{% static 'images/client_logo_03.png'%}" alt="">
+              <img src="{% static 'images/client_logo_07.png'%}" alt="">
+            </div>
+            <div class="one_fourth last ">
+              <img src="{% static 'images/client_logo_04.png'%}" alt="">
+              <img src="{% static 'images/client_logo_08.png'%}" alt="">
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
     </div>
-  </div> <!-- row -->
-  <div class="alert alert-info text-center" role="alert">
-    Please do work through the Getting Started guide, even if you do know how to build such an application. The guide
-    covers the basics of working with Heroku, and will familiarize you with all the concepts you need in order to build
-    and deploy your own apps.
+
+
+
+    <!--Footer-->
+    <footer id="footer">
+      <div class="footer-content center-relative content-1170">
+
+        <div class="footer-mail">
+          <a href="mailto:do-not-send-me@yoursite.com">hello@cocobasic.com</a>
+        </div>
+        <div class="footer-number">
+          <a href="tel:987654321">987.654.321</a>
+        </div>
+
+        <img class="footer-logo" src="{% static 'images/footer_img.png'%}" alt="TimeSoft">
+
+        <div class="social-holder">
+          <a href="#">
+            <span class="fa fa-twitter"></span>
+          </a>
+          <a href="#">
+            <span class="fa fa-facebook"></span>
+          </a>
+          <a href="#">
+            <span class="fa fa-behance"></span>
+          </a>
+          <a href="#">
+            <span class="fa fa-dribbble"></span>
+          </a>
+        </div>
+
+        <div class="copyright-holder">
+          © 2018 TimeSoft HTML Template by <a href="http://cocobasic.com">CocoBasic</a>
+        </div>
+      </div>
+    </footer>
   </div>
-</div>
-{% endblock %}
+
+  <!--Load JavaScript-->
+  <script src="{% static 'js/jquery.js'%}"></script>
+  <script src="{% static 'js/jquery.sticky.js'%}"></script>
+  <script src="{% static 'js/imagesloaded.pkgd.js'%}"></script>
+  <script src="{% static 'js/jquery.fitvids.js'%}"></script>
+  <script src="{% static 'js/jquery.smartmenus.min.js'%}"></script>
+  <script src="{% static 'js/isotope.pkgd.js'%}"></script>
+  <script src="{% static 'js/jquery.easing.1.3.js'%}"></script>
+  <script src="{% static 'js/jquery.prettyPhoto.js'%}"></script>
+  <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+  <script src="{% static 'js/main.js'%}"></script>
+</body>
+
+</html>

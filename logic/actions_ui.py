@@ -1,13 +1,13 @@
-# import os
-from logic.dblogic import DbLogic as db
-from logic.actions import Actions
-from PyQt5 import QtWidgets, uic
-from PyQt5.QtCore import QDate
 import time
 import sys
+
+from PyQt5 import QtWidgets, uic
+from PyQt5.QtCore import QDate
+
 sys.path.append('.')
 
-
+from logic.dblogic import DbLogic as db
+from logic.actions import Actions
 # sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # import timeSoft
 

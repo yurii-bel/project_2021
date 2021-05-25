@@ -44,6 +44,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
 
+        # Settings UI.
+        self.sUi.settings_btn_export.clicked.connect(self.settings_export)
+
         # When starting a program, first login UI appears.
         self.show_login()
 
@@ -133,6 +136,15 @@ class MainUI(QtWidgets.QMainWindow):
         Current method shows user interface settings window.
         '''
         self.sUi.show()
+
+    def settings_export(self):
+        data = self.timedb().copy_user('CATEGORY', '2')
+        settingsSave = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file', '/', 'CSV file (*.csv)')
+        if settingsSave[0]:
+            f = open(settingsSave[0], 'w+')
+            with f:
+                for d in data:
+                    f.write(f'{d[2]}')
 
     # def table(self):
     #     lay = QtWidgets.QVBoxLayout()

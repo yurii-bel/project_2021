@@ -21,7 +21,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Нужно автоматизировать разделителей (module os).
         # Loading UI interfaces.
         self.mUi = uic.loadUi('design\\MainWindow_d.ui') # Main window ui.
-        self.aUi = ActionsUI() # Loading ActionsUI class from logic.
+        self.aUi = ActionsUI # Loading ActionsUI class from logic.
         self.rUi = uic.loadUi('design\\register_d.ui') # Registration window ui.
         self.lUi = uic.loadUi('design\\login_d.ui') # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui') # Settings window ui.
@@ -133,8 +133,8 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         Current method shows user interface action adding.
         '''
-        self.aUi.show_add_event()  # Loading ActionsUI class from logic.
-        
+        self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
+        self.act.show_add_event()
 
     def visualize(self, object):
         '''
@@ -257,9 +257,6 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.lay.addWidget(self.tUi.tableW)
         self.wUi.setLayout(self.lay)
-
-    def get_user_n_name(self):
-        return self.user_n_name
 
 
 if __name__ == '__main__':

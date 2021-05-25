@@ -16,13 +16,13 @@ class ActionsUI(QtWidgets.QMainWindow):
     This class implements adding and editing actions.
     '''
 
-    def __init__(self):
+    def __init__(self, user):
         super().__init__()
         # Creating database instance.
         self.timedb = db
 
         # Getting current user name.
-        # self.user_n_name = timeSoft.MainUI().get_user_n_name()
+        self.user_n_name = user
 
         # Loading appropriate UI's.
         self.aUi = uic.loadUi('design\\add_event_d.ui')
@@ -46,7 +46,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.aUi.add_event_dateEdit.setDate(QDate(QDate.currentDate()))
         self.aUi.add_event_dateEdit.setMaximumDate(QDate(QDate.currentDate()))
 
-        categs = self.timedb().get_user_categories('Sif')
+        categs = self.timedb().get_user_categories(self.user_n_name)
         i = 0
         for categ in categs:
             self.aUi.add_event_comboBox_category.insertItem(i, categ)
@@ -68,11 +68,10 @@ class ActionsUI(QtWidgets.QMainWindow):
         date_ = datetime.date(date.year(), date.month(), date.day())
         str_date = date_.strftime('%Y-%m-%d')
         
-        # if 'м' or 'm' in duration:
-        #     duration = int(duration)
+        int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        self.timedb().add_event('Timofey', title, duration, str_date,\
+        self.timedb().add_event(self.user_n_name, title, int_duration, str_date,\
             category, comment)
         self.aUi.close()
 

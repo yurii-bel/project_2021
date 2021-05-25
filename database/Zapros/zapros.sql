@@ -40,3 +40,7 @@ COPY (SELECT USER_ID, CAT_NAME FROM "CATEGORY" WHERE USER_ID = 1) TO 'C:\Users\G
 UPDATE "CATEGORY"
 SET CAT_NAME = 'БЫТОВУХА' WHERE CAT_NAME = 'Фильмс' AND USER_ID = '1'
 -- /
+
+-- Проверка на имя пользователя
+SELECT USER_N_name  FROM "USER_NAME" WHERE USER_N_name = 'Дмитрий' 
+-- /

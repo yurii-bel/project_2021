@@ -1,4 +1,3 @@
-import re
 import psycopg2 as db
 from psycopg2 import Error
 from uuid import uuid4
@@ -17,6 +16,7 @@ class DbLogic:
         password=self.password, host=self.host)
 
         self.cursor = self.connection.cursor()
+        self.cursor2 = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         self.correct_login_info = False
 
@@ -224,6 +224,20 @@ class DbLogic:
             self.cursor.close()
             self.connection.close()
 
+    def copy_user(self, table_name, column):
+        # try:
+        with self.connection:
+            with self.cursor:
+                self.cursor.execute(f'SELECT * FROM "{table_name}"\
+                    WHERE USER_ID = \'{column}\'')
+                return self.cursor.fetchall()
+    # except (Exception, Error) as error:
+        #     return f'{error}'
+        # finally:
+        #     self.cursor.close()
+        #     self.connection.close()
+
+
 if __name__ == '__main__':
     dbl = DbLogic()
     # print(dbl.get_user_n_id('Тимофей'))
@@ -232,3 +246,4 @@ if __name__ == '__main__':
     # dbl.drop_user('Leva9')
     # print(dbl.login_user('John', 'ok john'))
     # print(dbl.get_user_categories('Sif'))
+    print(dbl.copy_user('CATEGORY', '2'))

@@ -20,14 +20,13 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Нужно автоматизировать разделителей (module os).
         # Loading UI interfaces.
-        self.mUi = uic.loadUi('design\\MainWindow_d.ui')  # Main window ui.
-        self.aUi = ActionsUI()  # Loading ActionsUI class from logic.
-        # Registration window ui.
-        self.rUi = uic.loadUi('design\\register_d.ui')
-        self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
-        self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
-        self.tUi = uic.loadUi('design\\table.ui')
-        self.wUi = self.mUi.viewWidget
+        self.mUi = uic.loadUi('design\\MainWindow_d.ui') # Main window ui.
+        self.aUi = ActionsUI() # Loading ActionsUI class from logic.
+        self.rUi = uic.loadUi('design\\register_d.ui') # Registration window ui.
+        self.lUi = uic.loadUi('design\\login_d.ui') # Login window ui.
+        self.sUi = uic.loadUi('design\\settings_d.ui') # Settings window ui.
+        self.tUi = uic.loadUi('design\\table.ui') # Table ui.
+        self.wUi = self.mUi.viewWidget # Widget for viewing various data.
 
         # Connecting buttons to slots.
         # Main UI.
@@ -78,7 +77,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.user_n_name = login
             self.lUi.close()
             self.mUi.show()
-            self.view_table()
+            self.view_table() # Viewing table.
 
     def show_registration(self):
         '''
@@ -203,7 +202,7 @@ class MainUI(QtWidgets.QMainWindow):
     #     lay.addWidget(self.tabLe)
     #     self.wUi.setLayout(lay)
 
-    def view_table(self):
+    def view_table(self): # Table creation method.
         rows = 0
         self.lay = QtWidgets.QHBoxLayout()
 

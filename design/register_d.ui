@@ -129,11 +129,8 @@ QPushButton:hover {
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
      </font>
     </property>
     <property name="focusPolicy">
@@ -160,11 +157,8 @@ QPushButton:hover {
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -192,11 +186,8 @@ QPushButton:hover {
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -217,11 +208,8 @@ QPushButton:hover {
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -242,7 +230,7 @@ QPushButton:hover {
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
     </property>
@@ -388,11 +376,8 @@ border: 2px solid rgb(95, 85, 200);
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -411,18 +396,14 @@ border: 2px solid rgb(95, 85, 200);
       <height>21</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Roboto-Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
-     <string notr="true">font-family: Roboto;
-font-style: normal;
-font-weight: normal;
-font-size: 14px;
-line-height: 21px;
-/* identical to box height, or 150% */
-
-
-/* 1) Theme Color / Body - Text */
-
-color: #B4B7BD;</string>
+     <string notr="true">color: #B4B7BD;</string>
     </property>
     <property name="text">
      <string>Я согласен с условиями использования</string>
@@ -437,27 +418,20 @@ color: #B4B7BD;</string>
     <rect>
      <x>92</x>
      <y>37</y>
-     <width>100</width>
+     <width>110</width>
      <height>29</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Roboto</family>
-     <pointsize>-1</pointsize>
+     <pointsize>20</pointsize>
      <weight>75</weight>
-     <italic>false</italic>
      <bold>true</bold>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">font-family: Roboto;
-font-style: normal;
-font-weight: bold;
-font-size: 24px;
-line-height: 29px;
-letter-spacing: -0.428571px;
-color: #7367F0;</string>
+    <string notr="true">color: #7367F0;</string>
    </property>
    <property name="text">
     <string>TimeSoft</string>

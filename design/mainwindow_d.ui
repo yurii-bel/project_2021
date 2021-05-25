@@ -453,7 +453,7 @@ border-radius: 5px;
        <x>23</x>
        <y>15</y>
        <width>1111</width>
-       <height>35</height>
+       <height>34</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_navigation" stretch="0,0,0,0,0,0,0,0,0,0,0">
@@ -796,38 +796,6 @@ QDateEdit:hover {
       </item>
      </layout>
     </widget>
-   </widget>
-   <widget class="QLabel" name="mainwindow_lbl_diagram">
-    <property name="geometry">
-     <rect>
-      <x>550</x>
-      <y>103</y>
-      <width>862</width>
-      <height>821</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Roboto</family>
-      <pointsize>12</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel { 
-background-color: #283046;
-color: rgb(208, 210, 214);
-border-left: 1px solid #4B4B4B;
-border-top-right-radius: 5px;
-border-bottom-right-radius: 5px;
-border-left-radius: 0px;
-padding-left: 20px;
-}</string>
-    </property>
-    <property name="text">
-     <string>Diagram</string>
-    </property>
    </widget>
    <widget class="QWidget" name="mainwindow_widget_category" native="true">
     <property name="geometry">
@@ -1454,6 +1422,27 @@ border-radius: 5px;
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QWidget" name="viewWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>110</y>
+      <width>862</width>
+      <height>811</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel { 
+background-color: #283046;
+color: rgb(208, 210, 214);
+border-left: 1px solid #4B4B4B;
+border-top-right-radius: 5px;
+border-bottom-right-radius: 5px;
+border-left-radius: 0px;
+padding-left: 20px;
+}</string>
     </property>
    </widget>
   </widget>

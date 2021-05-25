@@ -1,14 +1,16 @@
+# import os
 import sys
+sys.path.append('.')
 import time
 
 from PyQt5.QtCore import QDate
 from PyQt5 import QtWidgets, uic
 
-sys.path.append('.')
 from logic.actions import Actions
 from logic.dblogic import DbLogic as db
-sys.path.append('..')
-from timeSoft import MainUI
+
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# import timeSoft
 
 
 class ActionsUI(QtWidgets.QMainWindow):
@@ -21,7 +23,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.timedb = db
         
         # Getting current user name.
-        self.user_n_name = MainUI.get_user_n_name()
+        # self.user_n_name = timeSoft.MainUI().get_user_n_name()
 
         # Instance of main logic.
         self.act = Actions
@@ -52,9 +54,9 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.aUi.add_event_dateEdit.setDate(QDate(QDate.currentDate()))
         self.aUi.add_event_dateEdit.setMaximumDate(QDate(QDate.currentDate()))
 
-        categs = self.timedb().get_user_categories(self.user_n_name)
-        for categ in categs:
-            self.aUi.add_event_comboBox_category.setItems(categ)
+        # categs = self.timedb().get_user_categories(self.user_n_name)
+        # for categ in categs:
+        #     self.aUi.add_event_comboBox_category.setItems(categ)
 
     def show_add_event(self):
         self.aUi.show()

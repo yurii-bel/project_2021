@@ -1,13 +1,12 @@
 # import os
+from logic.dblogic import DbLogic as db
+from logic.actions import Actions
+from PyQt5 import QtWidgets, uic
+from PyQt5.QtCore import QDate
+import time
 import sys
 sys.path.append('.')
-import time
 
-from PyQt5.QtCore import QDate
-from PyQt5 import QtWidgets, uic
-
-from logic.actions import Actions
-from logic.dblogic import DbLogic as db
 
 # sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # import timeSoft
@@ -17,11 +16,12 @@ class ActionsUI(QtWidgets.QMainWindow):
     '''
     This class implements adding and editing actions.
     '''
+
     def __init__(self):
         super().__init__()
         # Creating database instance.
         self.timedb = db
-        
+
         # Getting current user name.
         # self.user_n_name = timeSoft.MainUI().get_user_n_name()
 
@@ -29,8 +29,8 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.act = Actions
 
         # Loading appropriate UI's.
-        self.aUi = uic.loadUi('design\\add_event.ui')
-        self.eUi = uic.loadUi('design\\edit_event.ui')
+        self.aUi = uic.loadUi('design\\add_event_d.ui')
+        self.eUi = uic.loadUi('design\\edit_event_d.ui')
 
         # Connecting buttons to appropriate slots.
         self.aUi.add_event_btn_add.clicked.connect(self.add_event)
@@ -38,7 +38,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
 
         # Connecting line edits to appropriate slots.
-        self.aUi.add_event_lineEdit_name.textChanged.connect(\
+        self.aUi.add_event_lineEdit_name.textChanged.connect(
             self.suppose_category)
 
         # Settings and preparations for many control elements.
@@ -62,7 +62,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.aUi.show()
 
     def add_event(self):
-        # Getting all info, entered by user. 
+        # Getting all info, entered by user.
         title = self.aUi.a_lineEdit_name.text()
         category = self.aUi.a_comboBox.currentText()
 
@@ -72,25 +72,25 @@ class ActionsUI(QtWidgets.QMainWindow):
         hour = hour_
         minute = minute_
         second = second_
-        
+
         date = self.aUi.a_dateEdit.date()
         year = date.year()
         month = date.month()
         day = date.day()
-        
-        duration = self.aUi.a_lineEdit_time.text()        
+
+        duration = self.aUi.a_lineEdit_time.text()
         comment = self.aUi.a_te_comment.toPlainText()
 
         # Using main logic and writing all recieved info.
-        self.added_event = self.act(title, category, hour, minute, second, \
-            year, month, day, duration, comment)
-    
+        self.added_event = self.act(title, category, hour, minute, second,
+                                    year, month, day, duration, comment)
+
         # Using test database!
         # # Writing all changes to db and closing 'Add Event' win.
-        self.db.set_data('1', '43', self.added_event.action, \
-            self.added_event.category, self.added_event.duration, \
-                self.added_event.time, self.added_event.date, \
-                    self.added_event.comment, 'Activity')
+        self.db.set_data('1', '43', self.added_event.action,
+                         self.added_event.category, self.added_event.duration,
+                         self.added_event.time, self.added_event.date,
+                         self.added_event.comment, 'Activity')
         self.aUi.close()
 
     def suppose_category(self):
@@ -100,8 +100,8 @@ class ActionsUI(QtWidgets.QMainWindow):
         # This method is reserved for future editing actions.
         pass
 
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     win = ActionsUI()
     sys.exit(app.exec())
-    

@@ -1,16 +1,15 @@
+from logic.actions_ui import ActionsUI
+from logic.dblogic import DbLogic as db
+from PyQt5 import QtGui, QtWidgets, uic
 import sys
 sys.path.append(".")
-
-from PyQt5 import QtGui, QtWidgets, uic
-
-from logic.dblogic import DbLogic as db
-from logic.actions_ui import ActionsUI
 
 
 class MainUI(QtWidgets.QMainWindow):
     '''
     This class implements Main Window of TimeSoft program.
     '''
+
     def __init__(self):
         super().__init__()
         # Creating database instance.
@@ -21,12 +20,13 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Нужно автоматизировать разделителей (module os).
         # Loading UI interfaces.
-        self.mUi = uic.loadUi('design\\MainWindow.ui')  # Main window ui.
+        self.mUi = uic.loadUi('design\\MainWindow_d.ui')  # Main window ui.
         self.aUi = ActionsUI()  # Loading ActionsUI class from logic.
-        self.rUi = uic.loadUi('design\\register.ui')  # Registration window ui.
-        self.lUi = uic.loadUi('design\\login.ui')  # Login window ui.
-        self.sUi = uic.loadUi('design\\settings.ui')  # Settings window ui.
-        self.tUi = uic.loadUi('design\\table.ui')
+        # Registration window ui.
+        self.rUi = uic.loadUi('design\\register_d.ui')
+        self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
+        self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
+        self.tUi = uic.loadUi('design\\table_d.ui')
         self.wUi = self.mUi.viewWidget
 
         # Connecting buttons to slots.
@@ -37,7 +37,8 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Login UI.
         self.lUi.login_btn_login.clicked.connect(self.login)
-        self.lUi.login_btn_create_account.clicked.connect(self.show_registration)
+        self.lUi.login_btn_create_account.clicked.connect(
+            self.show_registration)
 
         # Register UI.
         self.rUi.register_btn_login.clicked.connect(self.registration)
@@ -61,17 +62,17 @@ class MainUI(QtWidgets.QMainWindow):
         self.db.login_user(login, password)
 
         if self.db.user_empty_name_bool == False:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                self.db.user_empty_name_message, QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           self.db.user_empty_name_message, QtWidgets.QMessageBox.Ok)
         elif self.db.user_empty_password_bool == False:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                self.db.user_empty_password_message, QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           self.db.user_empty_password_message, QtWidgets.QMessageBox.Ok)
         elif self.db.user_login_exists_bool == False:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                self.db.user_login_exists_message, QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           self.db.user_login_exists_message, QtWidgets.QMessageBox.Ok)
         elif self.db.user_login_incorrect_password_bool == False:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                self.db.user_login_incorrect_password_message, QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           self.db.user_login_incorrect_password_message, QtWidgets.QMessageBox.Ok)
         elif self.db.correct_login_info == True:
             self.user_n_name = login
             self.lUi.close()
@@ -93,23 +94,23 @@ class MainUI(QtWidgets.QMainWindow):
         self.db.register_user(login, email, password)
 
         if self.db.user_exists_bool == False:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                self.db.user_exists_message, QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           self.db.user_exists_message, QtWidgets.QMessageBox.Ok)
         elif self.db.user_email_bool == False:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                self.db.user_email_message, QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           self.db.user_email_message, QtWidgets.QMessageBox.Ok)
         elif self.db.user_empty_name_bool == False:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                self.db.user_empty_name_message, QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           self.db.user_empty_name_message, QtWidgets.QMessageBox.Ok)
         elif self.db.user_empty_email_bool == False:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                self.db.user_empty_email_message, QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           self.db.user_empty_email_message, QtWidgets.QMessageBox.Ok)
         elif self.db.user_empty_password_bool == False:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                self.db.user_empty_password_message, QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           self.db.user_empty_password_message, QtWidgets.QMessageBox.Ok)
         elif self.db.user_incorrect_password_bool == False:
-            QtWidgets.QMessageBox.question(self,'Ошибка!',\
-                self.db.user_incorrect_password_message, QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           self.db.user_incorrect_password_message, QtWidgets.QMessageBox.Ok)
         else:
             self.rUi.close()
             self.lUi.show()
@@ -118,7 +119,7 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         Current method shows user interface action adding.
         '''
-        self.aUi.show_add_event() # Loading ActionsUI class from logic.
+        self.aUi.show_add_event()  # Loading ActionsUI class from logic.
         # self.table
 
     def visualize(self, object):
@@ -135,7 +136,6 @@ class MainUI(QtWidgets.QMainWindow):
 
     # def table(self):
     #     lay = QtWidgets.QVBoxLayout()
-
 
     #     self.table = QtWidgets.QTableWidget()
     #     self.table.setColumnCount(5)
@@ -195,11 +195,11 @@ class MainUI(QtWidgets.QMainWindow):
     def view_table(self):
         rows = 0
         self.lay = QtWidgets.QHBoxLayout()
-        
+
         d1 = self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity')
         name1 = QtWidgets.QTableWidgetItem(d1[2:-3])
         name1.setBackground(QtGui.QColor('Yellow'))
-        
+
         rows += 1
         self.tUi.tableW.setRowCount(rows)
         self.tUi.tableW.setItem(0, 0, name1)
@@ -209,6 +209,7 @@ class MainUI(QtWidgets.QMainWindow):
 
     def get_user_n_name(self):
         return self.user_n_name
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

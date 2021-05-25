@@ -26,7 +26,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi = uic.loadUi('design\\register_d.ui')
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
-        # self.tUi = uic.loadUi('design\\table_d.ui')
+        self.tUi = uic.loadUi('design\\table.ui')
         self.wUi = self.mUi.viewWidget
 
         # Connecting buttons to slots.
@@ -78,6 +78,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.user_n_name = login
             self.lUi.close()
             self.mUi.show()
+            self.view_table()
 
     def show_registration(self):
         '''
@@ -206,8 +207,8 @@ class MainUI(QtWidgets.QMainWindow):
         rows = 0
         self.lay = QtWidgets.QHBoxLayout()
 
-        d1 = self.timedb.get_custom_sql(f'SELECT activity_name FROM Activity')
-        name1 = QtWidgets.QTableWidgetItem(d1[2:-3])
+        d1 = 'Бег'
+        name1 = QtWidgets.QTableWidgetItem(d1)
         name1.setBackground(QtGui.QColor('Yellow'))
 
         rows += 1

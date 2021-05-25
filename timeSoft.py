@@ -70,12 +70,10 @@ class MainUI(QtWidgets.QMainWindow):
         elif self.db.user_empty_password_bool == False:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
                                            self.db.user_empty_password_message, QtWidgets.QMessageBox.Ok)
-        elif self.db.user_login_exists_bool == False:
+        elif self.db.correct_login_info == False:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           self.db.user_login_exists_message, QtWidgets.QMessageBox.Ok)
-        elif self.db.user_login_incorrect_password_bool == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           self.db.user_login_incorrect_password_message, QtWidgets.QMessageBox.Ok)
+                                           f'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
+
         elif self.db.correct_login_info == True:
             self.user_n_name = login
             self.lUi.close()

@@ -150,6 +150,32 @@ class MainUI(QtWidgets.QMainWindow):
         self.act_comment = str(item.sibling(item.row(), 1).data())
 
 
+
+    def tableview_updating(self):
+        self.timedb().load_user_activities()
+
+        print(self.db.activity_name)
+
+        rows = self.db.table_rows_num
+        self.tUi.tableW.setRowCount(rows)
+
+        for i in range(rows):
+            # setting all activities data.
+            self.tUi.tableW.setItem(i, 0, 
+            QtWidgets.QTableWidgetItem(self.db.activity_creation_date[i]))
+            self.tUi.tableW.setItem(i, 1, 
+            QtWidgets.QTableWidgetItem(self.db.activity_category[i]))
+            self.tUi.tableW.setItem(i, 2, 
+            QtWidgets.QTableWidgetItem(self.db.activity_name[i]))
+            self.tUi.tableW.setItem(i, 3, 
+            QtWidgets.QTableWidgetItem(self.db.activity_duration[i]))
+            self.tUi.tableW.setItem(i, 4, 
+            QtWidgets.QTableWidgetItem(self.db.activity_comment[i]))
+
+        # self.lay.addWidget(self.tUi.tableW)
+        # QtCore.QTimer.singleShot(1000, self.tUi.tableW)
+
+
     def add_action(self):
         '''
         Current method shows user interface action adding.
@@ -157,15 +183,14 @@ class MainUI(QtWidgets.QMainWindow):
         self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
         # TODO: add new method for tableview updating, insert it to add and edit actions.
         #  + after doubleclick open edit_event method.
+
         self.act.show_add_event()
-        if self.act.add_event_status:
-            self.timedb().load_user_activities()
-            self.view_table()
+        self.tableview_updating()
+
 
     def edit_action(self):
         self.act.show_edit_event(self.actl_name, self.act_time, self.act_date, self.cat_name, self.act_comment)
-        self.timedb().load_user_activities()
-        self.view_table()
+        self.tableview_updating()
 
     def visualize(self, object):
         '''

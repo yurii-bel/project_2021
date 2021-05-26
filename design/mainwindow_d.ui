@@ -124,9 +124,9 @@
        <widget class="QWidget" name="layoutWidget_3">
         <property name="geometry">
          <rect>
-          <x>1</x>
+          <x>11</x>
           <y>0</y>
-          <width>231</width>
+          <width>221</width>
           <height>631</height>
          </rect>
         </property>
@@ -162,15 +162,14 @@
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton {
-	background-color: rgb(0, 0, 0, 0);	
+	background-color: rgba(0, 0, 0, 0);	
 	color: rgb(208, 210, 214);
 	text-align: left;
-	padding-left: 10px;
 	padding-right: 10px;
 	margin-top: 27px;
 }
 QPushButton:hover {
-	background-color: rgb(0, 0, 0, 0);  
+	background-color: rgba(0, 0, 0, 0);  
 	color: rgb(95, 85, 200);
 }</string>
            </property>
@@ -208,14 +207,13 @@ QPushButton:hover {
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton {
-	background-color: rgb(0, 0, 0, 0);	
+	background-color: rgba(0, 0, 0, 0);	
 	color: rgb(208, 210, 214);
 	text-align: left;
-	padding-left: 10px;
 	padding-right: 10px;
 }
 QPushButton:hover {
-	background-color: rgb(0, 0, 0, 0);  
+	background-color: rgba(0, 0, 0, 0);  
 	color: rgb(95, 85, 200);
 }</string>
            </property>
@@ -247,14 +245,13 @@ QPushButton:hover {
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton {
-	background-color: rgb(0, 0, 0, 0);	
+	background-color: rgba(0, 0, 0, 0);	
 	color: rgb(208, 210, 214);
 	text-align: left;
-	padding-left: 10px;
 	padding-right: 10px;
 }
 QPushButton:hover {
-	background-color: rgb(0, 0, 0, 0);  
+	background-color: rgba(0, 0, 0, 0);  
 	color: rgb(95, 85, 200);
 }</string>
            </property>
@@ -286,14 +283,13 @@ QPushButton:hover {
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton {
-	background-color: rgb(0, 0, 0, 0);	
+	background-color: rgba(0, 0, 0, 0);	
 	color: rgb(208, 210, 214);
 	text-align: left;
-	padding-left: 10px;
 	padding-right: 10px;
 }
 QPushButton:hover {
-	background-color: rgb(0, 0, 0, 0);  
+	background-color: rgba(0, 0, 0, 0);  
 	color: rgb(95, 85, 200);
 }</string>
            </property>
@@ -323,8 +319,7 @@ QPushButton:hover {
            </property>
            <property name="styleSheet">
             <string notr="true">color: #D0D2D6;
-margin-top: 20px;
-padding-left: 7px;</string>
+margin-top: 20px;</string>
            </property>
            <property name="text">
             <string>СТИЛЬ ОТОБРАЖЕНИЯ</string>
@@ -350,7 +345,7 @@ padding-left: 7px;</string>
            </property>
            <property name="font">
             <font>
-             <family>Roboto-Light</family>
+             <family>Roboto Light</family>
              <pointsize>12</pointsize>
             </font>
            </property>
@@ -358,11 +353,10 @@ padding-left: 7px;</string>
             <string notr="true">QComboBox {
 background-color: rgb(22, 29, 49);
 color: rgb(208, 210, 214);
-border: 2px solid rgb(0, 0, 0, 0);
+border: 2px solid rgba(0, 0, 0, 0);
 border-radius: 5px;
-padding-left: 20px;
+padding-left: 10px;
 padding-right: 10px;
-margin-left: 10px;
 }
 
 QComboBox:hover {
@@ -376,7 +370,6 @@ QComboBox QAbstractItemView {
 background-color: rgb(22, 29, 49);
 border: 2px solid #7666F8;
 color: rgb(203, 203, 203);
-margin-left: 10px;
 selection-background-color: rgb(94, 80, 238);
 selection-color: rgb(0, 0, 0);
 }</string>
@@ -464,7 +457,7 @@ border-radius: 5px;
        <widget class="QPushButton" name="mainwindow_btn_nav_add_act">
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -711,7 +704,7 @@ color: #D0D2D6;</string>
        <widget class="QLabel" name="mainwindow_textlbl_s">
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -756,7 +749,7 @@ QDateEdit:hover {
        <widget class="QLabel" name="mainwindow_textlbl_po">
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -836,7 +829,7 @@ border-bottom-left-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
           <weight>50</weight>
           <italic>false</italic>
@@ -845,7 +838,7 @@ border-bottom-left-radius: 5px;
         </property>
         <property name="styleSheet">
          <string notr="true">color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0);
+border: 2px solid rgba(0, 0, 0, 0);
 margin-top: 2px;</string>
         </property>
         <property name="text">
@@ -866,7 +859,7 @@ margin-top: 2px;</string>
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
           <weight>50</weight>
           <italic>false</italic>
@@ -876,7 +869,7 @@ margin-top: 2px;</string>
         <property name="styleSheet">
          <string notr="true">QLabel {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
@@ -901,14 +894,14 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
@@ -933,7 +926,7 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
           <weight>50</weight>
           <italic>false</italic>
@@ -943,7 +936,7 @@ border-radius: 5px;
         <property name="styleSheet">
          <string notr="true">QCheckBox {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
@@ -968,7 +961,7 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
           <weight>50</weight>
           <italic>false</italic>
@@ -978,7 +971,7 @@ border-radius: 5px;
         <property name="styleSheet">
          <string notr="true">QCheckBox {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
@@ -1003,14 +996,14 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
@@ -1035,14 +1028,14 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
@@ -1067,7 +1060,7 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
           <weight>50</weight>
           <italic>false</italic>
@@ -1077,7 +1070,7 @@ border-radius: 5px;
         <property name="styleSheet">
          <string notr="true">QCheckBox {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
@@ -1102,7 +1095,7 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
           <weight>50</weight>
           <italic>false</italic>
@@ -1112,7 +1105,7 @@ border-radius: 5px;
         <property name="styleSheet">
          <string notr="true">QCheckBox {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
@@ -1143,7 +1136,7 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>14</pointsize>
           <weight>50</weight>
           <italic>false</italic>
@@ -1186,7 +1179,7 @@ QPushButton:hover {
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
           <weight>50</weight>
           <italic>false</italic>
@@ -1196,7 +1189,7 @@ QPushButton:hover {
         <property name="styleSheet">
          <string notr="true">QCheckBox {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
@@ -1221,14 +1214,14 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
@@ -1253,14 +1246,14 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
@@ -1285,14 +1278,14 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
@@ -1317,14 +1310,14 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QLabel:hover {
@@ -1349,7 +1342,7 @@ border-radius: 5px;
         </property>
         <property name="font">
          <font>
-          <family>Roboto-Light</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
           <weight>50</weight>
           <italic>false</italic>
@@ -1359,7 +1352,7 @@ border-radius: 5px;
         <property name="styleSheet">
          <string notr="true">QCheckBox {
 color: #B4B7BD;
-border: 2px solid rgb(0, 0, 0, 0) ;
+border: 2px solid rgba(0, 0, 0, 0) ;
 }
 
 QCheckBox:hover {
@@ -1414,7 +1407,6 @@ color: rgb(110, 107, 123);
 border-left: 1px solid #3B4253;
 border-top-right-radius: 5px;
 border-bottom-right-radius: 5px;
-border-left-radius: 0px;
 padding-left: 20px;</string>
     </property>
    </widget>
@@ -1425,7 +1417,7 @@ padding-left: 20px;</string>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">

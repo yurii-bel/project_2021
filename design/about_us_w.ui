@@ -1,44 +1,474 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>about_us_w_w_form</class>
+ <widget class="QWidget" name="about_us_w_form">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>740</width>
-    <height>576</height>
+    <width>1280</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>About us</string>
   </property>
-  <widget class="QLabel" name="label">
+  <property name="styleSheet">
+   <string notr="true">background-color: #F8F8F8;</string>
+  </property>
+  <widget class="QLabel" name="about_us_w_textlabel_about_program">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>530</x>
      <y>10</y>
-     <width>71</width>
+     <width>210</width>
      <height>21</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
    <property name="text">
-    <string>О программе</string>
+    <string>О программе TimeSoft</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="about_us_w_textlabel_team_right">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>60</y>
-     <width>361</width>
-     <height>41</height>
+     <x>640</x>
+     <y>310</y>
+     <width>311</width>
+     <height>111</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
    <property name="text">
-    <string>TimeSoft</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Супер дизайнер - Колесников Евгений&lt;/p&gt;&lt;p&gt;Кодер логики - Ластивка Тимофей&lt;/p&gt;&lt;p&gt;Кодер логики - Тырон Владислав&lt;/p&gt;&lt;p&gt;Кодер телеграм бота - Печкур Александр&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
+  <widget class="QLabel" name="about_us_w_textlabel_copyright">
+   <property name="geometry">
+    <rect>
+     <x>405</x>
+     <y>740</y>
+     <width>481</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
+   <property name="text">
+    <string>Design by Evgeny K. Copyright © 2021 TimeSoft All rights reserved.</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_imglabel_timofey">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>40</y>
+     <width>220</width>
+     <height>220</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+background-image: url(img/team/team_01.jpg);
+border: 2px solid rgba(255, 0, 0, 255);
+border-radius: 50px;
+}</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_imglabel_alex">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>40</y>
+     <width>220</width>
+     <height>220</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+background-image: url(img/team/team_02.jpg);
+border: 2px solid rgba(255, 0, 0, 255);
+border-radius: 50px;
+}</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_imglabel_yuri">
+   <property name="geometry">
+    <rect>
+     <x>1010</x>
+     <y>110</y>
+     <width>220</width>
+     <height>220</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+background-image: url(img/team/team_03.jpg);
+border: 2px solid rgba(255, 0, 0, 255);
+border-radius: 50px;
+}</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_imglabel_vlad">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>508</y>
+     <width>220</width>
+     <height>220</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+background-image: url(img/team/team_06.jpg);
+border: 2px solid rgba(255, 0, 0, 255);
+border-radius: 50px;
+}</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_imglabel_kolesnikov">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>380</y>
+     <width>220</width>
+     <height>220</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+background-image: url(img/team/team_07.jpg);
+border: 2px solid rgba(255, 0, 0, 255);
+border-radius: 50px;
+}</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_imglabel_simonovsky">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>110</y>
+     <width>220</width>
+     <height>220</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+background-image: url(img/team/team_08.jpg);
+border: 2px solid rgba(255, 0, 0, 255);
+border-radius: 50px;
+}</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_imglabel_oleg">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>508</y>
+     <width>220</width>
+     <height>220</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+background-image: url(img/team/team_05.jpg);
+border: 2px solid rgba(255, 0, 0, 255);
+border-radius: 50px;
+}</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_imglabel_dimon">
+   <property name="geometry">
+    <rect>
+     <x>1010</x>
+     <y>380</y>
+     <width>220</width>
+     <height>220</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+background-image: url(img/team/team_04.jpg);
+border: 2px solid rgba(255, 0, 0, 255);
+border-radius: 50px;
+}</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_textlabel_timofey">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>260</y>
+     <width>170</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
+   <property name="text">
+    <string>Ластивка Тимофей</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_textlabel_simonovsky">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>85</y>
+     <width>170</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
+   <property name="text">
+    <string>Симоновский Евгений</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_textlabel_kolesnikov">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>605</y>
+     <width>170</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
+   <property name="text">
+    <string>Колесников Евгений</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_textlabel_vlad">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>483</y>
+     <width>170</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
+   <property name="text">
+    <string>Тырон Владислав</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_textlabel_oleg">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>483</y>
+     <width>170</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
+   <property name="text">
+    <string>Тимчук Олег</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_textlabel_dimon">
+   <property name="geometry">
+    <rect>
+     <x>1040</x>
+     <y>605</y>
+     <width>170</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
+   <property name="text">
+    <string>Вергун Дмитрий</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_textlabel_yuri">
+   <property name="geometry">
+    <rect>
+     <x>1040</x>
+     <y>85</y>
+     <width>170</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
+   <property name="text">
+    <string>Белявцев Юрий</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_textlabel_alex">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>260</y>
+     <width>170</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
+   <property name="text">
+    <string>Печкур Александр</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="about_us_w_textlabel_team_left">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>310</y>
+     <width>311</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #5E5873;</string>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Руководитель - Тимчук Олег&lt;/p&gt;&lt;p&gt;СЕО - Симоновский Евгений&lt;/p&gt;&lt;p&gt;Тим-лидер кодеров - Белявцев Юрий&lt;/p&gt;&lt;p&gt;Спец по базам данных - Вергун Дмитрий&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <zorder>about_us_w_textlabel_team_right</zorder>
+  <zorder>about_us_w_textlabel_about_program</zorder>
+  <zorder>about_us_w_textlabel_copyright</zorder>
+  <zorder>about_us_w_imglabel_timofey</zorder>
+  <zorder>about_us_w_imglabel_alex</zorder>
+  <zorder>about_us_w_imglabel_yuri</zorder>
+  <zorder>about_us_w_imglabel_vlad</zorder>
+  <zorder>about_us_w_imglabel_kolesnikov</zorder>
+  <zorder>about_us_w_imglabel_simonovsky</zorder>
+  <zorder>about_us_w_imglabel_oleg</zorder>
+  <zorder>about_us_w_imglabel_dimon</zorder>
+  <zorder>about_us_w_textlabel_timofey</zorder>
+  <zorder>about_us_w_textlabel_simonovsky</zorder>
+  <zorder>about_us_w_textlabel_kolesnikov</zorder>
+  <zorder>about_us_w_textlabel_vlad</zorder>
+  <zorder>about_us_w_textlabel_oleg</zorder>
+  <zorder>about_us_w_textlabel_dimon</zorder>
+  <zorder>about_us_w_textlabel_yuri</zorder>
+  <zorder>about_us_w_textlabel_alex</zorder>
+  <zorder>about_us_w_textlabel_team_left</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -14,7 +14,7 @@
    <string>Settings</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(40, 48, 70);</string>
+   <string notr="true">background-color: #F8F8F8;</string>
   </property>
   <widget class="QLineEdit" name="settings_w_lineedit_email">
    <property name="geometry">
@@ -34,13 +34,13 @@
    <property name="styleSheet">
     <string notr="true">QLineEdit { 
 color: #676D7D;
-background: #283046;
-border: 1px solid #404656;
+background: #FFFFFF;
+border: 1px solid #D8D6DE;
 border-radius: 5px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
    </property>
   </widget>
@@ -62,13 +62,13 @@ border: 2px solid rgb(95, 85, 200);
    <property name="styleSheet">
     <string notr="true">QLineEdit { 
 color: #676D7D;
-background: #283046;
-border: 1px solid #404656;
+background: #FFFFFF;
+border: 1px solid #D8D6DE;
 border-radius: 5px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
    </property>
    <property name="echoMode">
@@ -94,16 +94,16 @@ border: 2px solid rgb(95, 85, 200);
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
-	background-color: rgb(40, 48, 70);
+	background-color: rgb(115, 103, 240);
 	border: 1px solid rgb(122, 122, 122);
 	border-radius: 5px;
-	color: rgb(180, 183, 189);
+	color: rgb(255, 255, 255);
 	padding-left: 10px;
 	padding-right: 10px;
 }
 QPushButton:hover {
-  background-color: rgb(40, 48, 70); 
-  color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
+  color: rgb(115, 103, 240);
   border: 1px solid rgb(95, 85, 200);
 }</string>
    </property>
@@ -126,12 +126,12 @@ QPushButton:hover {
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(180, 183, 189);</string>
+    <string notr="true">color: rgb(110, 107, 123);</string>
    </property>
    <property name="text">
     <string>Старый пароль</string>
@@ -148,12 +148,12 @@ QPushButton:hover {
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(180, 183, 189);</string>
+    <string notr="true">color: rgb(110, 107, 123);</string>
    </property>
    <property name="text">
     <string>Новый пароль</string>
@@ -175,8 +175,7 @@ QPushButton:hover {
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: #FFFFFF;
-</string>
+    <string notr="true">color: rgb(94, 88, 115);</string>
    </property>
    <property name="text">
     <string>Изменить информацию</string>
@@ -200,13 +199,13 @@ QPushButton:hover {
    <property name="styleSheet">
     <string notr="true">QLineEdit { 
 color: #676D7D;
-background: #283046;
-border: 1px solid #404656;
+background: #FFFFFF;
+border: 1px solid #D8D6DE;
 border-radius: 5px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
    </property>
    <property name="echoMode">
@@ -224,12 +223,12 @@ border: 2px solid rgb(95, 85, 200);
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(180, 183, 189);</string>
+    <string notr="true">color: rgb(110, 107, 123);</string>
    </property>
    <property name="text">
     <string>Повторите новый пароль</string>
@@ -253,13 +252,13 @@ border: 2px solid rgb(95, 85, 200);
    <property name="styleSheet">
     <string notr="true">QLineEdit { 
 color: #676D7D;
-background: #283046;
-border: 1px solid #404656;
+background: #FFFFFF;
+border: 1px solid #D8D6DE;
 border-radius: 5px;
 }
 
 QLineEdit:hover {
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
    </property>
    <property name="echoMode">
@@ -277,12 +276,12 @@ border: 2px solid rgb(95, 85, 200);
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(180, 183, 189);</string>
+    <string notr="true">color: rgb(110, 107, 123);</string>
    </property>
    <property name="text">
     <string>Привязать соц. сети</string>
@@ -299,7 +298,7 @@ border: 2px solid rgb(95, 85, 200);
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>12</pointsize>
      <weight>50</weight>
      <italic>false</italic>
@@ -307,7 +306,7 @@ border: 2px solid rgb(95, 85, 200);
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(180, 183, 189);</string>
+    <string notr="true">color: rgb(110, 107, 123);</string>
    </property>
    <property name="text">
     <string>Почта</string>
@@ -326,7 +325,7 @@ border: 2px solid rgb(95, 85, 200);
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>img/comingsoon-dark 1.svg</pixmap>
+    <pixmap>img/comingsoon-white 1.svg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -364,7 +363,7 @@ text-align: center;
 margin-right: 5px;
 }
 QPushButton:hover {
-  background-color: rgb(40, 48, 70); 
+  background-color: rgb(255, 255, 255); 
   color: rgb(115, 103, 240);
   border: 2px solid rgb(95, 85, 200);
 }</string>
@@ -384,7 +383,7 @@ QPushButton:hover {
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-background-color: rgb(40, 48, 70); 
+background-color: rgb(255, 255, 255); 
 border-radius: 5px;
 border: 2px solid rgb(234, 84, 85);
 color: rgb(234, 84, 85);
@@ -419,7 +418,7 @@ border: 2px solid rgb(234, 84, 85);
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>18</pointsize>
      <weight>50</weight>
      <bold>false</bold>
@@ -449,7 +448,7 @@ border: 2px solid rgb(234, 84, 85);
    </property>
    <property name="font">
     <font>
-     <family>Roboto-Light</family>
+     <family>Roboto Light</family>
      <pointsize>14</pointsize>
      <weight>50</weight>
      <bold>false</bold>
@@ -494,10 +493,10 @@ border: 2px solid rgb(234, 84, 85);
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-background-color: rgb(40, 48, 70);
+background-color: rgb(115, 103, 240);
 border: 1px solid rgb(122, 122, 122);
 border-radius: 5px;
-color: rgb(180, 183, 189);
+color: rgb(255, 255, 255);
 padding-top: 5 px; 
 padding-right: 23 px;
 padding-left: 23 px;
@@ -505,9 +504,9 @@ padding-bottom: 5 px;
 margin-right: 10px;
 }
 QPushButton:hover {
-  background-color: rgb(40, 48, 70); 
+  background-color: rgb(255, 255, 255); 
   color: rgb(115, 103, 240);
-  border: 2px solid rgb(95, 85, 200);
+  border: 1px solid rgb(95, 85, 200);
 }</string>
       </property>
       <property name="text">
@@ -531,10 +530,10 @@ QPushButton:hover {
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-background-color: rgb(40, 48, 70);
+background-color: rgb(115, 103, 240);
 border: 1px solid rgb(122, 122, 122);
 border-radius: 5px;
-color: rgb(180, 183, 189);
+color: rgb(255, 255, 255);
 padding-top: 5 px; 
 padding-right: 23 px;
 padding-left: 23 px;
@@ -542,9 +541,9 @@ padding-bottom: 5 px;
 margin-right: 10px;
 }
 QPushButton:hover {
-background-color: rgb(40, 48, 70); 
+background-color: rgb(255, 255, 255); 
 color: rgb(115, 103, 240);
-border: 2px solid rgb(95, 85, 200);
+border: 1px solid rgb(95, 85, 200);
 }</string>
       </property>
       <property name="text">

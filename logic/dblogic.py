@@ -61,8 +61,6 @@ class DbLogic:
 
         except Exception:
             pass
-        finally:
-            self.cursor2.close()
 
     def login_user(self, user_n_name, user_p_password):
         try:
@@ -128,12 +126,9 @@ class DbLogic:
             if self.correct_login_info == True: 
                 self.load_user_activities()   # loading activities from db
 
-        except (Exception, Error) as error:
-            return f'{error}'
-        finally:
-            self.cursor.close()
-            self.connection.close()
-
+        except Exception:
+            pass
+    
     def load_user_activities(self):
         # working with ACTIVITY table.
         self.activity_creation_date = []
@@ -182,8 +177,6 @@ class DbLogic:
                                 {'userID': user_id})
         except Exception:
             pass
-        finally:
-            self.cursor2.close()
 
     def get_user_n_id(self, user):
         try:
@@ -193,8 +186,6 @@ class DbLogic:
             return str(self.cursor2.fetchone())[2:-2]
         except Exception:
             pass
-        finally:
-            self.cursor2.close()
 
     def get_user_id(self, user_n_id):
         try:
@@ -204,8 +195,30 @@ class DbLogic:
             return str(self.cursor2.fetchall())[2:-2]
         except Exception:
             pass
-        finally:
-            self.cursor2.close()
+
+    def get_actl_id(self, user, actl_name, cat_name):
+        self.connection.autocommit = True
+        user_n_id = self.get_user_n_id(user)
+        user_id = self.get_user_id(user_n_id)
+
+        self.cursor2.execute(\
+            f'SELECT actl_id FROM "ACTIVITY_LIST" WHERE\
+                (user_id, actl_name, cat_name) = (\'{user_id}\', \'{actl_name}\', \'{cat_name}\')')
+        for row in self.cursor2.fetchall():
+            return row[0]
+
+    def get_act_id(self, user, actl_name, act_time, act_date, cat_name, act_comment):
+        self.connection.autocommit = True
+        user_n_id = self.get_user_n_id(user)
+        user_id = self.get_user_id(user_n_id)
+
+        self.cursor2.execute(\
+            f'SELECT act_id FROM "ACTIVITY" WHERE\
+                (user_id, actl_name, act_time, act_date, cat_name, act_comment) =\
+                    (\'{user_id}\', \'{actl_name}\', \'{act_time}\', \'{act_date}\',\
+                        \'{cat_name}\', \'{act_comment}\')')
+        for row in self.cursor2.fetchall():
+            return row[0]
 
     def get_user_categories(self, user):
         try:
@@ -221,8 +234,6 @@ class DbLogic:
             return categs
         except Exception:
             pass
-        finally:
-            self.cursor2.close()
 
     def copy_user(self, table_name, column):
         try:
@@ -236,34 +247,57 @@ class DbLogic:
 
     def add_event(self, user, actl_name, act_time, act_date, cat_name,\
         act_comment):
-        try:
-            self.connection.autocommit = True
-            user_n_id = self.get_user_n_id(user)
-            user_id = self.get_user_id(user_n_id)
 
+        self.connection.autocommit = True
+        user_n_id = self.get_user_n_id(user)
+        user_id = self.get_user_id(user_n_id)
+
+        self.cursor2.execute(\
+            f'SELECT cat_name FROM "CATEGORY" WHERE user_id = \'{user_id}\'')
+        user_categories = self.cursor2.fetchall()
+        for row in user_categories:
+            if cat_name == row[0]:
+                break
+        else:
             self.cursor2.execute(\
-                f'SELECT cat_name FROM "CATEGORY" WHERE user_id = \'{user_id}\'')
-            user_categories = self.cursor2.fetchall()
-            for row in user_categories:
-                if cat_name == row[0]:
-                    break
-            else:
-                self.cursor2.execute(\
-                    f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',\
-                        (user_id, cat_name))
+                f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',\
+                    (user_id, cat_name))
 
+        self.cursor2.execute(\
+            f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name)\
+                VALUES (%s,%s,%s)', (user_id, actl_name, cat_name))
+
+        self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
+                    act_time, act_date, cat_name, act_comment)\
+                        VALUES (%s,%s,%s,%s,%s,%s)',\
+                    (user_id, actl_name, act_time, act_date, cat_name, act_comment))
+
+    def edit_event(self, user, actl_name, act_time, act_date, cat_name,\
+        act_comment, act_id, actl_id):
+
+        self.connection.autocommit = True
+        user_n_id = self.get_user_n_id(user)
+        user_id = self.get_user_id(user_n_id)
+
+        self.cursor2.execute(\
+            f'SELECT cat_name FROM "CATEGORY" WHERE user_id = \'{user_id}\'')
+        user_categories = self.cursor2.fetchall()
+        for row in user_categories:
+            if cat_name == row[0]:
+                break
+        else:
             self.cursor2.execute(\
-                f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name)\
-                    VALUES (%s,%s,%s)', (user_id, actl_name, cat_name))
+                f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',\
+                    (user_id, cat_name))
 
-            self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
-                        act_time, act_date, cat_name, act_comment)\
-                            VALUES (%s,%s,%s,%s,%s,%s)',\
-                        (user_id, actl_name, act_time, act_date, cat_name, act_comment))
-        except Exception:
-            pass
-        finally:
-            self.cursor2.close()
+        self.cursor2.execute(\
+            f'UPDATE "ACTIVITY_LIST" SET (actl_name, cat_name) = (\'{actl_name}\',\
+                \'{cat_name}\') WHERE actl_id = \'{actl_id}\'')
+        
+        self.cursor2.execute(\
+            f'UPDATE "ACTIVITY" SET (actl_name, act_time, act_date, cat_name, \
+                act_comment) = (\'{actl_name}\', \'{act_time}\', \'{act_date}\',\
+                    \'{cat_name}\', \'{act_comment}\') WHERE act_id = \'{act_id}\'')
 
     def drop_event(self, user, actl_name):
         try:
@@ -280,9 +314,6 @@ class DbLogic:
                     WHERE user_id = \'{user_id}\' and actl_name = \'{actl_name}\'')
         except Exception:
             pass
-        finally:
-            self.cursor2.close()
-
 
     def drop_category(self, user, cat_name):
         try:
@@ -295,9 +326,6 @@ class DbLogic:
                     WHERE user_id = \'{user_id}\' and cat_name = \'{cat_name}\'')
         except Exception:
             pass
-        finally:
-            self.cursor2.close()
-
 
 if __name__ == '__main__':
     dbl = DbLogic()
@@ -313,3 +341,5 @@ if __name__ == '__main__':
     # dbl.drop_category('Timofey', 'Спорт')
     # print(dbl.get_user_categories('Sif'))
     # print(dbl.copy_user('CATEGORY', '2'))
+    # print(dbl.get_actl_id('Timofey', 'Бег', 'Спорт'))
+    # print(dbl.get_act_id('Timofey', 'Бег', '60', '2021-05-26', 'Спорт', 'Набегался!'))

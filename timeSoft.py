@@ -143,19 +143,12 @@ class MainUI(QtWidgets.QMainWindow):
         # print("You clicked on {0}x{1}".format(item.column(), item.row()))
 
         # #selected cell value.
-        # index = (self.tableView.selectionModel().currentIndex())
-        # print(index)
-        # value = item.sibling(item.row(), item.column()).data()
-
         self.act_date = str(item.sibling(item.row(), 0).data())
         self.cat_name = str(item.sibling(item.row(), 1).data())
         self.actl_name = str(item.sibling(item.row(), 2).data())
         self.act_time = str(item.sibling(item.row(), 3).data())
         self.act_comment = str(item.sibling(item.row(), 1).data())
 
-        print(self.act_date, self.cat_name, self.actl_name, self.act_time, self.act_comment)
-
-        
 
     def add_action(self):
         '''
@@ -163,7 +156,8 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
         # self.act.show_add_event()
-        self.act.show_edit_event('Бег', '60', '2021-05-26', 'Спорт', 'Набегался!')
+        # self.act.show_edit_event('Бег', '60', '2021-05-26', 'Спорт', 'Набегался!')
+        self.act.show_edit_event(self.actl_name, self.act_time, self.act_date, self.cat_name, self.act_comment)
 
     def edit_action(self):
         self.act.show_edit_event()

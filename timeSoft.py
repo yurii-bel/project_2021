@@ -155,12 +155,17 @@ class MainUI(QtWidgets.QMainWindow):
         Current method shows user interface action adding.
         '''
         self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
-        # self.act.show_add_event()
-        # self.act.show_edit_event('Бег', '60', '2021-05-26', 'Спорт', 'Набегался!')
-        self.act.show_edit_event(self.actl_name, self.act_time, self.act_date, self.cat_name, self.act_comment)
+        # TODO: add new method for tableview updating, insert it to add and edit actions.
+        #  + after doubleclick open edit_event method.
+        self.act.show_add_event()
+        if self.act.add_event_status:
+            self.timedb().load_user_activities()
+            self.view_table()
 
     def edit_action(self):
-        self.act.show_edit_event()
+        self.act.show_edit_event(self.actl_name, self.act_time, self.act_date, self.cat_name, self.act_comment)
+        self.timedb().load_user_activities()
+        self.view_table()
 
     def visualize(self, object):
         '''
@@ -184,8 +189,6 @@ class MainUI(QtWidgets.QMainWindow):
                     f.write(f'{d[2]}')
 
     def view_table(self): # Table creation method.
-
-
         rows = self.db.table_rows_num
         self.lay = QtWidgets.QHBoxLayout()
 

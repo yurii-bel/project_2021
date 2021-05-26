@@ -1,4 +1,5 @@
 import datetime
+import re
 import sys
 sys.path.append('.')
 
@@ -36,6 +37,10 @@ class ActionsUI(QtWidgets.QMainWindow):
         # Connecting line edits to appropriate slots.
         self.aUi.add_event_lineEdit_name.textChanged.connect(
             self.suppose_category)
+
+        # 
+        self.add_event_status = None
+        self.edit_event_status = None
 
     def ui_add_event_preparations(self):
         # Settings for 'a_dE_date' control element.
@@ -103,6 +108,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.timedb().add_event(self.user_n_name, title, int_duration,\
             str_date, category, comment)
         self.aUi.close()
+        self.add_event_status = True
 
     def suppose_category(self):
         pass
@@ -123,6 +129,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.timedb().edit_event(self.user_n_name, title, int_duration,\
             str_date, category, comment, self.act_id, self.actl_id)
         self.eUi.close()
+        self.edit_event_status = True
 
 
 if __name__ == '__main__':

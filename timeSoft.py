@@ -133,12 +133,27 @@ class MainUI(QtWidgets.QMainWindow):
     def fill_tableview(self):
         pass
 
-    def get_current_row_tableview(self, item):
+    def get_current_row_tableview(self, item): 
         '''
         Current method displays clicked column and row of a choosen cell 
         in a TableView widget.
         '''
-        print("You clicked on {0}x{1}".format(item.column(), item.row()))
+        # print("You clicked on {0}x{1}".format(item.column(), item.row()))
+
+        # #selected cell value.
+        # index = (self.tableView.selectionModel().currentIndex())
+        # print(index)
+        # value = item.sibling(item.row(), item.column()).data()
+
+        self.act_date = str(item.sibling(item.row(), 0).data())
+        self.cat_name = str(item.sibling(item.row(), 1).data())
+        self.actl_name = str(item.sibling(item.row(), 2).data())
+        self.act_time = str(item.sibling(item.row(), 3).data())
+        self.act_comment = str(item.sibling(item.row(), 1).data())
+
+        print(self.act_date, self.cat_name, self.actl_name, self.act_time, self.act_comment)
+
+        
 
     def add_action(self):
         '''
@@ -177,22 +192,20 @@ class MainUI(QtWidgets.QMainWindow):
         rows = self.db.table_rows_num
         self.lay = QtWidgets.QHBoxLayout()
 
-        # d1 = 'Бег'
-        # name1 = QtWidgets.QTableWidgetItem(d1)
-        # name1.setBackground(QtGui.QColor('Yellow'))
-
-        # rows += 1
-        
-
-
         self.tUi.tableW.setRowCount(rows)
+        
         for i in range(rows):
             # setting all activities data.
-            self.tUi.tableW.setItem(i, 0, QtWidgets.QTableWidgetItem(self.db.activity_creation_date[i]))
-            self.tUi.tableW.setItem(i, 1, QtWidgets.QTableWidgetItem(self.db.activity_category[i]))
-            self.tUi.tableW.setItem(i, 2, QtWidgets.QTableWidgetItem(self.db.activity_name[i]))
-            self.tUi.tableW.setItem(i, 3, QtWidgets.QTableWidgetItem(self.db.activity_duration[i]))
-            self.tUi.tableW.setItem(i, 4, QtWidgets.QTableWidgetItem(self.db.activity_comment[i]))
+            self.tUi.tableW.setItem(i, 0, 
+            QtWidgets.QTableWidgetItem(self.db.activity_creation_date[i]))
+            self.tUi.tableW.setItem(i, 1, 
+            QtWidgets.QTableWidgetItem(self.db.activity_category[i]))
+            self.tUi.tableW.setItem(i, 2, 
+            QtWidgets.QTableWidgetItem(self.db.activity_name[i]))
+            self.tUi.tableW.setItem(i, 3, 
+            QtWidgets.QTableWidgetItem(self.db.activity_duration[i]))
+            self.tUi.tableW.setItem(i, 4, 
+            QtWidgets.QTableWidgetItem(self.db.activity_comment[i]))
             
             # # setting edit and delete icons to fields.
             # icon_edit = 'design\\img\\icons\\tableview_edit_icon.png'

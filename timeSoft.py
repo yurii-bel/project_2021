@@ -147,7 +147,8 @@ class MainUI(QtWidgets.QMainWindow):
         Current method shows user interface action adding.
         '''
         self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
-        self.act.show_add_event()
+        # self.act.show_add_event()
+        self.act.show_edit_event('Бег', '60', '2021-05-26', 'Спорт', 'Набегался!')
 
     def edit_action(self):
         self.act.show_edit_event()

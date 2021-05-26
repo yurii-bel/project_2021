@@ -12,7 +12,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>360</width>
+    <width>364</width>
     <height>640</height>
    </rect>
   </property>
@@ -293,6 +293,9 @@ QComboBox:hover {
 	background-color: rgb(40, 48, 70); 
 	border: 1px solid rgb(95, 85, 200);
 }</string>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
             </property>
            </widget>
           </item>

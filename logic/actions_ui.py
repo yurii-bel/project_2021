@@ -117,9 +117,13 @@ class ActionsUI(QtWidgets.QMainWindow):
 
         # Writing all changes to db and closing 'Add Event' win.
         self.timedb().add_event(self.user_n_name, title, int_duration,\
-            str_date, category, comment)
+            str_date, category, comment)  
+
+        self.add_event_status = True 
         self.aUi.close()
-        self.add_event_status = True
+        
+
+
 
     def suppose_category(self):
         pass
@@ -143,7 +147,3 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.edit_event_status = True
 
 
-if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    win = ActionsUI()
-    sys.exit(app.exec())

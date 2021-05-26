@@ -148,8 +148,6 @@ class MainUI(QtWidgets.QMainWindow):
         self.act_time = str(item.sibling(item.row(), 3).data())
         self.act_comment = str(item.sibling(item.row(), 1).data())
 
-
-
     def tableview_updating(self):
         self.timedb().load_user_activities()
 
@@ -180,22 +178,22 @@ class MainUI(QtWidgets.QMainWindow):
         Current method shows user interface action adding.
         '''
         self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
-        if self.act.user_input_check == '1':
-                QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Пожалуйста, введите название для события.', QtWidgets.QMessageBox.Ok)
-        elif self.act.user_input_check == '2':
-                QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Пожалуйста, укажите категорию для события.', QtWidgets.QMessageBox.Ok)
-        elif self.act.user_input_check == '3':
-                QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Пожалуйста, длительность события.', QtWidgets.QMessageBox.Ok)
-        else:
-            self.act.show_add_event()
+        # if self.act.user_input_check == '1':
+        #         QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+        #         'Пожалуйста, введите название для события.', QtWidgets.QMessageBox.Ok)
+        # elif self.act.user_input_check == '2':
+        #         QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+        #         'Пожалуйста, укажите категорию для события.', QtWidgets.QMessageBox.Ok)
+        # elif self.act.user_input_check == '3':
+        #         QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+        #         'Пожалуйста, длительность события.', QtWidgets.QMessageBox.Ok)
+        # else:
+
 
         # TODO: add new method for tableview updating, insert it to add and edit actions.
         #  + after doubleclick open edit_event method.
-
         self.act.show_add_event()
+        self.act.add_event()
         self.tableview_updating()
 
 

@@ -265,11 +265,11 @@ class DbLogic:
 
         self.cursor2.execute(\
             f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name)\
-                VALUES (%s,%s,%s)', (user_id, actl_name, cat_name))
+                VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (user_id, actl_name, cat_name))
 
         self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
                     act_time, act_date, cat_name, act_comment)\
-                        VALUES (%s,%s,%s,%s,%s,%s)',\
+                        VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING' ,\
                     (user_id, actl_name, act_time, act_date, cat_name, act_comment))
 
     def edit_event(self, user, actl_name, act_time, act_date, cat_name,\
@@ -292,12 +292,13 @@ class DbLogic:
 
         self.cursor2.execute(\
             f'UPDATE "ACTIVITY_LIST" SET (actl_name, cat_name) = (\'{actl_name}\',\
-                \'{cat_name}\') WHERE actl_id = \'{actl_id}\'')
+                \'{cat_name}\') WHERE actl_id = \'{actl_id}\' ON CONFLICT DO NOTHING')
         
         self.cursor2.execute(\
             f'UPDATE "ACTIVITY" SET (actl_name, act_time, act_date, cat_name, \
                 act_comment) = (\'{actl_name}\', \'{act_time}\', \'{act_date}\',\
-                    \'{cat_name}\', \'{act_comment}\') WHERE act_id = \'{act_id}\'')
+                    \'{cat_name}\', \'{act_comment}\') WHERE act_id = \'{act_id}\'\
+                     ON CONFLICT DO NOTHING')
 
     def drop_event(self, user, actl_name):
         try:

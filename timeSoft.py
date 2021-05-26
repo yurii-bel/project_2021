@@ -103,29 +103,28 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi.show()
 
     def registration(self):
-        self.db = self.timedb()
         login = self.rUi.register_lineEdit_name.text()
         email = self.rUi.register_lineEdit_email.text()
         password = self.rUi.register_lineEdit_password.text()
 
-        self.db.register_user(login, email, password)
+        self.timedb().register_user(login, email, password)
 
-        if self.db.user_input_check == '1':
+        if self.timedb().user_input_check == '1':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Данный пользователь уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
-        elif self.db.user_input_check == '2':
+        elif self.timedb().user_input_check == '2':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Данный email уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
-        elif self.db.user_input_check == '3':
+        elif self.timedb().user_input_check == '3':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Нельзя создать пустой логин пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.db.user_input_check == '4':
+        elif self.timedb().user_input_check == '4':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Нельзя создать пустой email пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.db.user_input_check == '5':
+        elif self.timedb().user_input_check == '5':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Нельзя создать пустой пароль пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.db.user_input_check == '6':
+        elif self.timedb().user_input_check == '6':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Длина пароля должна быть не менее 8 символов.', QtWidgets.QMessageBox.Ok)
         else:
@@ -181,6 +180,18 @@ class MainUI(QtWidgets.QMainWindow):
         Current method shows user interface action adding.
         '''
         self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
+        if self.act.user_input_check == '1':
+                QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Пожалуйста, введите название для события.', QtWidgets.QMessageBox.Ok)
+        elif self.act.user_input_check == '2':
+                QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Пожалуйста, укажите категорию для события.', QtWidgets.QMessageBox.Ok)
+        elif self.act.user_input_check == '3':
+                QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Пожалуйста, длительность события.', QtWidgets.QMessageBox.Ok)
+        else:
+            self.act.show_add_event()
+
         # TODO: add new method for tableview updating, insert it to add and edit actions.
         #  + after doubleclick open edit_event method.
 

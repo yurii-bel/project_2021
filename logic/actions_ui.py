@@ -41,6 +41,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         # 
         self.add_event_status = None
         self.edit_event_status = None
+        self.user_input_check = None
 
     def ui_add_event_preparations(self):
         # Settings for 'a_dE_date' control element.
@@ -98,6 +99,16 @@ class ActionsUI(QtWidgets.QMainWindow):
         duration = self.aUi.add_event_lineEdit_time.text()
         date = self.aUi.add_event_dateEdit.date()
         comment = self.aUi.add_event_plaintextedit_comment.toPlainText()
+
+        if title == '':
+            self.user_input_check = '1'
+            return
+        elif category == '':
+            self.user_input_check = '2'
+            return
+        elif duration == '':
+            self.user_input_check = '3'
+            return
 
         date_ = datetime.date(date.year(), date.month(), date.day())
         str_date = date_.strftime('%Y-%m-%d')

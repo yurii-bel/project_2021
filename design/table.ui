@@ -123,26 +123,6 @@ color: rgb(110, 107, 123);
      </brush>
     </property>
    </column>
-   <column>
-    <property name="text">
-     <string>Комментарий</string>
-    </property>
-    <property name="font">
-     <font>
-      <family>Roboto Light</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="foreground">
-     <brush brushstyle="NoBrush">
-      <color alpha="255">
-       <red>0</red>
-       <green>0</green>
-       <blue>0</blue>
-      </color>
-     </brush>
-    </property>
-   </column>
   </widget>
  </widget>
  <resources/>

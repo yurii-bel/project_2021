@@ -31,9 +31,6 @@ class MainUI(QtWidgets.QMainWindow):
         # Creating database instance.
         self.timedb = DbLogic()
 
-        # Creating variable for future storing name of user in it.
-        self.user_n_name = None
-
         # Нужно автоматизировать разделителей (module os).
         # Loading UI interfaces.
         self.mUi = uic.loadUi('design\\MainWindow_d.ui') # Main window ui.
@@ -96,6 +93,8 @@ class MainUI(QtWidgets.QMainWindow):
 
         elif self.timedb.correct_login_info == True:
             self.user_n_name = login
+            self.timedb.get_logged_user_data(user_login=self.user_n_name,\
+            item='set_working_user')
             self.lUi.close()
             self.mUi.show()
             self.view_table() # Viewing table.
@@ -149,6 +148,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.actl_name = str(item.sibling(item.row(), 2).data())
         self.act_time = str(item.sibling(item.row(), 3).data())
         self.act_comment = str(item.sibling(item.row(), 1).data())
+        return self.actl_name
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method add_event().
     def add_action(self):
@@ -185,55 +185,68 @@ class MainUI(QtWidgets.QMainWindow):
 
     # TABLE VIEWING BLOCK. uses DbLogic class.
     def view_table(self): 
-        self.timedb.get_logged_user_data(user_login=self.user_n_name,\
-            item='set_working_user')
+        # Getting all user activities.
         rows = self.timedb.get_logged_user_data(item='get_user_activities')
-        # rows = self.timedb.table_rows_num
+        
+        # Creating layout fro widget.
         lay = QtWidgets.QHBoxLayout()
 
+        # Setting row count according to user activities quantity.
         self.tUi.tableW.setRowCount(len(rows))
         
-        
+        i = 0
         for row in rows:
-            print(row)
-            for i in range(len(rows)):
-                # setting all activities data.
-                self.tUi.tableW.setItem(i, 0, 
-                QtWidgets.QTableWidgetItem(row[2]))
-                self.tUi.tableW.setItem(i, 1, 
-                QtWidgets.QTableWidgetItem(row[3]))
-                self.tUi.tableW.setItem(i, 2, 
-                QtWidgets.QTableWidgetItem(row[0]))
-                self.tUi.tableW.setItem(i, 3, 
-                QtWidgets.QTableWidgetItem(row[1]))
-                self.tUi.tableW.setItem(i, 4, 
-                QtWidgets.QTableWidgetItem(row[4]))
-                
-                # forbiding cell selection.
-            self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+            # If user have left some comment, 
+            # in the name of activity * appears.
+            if not row[4] == '':
+                row[0] = row[0] + '*'
+
+            self.tUi.tableW.setItem(i, 0, 
+            QtWidgets.QTableWidgetItem(row[2]))
+            self.tUi.tableW.setItem(i, 1, 
+            QtWidgets.QTableWidgetItem(row[3]))
+            self.tUi.tableW.setItem(i, 2, 
+            QtWidgets.QTableWidgetItem(row[0]))
+            self.tUi.tableW.setItem(i, 3, 
+            QtWidgets.QTableWidgetItem(row[1]))
+            i += 1
+        
+        # Forbiding cell selection.
+        self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+
+        # Resizing table columns to its contents.
+        self.tUi.tableW.resizeColumnsToContents()
 
         lay.addWidget(self.tUi.tableW)
         self.wUi.setLayout(lay)
 
     def update_view_table(self):
-        rows = self.timedb.table_rows_num
+        rows = self.timedb.get_logged_user_data(item='get_user_activities')
+
         self.tUi.tableW.setRowCount(rows)
         
-        for i in range(rows):
-            # setting all activities data.
+        i = 0
+        for row in rows:
+            # If user have left some comment, 
+            # in the name of activity * appears.
+            if not row[4] == '':
+                row[0] = row[0] + '*'
+
             self.tUi.tableW.setItem(i, 0, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_creation_date[i]))
+            QtWidgets.QTableWidgetItem(row[2]))
             self.tUi.tableW.setItem(i, 1, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_category[i]))
+            QtWidgets.QTableWidgetItem(row[3]))
             self.tUi.tableW.setItem(i, 2, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_name[i]))
+            QtWidgets.QTableWidgetItem(row[0]))
             self.tUi.tableW.setItem(i, 3, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_duration[i]))
-            self.tUi.tableW.setItem(i, 4, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_comment[i]))
-            
-            # forbiding cell selection.
-            self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+            QtWidgets.QTableWidgetItem(row[1]))
+            i += 1
+        
+        # Forbiding cell selection.
+        self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+
+        # Resizing table columns to its contents.
+        self.tUi.tableW.resizeColumnsToContents()
 
         self.lay.addWidget(self.tUi.tableW)
         self.wUi.setLayout(self.lay)
@@ -419,12 +432,18 @@ class DbLogic:
             return str(self.cursor.fetchall())[2:-3]
 
         elif item == 'get_user_activities':
-            self.cursor.execute(\
+            self.cursor2.execute(\
                 f'SELECT actl_name, act_time, act_date, cat_name, act_comment\
                     FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\'')
             user_activities = []
-            for row in self.cursor.fetchall():
-                user_activities += row
+            for row in self.cursor2.fetchall():
+                # Setting date in str fromat for table.
+                date_ = row[2].strftime('%Y-%m-%d')
+                row[2] = date_
+                # Setting duration in str fromat for table.
+                duration = str(row[1])
+                row[1] = duration
+                user_activities.append(row)
             return user_activities
     
 
@@ -732,19 +751,19 @@ class ActionsUI(QtWidgets.QMainWindow):
 # ----------------------------------------------------------END----actions_ui.py
 
 if __name__ == '__main__':
-    # app = QtWidgets.QApplication(sys.argv)
-    # win = MainUI()
-    # sys.exit(app.exec())
+    app = QtWidgets.QApplication(sys.argv)
+    win = MainUI()
+    sys.exit(app.exec())
     
-    dbl = DbLogic()
-    dbl.get_logged_user_data(user_login='test', item='set_working_user')
+    # dbl = DbLogic()
+    # dbl.get_logged_user_data(user_login='test', item='set_working_user')
 
     # print(dbl.get_logged_user_data(item='get_user_categories'))
     # print(dbl.get_logged_user_data(item='get_act_id', params=['wow', 1, '2021-05-27', 'wwww', '123']))
     # print(dbl.get_logged_user_data(item='get_actl_id', params=['wwww', 'wow']))
-    print(dbl.get_logged_user_data(item='get_user_activities'))
+    # print(dbl.get_logged_user_data(item='get_user_activities'))
 
-    # dbl.set_logged_user_data(user_login='test', item='set_working_user') !!!
+    # dbl.set_logged_user_data(user_login='test', item='set_working_user')
 
     # if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
         # dbl.set_logged_user_data('test', 'add_event', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ'])

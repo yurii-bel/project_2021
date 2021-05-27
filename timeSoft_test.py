@@ -1,3 +1,5 @@
+import datetime
+import re
 import sys
 sys.path.append(".")
 
@@ -7,14 +9,6 @@ import psycopg2 as db
 from psycopg2 import Error
 from uuid import uuid4
 import psycopg2.extras
-
-import datetime
-import re
-import sys
-sys.path.append('.')
-
-from PyQt5 import QtWidgets, uic
-from PyQt5.QtCore import QDate
 
 
 # ----------------------------------------------------------START-----timeSoft
@@ -35,7 +29,7 @@ class MainUI(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         # Creating database instance.
-        self.timedb = DbLogic
+        self.timedb = DbLogic()
 
         # Creating variable for future storing name of user in it.
         self.user_n_name = None
@@ -83,25 +77,24 @@ class MainUI(QtWidgets.QMainWindow):
         self.lUi.show()
 
     def login(self):
-        self.db = self.timedb()
         login = self.lUi.login_lineedit_email.text()
         password = self.lUi.login_lineedit_password.text()
 
-        self.db.login_user(login, password)
+        self.timedb.login_user(login, password)
 
-        if self.db.user_input_check == '7':
+        if self.timedb.user_input_check == '7':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Строка логина пуста. Пожалуйста, введите Ваш логин.',\
                     QtWidgets.QMessageBox.Ok)
-        elif self.db.user_input_check == '8':
+        elif self.timedb.user_input_check == '8':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
             'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',\
                 QtWidgets.QMessageBox.Ok)
-        elif self.db.correct_login_info == False:
+        elif self.timedb.correct_login_info == False:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
             'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
 
-        elif self.db.correct_login_info == True:
+        elif self.timedb.correct_login_info == True:
             self.user_n_name = login
             self.lUi.close()
             self.mUi.show()
@@ -120,24 +113,24 @@ class MainUI(QtWidgets.QMainWindow):
         email = self.rUi.register_lineEdit_email.text()
         password = self.rUi.register_lineEdit_password.text()
 
-        self.timedb().register_user(login, email, password)
+        self.timedb.register_user(login, email, password)
 
-        if self.timedb().user_input_check == '1':
+        if self.timedb.user_input_check == '1':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Данный пользователь уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
-        elif self.timedb().user_input_check == '2':
+        elif self.timedb.user_input_check == '2':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Данный email уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
-        elif self.timedb().user_input_check == '3':
+        elif self.timedb.user_input_check == '3':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Нельзя создать пустой логин пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.timedb().user_input_check == '4':
+        elif self.timedb.user_input_check == '4':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Нельзя создать пустой email пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.timedb().user_input_check == '5':
+        elif self.timedb.user_input_check == '5':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Нельзя создать пустой пароль пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.timedb().user_input_check == '6':
+        elif self.timedb.user_input_check == '6':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Длина пароля должна быть не менее 8 символов.', QtWidgets.QMessageBox.Ok)
         else:
@@ -163,16 +156,13 @@ class MainUI(QtWidgets.QMainWindow):
         self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
         
         self.act.show_add_event()
-        # self.act.add_event()
-        
-        # self.db.load_user_activities()
+        # self.lay.removeWidget(self.wUi)
         # self.view_table()
-        # print(self.db.activity_name)
-        # print(self.act.add_event_status)
 
 
     def edit_action(self):
-        self.act.show_edit_event(self.actl_name, self.act_time, self.act_date, self.cat_name, self.act_comment)
+        self.act.show_edit_event(self.actl_name, self.act_time, self.act_date,\
+            self.cat_name, self.act_comment)
         self.tableview_updating()
 
     def visualize(self, object):
@@ -188,7 +178,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.show()
 
     def settings_export(self):
-        data = self.timedb().copy_user('CATEGORY', '2')
+        data = self.timedb.copy_user('CATEGORY', '2')
         settingsSave = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file', '/', 'CSV file (*.csv)')
         if settingsSave[0]:
             f = open(settingsSave[0], 'w+')
@@ -196,25 +186,51 @@ class MainUI(QtWidgets.QMainWindow):
                 for d in data:
                     f.write(f'{d[2]}')
 
-# Table creation method.
+    # Table creation method.
     def view_table(self): 
-        rows = self.db.table_rows_num
-        self.lay = QtWidgets.QHBoxLayout()
+        rows = self.timedb.table_rows_num
+        lay = QtWidgets.QHBoxLayout()
 
         self.tUi.tableW.setRowCount(rows)
         
         for i in range(rows):
             # setting all activities data.
             self.tUi.tableW.setItem(i, 0, 
-            QtWidgets.QTableWidgetItem(self.db.activity_creation_date[i]))
+            QtWidgets.QTableWidgetItem(self.timedb.activity_creation_date[i]))
             self.tUi.tableW.setItem(i, 1, 
-            QtWidgets.QTableWidgetItem(self.db.activity_category[i]))
+            QtWidgets.QTableWidgetItem(self.timedb.activity_category[i]))
             self.tUi.tableW.setItem(i, 2, 
-            QtWidgets.QTableWidgetItem(self.db.activity_name[i]))
+            QtWidgets.QTableWidgetItem(self.timedb.activity_name[i]))
             self.tUi.tableW.setItem(i, 3, 
-            QtWidgets.QTableWidgetItem(self.db.activity_duration[i]))
+            QtWidgets.QTableWidgetItem(self.timedb.activity_duration[i]))
             self.tUi.tableW.setItem(i, 4, 
-            QtWidgets.QTableWidgetItem(self.db.activity_comment[i]))
+            QtWidgets.QTableWidgetItem(self.timedb.activity_comment[i]))
+            
+            # forbiding cell selection.
+            self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+
+        lay.addWidget(self.tUi.tableW)
+        self.wUi.setLayout(lay)
+
+
+    def update_view_table(self):
+
+
+        rows = self.timedb.table_rows_num
+        self.tUi.tableW.setRowCount(rows)
+        
+        for i in range(rows):
+            # setting all activities data.
+            self.tUi.tableW.setItem(i, 0, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_creation_date[i]))
+            self.tUi.tableW.setItem(i, 1, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_category[i]))
+            self.tUi.tableW.setItem(i, 2, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_name[i]))
+            self.tUi.tableW.setItem(i, 3, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_duration[i]))
+            self.tUi.tableW.setItem(i, 4, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_comment[i]))
             
             # forbiding cell selection.
             self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
@@ -367,6 +383,27 @@ class DbLogic:
         except Exception:
             pass
     
+    def update_user_activities(self, user):
+        self.connection.autocommit = True
+        user_n_id = self.get_user_n_id(user)
+        user_id = self.get_user_id(user_n_id)
+
+        self.cursor.execute(
+            f'SELECT act_id, actl_name, act_time, act_date, cat_name,\
+                act_comment from "ACTIVITY" WHERE user_id = \'{user_id}\'')
+        user_activities_table_rows = self.cursor.fetchall()
+        for row in user_activities_table_rows:
+            # print(f'row[1]: {row[1]} | self.current_user_id: {self.current_user_id:}')
+            # print(f'act id: {row[0]}| id: {row[1]}| activity: {row[2]}' )
+            self.activity_creation_date.append(str(row[3]))  # act_date
+            self.activity_category.append(str(row[4]))  # cat_name
+            self.activity_name.append(str(row[1]))  # actl_name
+            self.activity_duration.append(str(row[2]))  # act_time
+            self.activity_comment.append(str(row[5]))  # act_comment
+
+        self.table_rows_num = len(self.activity_name)      
+        
+
     def load_user_activities(self):
 
         # working with ACTIVITY table.
@@ -383,7 +420,6 @@ class DbLogic:
                 act_comment from "ACTIVITY"')
         user_activities_table_rows = self.cursor.fetchall()
         # print(f':::: {user_activities_table_rows}')
-        print(self.current_user_id)
         for row in user_activities_table_rows:
             if row[1] == self.current_user_id:
                 # print(f'row[1]: {row[1]} | self.current_user_id: {self.current_user_id:}')
@@ -576,7 +612,10 @@ class ActionsUI(QtWidgets.QMainWindow):
     def __init__(self, user):
         super().__init__()
         # Creating database instance.
-        self.timedb = DbLogic
+        self.timedb = DbLogic()
+
+        # Creating main win instance.
+        self.main = MainUI
 
         # Getting current user name.
         self.user_n_name = user
@@ -609,19 +648,19 @@ class ActionsUI(QtWidgets.QMainWindow):
     def ui_add_event_preparations(self):
         # Settings for 'a_dE_date' control element.
         self.aUi.add_event_dateEdit.setCalendarPopup(True)
-        self.aUi.add_event_dateEdit.setDate(QDate(QDate.currentDate()))
-        self.aUi.add_event_dateEdit.setMaximumDate(QDate(QDate.currentDate()))
+        self.aUi.add_event_dateEdit.setDate(QtCore.QDate(QtCore.QDate.currentDate()))
+        self.aUi.add_event_dateEdit.setMaximumDate(QtCore.QDate(QtCore.QDate.currentDate()))
         
-        categs, i = self.timedb().get_user_categories(self.user_n_name), 0
+        categs, i = self.timedb.get_user_categories(self.user_n_name), 0
         for categ in categs:
             self.aUi.add_event_comboBox_category.insertItem(i, categ)
             i += 1
 
     def ui_edit_event_preparations(self, settings):
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
-        self.eUi.edit_event_dateEdit.setMaximumDate(QDate(QDate.currentDate()))
+        self.eUi.edit_event_dateEdit.setMaximumDate(QtCore.QDate(QtCore.QDate.currentDate()))
 
-        categs, i = self.timedb().get_user_categories(self.user_n_name), 0
+        categs, i = self.timedb.get_user_categories(self.user_n_name), 0
         for categ in categs:
             self.eUi.edit_event_comboBox_category.insertItem(i, categ)
             i += 1
@@ -631,7 +670,7 @@ class ActionsUI(QtWidgets.QMainWindow):
             year = int(d[0])
             month = int(d[1])
             day = int(d[2])
-            date = QDate(year, month, day)
+            date = QtCore.QDate(year, month, day)
         
         self.eUi.edit_event_lineEdit_name.setText(settings[0])
         self.eUi.edit_event_comboBox_category.setCurrentText(settings[3])
@@ -648,10 +687,10 @@ class ActionsUI(QtWidgets.QMainWindow):
         settings = [actl_name, act_time, act_date, cat_name, act_comment]
         self.ui_edit_event_preparations(settings)
 
-        self.act_id = self.timedb().get_act_id(self.user_n_name, actl_name,\
+        self.act_id = self.timedb.get_act_id(self.user_n_name, actl_name,\
              act_time, act_date, cat_name, act_comment)
 
-        self.actl_id = self.timedb().get_actl_id(self.user_n_name, actl_name, cat_name)
+        self.actl_id = self.timedb.get_actl_id(self.user_n_name, actl_name, cat_name)
 
         self.eUi.show()
 
@@ -679,14 +718,14 @@ class ActionsUI(QtWidgets.QMainWindow):
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        self.timedb().add_event(self.user_n_name, title, int_duration,\
+        self.timedb.add_event(self.user_n_name, title, int_duration,\
             str_date, category, comment)  
         
         self.aUi.close()
         self.add_event_status = True 
 
-        self.timedb().load_user_activities()
-        # self.timeSoft.view_table()
+        self.timedb.update_user_activities(self.user_n_name)
+        self.main().view_table()
         # print(self.timedb().activity_name)
 
     def suppose_category(self):
@@ -705,7 +744,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        self.timedb().edit_event(self.user_n_name, title, int_duration,\
+        self.timedb.edit_event(self.user_n_name, title, int_duration,\
             str_date, category, comment, self.act_id, self.actl_id)
         self.eUi.close()
         self.edit_event_status = True

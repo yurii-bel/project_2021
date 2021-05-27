@@ -137,6 +137,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.rUi.close()
             self.lUi.show()
 
+    # FOR TABLE AND EDIT_EVENT.
     def get_current_row_tableview(self, item): 
         '''
         Current method displays clicked column and row of a choosen cell 
@@ -149,6 +150,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.act_time = str(item.sibling(item.row(), 3).data())
         self.act_comment = str(item.sibling(item.row(), 1).data())
 
+    # EDIT ACTION BLOCK. uses ActionsUI class, method add_event().
     def add_action(self):
         '''
         Current method shows user interface action adding.
@@ -159,18 +161,13 @@ class MainUI(QtWidgets.QMainWindow):
         # self.lay.removeWidget(self.wUi)
         # self.view_table()
 
-
+    # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
     def edit_action(self):
         self.act.show_edit_event(self.actl_name, self.act_time, self.act_date,\
             self.cat_name, self.act_comment)
         self.tableview_updating()
 
-    def visualize(self, object):
-        '''
-        Current method displays table/graph/chart view containing all actions. 
-        '''
-        pass
-
+    # SETTINGS BLOCK.
     def settings(self):
         '''
         Current method shows user interface settings window.
@@ -186,36 +183,39 @@ class MainUI(QtWidgets.QMainWindow):
                 for d in data:
                     f.write(f'{d[2]}')
 
-    # Table creation method.
+    # TABLE VIEWING BLOCK. uses DbLogic class.
     def view_table(self): 
-        rows = self.timedb.table_rows_num
+        self.timedb.get_logged_user_data(user_login=self.user_n_name,\
+            item='set_working_user')
+        rows = self.timedb.get_logged_user_data(item='get_user_activities')
+        # rows = self.timedb.table_rows_num
         lay = QtWidgets.QHBoxLayout()
 
-        self.tUi.tableW.setRowCount(rows)
+        self.tUi.tableW.setRowCount(len(rows))
         
-        for i in range(rows):
-            # setting all activities data.
-            self.tUi.tableW.setItem(i, 0, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_creation_date[i]))
-            self.tUi.tableW.setItem(i, 1, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_category[i]))
-            self.tUi.tableW.setItem(i, 2, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_name[i]))
-            self.tUi.tableW.setItem(i, 3, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_duration[i]))
-            self.tUi.tableW.setItem(i, 4, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_comment[i]))
-            
-            # forbiding cell selection.
+        
+        for row in rows:
+            print(row)
+            for i in range(len(rows)):
+                # setting all activities data.
+                self.tUi.tableW.setItem(i, 0, 
+                QtWidgets.QTableWidgetItem(row[2]))
+                self.tUi.tableW.setItem(i, 1, 
+                QtWidgets.QTableWidgetItem(row[3]))
+                self.tUi.tableW.setItem(i, 2, 
+                QtWidgets.QTableWidgetItem(row[0]))
+                self.tUi.tableW.setItem(i, 3, 
+                QtWidgets.QTableWidgetItem(row[1]))
+                self.tUi.tableW.setItem(i, 4, 
+                QtWidgets.QTableWidgetItem(row[4]))
+                
+                # forbiding cell selection.
             self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
         lay.addWidget(self.tUi.tableW)
         self.wUi.setLayout(lay)
 
-
     def update_view_table(self):
-
-
         rows = self.timedb.table_rows_num
         self.tUi.tableW.setRowCount(rows)
         
@@ -240,7 +240,7 @@ class MainUI(QtWidgets.QMainWindow):
 
 # ----------------------------------------------------------END-----timeSoft.py
 
-# ----------------------------------------------------------START----dblogic.py
+# -------------------------------------0--------------------START----dblogic.py
 class DbLogic:
 
     database = 'dt1vdgsvah47r'
@@ -264,7 +264,7 @@ class DbLogic:
         self.activity_duration = []
         self.activity_comment = []
         self.table_rows_num = 0 
-
+        
         self.current_user_id = None
 
         self.current_user_n_id = None
@@ -275,6 +275,7 @@ class DbLogic:
         self.current_user_p_email = None
         self.current_user_p_password = None
 
+    # REGISTRATION AND AUTHORIZATION BLOCKS.
     def register_user(self, user_n_name, user_p_email, user_p_password):
         try:
             user_n_id = str(uuid4())
@@ -382,7 +383,134 @@ class DbLogic:
 
         except Exception:
             pass
+
+    def get_logged_user_data(self, user_login=None, item=None, params=None):
+        self.connection.autocommit = True
+        if item == 'set_working_user':
+            self.cursor.execute(\
+                f'SELECT user_n_id FROM "USER_NAME" WHERE user_n_name = \'{user_login}\'')
+            user_n_id = str(self.cursor.fetchall())[2:-3]
+
+            self.cursor.execute(\
+                f'SELECT user_id FROM "USER" WHERE user_n_id = {user_n_id}')
+            self.user_id = str(self.cursor.fetchall())[2:-3]
+            return self.user_id
+            
+        elif item == 'get_user_categories':
+            self.cursor2.execute(\
+                f'SELECT cat_name FROM "CATEGORY" WHERE user_id = \'{self.user_id}\'')
+            self.user_categories = []
+            for row in self.cursor2.fetchall():
+                self.user_categories += row
+            return self.user_categories
+            
+        elif item == 'get_actl_id':
+            self.cursor.execute(\
+            f'SELECT actl_id FROM "ACTIVITY_LIST" WHERE\
+                (user_id, actl_name, cat_name) = (\'{self.user_id}\', \'{params[1]}\', \'{params[0]}\')')
+            return str(self.cursor.fetchall())[2:-3]
+        
+        elif item == 'get_act_id':
+            self.cursor.execute(\
+            f'SELECT act_id FROM "ACTIVITY" WHERE\
+                (user_id, actl_name, act_time, act_date, cat_name, act_comment) =\
+                    (\'{self.user_id}\', \'{params[0]}\', \'{params[1]}\', \'{params[2]}\',\
+                        \'{params[3]}\', \'{params[4]}\')')
+            return str(self.cursor.fetchall())[2:-3]
+
+        elif item == 'get_user_activities':
+            self.cursor.execute(\
+                f'SELECT actl_name, act_time, act_date, cat_name, act_comment\
+                    FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\'')
+            user_activities = []
+            for row in self.cursor.fetchall():
+                user_activities += row
+            return user_activities
     
+
+    def set_logged_user_data(self, user_login=None, item=None, add_params=None, edit_params=None):
+        # params[0] = cat_name
+        # params[1] = actl_name
+        # params[2] = act_time
+        # params[3] = act_date
+        # params[4] = act_comment
+        if item == 'set_working_user':
+            self.user_id = self.get_logged_user_data(user_login, 'set_working_user')
+            return self.user_id
+
+        self.actl_id = self.get_logged_user_data(\
+                user_login, 'get_actl_id', [add_params[0],add_params[1]])
+
+        self.act_id = self.get_logged_user_data(\
+            user_login, 'get_act_id', [add_params[1], add_params[2], add_params[3],\
+                add_params[0], add_params[4]])
+
+        if item == 'check_event_data':
+            # Checking for matching same category in db.
+            self.user_categories = self.get_logged_user_data(user_login, 'get_user_categories')
+            for row in self.user_categories:
+                if row == add_params[0]:
+                    break
+            else: # If not matching, adding cat to db.
+                self.cursor2.execute(\
+                    f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',\
+                        (self.user_id, add_params[0]))
+
+            # Checking for matching same data in ACTIVITY_LIST table.
+            self.cursor.execute(\
+                f'SELECT (actl_name, cat_name) FROM "ACTIVITY_LIST" WHERE user_id =\
+                    \'{self.user_id}\'')
+
+            check_activity_list = self.cursor.fetchall()
+            for row in check_activity_list:
+                if f'({add_params[1]},{add_params[0]})' == row[0]: # If data matches, stop func.
+                    return True
+            
+            # Checking for matching same data in ACTIVITY table.
+            self.cursor.execute(\
+                f'SELECT (cat_name, actl_name, act_time, act_date, act_comment)\
+                    FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\'')
+
+            check_activity = self.cursor.fetchall()
+            for row in check_activity:
+                if f'({add_params[0]},{add_params[1]},{add_params[2]},{add_params[3]},{add_params[4]})'\
+                    == row[0]:  # If data matches, stop func.
+                    return True
+
+        if item == 'add_event':
+            self.cursor2.execute(\
+                f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name)\
+                    VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (self.user_id,\
+                        add_params[1], add_params[0]))
+
+            self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
+                        act_time, act_date, cat_name, act_comment)\
+                            VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING' ,\
+                        (self.user_id, add_params[1], add_params[2], add_params[3], add_params[0],\
+                            add_params[4]))
+                            
+        elif item == 'edit_event':
+            self.cursor2.execute(\
+                f'UPDATE "ACTIVITY_LIST" SET (actl_name, cat_name) = (\'{edit_params[1]}\',\
+                    \'{edit_params[0]}\') WHERE actl_id = \'{self.actl_id}\'')
+            
+            self.cursor2.execute(\
+                f'UPDATE "ACTIVITY" SET (actl_name, act_time, act_date, cat_name, \
+                    act_comment) = (\'{edit_params[1]}\', \'{edit_params[2]}\', \'{edit_params[3]}\',\
+                        \'{edit_params[0]}\', \'{edit_params[4]}\') WHERE act_id = \'{self.act_id}\'')
+    
+        elif item == 'del_event':
+            self.cursor.execute(\
+                f'DELETE FROM "ACTIVITY_LIST" WHERE user_id = \'{self.user_id}\' and \
+                    actl_name = \'{add_params[1]}\' and cat_name = \'{add_params[0]}\'')
+
+            self.cursor.execute(\
+                f'DELETE FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\' and \
+                    actl_name = \'{add_params[1]}\' and act_time = \'{add_params[2]}\' \
+                        and act_date = \'{add_params[3]}\' and cat_name = \
+                            \'{add_params[0]}\' and act_comment = \'{add_params[4]}\'')
+
+
     def update_user_activities(self, user):
         self.connection.autocommit = True
         user_n_id = self.get_user_n_id(user)
@@ -435,76 +563,7 @@ class DbLogic:
         # print(f'\nDate: {self.activity_creation_date} \nCategory: \
         #     {self.activity_category} \nActivity: {self.activity_name} \
         #         \nDuration: {self.activity_duration} \nComment: {self.activity_comment}')
-        
-
-    def drop_user(self, user_n_name):
-        try:
-            self.connection.autocommit = True
-            
-            user_id = self.get_user_n_id(user_n_name)
-
-            self.cursor.execute(\
-                'DELETE FROM "USER" WHERE user_n_id = %(userID)s',\
-                                {'userID': user_id})
-        except Exception:
-            pass
-
-    def get_user_n_id(self, user):
-        try:
-            self.cursor2.execute(
-                'SELECT user_n_id FROM "USER_NAME"\
-                    WHERE user_n_name = %(user)s', {'user': user})
-            return str(self.cursor2.fetchone())[2:-2]
-        except Exception:
-            pass
-
-    def get_user_id(self, user_n_id):
-        try:
-            self.cursor2.execute(\
-                'SELECT user_id FROM "USER"\
-                    WHERE user_n_id = %(user_n_id)s', {'user_n_id': user_n_id})
-            return str(self.cursor2.fetchall())[2:-2]
-        except Exception:
-            pass
-
-    def get_actl_id(self, user, actl_name, cat_name):
-        self.connection.autocommit = True
-        user_n_id = self.get_user_n_id(user)
-        user_id = self.get_user_id(user_n_id)
-
-        self.cursor2.execute(\
-            f'SELECT actl_id FROM "ACTIVITY_LIST" WHERE\
-                (user_id, actl_name, cat_name) = (\'{user_id}\', \'{actl_name}\', \'{cat_name}\')')
-        for row in self.cursor2.fetchall():
-            return row[0]
-
-    def get_act_id(self, user, actl_name, act_time, act_date, cat_name, act_comment):
-        self.connection.autocommit = True
-        user_n_id = self.get_user_n_id(user)
-        user_id = self.get_user_id(user_n_id)
-
-        self.cursor2.execute(\
-            f'SELECT act_id FROM "ACTIVITY" WHERE\
-                (user_id, actl_name, act_time, act_date, cat_name, act_comment) =\
-                    (\'{user_id}\', \'{actl_name}\', \'{act_time}\', \'{act_date}\',\
-                        \'{cat_name}\', \'{act_comment}\')')
-        for row in self.cursor2.fetchall():
-            return row[0]
-
-    def get_user_categories(self, user):
-        try:
-            self.connection.autocommit = True
-            user_n_id = self.get_user_n_id(user)
-            user_id = self.get_user_id(user_n_id)
-            self.cursor2.execute(\
-                'SELECT cat_name FROM "CATEGORY"\
-                    WHERE user_id = %(userID)s', {'userID': user_id})
-            categs = []
-            for row in self.cursor2.fetchall():
-                categs += row
-            return categs
-        except Exception:
-            pass
+    
 
     def copy_user(self, table_name, column):
         try:
@@ -515,89 +574,6 @@ class DbLogic:
                     return self.cursor.fetchall()
         except (Exception, Error) as error:
             return f'{error}'
-
-    def add_event(self, user, actl_name, act_time, act_date, cat_name,\
-        act_comment):
-
-        self.connection.autocommit = True
-        user_n_id = self.get_user_n_id(user)
-        user_id = self.get_user_id(user_n_id)
-
-        self.cursor2.execute(\
-            f'SELECT cat_name FROM "CATEGORY" WHERE user_id = \'{user_id}\'')
-        user_categories = self.cursor2.fetchall()
-        for row in user_categories:
-            if cat_name == row[0]:
-                break
-        else:
-            self.cursor2.execute(\
-                f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',\
-                    (user_id, cat_name))
-
-        self.cursor2.execute(\
-            f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name)\
-                VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (user_id, actl_name, cat_name))
-
-        self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
-                    act_time, act_date, cat_name, act_comment)\
-                        VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING' ,\
-                    (user_id, actl_name, act_time, act_date, cat_name, act_comment))
-
-    def edit_event(self, user, actl_name, act_time, act_date, cat_name,\
-        act_comment, act_id, actl_id):
-
-        self.connection.autocommit = True
-        user_n_id = self.get_user_n_id(user)
-        user_id = self.get_user_id(user_n_id)
-
-        self.cursor2.execute(\
-            f'SELECT cat_name FROM "CATEGORY" WHERE user_id = \'{user_id}\'')
-        user_categories = self.cursor2.fetchall()
-        for row in user_categories:
-            if cat_name == row[0]:
-                break
-        else:
-            self.cursor2.execute(\
-                f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',\
-                    (user_id, cat_name))
-
-        self.cursor2.execute(\
-            f'UPDATE "ACTIVITY_LIST" SET (actl_name, cat_name) = (\'{actl_name}\',\
-                \'{cat_name}\') WHERE actl_id = \'{actl_id}\' ON CONFLICT DO NOTHING')
-        
-        self.cursor2.execute(\
-            f'UPDATE "ACTIVITY" SET (actl_name, act_time, act_date, cat_name, \
-                act_comment) = (\'{actl_name}\', \'{act_time}\', \'{act_date}\',\
-                    \'{cat_name}\', \'{act_comment}\') WHERE act_id = \'{act_id}\'\
-                     ON CONFLICT DO NOTHING')
-
-    def drop_event(self, user, actl_name):
-        try:
-            self.connection.autocommit = True
-            user_n_id = self.get_user_n_id(user)
-            user_id = self.get_user_id(user_n_id)
-
-            self.cursor2.execute(\
-                f'DELETE FROM "ACTIVITY"\
-                    WHERE user_id = \'{user_id}\' and actl_name = \'{actl_name}\'')
-
-            self.cursor2.execute(\
-                f'DELETE FROM "ACTIVITY_LIST"\
-                    WHERE user_id = \'{user_id}\' and actl_name = \'{actl_name}\'')
-        except Exception:
-            pass
-
-    def drop_category(self, user, cat_name):
-        try:
-            self.connection.autocommit = True
-            user_n_id = self.get_user_n_id(user)
-            user_id = self.get_user_id(user_n_id)
-
-            self.cursor2.execute(\
-                f'DELETE FROM "CATEGORY"\
-                    WHERE user_id = \'{user_id}\' and cat_name = \'{cat_name}\'')
-        except Exception:
-            pass
 
 # ----------------------------------------------------------END----dblogic.py
 
@@ -645,18 +621,22 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.edit_event_status = None
         self.user_input_check = None
 
-    def ui_add_event_preparations(self):
-        # Settings for 'a_dE_date' control element.
+    # Preparations for add_event_ui showing.
+    def init_add_event_ui(self):
+        # Setting calendar popup and current date in date field. Also, forbidding 
+        # selecting the next day in date field.
         self.aUi.add_event_dateEdit.setCalendarPopup(True)
         self.aUi.add_event_dateEdit.setDate(QtCore.QDate(QtCore.QDate.currentDate()))
         self.aUi.add_event_dateEdit.setMaximumDate(QtCore.QDate(QtCore.QDate.currentDate()))
         
+        # Updating user categories for combobox element.
         categs, i = self.timedb.get_user_categories(self.user_n_name), 0
         for categ in categs:
             self.aUi.add_event_comboBox_category.insertItem(i, categ)
             i += 1
 
-    def ui_edit_event_preparations(self, settings):
+
+    def init_edit_event_ui(self, settings):
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
         self.eUi.edit_event_dateEdit.setMaximumDate(QtCore.QDate(QtCore.QDate.currentDate()))
 
@@ -679,13 +659,13 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.eUi.edit_event_plaintextedit_comment.setPlainText(settings[4])
 
     def show_add_event(self):
-        self.ui_add_event_preparations()
+        self.init_add_event_ui()
         self.aUi.show()
 
     def show_edit_event(self, actl_name=str, act_time=str, act_date=None,\
          cat_name=str, act_comment=None):
         settings = [actl_name, act_time, act_date, cat_name, act_comment]
-        self.ui_edit_event_preparations(settings)
+        self.init_edit_event_ui(settings)
 
         self.act_id = self.timedb.get_act_id(self.user_n_name, actl_name,\
              act_time, act_date, cat_name, act_comment)
@@ -752,6 +732,26 @@ class ActionsUI(QtWidgets.QMainWindow):
 # ----------------------------------------------------------END----actions_ui.py
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    win = MainUI()
-    sys.exit(app.exec())
+    # app = QtWidgets.QApplication(sys.argv)
+    # win = MainUI()
+    # sys.exit(app.exec())
+    
+    dbl = DbLogic()
+    dbl.get_logged_user_data(user_login='test', item='set_working_user')
+
+    # print(dbl.get_logged_user_data(item='get_user_categories'))
+    # print(dbl.get_logged_user_data(item='get_act_id', params=['wow', 1, '2021-05-27', 'wwww', '123']))
+    # print(dbl.get_logged_user_data(item='get_actl_id', params=['wwww', 'wow']))
+    print(dbl.get_logged_user_data(item='get_user_activities'))
+
+    # dbl.set_logged_user_data(user_login='test', item='set_working_user') !!!
+
+    # if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
+        # dbl.set_logged_user_data('test', 'add_event', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ'])
+    # if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
+    # dbl.set_logged_user_data('test', 'edit_event', ['Еда', 'Кушал1', 30, '2021-05-27', 'Не вкусно!'], \
+        # ['Еда', 'Кушал', 60, '2021-05-26', '1'])
+
+    # dbl.set_logged_user_data('test', 'del_event', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ'])
+    # print(dbl.get_logged_user_data(item='get_user_activities'))
+    # dbl.set_logged_user_data(item='del_event', add_params=['Спорт23', 'Бег23', 300, '2021-05-27', 'ВАУ'])

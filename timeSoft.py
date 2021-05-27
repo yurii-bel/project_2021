@@ -148,26 +148,26 @@ class MainUI(QtWidgets.QMainWindow):
         self.act_time = str(item.sibling(item.row(), 3).data())
         self.act_comment = str(item.sibling(item.row(), 1).data())
 
-    def tableview_updating(self):
-        self.timedb().load_user_activities()
+    # def tableview_updating(self):
+    #     self.timedb().load_user_activities()
 
-        print(self.db.activity_name)
+    #     print(self.db.activity_name)
 
-        rows = self.db.table_rows_num
-        self.tUi.tableW.setRowCount(rows)
+    #     rows = self.db.table_rows_num
+    #     self.tUi.tableW.setRowCount(rows)
 
-        for i in range(rows):
-            # setting all activities data.
-            self.tUi.tableW.setItem(i, 0, 
-            QtWidgets.QTableWidgetItem(self.db.activity_creation_date[i]))
-            self.tUi.tableW.setItem(i, 1, 
-            QtWidgets.QTableWidgetItem(self.db.activity_category[i]))
-            self.tUi.tableW.setItem(i, 2, 
-            QtWidgets.QTableWidgetItem(self.db.activity_name[i]))
-            self.tUi.tableW.setItem(i, 3, 
-            QtWidgets.QTableWidgetItem(self.db.activity_duration[i]))
-            self.tUi.tableW.setItem(i, 4, 
-            QtWidgets.QTableWidgetItem(self.db.activity_comment[i]))
+    #     for i in range(rows):
+    #         # setting all activities data.
+    #         self.tUi.tableW.setItem(i, 0, 
+    #         QtWidgets.QTableWidgetItem(self.db.activity_creation_date[i]))
+    #         self.tUi.tableW.setItem(i, 1, 
+    #         QtWidgets.QTableWidgetItem(self.db.activity_category[i]))
+    #         self.tUi.tableW.setItem(i, 2, 
+    #         QtWidgets.QTableWidgetItem(self.db.activity_name[i]))
+    #         self.tUi.tableW.setItem(i, 3, 
+    #         QtWidgets.QTableWidgetItem(self.db.activity_duration[i]))
+    #         self.tUi.tableW.setItem(i, 4, 
+    #         QtWidgets.QTableWidgetItem(self.db.activity_comment[i]))
 
         # self.lay.addWidget(self.tUi.tableW)
         # QtCore.QTimer.singleShot(1000, self.tUi.tableW)
@@ -194,7 +194,11 @@ class MainUI(QtWidgets.QMainWindow):
         #  + after doubleclick open edit_event method.
         self.act.show_add_event()
         self.act.add_event()
-        self.tableview_updating()
+        
+        # self.db.load_user_activities()
+        # self.view_table()
+        # print(self.db.activity_name)
+        # print(self.act.add_event_status)
 
 
     def edit_action(self):

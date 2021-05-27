@@ -21,6 +21,23 @@ class DbLogic:
         self.correct_login_info = False
         self.user_input_check = None
 
+        self.activity_creation_date = []
+        self.activity_category = []
+        self.activity_name = []
+        self.activity_duration = []
+        self.activity_comment = []
+        self.table_rows_num = 0 
+
+        # self.current_user_id = None
+
+        # self.current_user_n_id = None
+        # self.current_user_n_name = None
+        # self.current_user_n_telegram = None
+
+        # self.current_user_p_id = None
+        # self.current_user_p_email = None
+        # self.current_user_p_password = None
+
     def register_user(self, user_n_name, user_p_email, user_p_password):
         try:
             user_n_id = str(uuid4())
@@ -155,6 +172,7 @@ class DbLogic:
                     self.activity_comment.append(str(row[6]))  # act_comment
             self.table_rows_num = len(self.activity_name)      
                     # print(f'{row[4]}')
+            print(self.activity_name)
             # print(f'\nDate: {self.activity_creation_date} \nCategory: \
             #     {self.activity_category} \nActivity: {self.activity_name} \
             #         \nDuration: {self.activity_duration} \nComment: {self.activity_comment}')

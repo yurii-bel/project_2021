@@ -8,6 +8,8 @@ from PyQt5.QtCore import QDate
 
 from logic.dblogic import DbLogic as db
 
+# from timeSoft import MainUI
+
 
 class ActionsUI(QtWidgets.QMainWindow):
     '''
@@ -37,8 +39,11 @@ class ActionsUI(QtWidgets.QMainWindow):
         # Connecting line edits to appropriate slots.
         self.aUi.add_event_lineEdit_name.textChanged.connect(
             self.suppose_category)
+        
+        # Get MainUi class from timeSoft (linked).
+        # self.timeSoft = MainUI
 
-        # 
+        # Extra variables.
         self.add_event_status = None
         self.edit_event_status = None
         self.user_input_check = None
@@ -118,12 +123,13 @@ class ActionsUI(QtWidgets.QMainWindow):
         # Writing all changes to db and closing 'Add Event' win.
         self.timedb().add_event(self.user_n_name, title, int_duration,\
             str_date, category, comment)  
-
-        self.add_event_status = True 
-        self.aUi.close()
         
-
-
+        self.aUi.close()
+        self.add_event_status = True 
+        
+        self.timedb().load_user_activities()
+        # self.timeSoft.view_table()
+        print(self.timedb().activity_name)
 
     def suppose_category(self):
         pass

@@ -1,5 +1,5 @@
 import datetime
-import re
+import csv
 import sys
 sys.path.append(".")
 
@@ -58,6 +58,9 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Settings UI.
         self.sUi.settings_btn_export.clicked.connect(self.settings_export)
+        self.sUi.settings_btn_import.clicked.connect(self.settings_import)
+        self.sUi.settings_btn_undo.clicked.connect(self.sUi.close)
+        self.sUi.settings_btn_apply.clicked.connect(self.settings_save)
 
         # Connect TableView with mouseClick.
         self.tUi.tableW.clicked.connect(self.get_current_row_tableview)
@@ -169,19 +172,33 @@ class MainUI(QtWidgets.QMainWindow):
 
     # SETTINGS BLOCK.
     def settings(self):
-        '''
-        Current method shows user interface settings window.
-        '''
+        # Shows settings win.
         self.sUi.show()
 
     def settings_export(self):
-        data = self.timedb.copy_user('CATEGORY', '2')
-        settingsSave = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file', '/', 'CSV file (*.csv)')
+        data = self.timedb.get_logged_user_data(item='get_user_activities')
+        header = ['actl_name', 'act_time', 'act_date', 'cat_name', 'act_comment']
+        settingsSave = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file',\
+            '/', 'CSV file (*.csv)')
         if settingsSave[0]:
-            f = open(settingsSave[0], 'w+')
-            with f:
+            with open(settingsSave[0], 'w+', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(header)
                 for d in data:
-                    f.write(f'{d[2]}')
+                    writer.writerow(d)
+
+    def settings_import(self):
+        settingsLoad = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file',\
+            '/', 'CSV file (*.csv)')
+        if settingsLoad[0]:
+            with open(settingsLoad[0], 'r+') as f:
+                reader = csv.reader(f, delimiter=',')
+                for row in reader:
+                    data = row
+                    print(data)
+
+    def settings_save(self):
+        pass
 
     # TABLE VIEWING BLOCK. uses DbLogic class.
     def view_table(self): 
@@ -198,7 +215,7 @@ class MainUI(QtWidgets.QMainWindow):
         for row in rows:
             # If user have left some comment, 
             # in the name of activity * appears.
-            if not row[4] == '':
+            if not row[4] == '' and not row[4] == None:
                 row[0] = row[0] + '*'
 
             self.tUi.tableW.setItem(i, 0, 

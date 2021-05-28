@@ -562,7 +562,7 @@ border: 1px solid rgb(95, 85, 200);
     </item>
    </layout>
   </widget>
-  <widget class="QLineEdit" name="settings_w_lineedit_email_2">
+  <widget class="QLineEdit" name="settings_w_lineedit_email_new">
    <property name="geometry">
     <rect>
      <x>58</x>
@@ -637,7 +637,7 @@ border: 1px solid rgb(95, 85, 200);
   <zorder>settings_w_imglbl_img</zorder>
   <zorder>horizontalLayoutWidget</zorder>
   <zorder>horizontalLayoutWidget_2</zorder>
-  <zorder>settings_w_lineedit_email_2</zorder>
+  <zorder>settings_w_lineedit_email_new</zorder>
   <zorder>settings_w_text_email_2</zorder>
  </widget>
  <resources/>

@@ -1408,12 +1408,7 @@ color: rgb(110, 107, 123);
 border-top-right-radius: 5px;
 border-bottom-right-radius: 5px;
 padding-left: 20px;
-}
-QTableWidget QTableCornerButton {
-background-color: rgb(40, 48, 70);
-color: rgb(110, 107, 123);
-padding-left: 0px;
-}</string>
+</string>
     </property>
    </widget>
    <widget class="QWidget" name="mainwindow_widget_view_spacer" native="true">
@@ -1437,7 +1432,7 @@ background-color: #283046;</string>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">

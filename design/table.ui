@@ -79,57 +79,76 @@ QTableWidget::item:selected {
    <property name="rowCount">
     <number>0</number>
    </property>
+   <attribute name="horizontalHeaderCascadingSectionResizes">
+    <bool>true</bool>
+   </attribute>
    <attribute name="horizontalHeaderDefaultSectionSize">
     <number>110</number>
    </attribute>
    <attribute name="horizontalHeaderMinimumSectionSize">
-    <number>39</number>
+    <number>20</number>
    </attribute>
    <attribute name="verticalHeaderMinimumSectionSize">
     <number>23</number>
    </attribute>
    <column>
     <property name="text">
-     <string>Дата</string>
+     <string/>
     </property>
     <property name="font">
      <font>
       <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/icons/calendar.png</normaloff>img/icons/calendar.png</iconset>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>Категория</string>
+     <string/>
     </property>
     <property name="font">
      <font>
       <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/icons/pie-chart.png</normaloff>img/icons/pie-chart.png</iconset>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>Событие</string>
+     <string/>
     </property>
     <property name="font">
      <font>
       <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/icons/check-square.png</normaloff>img/icons/check-square.png</iconset>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>Длительность</string>
+     <string/>
     </property>
     <property name="font">
      <font>
-      <family>Roboto-Light</family>
+      <family>Roboto Light</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/icons/clock.png</normaloff>img/icons/clock.png</iconset>
     </property>
    </column>
   </widget>

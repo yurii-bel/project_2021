@@ -1401,8 +1401,12 @@ border-radius: 5px;
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color: #283046;
+background-image: url(img/background-image_d.png);
 color: rgb(110, 107, 123);
 border-left: 1px solid #3B4253;
 border-top-right-radius: 5px;

@@ -371,7 +371,7 @@ border: 1px solid rgb(95, 85, 200);
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="placeholderText">
-     <string>JekaK21</string>
+     <string>Ева</string>
     </property>
    </widget>
    <widget class="QLabel" name="register_w_txtlbl_name">

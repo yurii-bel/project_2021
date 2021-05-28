@@ -237,6 +237,9 @@ QLineEdit:hover {
 	border: 1px solid #82868B;
 }</string>
             </property>
+            <property name="placeholderText">
+             <string>Спал</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -350,6 +353,9 @@ QLineEdit:hover {
 	background-color: rgba(108, 117, 125, 0.04); 
 	border: 1px solid #82868B;
 }</string>
+            </property>
+            <property name="placeholderText">
+             <string>60 минут</string>
             </property>
            </widget>
           </item>
@@ -488,6 +494,9 @@ QPlainTextEdit:hover {
 	background-color: rgba(108, 117, 125, 0.04); 
 	border: 1px solid #82868B;
 }</string>
+            </property>
+            <property name="placeholderText">
+             <string>Видел шикарный сон.</string>
             </property>
            </widget>
           </item>

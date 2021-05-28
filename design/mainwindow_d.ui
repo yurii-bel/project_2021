@@ -1402,8 +1402,8 @@ border-radius: 5px;
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QWidget {
-background-color: #283046;
+     <string notr="true">background-color: #283046;
+background-image: url(design/img/background-image_d.png);
 color: rgb(110, 107, 123);
 border-top-right-radius: 5px;
 border-bottom-right-radius: 5px;
@@ -1430,6 +1430,21 @@ padding-left: 0px;
 border-left: 1px solid #3B4253;</string>
     </property>
    </widget>
+   <widget class="QWidget" name="mainwindow_widget_view_spacer" native="true">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>103</y>
+      <width>10</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-left: 1px solid #3B4253;
+background-color: #283046;
+background-image: url(design/img/background-image_spacer_d.png);</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="mainwindow_menubar">
    <property name="geometry">
@@ -1437,7 +1452,7 @@ border-left: 1px solid #3B4253;</string>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">
@@ -1480,7 +1495,7 @@ QMenu::item:pressed {
 }</string>
     </property>
     <property name="title">
-     <string>File</string>
+     <string>Файл</string>
     </property>
     <addaction name="mainwindow_act_make_prediction"/>
     <addaction name="mainwindow_act_settings"/>
@@ -1508,7 +1523,7 @@ QMenu::item:pressed {
 }</string>
     </property>
     <property name="title">
-     <string>Edit</string>
+     <string>Правка</string>
     </property>
     <widget class="QMenu" name="mainwindow_dropdown_menu_select_chart">
      <property name="font">
@@ -1575,7 +1590,7 @@ QMenu::item:pressed {
 }</string>
     </property>
     <property name="title">
-     <string>Help</string>
+     <string>Справка</string>
     </property>
     <addaction name="mainwindow_act_help"/>
     <addaction name="mainwindow_act_about_program"/>

@@ -12,7 +12,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>360</width>
+    <width>364</width>
     <height>640</height>
    </rect>
   </property>
@@ -237,6 +237,9 @@ QLineEdit:hover {
 	border: 1px solid rgb(95, 85, 200);
 }</string>
             </property>
+            <property name="placeholderText">
+             <string>Спал</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -362,6 +365,9 @@ QLineEdit:hover {
 	background-color: rgb(40, 48, 70); 
 	border: 1px solid rgb(95, 85, 200);
 }</string>
+            </property>
+            <property name="placeholderText">
+             <string>60 минут</string>
             </property>
            </widget>
           </item>
@@ -500,6 +506,9 @@ QPlainTextEdit:hover {
 	background-color: rgb(40, 48, 70); 
 	border: 1px solid rgb(95, 85, 200);
 }</string>
+            </property>
+            <property name="placeholderText">
+             <string>Видел шикарный сон.</string>
             </property>
            </widget>
           </item>

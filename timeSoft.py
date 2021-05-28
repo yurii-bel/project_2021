@@ -103,29 +103,28 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi.show()
 
     def registration(self):
-        self.db = self.timedb()
         login = self.rUi.register_lineEdit_name.text()
         email = self.rUi.register_lineEdit_email.text()
         password = self.rUi.register_lineEdit_password.text()
 
-        self.db.register_user(login, email, password)
+        self.timedb().register_user(login, email, password)
 
-        if self.db.user_input_check == '1':
+        if self.timedb().user_input_check == '1':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Данный пользователь уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
-        elif self.db.user_input_check == '2':
+        elif self.timedb().user_input_check == '2':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Данный email уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
-        elif self.db.user_input_check == '3':
+        elif self.timedb().user_input_check == '3':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Нельзя создать пустой логин пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.db.user_input_check == '4':
+        elif self.timedb().user_input_check == '4':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Нельзя создать пустой email пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.db.user_input_check == '5':
+        elif self.timedb().user_input_check == '5':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Нельзя создать пустой пароль пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.db.user_input_check == '6':
+        elif self.timedb().user_input_check == '6':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Длина пароля должна быть не менее 8 символов.', QtWidgets.QMessageBox.Ok)
         else:
@@ -135,22 +134,76 @@ class MainUI(QtWidgets.QMainWindow):
     def fill_tableview(self):
         pass
 
-    def get_current_row_tableview(self, item):
+    def get_current_row_tableview(self, item): 
         '''
         Current method displays clicked column and row of a choosen cell 
         in a TableView widget.
         '''
-        print("You clicked on {0}x{1}".format(item.column(), item.row()))
+        # print("You clicked on {0}x{1}".format(item.column(), item.row()))
+
+        # #selected cell value.
+        self.act_date = str(item.sibling(item.row(), 0).data())
+        self.cat_name = str(item.sibling(item.row(), 1).data())
+        self.actl_name = str(item.sibling(item.row(), 2).data())
+        self.act_time = str(item.sibling(item.row(), 3).data())
+        self.act_comment = str(item.sibling(item.row(), 1).data())
+
+    # def tableview_updating(self):
+    #     self.timedb().load_user_activities()
+
+    #     print(self.db.activity_name)
+
+    #     rows = self.db.table_rows_num
+    #     self.tUi.tableW.setRowCount(rows)
+
+    #     for i in range(rows):
+    #         # setting all activities data.
+    #         self.tUi.tableW.setItem(i, 0, 
+    #         QtWidgets.QTableWidgetItem(self.db.activity_creation_date[i]))
+    #         self.tUi.tableW.setItem(i, 1, 
+    #         QtWidgets.QTableWidgetItem(self.db.activity_category[i]))
+    #         self.tUi.tableW.setItem(i, 2, 
+    #         QtWidgets.QTableWidgetItem(self.db.activity_name[i]))
+    #         self.tUi.tableW.setItem(i, 3, 
+    #         QtWidgets.QTableWidgetItem(self.db.activity_duration[i]))
+    #         self.tUi.tableW.setItem(i, 4, 
+    #         QtWidgets.QTableWidgetItem(self.db.activity_comment[i]))
+
+        # self.lay.addWidget(self.tUi.tableW)
+        # QtCore.QTimer.singleShot(1000, self.tUi.tableW)
+
 
     def add_action(self):
         '''
         Current method shows user interface action adding.
         '''
         self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
+        # if self.act.user_input_check == '1':
+        #         QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+        #         'Пожалуйста, введите название для события.', QtWidgets.QMessageBox.Ok)
+        # elif self.act.user_input_check == '2':
+        #         QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+        #         'Пожалуйста, укажите категорию для события.', QtWidgets.QMessageBox.Ok)
+        # elif self.act.user_input_check == '3':
+        #         QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+        #         'Пожалуйста, длительность события.', QtWidgets.QMessageBox.Ok)
+        # else:
+
+
+        # TODO: add new method for tableview updating, insert it to add and edit actions.
+        #  + after doubleclick open edit_event method.
         self.act.show_add_event()
+        self.act.add_event()
+        
+        # self.db.load_user_activities()
+        # self.view_table()
+        # print(self.db.activity_name)
+        # print(self.act.add_event_status)
+
 
     def edit_action(self):
-        self.act.show_edit_event()
+        self.act.show_edit_event(self.actl_name, self.act_time, self.act_date, self.cat_name, self.act_comment)
+        self.tableview_updating()
 
     def visualize(self, object):
         '''
@@ -174,27 +227,23 @@ class MainUI(QtWidgets.QMainWindow):
                     f.write(f'{d[2]}')
 
     def view_table(self): # Table creation method.
-
-
         rows = self.db.table_rows_num
         self.lay = QtWidgets.QHBoxLayout()
 
-        # d1 = 'Бег'
-        # name1 = QtWidgets.QTableWidgetItem(d1)
-        # name1.setBackground(QtGui.QColor('Yellow'))
-
-        # rows += 1
-        
-
-
         self.tUi.tableW.setRowCount(rows)
+        
         for i in range(rows):
             # setting all activities data.
-            self.tUi.tableW.setItem(i, 0, QtWidgets.QTableWidgetItem(self.db.activity_creation_date[i]))
-            self.tUi.tableW.setItem(i, 1, QtWidgets.QTableWidgetItem(self.db.activity_category[i]))
-            self.tUi.tableW.setItem(i, 2, QtWidgets.QTableWidgetItem(self.db.activity_name[i]))
-            self.tUi.tableW.setItem(i, 3, QtWidgets.QTableWidgetItem(self.db.activity_duration[i]))
-            self.tUi.tableW.setItem(i, 4, QtWidgets.QTableWidgetItem(self.db.activity_comment[i]))
+            self.tUi.tableW.setItem(i, 0, 
+            QtWidgets.QTableWidgetItem(self.db.activity_creation_date[i]))
+            self.tUi.tableW.setItem(i, 1, 
+            QtWidgets.QTableWidgetItem(self.db.activity_category[i]))
+            self.tUi.tableW.setItem(i, 2, 
+            QtWidgets.QTableWidgetItem(self.db.activity_name[i]))
+            self.tUi.tableW.setItem(i, 3, 
+            QtWidgets.QTableWidgetItem(self.db.activity_duration[i]))
+            self.tUi.tableW.setItem(i, 4, 
+            QtWidgets.QTableWidgetItem(self.db.activity_comment[i]))
             
             # # setting edit and delete icons to fields.
             # icon_edit = 'design\\img\\icons\\tableview_edit_icon.png'

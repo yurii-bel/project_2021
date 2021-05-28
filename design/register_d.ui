@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
+    <width>1280</width>
     <height>768</height>
    </rect>
   </property>
@@ -19,10 +19,10 @@
   <widget class="QLabel" name="register_imglbl_img">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>200</y>
-     <width>500</width>
-     <height>365</height>
+     <x>70</x>
+     <y>170</y>
+     <width>620</width>
+     <height>453</height>
     </rect>
    </property>
    <property name="text">
@@ -38,7 +38,7 @@
   <widget class="QWidget" name="register_widget" native="true">
    <property name="geometry">
     <rect>
-     <x>540</x>
+     <x>800</x>
      <y>0</y>
      <width>484</width>
      <height>1080</height>
@@ -359,7 +359,7 @@ border: 1px solid rgb(95, 85, 200);
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="placeholderText">
-     <string>JekaK21</string>
+     <string>Ева</string>
     </property>
    </widget>
    <widget class="QLabel" name="register_txtlbl_name">
@@ -415,7 +415,7 @@ border: 1px solid rgb(95, 85, 200);
     <rect>
      <x>92</x>
      <y>37</y>
-     <width>115</width>
+     <width>120</width>
      <height>29</height>
     </rect>
    </property>

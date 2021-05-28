@@ -25,9 +25,20 @@ class AlignDelegate(QtWidgets.QStyledItemDelegate):
 
 class MainUI(QtWidgets.QMainWindow):
     # TODO:
-    # Set placeholders everywhere.
-    # Нужно автоматизировать разделителей (module os).
+    # Добавить плейсхолдер в настройках - текущая почта.
     # Connect all buttons to appropriate slots.
+    # Пофиксить проверку при вводе логина.
+    # Убрать возможность развернуть на весь экран. (мейн уи)
+    # Прикрутить иконку во всех окнах.
+    # Поправить квадратик в добавить\редактировать.
+    # Перед импортом задать вопрос - перезаписать или добавить?
+    # Сделать возможным повторение активностей.
+    # Нужно автоматизировать разделителей (module os).
+    # Кнопка телеграмм в настройках открывает ссылку на бота.
+    # Если в user_name есть user_n_telegram - скрыть крестик в настройках.
+    # Если телеграмм привязан, кнопка телеграм в настройках сбрасывает 
+    # подключённый телеграм юзера (окошко с предупреждением).
+
     def __init__(self):
         super().__init__()
         # Creating database instance.
@@ -55,20 +66,28 @@ class MainUI(QtWidgets.QMainWindow):
     def initUI(self):
         # Connecting buttons to slots.
         # Main UI.
+        self.mUi.setFixedHeight(768)
+        self.mUi.setFixedWidth(1280)
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
 
         # Login UI.
+        self.lUi.setFixedHeight(768)
+        self.lUi.setFixedWidth(1280)
         self.lUi.login_btn_login.clicked.connect(self.login)
         self.lUi.login_btn_create_account.clicked.connect(
             self.show_registration)
 
         # Register UI.
+        self.rUi.setFixedHeight(768)
+        self.rUi.setFixedWidth(1280)
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
 
         # Settings UI.
+        self.sUi.setFixedHeight(768)
+        self.sUi.setFixedWidth(1280)
         self.sUi.settings_btn_export.clicked.connect(self.settings_export)
         self.sUi.settings_btn_import.clicked.connect(self.settings_import)
         self.sUi.settings_btn_undo.clicked.connect(self.sUi.close)
@@ -186,7 +205,7 @@ class MainUI(QtWidgets.QMainWindow):
     def settings_export(self):
         data = self.timedb.get_logged_user_data(item='get_user_activities')
         try:
-            settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file',\
+            settingsSave = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file',\
                 '/', 'CSV file (*.csv)')
             if settingsSave[0]:
                 with open(settingsSave[0], 'w+', newline='') as f:
@@ -197,7 +216,7 @@ class MainUI(QtWidgets.QMainWindow):
         except Exception:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Экспорт не удался.', QtWidgets.QMessageBox.Ok)
-        if ok:
+        else:
             QtWidgets.QMessageBox.question(self, 'Успех!',\
                 'Экспорт успешно завершён!', QtWidgets.QMessageBox.Ok)
 

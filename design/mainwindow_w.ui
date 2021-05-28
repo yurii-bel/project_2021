@@ -446,7 +446,7 @@ border-radius: 5px;
        <x>23</x>
        <y>15</y>
        <width>961</width>
-       <height>35</height>
+       <height>38</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="mainwindow_w_horizontalLayout_navigation" stretch="0,0,0,0,0,0,0,0,0,0,0">
@@ -686,13 +686,18 @@ QPushButton:hover {
         </property>
         <property name="styleSheet">
          <string notr="true">margin-left: 30px;
-color: #D0D2D6;</string>
+color: #D0D2D6;
+padding-top: 4px;
+padding-bottom: 4px;</string>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="pixmap">
          <pixmap>img/icons/calendar.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

@@ -1389,9 +1389,9 @@ border-radius: 5px;
    <widget class="QWidget" name="mainwindow_widget_view" native="true">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>560</x>
       <y>103</y>
-      <width>710</width>
+      <width>700</width>
       <height>621</height>
      </rect>
     </property>
@@ -1402,12 +1402,32 @@ border-radius: 5px;
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: #283046;
+     <string notr="true">QWidget {
+background-color: #283046;
 color: rgb(110, 107, 123);
-border-left: 1px solid #3B4253;
 border-top-right-radius: 5px;
 border-bottom-right-radius: 5px;
-padding-left: 20px;</string>
+padding-left: 20px;
+}
+QTableWidget QTableCornerButton {
+background-color: rgb(40, 48, 70);
+color: rgb(110, 107, 123);
+padding-left: 0px;
+}</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="mainwindow_widget_separator" native="true">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>103</y>
+      <width>10</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(40, 48, 70);
+border-left: 1px solid #3B4253;</string>
     </property>
    </widget>
   </widget>

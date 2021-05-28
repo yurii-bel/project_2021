@@ -1381,19 +1381,32 @@ border-radius: 5px;
    <widget class="QWidget" name="mainwindow_w_widget_view" native="true">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>560</x>
       <y>103</y>
-      <width>710</width>
+      <width>700</width>
       <height>621</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: #FFFFFF;
 color: rgb(110, 107, 123);
-border-left: 1px solid #EBE9F1;
 border-top-right-radius: 5px;
 border-bottom-right-radius: 5px;
 padding-left: 20px;</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="mainwindow_w_widget_separator" native="true">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>103</y>
+      <width>10</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);
+border-left: 1px solid #EBE9F1;</string>
     </property>
    </widget>
   </widget>

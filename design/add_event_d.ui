@@ -278,12 +278,16 @@ color: rgb(185, 185, 195);</string>
             </property>
             <property name="font">
              <font>
-              <family>Roboto Light</family>
+              <family>Roboto-Light</family>
               <pointsize>12</pointsize>
+              <weight>3</weight>
+              <italic>false</italic>
+              <bold>false</bold>
              </font>
             </property>
             <property name="styleSheet">
              <string notr="true">QComboBox {
+font: 25 12pt &quot;Roboto-Light&quot;;
 background-color: #283046;
 border: 1px solid rgb(122, 122, 122);
 border-radius: 5px;
@@ -292,6 +296,13 @@ color: rgb(255, 255, 255);
 QComboBox:hover {
 	background-color: rgb(40, 48, 70); 
 	border: 1px solid rgb(95, 85, 200);
+}
+QComboBox QAbstractItemView {
+background-color: rgb(22, 29, 49);
+border: 2px solid #7666F8;
+color: rgb(203, 203, 203);
+selection-background-color: rgb(94, 80, 238);
+selection-color: rgb(0, 0, 0);
 }</string>
             </property>
             <property name="editable">

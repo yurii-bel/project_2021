@@ -167,24 +167,25 @@ class MainUI(QtWidgets.QMainWindow):
         self.show_login()
 
     def initUI(self):
-        self.icon = QtGui.QIcon('design\\img\\main\\favicon.png')
+        icon = QtGui.QIcon('design\\img\\main\\favicon.png')
+        self.icon = QtGui.QPixmap('design\\img\\main\\favicon.png')
         # Connecting buttons to slots.
         # Main UI.
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
-        self.mUi.setWindowIcon(self.icon)
+        self.mUi.setWindowIcon(icon)
 
         # Login UI.
         self.lUi.login_btn_login.clicked.connect(self.login)
         self.lUi.login_btn_create_account.clicked.connect(
             self.show_registration)
-        self.lUi.setWindowIcon(self.icon)
+        self.lUi.setWindowIcon(icon)
 
         # Register UI.
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
-        self.rUi.setWindowIcon(self.icon)
+        self.rUi.setWindowIcon(icon)
 
         # Settings UI.
         self.sUi.settings_btn_export.clicked.connect(self.settings_export)
@@ -215,18 +216,17 @@ class MainUI(QtWidgets.QMainWindow):
         self.timedb.login_user(login, password)
 
         if self.timedb.user_input_check == '7':
-            QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-                'Строка логина пуста. Пожалуйста, введите Ваш логин.',\
-                    QtWidgets.QMessageBox.Ok)
-        
-        elif self.timedb.user_input_check == '8':
-            QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-            'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',\
-                QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Строка логина пуста. Пожалуйста, введите Ваш логин.',
+                                           QtWidgets.QMessageBox.Ok)
 
+        elif self.timedb.user_input_check == '8':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',
+                                           QtWidgets.QMessageBox.Ok)
         elif self.timedb.correct_login_info == False:
-            QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-            'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
 
         elif self.timedb.correct_login_info == True:
             self.user_n_name = login

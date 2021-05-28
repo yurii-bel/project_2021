@@ -1,3 +1,8 @@
+import psycopg2.extras
+from uuid import uuid4
+from psycopg2 import Error
+import psycopg2 as db
+from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import sys
 import os
 import datetime
@@ -5,19 +10,13 @@ import csv
 
 sys.path.append(".")
 
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
-
-import psycopg2 as db
-from psycopg2 import Error
-from uuid import uuid4
-import psycopg2.extras
-
 
 # ----------------------------------------------------------START-----timeSoft
 class AlignDelegate(QtWidgets.QStyledItemDelegate):
     '''
     This class implements center positioning for icons in TableView widget
     '''
+
     def initStyleOption(self, option, index):
         super().initStyleOption(option, index)
         option.decorationSize = option.rect.size()
@@ -25,35 +24,26 @@ class AlignDelegate(QtWidgets.QStyledItemDelegate):
 
 class MainUI(QtWidgets.QMainWindow):
     # TODO:
-    # Добавить плейсхолдер в настройках - текущая почта.
-    # Connect all buttons to appropriate slots.
-    # Пофиксить проверку при вводе логина.
-    # Убрать возможность развернуть на весь экран. (мейн уи)
-    # Прикрутить иконку во всех окнах.
-    # Поправить квадратик в добавить\редактировать.
-    # Перед импортом задать вопрос - перезаписать или добавить?
-    # Сделать возможным повторение активностей.
+    # Set placeholders everywhere.
     # Нужно автоматизировать разделителей (module os).
-    # Кнопка телеграмм в настройках открывает ссылку на бота.
-    # Если в user_name есть user_n_telegram - скрыть крестик в настройках.
-    # Если телеграмм привязан, кнопка телеграм в настройках сбрасывает 
-    # подключённый телеграм юзера (окошко с предупреждением).
-
+    # Connect all buttons to appropriate slots.
     def __init__(self):
         super().__init__()
         # Creating database instance.
         self.timedb = DbLogic()
 
         # Loading UI interfaces.
-        self.mUi = uic.loadUi('design\\MainWindow_d.ui') # Main window ui.
-        self.aUi = ActionsUI # Loading ActionsUI class from logic.
-        self.rUi = uic.loadUi('design\\register_d.ui') # Registration window ui.
-        self.lUi = uic.loadUi('design\\login_d.ui') # Login window ui.
-        self.sUi = uic.loadUi('design\\settings_d.ui') # Settings window ui.
-        self.tUi = uic.loadUi('design\\table.ui') # Table ui.
-        self.wUi = self.mUi.mainwindow_widget_view # Widget for viewing various data.
+        self.mUi = uic.loadUi('design\\MainWindow_d.ui')  # Main window ui.
+        self.aUi = ActionsUI  # Loading ActionsUI class from logic.
+        # Registration window ui.
+        self.rUi = uic.loadUi('design\\register_d.ui')
+        self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
+        self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
+        self.tUi = uic.loadUi('design\\table.ui')  # Table ui.
+        # Widget for viewing various data.
+        self.wUi = self.mUi.mainwindow_widget_view
 
-        # Various settings for different UI elements, such as connecting 
+        # Various settings for different UI elements, such as connecting
         # buttons to slots, setting menubars and status bar.
         self.initUI()
 
@@ -66,32 +56,24 @@ class MainUI(QtWidgets.QMainWindow):
     def initUI(self):
         # Connecting buttons to slots.
         # Main UI.
-        self.mUi.setFixedHeight(768)
-        self.mUi.setFixedWidth(1280)
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
 
         # Login UI.
-        self.lUi.setFixedHeight(768)
-        self.lUi.setFixedWidth(1280)
         self.lUi.login_btn_login.clicked.connect(self.login)
         self.lUi.login_btn_create_account.clicked.connect(
             self.show_registration)
 
         # Register UI.
-        self.rUi.setFixedHeight(768)
-        self.rUi.setFixedWidth(1280)
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
 
         # Settings UI.
-        self.sUi.setFixedHeight(768)
-        self.sUi.setFixedWidth(1280)
         self.sUi.settings_btn_export.clicked.connect(self.settings_export)
         self.sUi.settings_btn_import.clicked.connect(self.settings_import)
         self.sUi.settings_btn_undo.clicked.connect(self.sUi.close)
-        self.sUi.settings_btn_apply.clicked.connect(self.settings_save)        
+        self.sUi.settings_btn_apply.clicked.connect(self.settings_save)
 
     # AUTHORIZATION BLOCK.
     def show_login(self):
@@ -108,26 +90,26 @@ class MainUI(QtWidgets.QMainWindow):
         self.timedb.login_user(login, password)
 
         if self.timedb.user_input_check == '7':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Строка логина пуста. Пожалуйста, введите Ваш логин.',\
-                    QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Строка логина пуста. Пожалуйста, введите Ваш логин.',
+                                           QtWidgets.QMessageBox.Ok)
         elif self.timedb.user_input_check == '8':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-            'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',\
-                QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',
+                                           QtWidgets.QMessageBox.Ok)
         elif self.timedb.correct_login_info == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-            'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
 
         elif self.timedb.correct_login_info == True:
             self.user_n_name = login
-            self.timedb.get_logged_user_data(user_login=self.user_n_name,\
-                item='set_working_user')
-            self.timedb.set_logged_user_data(user_login=self.user_n_name,\
-                item='set_working_user')
+            self.timedb.get_logged_user_data(user_login=self.user_n_name,
+                                             item='set_working_user')
+            self.timedb.set_logged_user_data(user_login=self.user_n_name,
+                                             item='set_working_user')
             self.lUi.close()
             self.mUi.show()
-            self.view_table() # Viewing table.
+            self.view_table()  # Viewing table.
 
     # REGISTRATION BLOCK.
     def show_registration(self):
@@ -145,29 +127,29 @@ class MainUI(QtWidgets.QMainWindow):
         self.timedb.register_user(login, email, password)
 
         if self.timedb.user_input_check == '1':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Данный пользователь уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Данный пользователь уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
         elif self.timedb.user_input_check == '2':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Данный email уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Данный email уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
         elif self.timedb.user_input_check == '3':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Нельзя создать пустой логин пользователя.', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Нельзя создать пустой логин пользователя.', QtWidgets.QMessageBox.Ok)
         elif self.timedb.user_input_check == '4':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Нельзя создать пустой email пользователя.', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Нельзя создать пустой email пользователя.', QtWidgets.QMessageBox.Ok)
         elif self.timedb.user_input_check == '5':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Нельзя создать пустой пароль пользователя.', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Нельзя создать пустой пароль пользователя.', QtWidgets.QMessageBox.Ok)
         elif self.timedb.user_input_check == '6':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Длина пароля должна быть не менее 8 символов.', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Длина пароля должна быть не менее 8 символов.', QtWidgets.QMessageBox.Ok)
         else:
             self.rUi.close()
             self.lUi.show()
 
     # FOR TABLE AND EDIT_EVENT.
-    def get_current_row_tableview(self, item): 
+    def get_current_row_tableview(self, item):
         '''
         Current method displays clicked column and row of a choosen cell 
         in a TableView widget.
@@ -185,16 +167,17 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         Current method shows user interface action adding.
         '''
-        self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
-        
+        self.act = self.aUi(
+            self.user_n_name)  # Loading ActionsUI class from logic.
+
         self.act.show_add_event()
         # self.lay.removeWidget(self.wUi)
         # self.view_table()
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
     def edit_action(self):
-        self.act.show_edit_event(self.actl_name, self.act_time, self.act_date,\
-            self.cat_name, self.act_comment)
+        self.act.show_edit_event(self.actl_name, self.act_time, self.act_date,
+                                 self.cat_name, self.act_comment)
         self.tableview_updating()
 
     # SETTINGS BLOCK.
@@ -205,8 +188,8 @@ class MainUI(QtWidgets.QMainWindow):
     def settings_export(self):
         data = self.timedb.get_logged_user_data(item='get_user_activities')
         try:
-            settingsSave = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file',\
-                '/', 'CSV file (*.csv)')
+            settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file',
+                                                                     '/', 'CSV file (*.csv)')
             if settingsSave[0]:
                 with open(settingsSave[0], 'w+', newline='') as f:
                     writer = csv.writer(f)
@@ -214,31 +197,31 @@ class MainUI(QtWidgets.QMainWindow):
                         writer.writerow(d)
 
         except Exception:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Экспорт не удался.', QtWidgets.QMessageBox.Ok)
-        else:
-            QtWidgets.QMessageBox.question(self, 'Успех!',\
-                'Экспорт успешно завершён!', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Экспорт не удался.', QtWidgets.QMessageBox.Ok)
+        if ok:
+            QtWidgets.QMessageBox.question(self, 'Успех!',
+                                           'Экспорт успешно завершён!', QtWidgets.QMessageBox.Ok)
 
     def settings_import(self):
         try:
-            settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file',\
-                '/', 'CSV file (*.csv)')
+            settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file',
+                                                                     '/', 'CSV file (*.csv)')
             if settingsLoad[0]:
                 with open(settingsLoad[0], 'r+') as f:
                     reader = csv.reader(f, delimiter=',')
                     for row in reader:
-                        if not self.timedb.set_logged_user_data(item='check_event_data',\
-                            add_params=row) == True:
-                            self.timedb.set_logged_user_data(item='add_event', add_params=row)
+                        if not self.timedb.set_logged_user_data(item='check_event_data',
+                                                                add_params=row) == True:
+                            self.timedb.set_logged_user_data(
+                                item='add_event', add_params=row)
 
         except Exception:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Импорт не удался.', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Импорт не удался.', QtWidgets.QMessageBox.Ok)
         if ok:
-            QtWidgets.QMessageBox.question(self, 'Успех!',\
-                'Импорт успешно завершён!', QtWidgets.QMessageBox.Ok)
-        
+            QtWidgets.QMessageBox.question(self, 'Успех!',
+                                           'Импорт успешно завершён!', QtWidgets.QMessageBox.Ok)
 
     def settings_save(self):
         self.timedb.get_logged_user_data(item='get_user_p_id')
@@ -248,61 +231,60 @@ class MainUI(QtWidgets.QMainWindow):
         repeat_new_pass = self.sUi.settings_lineedit_repnewpass.text()
 
         if not email == self.timedb.get_logged_user_data(item='get_user_email'):
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Введённый email не совпадает с зарегестрированным.',\
-                    QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Введённый email не совпадает с зарегестрированным.',
+                                           QtWidgets.QMessageBox.Ok)
         elif not old_pass == self.timedb.get_logged_user_data(item='get_user_password'):
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Текущий пароль неверный.',\
-                    QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Текущий пароль неверный.',
+                                           QtWidgets.QMessageBox.Ok)
         elif len(new_pass) <= 7:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Пароль должен состоять миниммум из восьми символов.',\
-                    QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Пароль должен состоять миниммум из восьми символов.',
+                                           QtWidgets.QMessageBox.Ok)
         elif not new_pass == repeat_new_pass:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Проверьте правильность ввода новых паролей.',\
-                    QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Проверьте правильность ввода новых паролей.',
+                                           QtWidgets.QMessageBox.Ok)
         elif len(repeat_new_pass) <= 7:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Пароль должен состоять миниммум из восьми символов.',\
-                    QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Пароль должен состоять миниммум из восьми символов.',
+                                           QtWidgets.QMessageBox.Ok)
         else:
-            self.timedb.set_logged_user_data(item='change_password',\
-                edit_params=[repeat_new_pass, email])
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                    'Пароль успешно изменён.', QtWidgets.QMessageBox.Ok)
+            self.timedb.set_logged_user_data(item='change_password',
+                                             edit_params=[repeat_new_pass, email])
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Пароль успешно изменён.', QtWidgets.QMessageBox.Ok)
             self.sUi.close()
 
-
     # TABLE VIEWING BLOCK. uses DbLogic class.
-    def view_table(self): 
+    def view_table(self):
         # Getting all user activities.
         rows = self.timedb.get_logged_user_data(item='get_user_activities')
-        
+
         # Creating layout fro widget.
         lay = QtWidgets.QHBoxLayout()
 
         # Setting row count according to user activities quantity.
         self.tUi.tableW.setRowCount(len(rows))
-        
+
         i = 0
         for row in rows:
-            # If user have left some comment, 
+            # If user have left some comment,
             # in the name of activity * appears.
             if not row[4] == '' and not row[4] == None:
                 row[0] = row[0] + '*'
-        
-            self.tUi.tableW.setItem(i, 0, 
-            QtWidgets.QTableWidgetItem(row[3]))
-            self.tUi.tableW.setItem(i, 1, 
-            QtWidgets.QTableWidgetItem(row[0]))
-            self.tUi.tableW.setItem(i, 2, 
-            QtWidgets.QTableWidgetItem(row[1]))
-            self.tUi.tableW.setItem(i, 3, 
-            QtWidgets.QTableWidgetItem(row[2]))
+
+            self.tUi.tableW.setItem(i, 0,
+                                    QtWidgets.QTableWidgetItem(row[3]))
+            self.tUi.tableW.setItem(i, 1,
+                                    QtWidgets.QTableWidgetItem(row[0]))
+            self.tUi.tableW.setItem(i, 2,
+                                    QtWidgets.QTableWidgetItem(row[1]))
+            self.tUi.tableW.setItem(i, 3,
+                                    QtWidgets.QTableWidgetItem(row[2]))
             i += 1
-        
+
         # Forbiding cell selection.
         self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
@@ -316,24 +298,24 @@ class MainUI(QtWidgets.QMainWindow):
         rows = self.timedb.get_logged_user_data(item='get_user_activities')
 
         self.tUi.tableW.setRowCount(rows)
-        
+
         i = 0
         for row in rows:
-            # If user have left some comment, 
+            # If user have left some comment,
             # in the name of activity * appears.
             if not row[4] == '':
                 row[0] = row[0] + '*'
 
-            self.tUi.tableW.setItem(i, 0, 
-            QtWidgets.QTableWidgetItem(row[2]))
-            self.tUi.tableW.setItem(i, 1, 
-            QtWidgets.QTableWidgetItem(row[3]))
-            self.tUi.tableW.setItem(i, 2, 
-            QtWidgets.QTableWidgetItem(row[0]))
-            self.tUi.tableW.setItem(i, 3, 
-            QtWidgets.QTableWidgetItem(row[1]))
+            self.tUi.tableW.setItem(i, 0,
+                                    QtWidgets.QTableWidgetItem(row[2]))
+            self.tUi.tableW.setItem(i, 1,
+                                    QtWidgets.QTableWidgetItem(row[3]))
+            self.tUi.tableW.setItem(i, 2,
+                                    QtWidgets.QTableWidgetItem(row[0]))
+            self.tUi.tableW.setItem(i, 3,
+                                    QtWidgets.QTableWidgetItem(row[1]))
             i += 1
-        
+
         # Forbiding cell selection.
         self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
@@ -346,6 +328,8 @@ class MainUI(QtWidgets.QMainWindow):
 # ----------------------------------------------------------END-----timeSoft.py
 
 # -------------------------------------0--------------------START----dblogic.py
+
+
 class DbLogic:
 
     database = 'dt1vdgsvah47r'
@@ -354,11 +338,12 @@ class DbLogic:
     host = 'ec2-54-74-60-70.eu-west-1.compute.amazonaws.com'
 
     def __init__(self):
-        self.connection = db.connect(database=self.database, user=self.user, \
-        password=self.password, host=self.host)
+        self.connection = db.connect(database=self.database, user=self.user,
+                                     password=self.password, host=self.host)
 
         self.cursor = self.connection.cursor()
-        self.cursor2 = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        self.cursor2 = self.connection.cursor(
+            cursor_factory=psycopg2.extras.DictCursor)
 
         self.correct_login_info = False
         self.user_input_check = None
@@ -368,8 +353,8 @@ class DbLogic:
         self.activity_name = []
         self.activity_duration = []
         self.activity_comment = []
-        self.table_rows_num = 0 
-        
+        self.table_rows_num = 0
+
         self.current_user_id = None
 
         self.current_user_n_id = None
@@ -393,7 +378,7 @@ class DbLogic:
             lst = str(self.cursor.fetchall())
             if 'True' in lst:
                 self.user_input_check = '1'
-                return 
+                return
             elif 'True' in lst:
                 self.user_input_check = '2'
                 return
@@ -483,7 +468,7 @@ class DbLogic:
                 else:
                     self.correct_login_info = False
 
-            if self.correct_login_info == True: 
+            if self.correct_login_info == True:
                 self.load_user_activities()   # loading activities from db
 
         except Exception:
@@ -495,29 +480,29 @@ class DbLogic:
         # params[2] = act_date
         # params[3] = cat_name
         # params[4] = act_comment
-        
+
         # Setting working user in db.
         if item == 'set_working_user':
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT user_n_id FROM "USER_NAME" WHERE user_n_name = \'{user_login}\'')
             user_n_id = str(self.cursor.fetchall())[2:-3]
 
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT user_id FROM "USER" WHERE user_n_id = {user_n_id}')
             self.user_id = str(self.cursor.fetchall())[2:-3]
             return self.user_id
-        
+
         # Getting actl_id.
         elif item == 'get_actl_id':
-            self.cursor.execute(\
-            f'SELECT actl_id FROM "ACTIVITY_LIST" WHERE\
+            self.cursor.execute(
+                f'SELECT actl_id FROM "ACTIVITY_LIST" WHERE\
                 (user_id, actl_name, cat_name) = (\'{self.user_id}\', \'{params[1]}\', \'{params[0]}\')')
             return str(self.cursor.fetchall())[2:-3]
-        
+
         # Getting act_id.
         elif item == 'get_act_id':
-            self.cursor.execute(\
-            f'SELECT act_id FROM "ACTIVITY" WHERE\
+            self.cursor.execute(
+                f'SELECT act_id FROM "ACTIVITY" WHERE\
                 (user_id, actl_name, act_time, act_date, cat_name, act_comment) =\
                     (\'{self.user_id}\', \'{params[1]}\', \'{params[2]}\', \'{params[3]}\',\
                         \'{params[0]}\', \'{params[4]}\')')
@@ -525,28 +510,28 @@ class DbLogic:
 
         # Getting user_p_id.
         elif item == 'get_user_p_id':
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT user_p_id FROM "USER" WHERE user_id = \'{self.user_id}\'')
             self.user_p_id = str(self.cursor.fetchall())[3:-4]
             return self.user_p_id
 
         # Getting user email.
         elif item == 'get_user_email':
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT user_p_email FROM "USER_PRIVATE" WHERE\
                     user_p_id = \'{self.user_p_id}\'')
             return str(self.cursor.fetchall())[3:-4]
 
         # Getting user password.
         elif item == 'get_user_password':
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT user_p_password FROM "USER_PRIVATE" WHERE\
                     user_p_id = \'{self.user_p_id}\'')
             return str(self.cursor.fetchall())[3:-4]
 
-        # For getting user categories.    
+        # For getting user categories.
         elif item == 'get_user_categories':
-            self.cursor2.execute(\
+            self.cursor2.execute(
                 f'SELECT cat_name FROM "CATEGORY" WHERE user_id = \'{self.user_id}\'')
             self.user_categories = []
             for row in self.cursor2.fetchall():
@@ -555,7 +540,7 @@ class DbLogic:
 
         # For getting all user activities.
         elif item == 'get_user_activities':
-            self.cursor2.execute(\
+            self.cursor2.execute(
                 f'SELECT cat_name, actl_name, act_time, act_date, act_comment\
                     FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\'')
             user_activities = []
@@ -568,7 +553,6 @@ class DbLogic:
                 row[2] = duration
                 user_activities.append(row)
             return user_activities
-    
 
     def set_logged_user_data(self, user_login=None, item=None, add_params=None, edit_params=None):
         # params[0] = cat_name
@@ -579,7 +563,8 @@ class DbLogic:
 
         # Setting working user in db.
         if item == 'set_working_user':
-            self.user_id = self.get_logged_user_data(user_login=user_login, item='set_working_user')
+            self.user_id = self.get_logged_user_data(
+                user_login=user_login, item='set_working_user')
             return self.user_id
 
         # Storing user_p_id
@@ -587,97 +572,99 @@ class DbLogic:
 
         # Сhecking for an existing record in db.
         if item == 'check_event_data':
-            # Storing actl_id, using get_logged_user_data(). 
-            self.actl_id = self.get_logged_user_data(\
-                item='get_actl_id', params=[add_params[0],add_params[1]])
+            # Storing actl_id, using get_logged_user_data().
+            self.actl_id = self.get_logged_user_data(
+                item='get_actl_id', params=[add_params[0], add_params[1]])
 
             # Storing act_id, using get_logged_user_data().
-            self.act_id = self.get_logged_user_data(\
-                item='get_act_id', params=[add_params[0], add_params[1],\
-                    add_params[2], add_params[3], add_params[4]])
-                    
+            self.act_id = self.get_logged_user_data(
+                item='get_act_id', params=[add_params[0], add_params[1],
+                                           add_params[2], add_params[3], add_params[4]])
+
             # Checking for matching same category in db.
-            self.user_categories = self.get_logged_user_data(item='get_user_categories')
+            self.user_categories = self.get_logged_user_data(
+                item='get_user_categories')
             for row in self.user_categories:
                 if row == add_params[0]:
                     break
-            else: # If not matching, adding category to db.
-                self.cursor2.execute(\
-                    f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',\
-                        (self.user_id, add_params[0]))
-                
+            else:  # If not matching, adding category to db.
+                self.cursor2.execute(
+                    f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',
+                    (self.user_id, add_params[0]))
+
                 self.connection.commit()
 
             # Checking for matching same data in ACTIVITY_LIST table.
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT (actl_name, cat_name) FROM "ACTIVITY_LIST" WHERE user_id =\
                     \'{self.user_id}\'')
 
             check_activity_list = self.cursor.fetchall()
             for row in check_activity_list:
-                if f'({add_params[1]},{add_params[0]})' == row[0]: # If data matches, stop func.
+                # If data matches, stop func.
+                if f'({add_params[1]},{add_params[0]})' == row[0]:
                     return True
-            
+
             # Checking for matching same data in ACTIVITY table.
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT (cat_name, actl_name, act_time, act_date, act_comment)\
                     FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\'')
 
             check_activity = self.cursor.fetchall()
             for row in check_activity:
                 if f'({add_params[0]},{add_params[1]},{add_params[2]},{add_params[3]},{add_params[4]})'\
-                    == row[0]:  # If data matches, stop func.
+                        == row[0]:  # If data matches, stop func.
                     return True
 
         # Adding event as itself.
         elif item == 'add_event':
-            self.cursor2.execute(\
+            self.cursor2.execute(
                 f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name)\
-                    VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (self.user_id,\
-                        add_params[1], add_params[0]))
+                    VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (self.user_id,
+                                                                add_params[1], add_params[0]))
 
             self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
                         act_time, act_date, cat_name, act_comment)\
-                            VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING' ,\
-                        (self.user_id, add_params[1], add_params[2], add_params[3], add_params[0],\
-                            add_params[4]))
-            
+                            VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING',
+                                 (self.user_id, add_params[1], add_params[2], add_params[3], add_params[0],
+                                  add_params[4]))
+
             self.connection.commit()
-                            
+
         # Editing existing event in db.
         elif item == 'edit_event':
-            self.cursor2.execute(\
+            self.cursor2.execute(
                 f'UPDATE "ACTIVITY_LIST" SET (actl_name, cat_name) = (\'{edit_params[1]}\',\
                     \'{edit_params[0]}\') WHERE actl_id = \'{self.actl_id}\'')
-            
-            self.cursor2.execute(\
+
+            self.cursor2.execute(
                 f'UPDATE "ACTIVITY" SET (actl_name, act_time, act_date, cat_name, \
                     act_comment) = (\'{edit_params[1]}\', \'{edit_params[2]}\', \'{edit_params[3]}\',\
                         \'{edit_params[0]}\', \'{edit_params[4]}\') WHERE act_id = \'{self.act_id}\'')
-    
+
             self.connection.commit()
 
         # Deleting existing event.
         elif item == 'del_event':
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'DELETE FROM "ACTIVITY_LIST" WHERE user_id = \'{self.user_id}\' and \
                     actl_name = \'{add_params[1]}\' and cat_name = \'{add_params[0]}\'')
 
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'DELETE FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\' and \
                     actl_name = \'{add_params[1]}\' and act_time = \'{add_params[2]}\' \
                         and act_date = \'{add_params[3]}\' and cat_name = \
                             \'{add_params[0]}\' and act_comment = \'{add_params[4]}\'')
-            
+
             self.connection.commit()
 
         # Changing old user password to new.
         elif item == 'change_password':
-            self.cursor2.execute(\
+            self.cursor2.execute(
                 f'UPDATE "USER_PRIVATE" SET user_p_password = \'{edit_params[0]}\'\
                     WHERE user_p_id = \'{self.user_p_id}\' and user_p_email =\
                         \'{edit_params[1]}\'')
-            
+
             self.connection.commit()
 
     def update_user_activities(self, user):
@@ -698,8 +685,7 @@ class DbLogic:
             self.activity_duration.append(str(row[2]))  # act_time
             self.activity_comment.append(str(row[5]))  # act_comment
 
-        self.table_rows_num = len(self.activity_name)      
-        
+        self.table_rows_num = len(self.activity_name)
 
     def load_user_activities(self):
 
@@ -709,7 +695,8 @@ class DbLogic:
         self.activity_name = []
         self.activity_duration = []
         self.activity_comment = []
-        self.table_rows_num = 0  # The number of rows in current TableView widget.
+        # The number of rows in current TableView widget.
+        self.table_rows_num = 0
 
         self.connection.autocommit = True
         self.cursor.execute(
@@ -727,12 +714,11 @@ class DbLogic:
                 self.activity_duration.append(str(row[3]))  # act_time
                 self.activity_comment.append(str(row[6]))  # act_comment
 
-        self.table_rows_num = len(self.activity_name)      
-                # print(f'{row[4]}')
+        self.table_rows_num = len(self.activity_name)
+        # print(f'{row[4]}')
         # print(f'\nDate: {self.activity_creation_date} \nCategory: \
         #     {self.activity_category} \nActivity: {self.activity_name} \
         #         \nDuration: {self.activity_duration} \nComment: {self.activity_comment}')
-    
 
     def copy_user(self, table_name, column):
         try:
@@ -747,21 +733,23 @@ class DbLogic:
 # ----------------------------------------------------------END----dblogic.py
 
 
-
 # ----------------------------------------------------------START----actions_ui.py
 
 class ActionsUI(QtWidgets.QMainWindow):
     '''
     This class implements adding and editing actions.
     '''
+
     def __init__(self, user):
         super().__init__()
         # Creating database instance.
         self.timedb = DbLogic()
 
         # Setting working user in db.
-        self.timedb.get_logged_user_data(user_login=user, item='set_working_user')
-        self.timedb.set_logged_user_data(user_login=user, item='set_working_user')
+        self.timedb.get_logged_user_data(
+            user_login=user, item='set_working_user')
+        self.timedb.set_logged_user_data(
+            user_login=user, item='set_working_user')
 
         # Getting current user name.
         self.user_n_name = user
@@ -790,14 +778,17 @@ class ActionsUI(QtWidgets.QMainWindow):
 
     # Preparations for add_event_ui showing.
     def init_add_event_ui(self):
-        # Setting calendar popup and current date in date field. Also, forbidding 
+        # Setting calendar popup and current date in date field. Also, forbidding
         # selecting the next day in date field.
         self.aUi.add_event_dateEdit.setCalendarPopup(True)
-        self.aUi.add_event_dateEdit.setDate(QtCore.QDate(QtCore.QDate.currentDate()))
-        self.aUi.add_event_dateEdit.setMaximumDate(QtCore.QDate(QtCore.QDate.currentDate()))
-        
+        self.aUi.add_event_dateEdit.setDate(
+            QtCore.QDate(QtCore.QDate.currentDate()))
+        self.aUi.add_event_dateEdit.setMaximumDate(
+            QtCore.QDate(QtCore.QDate.currentDate()))
+
         # Updating user categories for combobox element.
-        categs, i = self.timedb.get_logged_user_data(item='get_user_categories'), 0
+        categs, i = self.timedb.get_logged_user_data(
+            item='get_user_categories'), 0
         for categ in categs:
             self.aUi.add_event_comboBox_category.insertItem(i, categ)
             i += 1
@@ -805,9 +796,11 @@ class ActionsUI(QtWidgets.QMainWindow):
     # Preparations for edit_event_ui showing.
     def init_edit_event_ui(self, settings):
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
-        self.eUi.edit_event_dateEdit.setMaximumDate(QtCore.QDate(QtCore.QDate.currentDate()))
+        self.eUi.edit_event_dateEdit.setMaximumDate(
+            QtCore.QDate(QtCore.QDate.currentDate()))
 
-        categs, i = self.timedb.get_logged_user_data(item='get_user_categories'), 0
+        categs, i = self.timedb.get_logged_user_data(
+            item='get_user_categories'), 0
         for categ in categs:
             self.eUi.edit_event_comboBox_category.insertItem(i, categ)
             i += 1
@@ -818,7 +811,7 @@ class ActionsUI(QtWidgets.QMainWindow):
             month = int(d[1])
             day = int(d[2])
             date = QtCore.QDate(year, month, day)
-        
+
         self.eUi.edit_event_lineEdit_name.setText(settings[0])
         self.eUi.edit_event_comboBox_category.setCurrentText(settings[3])
         self.eUi.edit_event_lineEdit_time.setText(settings[1])
@@ -829,57 +822,57 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.init_add_event_ui()
         self.aUi.show()
 
-    def show_edit_event(self, actl_name=str, act_time=str, act_date=None,\
-         cat_name=str, act_comment=None):
-        
+    def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
+                        cat_name=str, act_comment=None):
+
         settings = [actl_name, act_time, act_date, cat_name, act_comment]
         self.init_edit_event_ui(settings)
 
-        self.act_id = self.timedb.get_logged_user_data(item='get_act_id',\
-            params=[actl_name, act_time, act_date, cat_name, act_comment])
+        self.act_id = self.timedb.get_logged_user_data(item='get_act_id',
+                                                       params=[actl_name, act_time, act_date, cat_name, act_comment])
 
-        self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',\
-            params=[actl_name, cat_name])
+        self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',
+                                                        params=[actl_name, cat_name])
 
         self.eUi.show()
 
     def add_event(self):
         # Getting all info, entered by user.
-        title = self.aUi.add_event_lineEdit_name.text()        
+        title = self.aUi.add_event_lineEdit_name.text()
         category = self.aUi.add_event_comboBox_category.currentText()
         duration = self.aUi.add_event_lineEdit_time.text()
         date = self.aUi.add_event_dateEdit.date()
         comment = self.aUi.add_event_plaintextedit_comment.toPlainText()
 
         if title == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Пожалуйста, дайте название своему событию.',\
-                    QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Пожалуйста, дайте название своему событию.',
+                                           QtWidgets.QMessageBox.Ok)
             return
         elif category == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Пожалуйста, укажите категорию для своего события.',\
-                    QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Пожалуйста, укажите категорию для своего события.',
+                                           QtWidgets.QMessageBox.Ok)
             return
         elif duration == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
-                'Пожалуйста, укажите потраченное время на активность в минутах.',\
-                    QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                                           'Пожалуйста, укажите потраченное время на активность в минутах.',
+                                           QtWidgets.QMessageBox.Ok)
             return
 
         date_ = datetime.date(date.year(), date.month(), date.day())
         str_date = date_.strftime('%Y-%m-%d')
-        
+
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        if not self.timedb.set_logged_user_data(item='check_event_data',\
-            add_params=[category, title, int_duration, str_date, comment]) == True:
-            self.timedb.set_logged_user_data(item='add_event',\
-                add_params=[category, title, int_duration, str_date, comment])
-        
+        if not self.timedb.set_logged_user_data(item='check_event_data',
+                                                add_params=[category, title, int_duration, str_date, comment]) == True:
+            self.timedb.set_logged_user_data(item='add_event',
+                                             add_params=[category, title, int_duration, str_date, comment])
+
         self.aUi.close()
-        self.add_event_status = True 
+        self.add_event_status = True
 
         # self.timedb.update_user_activities(self.user_n_name)
         # print(self.timedb().activity_name)
@@ -888,7 +881,7 @@ class ActionsUI(QtWidgets.QMainWindow):
         pass
 
     def edit_event(self):
-        title = self.eUi.edit_event_lineEdit_name.text()        
+        title = self.eUi.edit_event_lineEdit_name.text()
         category = self.eUi.edit_event_comboBox_category.currentText()
         duration = self.eUi.edit_event_lineEdit_time.text()
         date = self.eUi.edit_event_dateEdit.date()
@@ -896,22 +889,23 @@ class ActionsUI(QtWidgets.QMainWindow):
 
         date_ = datetime.date(date.year(), date.month(), date.day())
         str_date = date_.strftime('%Y-%m-%d')
-        
+
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        self.timedb.edit_event(self.user_n_name, title, int_duration,\
-            str_date, category, comment, self.act_id, self.actl_id)
+        self.timedb.edit_event(self.user_n_name, title, int_duration,
+                               str_date, category, comment, self.act_id, self.actl_id)
         self.eUi.close()
         self.edit_event_status = True
 
 # ----------------------------------------------------------END----actions_ui.py
 
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     win = MainUI()
     sys.exit(app.exec())
-    
+
     # dbl = DbLogic()
     # dbl.get_logged_user_data(user_login='test', item='set_working_user')
 
@@ -922,8 +916,6 @@ if __name__ == '__main__':
     # print(dbl.get_logged_user_data(item='get_user_p_id'))
     # print(dbl.get_logged_user_data(item='get_user_email'))
     # print(dbl.get_logged_user_data(item='get_user_password'))
-    
-
 
     # dbl.set_logged_user_data(user_login='test', item='set_working_user')
 

@@ -30,7 +30,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Roboto Light</family>
+     <family>Roboto-Light</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -38,28 +38,65 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">QTableWidget { 
-color: rgb(110, 107, 123);
-}</string>
+    <string notr="true">QTableWidget { 	
+	background-color: rgba(0, 0, 0, 0);
+	gridline-color: #3B4253;
+	color: #B4B7BD;
+}
+QTableView QTableCornerButton::section {
+	background-color: rgba(0, 0, 0, 255);
+}
+QTableView QHeaderView::section {
+    padding-left: auto;
+    padding-right: auto;
+}
+QHeaderView::section {
+	background-color: rgb(40, 48, 70);
+    color: #B4B7BD;
+	border: 2px solid rgba(0, 0, 0, 0);
+}
+QHeaderView::section:checked {
+    background-color: rgb(115, 103, 240);
+	color: rgb(255, 255, 255);
+}
+QHeaderView::section:selected {
+	background-color: rgb(0, 85, 0);
+    color: #B4B7BD;
+	border: 2px solid rgba(0, 0, 0, 0);
+}
+QTableWidget::item {
+	color: #B4B7BD;
+}
+QTableWidget::item:selected {
+	background-color: rgb(115, 103, 240);
+	color: rgb(255, 255, 255);
+}
+</string>
    </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="rowCount">
+    <number>0</number>
+   </property>
+   <attribute name="horizontalHeaderMinimumSectionSize">
+    <number>39</number>
+   </attribute>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>110</number>
+   </attribute>
+   <attribute name="verticalHeaderMinimumSectionSize">
+    <number>23</number>
+   </attribute>
    <column>
     <property name="text">
      <string>Дата</string>
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
-    </property>
-    <property name="foreground">
-     <brush brushstyle="NoBrush">
-      <color alpha="255">
-       <red>0</red>
-       <green>0</green>
-       <blue>0</blue>
-      </color>
-     </brush>
     </property>
    </column>
    <column>
@@ -68,18 +105,9 @@ color: rgb(110, 107, 123);
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
-    </property>
-    <property name="foreground">
-     <brush brushstyle="NoBrush">
-      <color alpha="255">
-       <red>0</red>
-       <green>0</green>
-       <blue>0</blue>
-      </color>
-     </brush>
     </property>
    </column>
    <column>
@@ -88,18 +116,9 @@ color: rgb(110, 107, 123);
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
-    </property>
-    <property name="foreground">
-     <brush brushstyle="NoBrush">
-      <color alpha="255">
-       <red>0</red>
-       <green>0</green>
-       <blue>0</blue>
-      </color>
-     </brush>
     </property>
    </column>
    <column>
@@ -108,18 +127,20 @@ color: rgb(110, 107, 123);
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
     </property>
-    <property name="foreground">
-     <brush brushstyle="NoBrush">
-      <color alpha="255">
-       <red>0</red>
-       <green>0</green>
-       <blue>0</blue>
-      </color>
-     </brush>
+   </column>
+   <column>
+    <property name="text">
+     <string>Комментарий</string>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto-Light</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
    </column>
   </widget>

@@ -1396,7 +1396,7 @@ border-bottom-right-radius: 5px;
 padding-left: 20px;</string>
     </property>
    </widget>
-   <widget class="QWidget" name="mainwindow_w_widget_view_2" native="true">
+   <widget class="QWidget" name="mainwindow_w_widget_separator" native="true">
     <property name="geometry">
      <rect>
       <x>550</x>

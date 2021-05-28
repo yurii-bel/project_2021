@@ -1417,7 +1417,7 @@ padding-left: 20px;</string>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">
@@ -1460,7 +1460,7 @@ QMenu::item:pressed {
 }</string>
     </property>
     <property name="title">
-     <string>File</string>
+     <string>Файл</string>
     </property>
     <addaction name="mainwindow_act_make_prediction"/>
     <addaction name="mainwindow_act_settings"/>
@@ -1488,7 +1488,7 @@ QMenu::item:pressed {
 }</string>
     </property>
     <property name="title">
-     <string>Edit</string>
+     <string>Правка</string>
     </property>
     <widget class="QMenu" name="mainwindow_dropdown_menu_select_chart">
      <property name="font">
@@ -1555,7 +1555,7 @@ QMenu::item:pressed {
 }</string>
     </property>
     <property name="title">
-     <string>Help</string>
+     <string>Справка</string>
     </property>
     <addaction name="mainwindow_act_help"/>
     <addaction name="mainwindow_act_about_program"/>

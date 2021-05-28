@@ -79,11 +79,11 @@ QTableWidget::item:selected {
    <property name="rowCount">
     <number>0</number>
    </property>
-   <attribute name="horizontalHeaderMinimumSectionSize">
-    <number>39</number>
-   </attribute>
    <attribute name="horizontalHeaderDefaultSectionSize">
     <number>110</number>
+   </attribute>
+   <attribute name="horizontalHeaderMinimumSectionSize">
+    <number>39</number>
    </attribute>
    <attribute name="verticalHeaderMinimumSectionSize">
     <number>23</number>
@@ -124,17 +124,6 @@ QTableWidget::item:selected {
    <column>
     <property name="text">
      <string>Длительность</string>
-    </property>
-    <property name="font">
-     <font>
-      <family>Roboto-Light</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Комментарий</string>
     </property>
     <property name="font">
      <font>

@@ -801,7 +801,7 @@ QDateEdit:hover {
      <rect>
       <x>259</x>
       <y>103</y>
-      <width>291</width>
+      <width>281</width>
       <height>621</height>
      </rect>
     </property>
@@ -1381,9 +1381,9 @@ border-radius: 5px;
    <widget class="QWidget" name="mainwindow_w_widget_view" native="true">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>550</x>
       <y>103</y>
-      <width>700</width>
+      <width>710</width>
       <height>621</height>
      </rect>
     </property>
@@ -1396,19 +1396,18 @@ border-bottom-right-radius: 5px;
 padding-left: 20px;</string>
     </property>
    </widget>
-   <widget class="QWidget" name="mainwindow_w_widget_separator" native="true">
+   <widget class="QWidget" name="mainwindow_w_widget_view_spacer" native="true">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>540</x>
       <y>103</y>
       <width>10</width>
       <height>621</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-left: 1px solid #EBE9F1;
-background-color: #FFFFFF;
-background-image: url(design/img/background-image_spacer_w.png);</string>
+     <string notr="true">border-right: 1px solid #EBE9F1;
+background-color: #FFFFFF;</string>
     </property>
    </widget>
   </widget>

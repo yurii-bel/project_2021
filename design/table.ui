@@ -39,7 +39,6 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QTableWidget { 
-background-color: #283046;
 color: rgb(110, 107, 123);
 }</string>
    </property>

@@ -102,7 +102,7 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-background-image: url(img/team/team_01.jpg);
+background-image: url(design/img/team/team_01.jpg);
 border: 2px solid rgba(255, 0, 0, 255);
 border-radius: 50px;
 }</string>
@@ -122,7 +122,7 @@ border-radius: 50px;
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-background-image: url(img/team/team_02.jpg);
+background-image: url(design/img/team/team_02.jpg);
 border: 2px solid rgba(255, 0, 0, 255);
 border-radius: 50px;
 }</string>
@@ -142,7 +142,7 @@ border-radius: 50px;
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-background-image: url(img/team/team_03.jpg);
+background-image: url(design/img/team/team_03.jpg);
 border: 2px solid rgba(255, 0, 0, 255);
 border-radius: 50px;
 }</string>
@@ -162,7 +162,7 @@ border-radius: 50px;
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-background-image: url(img/team/team_06.jpg);
+background-image: url(design/img/team/team_06.jpg);
 border: 2px solid rgba(255, 0, 0, 255);
 border-radius: 50px;
 }</string>
@@ -182,7 +182,7 @@ border-radius: 50px;
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-background-image: url(img/team/team_07.jpg);
+background-image: url(design/img/team/team_07.jpg);
 border: 2px solid rgba(255, 0, 0, 255);
 border-radius: 50px;
 }</string>
@@ -202,7 +202,7 @@ border-radius: 50px;
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-background-image: url(img/team/team_08.jpg);
+background-image: url(design/img/team/team_08.jpg);
 border: 2px solid rgba(255, 0, 0, 255);
 border-radius: 50px;
 }</string>
@@ -222,7 +222,7 @@ border-radius: 50px;
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-background-image: url(img/team/team_05.jpg);
+background-image: url(design/img/team/team_05.jpg);
 border: 2px solid rgba(255, 0, 0, 255);
 border-radius: 50px;
 }</string>
@@ -242,7 +242,7 @@ border-radius: 50px;
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-background-image: url(img/team/team_04.jpg);
+background-image: url(design/img/team/team_04.jpg);
 border: 2px solid rgba(255, 0, 0, 255);
 border-radius: 50px;
 }</string>

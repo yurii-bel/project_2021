@@ -136,7 +136,7 @@ color: rgb(234, 84, 85);
 </string>
          </property>
          <property name="text">
-          <string>🞩</string>
+          <string>✖</string>
          </property>
         </widget>
        </widget>

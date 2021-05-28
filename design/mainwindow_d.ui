@@ -1432,7 +1432,7 @@ background-image: url(design/img/background-image_spacer_d.png);</string>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">

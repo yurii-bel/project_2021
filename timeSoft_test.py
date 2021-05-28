@@ -126,13 +126,12 @@ class AlignDelegate(QtWidgets.QStyledItemDelegate):
 
 class MainUI(QtWidgets.QMainWindow):
     # TODO:
-    # Прикрутить иконку во всех окнах.
-    # menubars
-    # Поправить квадратик в добавить\редактировать.
+    # Изучить поведение виджетов, лаяутов и прочего.
     # Кнопка телеграмм в настройках открывает ссылку на бота.
+    # Доделать настройки.
+    # GLOBAL:
     # Если в user_name есть user_n_telegram - скрыть крестик в настройках.
     # Если телеграмм привязан, кнопка телеграм в настройках сбрасывает
-    # GLOBAL:
     # Перед импортом задать вопрос - перезаписать или добавить?
     # При юзер инпуте проверять на наличие символов: [, ' ""]
     # подключённый телеграм юзера (окошко с предупреждением).
@@ -153,6 +152,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
         self.tUi = uic.loadUi('design\\table.ui')  # Table ui.
+        self.abUi = uic.loadUi('design\\about_us_d.ui') # About us ui.
         # Widget for viewing various data.
         self.wUi = self.mUi.mainwindow_widget_view
 
@@ -195,6 +195,11 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.settings_lineedit_email.setReadOnly(True)
         self.sUi.setWindowIcon(self.icon)
         
+        # Menubar Main UI.
+        self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)
+        self.mUi.mainwindow_act_settings.triggered.connect(self.settings)
+        self.mUi.mainwindow_act_about_program.triggered.connect(self.abUi.show)
+
     # AUTHORIZATION BLOCK.
     def show_login(self):
         '''
@@ -512,11 +517,11 @@ class DbLogic:
     host = 'ec2-54-74-60-70.eu-west-1.compute.amazonaws.com'
 
     def __init__(self):
-        self.connection = db.connect(database=self.database, user=self.user,
-                                     password=self.password, host=self.host)
+        self.connection = db.connect(database=self.database, user=self.user,\
+            password=self.password, host=self.host)
 
         self.cursor = self.connection.cursor()
-        self.cursor2 = self.connection.cursor(
+        self.cursor2 = self.connection.cursor(\
             cursor_factory=psycopg2.extras.DictCursor)
 
         self.correct_login_info = False

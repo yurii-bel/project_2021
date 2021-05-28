@@ -166,8 +166,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.show_login()
 
     def initUI(self):
-        icon = QtGui.QIcon('design\\img\\main\\favicon.png')
-        self.icon = QtGui.QPixmap('design\\img\\main\\favicon.png')
+        self.icon = QtGui.QIcon('design\\img\\main\\favicon.png')
         # Connecting buttons to slots.
         # Main UI.
         self.mUi.setFixedHeight(768)
@@ -175,7 +174,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
-        self.mUi.setWindowIcon(icon)
+        self.mUi.setWindowIcon(self.icon)
 
         # Login UI.
         self.lUi.setFixedHeight(768)
@@ -183,14 +182,14 @@ class MainUI(QtWidgets.QMainWindow):
         self.lUi.login_btn_login.clicked.connect(self.login)
         self.lUi.login_btn_create_account.clicked.connect(
             self.show_registration)
-        self.lUi.setWindowIcon(icon)
+        self.lUi.setWindowIcon(self.icon)
 
         # Register UI.
         self.rUi.setFixedHeight(768)
         self.rUi.setFixedWidth(1280)
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
-        self.rUi.setWindowIcon(icon)
+        self.rUi.setWindowIcon(self.icon)
 
         # Settings UI.
         self.sUi.setFixedHeight(768)
@@ -201,7 +200,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.settings_btn_apply.clicked.connect(self.settings_email)
         self.sUi.settings_btn_apply.clicked.connect(self.settings_password)
         self.sUi.settings_lineedit_email.setReadOnly(True)
-        self.sUi.setWindowIcon(icon)
+        self.sUi.setWindowIcon(self.icon)
         
     # AUTHORIZATION BLOCK.
     def show_login(self):
@@ -218,16 +217,17 @@ class MainUI(QtWidgets.QMainWindow):
         self.timedb.login_user(login, password)
 
         if self.timedb.user_input_check == '7':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',\
                 'Строка логина пуста. Пожалуйста, введите Ваш логин.',\
                     QtWidgets.QMessageBox.Ok)
         
         elif self.timedb.user_input_check == '8':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',\
             'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',\
                 QtWidgets.QMessageBox.Ok)
+
         elif self.timedb.correct_login_info == False:
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',\
             'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
 
         elif self.timedb.correct_login_info == True:

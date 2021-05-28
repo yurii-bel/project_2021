@@ -13,6 +13,107 @@ from uuid import uuid4
 import psycopg2.extras
 
 
+class InputCheck:
+    def __init__(self, input_text):
+        self.input_text = input_text
+        self.incorrect_values = ['\"', ',', "\'"]
+        self.incorrect_values_for_email_pass = self.incorrect_values.append(' ')
+
+        self.correctchrlist = list(range(ord('a'),ord('z')+1))
+        self.onlyinquoteschrlist = [ord('!'), ord(','), ord(':')]
+
+    def check_email(self):
+        # Проверка на количсество знаков "@".
+        if self.input_text.count('@') > 1\
+            or self.input_text.count('@') == 0:
+            # return (False, 'Неверное количество знаков @')
+            return True
+
+        # Проверка на длинну домена.
+        [name,domain] = self.input_text.split('@')
+        if len(domain) < 3:
+            # return (False, 'Доменное имя короче 3 символов')
+            return True
+        if len(domain) > 256:
+            # return (False, 'Доменное имя длиннее 256 символов')
+            return True
+        if domain.count('.') == 0:
+            # return (False, 'Доменное имя не содержит точки')
+            return True
+        
+        includedomain = domain.split('.')
+        # список с кодами корректных сиволов a-z - и _
+        # correctchrlist = list(range(ord('a'),ord('z')+1))
+        self.correctchrlist.extend([ord('-'), ord('_')])
+        for k in includedomain:
+            # проверяем нет ли пустых подстрок в домене
+            if k == '':
+                # return (False, 'Доменное имя содержит пустую строку между точками')
+                return True
+            # проверяем нет ли нелегальных символов в подстроках в домене
+            for n in k:
+                if ord(n) not in self.correctchrlist:
+                    errormsg = "Недопустимый символ " + n
+                    # return (False, errormsg)
+                    return True
+            if (k[0] == '-') or (k[len(k)-1] == '-'):
+                # return (False, 'Доменное имя не может начинаться/заканчиваться знаком "-"')
+                return True
+        if len(name) > 128:
+            # return (False, 'Имя длиннее 128 символов')
+            return True
+
+        # Добавляем в список корректных символов . ; " ! : ,
+        self.correctchrlist.extend([ord('.'),ord(';'),ord('"')])
+        # onlyinquoteschrlist = [ord('!'), ord(','), ord(':')]
+        self.correctchrlist.extend(self.onlyinquoteschrlist)
+
+        # Проверка на парные кавычки
+        if name.count('"')%2 != 0:
+            # return (False, "Непарные кавычки")
+            return True
+        # Переменные для отслеживания точки и открывающихся кавычек
+        doubledot = False
+        inquotes = False
+        for k in name:
+            if (k == '"'):
+                inquotes = not inquotes
+            if (ord(k) in self.onlyinquoteschrlist) and (inquotes == False):
+                # return (False, "Недопустимый символ вне кавычек")
+                return True
+            if ord(k) not in self.correctchrlist:
+                errormsg = "Недопустимый символ " + k
+                # return (False, errormsg)
+                return True
+            # проверка на две точки подряд
+            if (k == '.'):
+                if doubledot == True:
+                    # return (False, "Две точки в имени")
+                    return True
+                else:
+                    doubledot = True
+        # return (True, "")
+        return False
+
+    def check_password(self):
+        # Проверка на парные кавычки
+        if [self.input_text].count('"')%2 != 0:
+            # return (False, "Непарные кавычки")
+            return True
+        for k in self.input_text:
+            if (k == '"'):
+                return True
+            # проверка на заяптую
+            if (k == ','):
+                return True
+            if (k == ' '):
+                return True
+            if (k == "'"):
+                return True
+        # return (True, "")
+        return False
+
+
 # ----------------------------------------------------------START-----timeSoft
 class AlignDelegate(QtWidgets.QStyledItemDelegate):
     '''
@@ -25,19 +126,20 @@ class AlignDelegate(QtWidgets.QStyledItemDelegate):
 
 class MainUI(QtWidgets.QMainWindow):
     # TODO:
-    # Добавить плейсхолдер в настройках - текущая почта.
-    # Connect all buttons to appropriate slots.
-    # Пофиксить проверку при вводе логина.
-    # Убрать возможность развернуть на весь экран. (мейн уи)
     # Прикрутить иконку во всех окнах.
+    # menubars
     # Поправить квадратик в добавить\редактировать.
-    # Перед импортом задать вопрос - перезаписать или добавить?
-    # Сделать возможным повторение активностей.
-    # Нужно автоматизировать разделителей (module os).
     # Кнопка телеграмм в настройках открывает ссылку на бота.
     # Если в user_name есть user_n_telegram - скрыть крестик в настройках.
     # Если телеграмм привязан, кнопка телеграм в настройках сбрасывает 
+    # GLOBAL:
+    # Перед импортом задать вопрос - перезаписать или добавить?
+    # При юзер инпуте проверять на наличие символов: [, ' ""]
     # подключённый телеграм юзера (окошко с предупреждением).
+    # Сделать возможным повторение активностей.
+    # Пофиксить проверку при вводе логина.
+    # Нужно автоматизировать разделителей (module os).
+
 
     def __init__(self):
         super().__init__()
@@ -64,6 +166,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.show_login()
 
     def initUI(self):
+        icon = QtGui.QIcon('design\\img\\main\\favicon.png')
+        self.icon = QtGui.QPixmap('design\\img\\main\\favicon.png')
         # Connecting buttons to slots.
         # Main UI.
         self.mUi.setFixedHeight(768)
@@ -71,6 +175,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
+        self.mUi.setWindowIcon(icon)
 
         # Login UI.
         self.lUi.setFixedHeight(768)
@@ -78,12 +183,14 @@ class MainUI(QtWidgets.QMainWindow):
         self.lUi.login_btn_login.clicked.connect(self.login)
         self.lUi.login_btn_create_account.clicked.connect(
             self.show_registration)
+        self.lUi.setWindowIcon(icon)
 
         # Register UI.
         self.rUi.setFixedHeight(768)
         self.rUi.setFixedWidth(1280)
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
+        self.rUi.setWindowIcon(icon)
 
         # Settings UI.
         self.sUi.setFixedHeight(768)
@@ -91,8 +198,11 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.settings_btn_export.clicked.connect(self.settings_export)
         self.sUi.settings_btn_import.clicked.connect(self.settings_import)
         self.sUi.settings_btn_undo.clicked.connect(self.sUi.close)
-        self.sUi.settings_btn_apply.clicked.connect(self.settings_save)        
-
+        self.sUi.settings_btn_apply.clicked.connect(self.settings_email)
+        self.sUi.settings_btn_apply.clicked.connect(self.settings_password)
+        self.sUi.settings_lineedit_email.setReadOnly(True)
+        self.sUi.setWindowIcon(icon)
+        
     # AUTHORIZATION BLOCK.
     def show_login(self):
         '''
@@ -111,6 +221,7 @@ class MainUI(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
                 'Строка логина пуста. Пожалуйста, введите Ваш логин.',\
                     QtWidgets.QMessageBox.Ok)
+        
         elif self.timedb.user_input_check == '8':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',\
             'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',\
@@ -125,6 +236,10 @@ class MainUI(QtWidgets.QMainWindow):
                 item='set_working_user')
             self.timedb.set_logged_user_data(user_login=self.user_n_name,\
                 item='set_working_user')
+            self.timedb.get_logged_user_data(item='get_user_p_id')
+            self.sUi.settings_lineedit_email.setText(\
+                self.timedb.get_logged_user_data(item='get_user_email'))
+            
             self.lUi.close()
             self.mUi.show()
             self.view_table() # Viewing table.
@@ -274,6 +389,55 @@ class MainUI(QtWidgets.QMainWindow):
                     'Пароль успешно изменён.', QtWidgets.QMessageBox.Ok)
             self.sUi.close()
 
+    def settings_email(self):
+        self.timedb.get_logged_user_data(item='get_user_p_id')
+        email = self.sUi.settings_lineedit_email.text()
+        email_new = self.sUi.settings_lineedit_email_new.text()
+        oldpass = self.sUi.settings_lineedit_oldpass.text()
+
+        if self.sUi.settings_lineedit_newpass == '' and\
+            self.sUi.settings_lineedit_repnewpass == '':
+
+            if not email == self.timedb.get_logged_user_data(item='get_user_email'):
+                QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                    'Введённый email не совпадает с зарегестрированным.',\
+                        QtWidgets.QMessageBox.Ok)
+
+            elif email_new == '':
+                QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                    f'Вы не указали новый email для изменения.\n'\
+                    f'Для того, чтобы измнеить email, Вам так же потребуется ввести\n'\
+                    f'старый пароль в соответсвующую строку.', QtWidgets.QMessageBox.Ok)
+            
+            elif not '@' in email_new:
+                QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                    f'Новая почта некорректна.', QtWidgets.QMessageBox.Ok)
+
+            elif not oldpass == self.timedb.get_logged_user_data(\
+                item='get_user_password') or oldpass == '':
+                QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Для изменения почты, введите свой старый пароль в соответсвующую строку.',\
+                    QtWidgets.QMessageBox.Ok)
+
+            elif not self.sUi.settings_lineedit_newpass == '' and\
+                not self.sUi.settings_lineedit_repnewpass == '':
+                    self.timedb.set_logged_user_data(item='change_email',\
+                        edit_params=[email_new])
+                    QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                            'Пароль успешно изменён.', QtWidgets.QMessageBox.Ok)
+                    self.sUi.close()
+        # elif 
+
+    def settings_password(self):
+        pass
+        self.timedb.get_logged_user_data(item='get_user_p_id')
+        email = self.sUi.settings_lineedit_email.text()
+        oldpass = self.sUi.settings_lineedit_oldpass.text()
+        newpass = self.sUi.settings_lineedit_newpass.text()
+        repeat_new_pass = self.sUi.settings_lineedit_repnewpass.text()
+
+        
+        
 
     # TABLE VIEWING BLOCK. uses DbLogic class.
     def view_table(self): 
@@ -675,8 +839,15 @@ class DbLogic:
         elif item == 'change_password':
             self.cursor2.execute(\
                 f'UPDATE "USER_PRIVATE" SET user_p_password = \'{edit_params[0]}\'\
-                    WHERE user_p_id = \'{self.user_p_id}\' and user_p_email =\
-                        \'{edit_params[1]}\'')
+                    WHERE user_p_id = \'{self.user_p_id}\'')
+            
+            self.connection.commit()
+
+        # Changing old user email to new.
+        elif item == 'change_email':
+            self.cursor2.execute(\
+                f'UPDATE "USER_PRIVATE" SET user_p_email = \'{edit_params[0]}\'\
+                    WHERE user_p_id = \'{self.user_p_id}\'')
             
             self.connection.commit()
 
@@ -913,7 +1084,7 @@ if __name__ == '__main__':
     sys.exit(app.exec())
     
     # dbl = DbLogic()
-    # dbl.get_logged_user_data(user_login='test', item='set_working_user')
+    # dbl.get_logged_user_data(user_login='Timofey', item='set_working_user')
 
     # print(dbl.get_logged_user_data(item='get_user_categories'))
     # print(dbl.get_logged_user_data(item='get_act_id', params=['Кушал', 60, '2021-05-26', 'Еда', '1']))
@@ -938,3 +1109,7 @@ if __name__ == '__main__':
     # dbl.set_logged_user_data(item='del_event', add_params=['Спорт23', 'Бег23', 300, '2021-05-27', 'ВАУ'])
     # print(dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']))
     # print(dbl.set_logged_user_data(item='change_password', edit_params=['qwerty123', 'test@test.test']))
+
+    # inp_chck = InputCheck('tlastivkaexua')
+    # print(inp_chck.check_email())
+    # print(inp_chck.check_password())

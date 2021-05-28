@@ -1,6 +1,8 @@
+import sys
+import os
 import datetime
 import csv
-import sys
+
 sys.path.append(".")
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
@@ -22,16 +24,15 @@ class AlignDelegate(QtWidgets.QStyledItemDelegate):
 
 
 class MainUI(QtWidgets.QMainWindow):
-    '''
-    This class implements Main Window of TimeSoft program.
-    '''
-
+    # TODO:
+    # Set placeholders everywhere.
+    # Нужно автоматизировать разделителей (module os).
+    # Connect all buttons to appropriate slots.
     def __init__(self):
         super().__init__()
         # Creating database instance.
         self.timedb = DbLogic()
 
-        # Нужно автоматизировать разделителей (module os).
         # Loading UI interfaces.
         self.mUi = uic.loadUi('design\\MainWindow_d.ui') # Main window ui.
         self.aUi = ActionsUI # Loading ActionsUI class from logic.
@@ -41,6 +42,17 @@ class MainUI(QtWidgets.QMainWindow):
         self.tUi = uic.loadUi('design\\table.ui') # Table ui.
         self.wUi = self.mUi.mainwindow_widget_view # Widget for viewing various data.
 
+        # Various settings for different UI elements, such as connecting 
+        # buttons to slots, setting menubars and status bar.
+        self.initUI()
+
+        # Connect TableView with mouseClick.
+        self.tUi.tableW.clicked.connect(self.get_current_row_tableview)
+
+        # When starting a program, first login UI appears.
+        self.show_login()
+
+    def initUI(self):
         # Connecting buttons to slots.
         # Main UI.
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.add_action)
@@ -60,13 +72,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.settings_btn_export.clicked.connect(self.settings_export)
         self.sUi.settings_btn_import.clicked.connect(self.settings_import)
         self.sUi.settings_btn_undo.clicked.connect(self.sUi.close)
-        self.sUi.settings_btn_apply.clicked.connect(self.settings_save)
-
-        # Connect TableView with mouseClick.
-        self.tUi.tableW.clicked.connect(self.get_current_row_tableview)
-
-        # When starting a program, first login UI appears.
-        self.show_login()
+        self.sUi.settings_btn_apply.clicked.connect(self.settings_save)        
 
     # AUTHORIZATION BLOCK.
     def show_login(self):
@@ -97,7 +103,9 @@ class MainUI(QtWidgets.QMainWindow):
         elif self.timedb.correct_login_info == True:
             self.user_n_name = login
             self.timedb.get_logged_user_data(user_login=self.user_n_name,\
-            item='set_working_user')
+                item='set_working_user')
+            self.timedb.set_logged_user_data(user_login=self.user_n_name,\
+                item='set_working_user')
             self.lUi.close()
             self.mUi.show()
             self.view_table() # Viewing table.
@@ -177,28 +185,76 @@ class MainUI(QtWidgets.QMainWindow):
 
     def settings_export(self):
         data = self.timedb.get_logged_user_data(item='get_user_activities')
-        header = ['actl_name', 'act_time', 'act_date', 'cat_name', 'act_comment']
-        settingsSave = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file',\
-            '/', 'CSV file (*.csv)')
-        if settingsSave[0]:
-            with open(settingsSave[0], 'w+', newline='') as f:
-                writer = csv.writer(f)
-                writer.writerow(header)
-                for d in data:
-                    writer.writerow(d)
+        try:
+            settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file',\
+                '/', 'CSV file (*.csv)')
+            if settingsSave[0]:
+                with open(settingsSave[0], 'w+', newline='') as f:
+                    writer = csv.writer(f)
+                    for d in data:
+                        writer.writerow(d)
+
+        except Exception:
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Экспорт не удался.', QtWidgets.QMessageBox.Ok)
+        if ok:
+            QtWidgets.QMessageBox.question(self, 'Успех!',\
+                'Экспорт успешно завершён!', QtWidgets.QMessageBox.Ok)
 
     def settings_import(self):
-        settingsLoad = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file',\
-            '/', 'CSV file (*.csv)')
-        if settingsLoad[0]:
-            with open(settingsLoad[0], 'r+') as f:
-                reader = csv.reader(f, delimiter=',')
-                for row in reader:
-                    data = row
-                    print(data)
+        try:
+            settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file',\
+                '/', 'CSV file (*.csv)')
+            if settingsLoad[0]:
+                with open(settingsLoad[0], 'r+') as f:
+                    reader = csv.reader(f, delimiter=',')
+                    for row in reader:
+                        if not self.timedb.set_logged_user_data(item='check_event_data',\
+                            add_params=row) == True:
+                            self.timedb.set_logged_user_data(item='add_event', add_params=row)
+
+        except Exception:
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Импорт не удался.', QtWidgets.QMessageBox.Ok)
+        if ok:
+            QtWidgets.QMessageBox.question(self, 'Успех!',\
+                'Импорт успешно завершён!', QtWidgets.QMessageBox.Ok)
+        
 
     def settings_save(self):
-        pass
+        self.timedb.get_logged_user_data(item='get_user_p_id')
+        email = self.sUi.settings_lineedit_email.text()
+        old_pass = self.sUi.settings_lineedit_oldpass.text()
+        new_pass = self.sUi.settings_lineedit_newpass.text()
+        repeat_new_pass = self.sUi.settings_lineedit_repnewpass.text()
+
+        if not email == self.timedb.get_logged_user_data(item='get_user_email'):
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Введённый email не совпадает с зарегестрированным.',\
+                    QtWidgets.QMessageBox.Ok)
+        elif not old_pass == self.timedb.get_logged_user_data(item='get_user_password'):
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Текущий пароль неверный.',\
+                    QtWidgets.QMessageBox.Ok)
+        elif len(new_pass) <= 7:
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Пароль должен состоять миниммум из восьми символов.',\
+                    QtWidgets.QMessageBox.Ok)
+        elif not new_pass == repeat_new_pass:
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Проверьте правильность ввода новых паролей.',\
+                    QtWidgets.QMessageBox.Ok)
+        elif len(repeat_new_pass) <= 7:
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Пароль должен состоять миниммум из восьми символов.',\
+                    QtWidgets.QMessageBox.Ok)
+        else:
+            self.timedb.set_logged_user_data(item='change_password',\
+                edit_params=[repeat_new_pass, email])
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                    'Пароль успешно изменён.', QtWidgets.QMessageBox.Ok)
+            self.sUi.close()
+
 
     # TABLE VIEWING BLOCK. uses DbLogic class.
     def view_table(self): 
@@ -217,15 +273,15 @@ class MainUI(QtWidgets.QMainWindow):
             # in the name of activity * appears.
             if not row[4] == '' and not row[4] == None:
                 row[0] = row[0] + '*'
-
+        
             self.tUi.tableW.setItem(i, 0, 
-            QtWidgets.QTableWidgetItem(row[2]))
-            self.tUi.tableW.setItem(i, 1, 
             QtWidgets.QTableWidgetItem(row[3]))
-            self.tUi.tableW.setItem(i, 2, 
+            self.tUi.tableW.setItem(i, 1, 
             QtWidgets.QTableWidgetItem(row[0]))
-            self.tUi.tableW.setItem(i, 3, 
+            self.tUi.tableW.setItem(i, 2, 
             QtWidgets.QTableWidgetItem(row[1]))
+            self.tUi.tableW.setItem(i, 3, 
+            QtWidgets.QTableWidgetItem(row[2]))
             i += 1
         
         # Forbiding cell selection.
@@ -415,7 +471,13 @@ class DbLogic:
             pass
 
     def get_logged_user_data(self, user_login=None, item=None, params=None):
-        self.connection.autocommit = True
+        # params[0] = actl_name
+        # params[1] = act_time
+        # params[2] = act_date
+        # params[3] = cat_name
+        # params[4] = act_comment
+        
+        # Setting working user in db.
         if item == 'set_working_user':
             self.cursor.execute(\
                 f'SELECT user_n_id FROM "USER_NAME" WHERE user_n_name = \'{user_login}\'')
@@ -425,7 +487,45 @@ class DbLogic:
                 f'SELECT user_id FROM "USER" WHERE user_n_id = {user_n_id}')
             self.user_id = str(self.cursor.fetchall())[2:-3]
             return self.user_id
-            
+        
+        # Getting actl_id.
+        elif item == 'get_actl_id':
+            self.cursor.execute(\
+            f'SELECT actl_id FROM "ACTIVITY_LIST" WHERE\
+                (user_id, actl_name, cat_name) = (\'{self.user_id}\', \'{params[1]}\', \'{params[0]}\')')
+            return str(self.cursor.fetchall())[2:-3]
+        
+        # Getting act_id.
+        elif item == 'get_act_id':
+            self.cursor.execute(\
+            f'SELECT act_id FROM "ACTIVITY" WHERE\
+                (user_id, actl_name, act_time, act_date, cat_name, act_comment) =\
+                    (\'{self.user_id}\', \'{params[1]}\', \'{params[2]}\', \'{params[3]}\',\
+                        \'{params[0]}\', \'{params[4]}\')')
+            return str(self.cursor.fetchall())[2:-3]
+
+        # Getting user_p_id.
+        elif item == 'get_user_p_id':
+            self.cursor.execute(\
+                f'SELECT user_p_id FROM "USER" WHERE user_id = \'{self.user_id}\'')
+            self.user_p_id = str(self.cursor.fetchall())[3:-4]
+            return self.user_p_id
+
+        # Getting user email.
+        elif item == 'get_user_email':
+            self.cursor.execute(\
+                f'SELECT user_p_email FROM "USER_PRIVATE" WHERE\
+                    user_p_id = \'{self.user_p_id}\'')
+            return str(self.cursor.fetchall())[3:-4]
+
+        # Getting user password.
+        elif item == 'get_user_password':
+            self.cursor.execute(\
+                f'SELECT user_p_password FROM "USER_PRIVATE" WHERE\
+                    user_p_id = \'{self.user_p_id}\'')
+            return str(self.cursor.fetchall())[3:-4]
+
+        # For getting user categories.    
         elif item == 'get_user_categories':
             self.cursor2.execute(\
                 f'SELECT cat_name FROM "CATEGORY" WHERE user_id = \'{self.user_id}\'')
@@ -433,33 +533,20 @@ class DbLogic:
             for row in self.cursor2.fetchall():
                 self.user_categories += row
             return self.user_categories
-            
-        elif item == 'get_actl_id':
-            self.cursor.execute(\
-            f'SELECT actl_id FROM "ACTIVITY_LIST" WHERE\
-                (user_id, actl_name, cat_name) = (\'{self.user_id}\', \'{params[1]}\', \'{params[0]}\')')
-            return str(self.cursor.fetchall())[2:-3]
-        
-        elif item == 'get_act_id':
-            self.cursor.execute(\
-            f'SELECT act_id FROM "ACTIVITY" WHERE\
-                (user_id, actl_name, act_time, act_date, cat_name, act_comment) =\
-                    (\'{self.user_id}\', \'{params[0]}\', \'{params[1]}\', \'{params[2]}\',\
-                        \'{params[3]}\', \'{params[4]}\')')
-            return str(self.cursor.fetchall())[2:-3]
 
+        # For getting all user activities.
         elif item == 'get_user_activities':
             self.cursor2.execute(\
-                f'SELECT actl_name, act_time, act_date, cat_name, act_comment\
+                f'SELECT cat_name, actl_name, act_time, act_date, act_comment\
                     FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\'')
             user_activities = []
             for row in self.cursor2.fetchall():
-                # Setting date in str fromat for table.
-                date_ = row[2].strftime('%Y-%m-%d')
-                row[2] = date_
-                # Setting duration in str fromat for table.
-                duration = str(row[1])
-                row[1] = duration
+                # Setting date in str fromat.
+                date_ = row[3].strftime('%Y-%m-%d')
+                row[3] = date_
+                # Setting duration in str fromat.
+                duration = str(row[2])
+                row[2] = duration
                 user_activities.append(row)
             return user_activities
     
@@ -470,27 +557,37 @@ class DbLogic:
         # params[2] = act_time
         # params[3] = act_date
         # params[4] = act_comment
+
+        # Setting working user in db.
         if item == 'set_working_user':
-            self.user_id = self.get_logged_user_data(user_login, 'set_working_user')
+            self.user_id = self.get_logged_user_data(user_login=user_login, item='set_working_user')
             return self.user_id
 
-        self.actl_id = self.get_logged_user_data(\
-                user_login, 'get_actl_id', [add_params[0],add_params[1]])
+        # Storing user_p_id
+        self.user_p_id = self.get_logged_user_data(item='get_user_p_id')
 
-        self.act_id = self.get_logged_user_data(\
-            user_login, 'get_act_id', [add_params[1], add_params[2], add_params[3],\
-                add_params[0], add_params[4]])
-
+        # Сhecking for an existing record in db.
         if item == 'check_event_data':
+            # Storing actl_id, using get_logged_user_data(). 
+            self.actl_id = self.get_logged_user_data(\
+                item='get_actl_id', params=[add_params[0],add_params[1]])
+
+            # Storing act_id, using get_logged_user_data().
+            self.act_id = self.get_logged_user_data(\
+                item='get_act_id', params=[add_params[0], add_params[1],\
+                    add_params[2], add_params[3], add_params[4]])
+                    
             # Checking for matching same category in db.
-            self.user_categories = self.get_logged_user_data(user_login, 'get_user_categories')
+            self.user_categories = self.get_logged_user_data(item='get_user_categories')
             for row in self.user_categories:
                 if row == add_params[0]:
                     break
-            else: # If not matching, adding cat to db.
+            else: # If not matching, adding category to db.
                 self.cursor2.execute(\
                     f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)',\
                         (self.user_id, add_params[0]))
+                
+                self.connection.commit()
 
             # Checking for matching same data in ACTIVITY_LIST table.
             self.cursor.execute(\
@@ -513,7 +610,8 @@ class DbLogic:
                     == row[0]:  # If data matches, stop func.
                     return True
 
-        if item == 'add_event':
+        # Adding event as itself.
+        elif item == 'add_event':
             self.cursor2.execute(\
                 f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name)\
                     VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (self.user_id,\
@@ -524,7 +622,10 @@ class DbLogic:
                             VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING' ,\
                         (self.user_id, add_params[1], add_params[2], add_params[3], add_params[0],\
                             add_params[4]))
+            
+            self.connection.commit()
                             
+        # Editing existing event in db.
         elif item == 'edit_event':
             self.cursor2.execute(\
                 f'UPDATE "ACTIVITY_LIST" SET (actl_name, cat_name) = (\'{edit_params[1]}\',\
@@ -535,6 +636,9 @@ class DbLogic:
                     act_comment) = (\'{edit_params[1]}\', \'{edit_params[2]}\', \'{edit_params[3]}\',\
                         \'{edit_params[0]}\', \'{edit_params[4]}\') WHERE act_id = \'{self.act_id}\'')
     
+            self.connection.commit()
+
+        # Deleting existing event.
         elif item == 'del_event':
             self.cursor.execute(\
                 f'DELETE FROM "ACTIVITY_LIST" WHERE user_id = \'{self.user_id}\' and \
@@ -545,7 +649,17 @@ class DbLogic:
                     actl_name = \'{add_params[1]}\' and act_time = \'{add_params[2]}\' \
                         and act_date = \'{add_params[3]}\' and cat_name = \
                             \'{add_params[0]}\' and act_comment = \'{add_params[4]}\'')
+            
+            self.connection.commit()
 
+        # Changing old user password to new.
+        elif item == 'change_password':
+            self.cursor2.execute(\
+                f'UPDATE "USER_PRIVATE" SET user_p_password = \'{edit_params[0]}\'\
+                    WHERE user_p_id = \'{self.user_p_id}\' and user_p_email =\
+                        \'{edit_params[1]}\'')
+            
+            self.connection.commit()
 
     def update_user_activities(self, user):
         self.connection.autocommit = True
@@ -626,8 +740,9 @@ class ActionsUI(QtWidgets.QMainWindow):
         # Creating database instance.
         self.timedb = DbLogic()
 
-        # Creating main win instance.
-        self.main = MainUI
+        # Setting working user in db.
+        self.timedb.get_logged_user_data(user_login=user, item='set_working_user')
+        self.timedb.set_logged_user_data(user_login=user, item='set_working_user')
 
         # Getting current user name.
         self.user_n_name = user
@@ -648,9 +763,6 @@ class ActionsUI(QtWidgets.QMainWindow):
         # Connecting line edits to appropriate slots.
         self.aUi.add_event_lineEdit_name.textChanged.connect(
             self.suppose_category)
-        
-        # Get MainUi class from timeSoft (linked).
-        # self.timeSoft = MainUI
 
         # Extra variables.
         self.add_event_status = None
@@ -666,17 +778,17 @@ class ActionsUI(QtWidgets.QMainWindow):
         self.aUi.add_event_dateEdit.setMaximumDate(QtCore.QDate(QtCore.QDate.currentDate()))
         
         # Updating user categories for combobox element.
-        categs, i = self.timedb.get_user_categories(self.user_n_name), 0
+        categs, i = self.timedb.get_logged_user_data(item='get_user_categories'), 0
         for categ in categs:
             self.aUi.add_event_comboBox_category.insertItem(i, categ)
             i += 1
 
-
+    # Preparations for edit_event_ui showing.
     def init_edit_event_ui(self, settings):
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
         self.eUi.edit_event_dateEdit.setMaximumDate(QtCore.QDate(QtCore.QDate.currentDate()))
 
-        categs, i = self.timedb.get_user_categories(self.user_n_name), 0
+        categs, i = self.timedb.get_logged_user_data(item='get_user_categories'), 0
         for categ in categs:
             self.eUi.edit_event_comboBox_category.insertItem(i, categ)
             i += 1
@@ -700,13 +812,15 @@ class ActionsUI(QtWidgets.QMainWindow):
 
     def show_edit_event(self, actl_name=str, act_time=str, act_date=None,\
          cat_name=str, act_comment=None):
+        
         settings = [actl_name, act_time, act_date, cat_name, act_comment]
         self.init_edit_event_ui(settings)
 
-        self.act_id = self.timedb.get_act_id(self.user_n_name, actl_name,\
-             act_time, act_date, cat_name, act_comment)
+        self.act_id = self.timedb.get_logged_user_data(item='get_act_id',\
+            params=[actl_name, act_time, act_date, cat_name, act_comment])
 
-        self.actl_id = self.timedb.get_actl_id(self.user_n_name, actl_name, cat_name)
+        self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',\
+            params=[actl_name, cat_name])
 
         self.eUi.show()
 
@@ -719,13 +833,19 @@ class ActionsUI(QtWidgets.QMainWindow):
         comment = self.aUi.add_event_plaintextedit_comment.toPlainText()
 
         if title == '':
-            self.user_input_check = '1'
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Пожалуйста, дайте название своему событию.',\
+                    QtWidgets.QMessageBox.Ok)
             return
         elif category == '':
-            self.user_input_check = '2'
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Пожалуйста, укажите категорию для своего события.',\
+                    QtWidgets.QMessageBox.Ok)
             return
         elif duration == '':
-            self.user_input_check = '3'
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',\
+                'Пожалуйста, укажите потраченное время на активность в минутах.',\
+                    QtWidgets.QMessageBox.Ok)
             return
 
         date_ = datetime.date(date.year(), date.month(), date.day())
@@ -734,14 +854,15 @@ class ActionsUI(QtWidgets.QMainWindow):
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        self.timedb.add_event(self.user_n_name, title, int_duration,\
-            str_date, category, comment)  
+        if not self.timedb.set_logged_user_data(item='check_event_data',\
+            add_params=[category, title, int_duration, str_date, comment]) == True:
+            self.timedb.set_logged_user_data(item='add_event',\
+                add_params=[category, title, int_duration, str_date, comment])
         
         self.aUi.close()
         self.add_event_status = True 
 
-        self.timedb.update_user_activities(self.user_n_name)
-        self.main().view_table()
+        # self.timedb.update_user_activities(self.user_n_name)
         # print(self.timedb().activity_name)
 
     def suppose_category(self):
@@ -776,18 +897,25 @@ if __name__ == '__main__':
     # dbl.get_logged_user_data(user_login='test', item='set_working_user')
 
     # print(dbl.get_logged_user_data(item='get_user_categories'))
-    # print(dbl.get_logged_user_data(item='get_act_id', params=['wow', 1, '2021-05-27', 'wwww', '123']))
-    # print(dbl.get_logged_user_data(item='get_actl_id', params=['wwww', 'wow']))
+    # print(dbl.get_logged_user_data(item='get_act_id', params=['Кушал', 60, '2021-05-26', 'Еда', '1']))
+    # print(dbl.get_logged_user_data(item='get_actl_id', params=['Еда', 'Кушал']))
     # print(dbl.get_logged_user_data(item='get_user_activities'))
+    # print(dbl.get_logged_user_data(item='get_user_p_id'))
+    # print(dbl.get_logged_user_data(item='get_user_email'))
+    # print(dbl.get_logged_user_data(item='get_user_password'))
+    
+
 
     # dbl.set_logged_user_data(user_login='test', item='set_working_user')
 
+    # if not dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']) == True:
+    # dbl.set_logged_user_data(item='add_event', add_params=['Еда', 'Кушал1', '60', '2021-05-26', '1'])
     # if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
-        # dbl.set_logged_user_data('test', 'add_event', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ'])
-    # if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
-    # dbl.set_logged_user_data('test', 'edit_event', ['Еда', 'Кушал1', 30, '2021-05-27', 'Не вкусно!'], \
-        # ['Еда', 'Кушал', 60, '2021-05-26', '1'])
+    #     dbl.set_logged_user_data('test', 'edit_event', ['Еда', 'Кушал1', 30, '2021-05-27', 'Не вкусно!'], \
+    #         ['Еда', 'Кушал', 60, '2021-05-26', '1'])
 
     # dbl.set_logged_user_data('test', 'del_event', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ'])
     # print(dbl.get_logged_user_data(item='get_user_activities'))
     # dbl.set_logged_user_data(item='del_event', add_params=['Спорт23', 'Бег23', 300, '2021-05-27', 'ВАУ'])
+    # print(dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']))
+    # print(dbl.set_logged_user_data(item='change_password', edit_params=['qwerty123', 'test@test.test']))

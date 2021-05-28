@@ -168,7 +168,6 @@ class MainUI(QtWidgets.QMainWindow):
 
     def initUI(self):
         icon = QtGui.QIcon('design\\img\\main\\favicon.png')
-        self.icon = QtGui.QPixmap('design\\img\\main\\favicon.png')
         # Connecting buttons to slots.
         # Main UI.
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.add_action)
@@ -194,7 +193,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.settings_btn_apply.clicked.connect(self.settings_email)
         self.sUi.settings_btn_apply.clicked.connect(self.settings_password)
         self.sUi.settings_lineedit_email.setReadOnly(True)
-        self.sUi.setWindowIcon(self.icon)
+        self.sUi.setWindowIcon(icon)
         
         # Menubar Main UI.
         self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)

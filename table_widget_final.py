@@ -75,7 +75,10 @@ class TableWidget(QWidget):
         # self.checkbox.clicked.connect(self.checkBoxCloseDatabase)
         exitButton.clicked.connect(self.close)
 
+    # def 
+
     def addRecord(self):
+        # self.
         # self.connection.autocommit = True
         cd = datetime.datetime.now().strftime("%m-%d-%Y")
         # print(cd)
@@ -86,15 +89,12 @@ class TableWidget(QWidget):
         self.cat_name = 'Спорт'
         self.act_comment = 'some shitt'
 
-        
-        
         row = self.model.rowCount()
         self.model.insertRow(row)
         self.model.setData(self.model.index(row, 1), self.act_date)
         self.model.setData(self.model.index(row, 2), self.actl_name)
         self.model.setData(self.model.index(row, 3), self.cat_name)
         self.model.setData(self.model.index(row, 4), self.act_time)
-
 
         if self.model.submitAll():
             self.connection.commit()
@@ -136,10 +136,19 @@ class TableWidget(QWidget):
     def deleteRecord(self):
         query = QSqlQuery(self.qsqldb)
         query.exec_('SELECT actl_name, cat_name FROM "ACTIVITY" WHERE user_id = \'12\'')
+        index = query.record().indexOf('actl_name')
+        rows = []
         while query.next():
-            country = query.value(1)
-            print(country)
-        
+            rows.append(query.value(index))
+        print(rows)
+
+        query.exec_('SELECT user_n_name FROM "USER_NAME" WHERE user_n_id\
+             = \'a335e09a-1dc0-4187-9ad5-9fc92f0f7bfa\'')
+        index = query.record().indexOf('user_n_name')
+        rows.clear()
+        while query.next():
+            rows.append(query.value(index))
+        print(rows)
 
 
 if __name__ == '__main__':

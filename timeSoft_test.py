@@ -135,9 +135,9 @@ class MainUI(QtWidgets.QMainWindow):
     # Перед импортом задать вопрос - перезаписать или добавить?
     # При юзер инпуте проверять на наличие символов: [, ' ""]
     # подключённый телеграм юзера (окошко с предупреждением).
-    # Сделать возможным повторение активностей.
-    # Пофиксить проверку при вводе логина.
+    # Сделать возможным повторение активностей. +
     # Нужно автоматизировать разделителей (module os).
+    # Цветной вывод категорий.
 
     def __init__(self):
         super().__init__()
@@ -170,23 +170,31 @@ class MainUI(QtWidgets.QMainWindow):
         icon = QtGui.QIcon('design\\img\\main\\favicon.png')
         # Connecting buttons to slots.
         # Main UI.
+        self.mUi.setFixedHeight(768)
+        self.mUi.setFixedWidth(1280)
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
         self.mUi.setWindowIcon(icon)
 
         # Login UI.
+        self.lUi.setFixedHeight(768)
+        self.lUi.setFixedWidth(1280)
         self.lUi.login_btn_login.clicked.connect(self.login)
         self.lUi.login_btn_create_account.clicked.connect(
             self.show_registration)
         self.lUi.setWindowIcon(icon)
 
         # Register UI.
+        self.rUi.setFixedHeight(768)
+        self.rUi.setFixedWidth(1280)
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
         self.rUi.setWindowIcon(icon)
 
         # Settings UI.
+        self.sUi.setFixedHeight(768)
+        self.sUi.setFixedWidth(1280)
         self.sUi.settings_btn_export.clicked.connect(self.settings_export)
         self.sUi.settings_btn_import.clicked.connect(self.settings_import)
         self.sUi.settings_btn_undo.clicked.connect(self.sUi.close)
@@ -214,32 +222,37 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.timedb.login_user(login, password)
 
-        if self.timedb.user_input_check == '7':
+        if login == '':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           'Строка логина пуста. Пожалуйста, введите Ваш логин.',
-                                           QtWidgets.QMessageBox.Ok)
+                'Строка логина пуста. Пожалуйста, введите Ваш логин.',
+                    QtWidgets.QMessageBox.Ok)
 
-        elif self.timedb.user_input_check == '8':
+        elif password == '':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',
-                                           QtWidgets.QMessageBox.Ok)
-        elif self.timedb.correct_login_info == False:
+                'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',
+                    QtWidgets.QMessageBox.Ok)
+
+        elif not self.timedb.correct_login_info == True:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
+                'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
 
         elif self.timedb.correct_login_info == True:
             self.user_n_name = login
+
             self.timedb.get_logged_user_data(user_login=self.user_n_name,
                                              item='set_working_user')
+            
             self.timedb.set_logged_user_data(user_login=self.user_n_name,
                                              item='set_working_user')
+            
             self.timedb.get_logged_user_data(item='get_user_p_id')
+            
             self.sUi.settings_lineedit_email.setText(
                 self.timedb.get_logged_user_data(item='get_user_email'))
 
             self.lUi.close()
             self.mUi.show()
-            self.view_table()  # Viewing table.
+            self.view_table(self.timedb.get_logged_user_data(item='get_user_activities'))  # Viewing table.
 
     # REGISTRATION BLOCK.
     def show_registration(self):
@@ -262,16 +275,16 @@ class MainUI(QtWidgets.QMainWindow):
         elif self.timedb.user_input_check == '2':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
                                            'Данный email уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
-        elif self.timedb.user_input_check == '3':
+        elif login == '':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
                                            'Нельзя создать пустой логин пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.timedb.user_input_check == '4':
+        elif email == '':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
                                            'Нельзя создать пустой email пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.timedb.user_input_check == '5':
+        elif password == '':
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
                                            'Нельзя создать пустой пароль пользователя.', QtWidgets.QMessageBox.Ok)
-        elif self.timedb.user_input_check == '6':
+        elif len(password) <= 7:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
                                            'Длина пароля должна быть не менее 8 символов.', QtWidgets.QMessageBox.Ok)
         else:
@@ -297,12 +310,9 @@ class MainUI(QtWidgets.QMainWindow):
         '''
         Current method shows user interface action adding.
         '''
-        self.act = self.aUi(
-            self.user_n_name)  # Loading ActionsUI class from logic.
+        self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
 
         self.act.show_add_event()
-        # self.lay.removeWidget(self.wUi)
-        # self.view_table()
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
     def edit_action(self):
@@ -427,7 +437,6 @@ class MainUI(QtWidgets.QMainWindow):
         # elif
 
     def settings_password(self):
-        pass
         self.timedb.get_logged_user_data(item='get_user_p_id')
         email = self.sUi.settings_lineedit_email.text()
         oldpass = self.sUi.settings_lineedit_oldpass.text()
@@ -436,18 +445,18 @@ class MainUI(QtWidgets.QMainWindow):
 
     # TABLE VIEWING BLOCK. uses DbLogic class.
 
-    def view_table(self):
+    def view_table(self, data):
         # Getting all user activities.
-        rows = self.timedb.get_logged_user_data(item='get_user_activities')
+        # rows = self.timedb.get_logged_user_data(item='get_user_activities')
 
         # Creating layout fro widget.
         lay = QtWidgets.QHBoxLayout()
 
         # Setting row count according to user activities quantity.
-        self.tUi.tableW.setRowCount(len(rows))
+        self.tUi.tableW.setRowCount(len(data))
 
         i = 0
-        for row in rows:
+        for row in data:
             # If user have left some comment,
             # in the name of activity * appears.
             if not row[4] == '' and not row[4] == None:
@@ -560,18 +569,6 @@ class DbLogic:
             elif 'True' in lst:
                 self.user_input_check = '2'
                 return
-            elif user_n_name == '':
-                self.user_input_check = '3'
-                return
-            elif user_p_email == '':
-                self.user_input_check = '4'
-                return
-            elif user_p_password == '':
-                self.user_input_check = '5'
-                return
-            elif len(user_p_password) <= 7:
-                self.user_input_check = '6'
-                return
 
             self.cursor.execute('INSERT INTO "USER" (user_n_id, user_p_id)\
                 VALUES (%s,%s) ON CONFLICT DO NOTHING', (user_n_id, user_p_id))
@@ -598,13 +595,6 @@ class DbLogic:
             self.current_user_p_id = None
             self.current_user_p_email = None
             self.current_user_p_password = None
-
-            if user_n_name == '':
-                self.user_input_check = '7'
-                return
-            elif user_p_password == '':
-                self.user_input_check = '8'
-                return
 
             # working with USER_NAME table
             self.cursor.execute(
@@ -646,8 +636,8 @@ class DbLogic:
                 else:
                     self.correct_login_info = False
 
-            if self.correct_login_info == True:
-                self.load_user_activities()   # loading activities from db
+            # if self.correct_login_info == True:
+            #     self.load_user_activities()   # loading activities from db
 
         except Exception:
             pass
@@ -772,30 +762,10 @@ class DbLogic:
 
                 self.connection.commit()
 
-            # Checking for matching same data in ACTIVITY_LIST table.
-            self.cursor.execute(
-                f'SELECT (actl_name, cat_name) FROM "ACTIVITY_LIST" WHERE user_id =\
-                    \'{self.user_id}\'')
-
-            check_activity_list = self.cursor.fetchall()
-            for row in check_activity_list:
-                # If data matches, stop func.
-                if f'({add_params[1]},{add_params[0]})' == row[0]:
-                    return True
-
-            # Checking for matching same data in ACTIVITY table.
-            self.cursor.execute(
-                f'SELECT (cat_name, actl_name, act_time, act_date, act_comment)\
-                    FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\'')
-
-            check_activity = self.cursor.fetchall()
-            for row in check_activity:
-                if f'({add_params[0]},{add_params[1]},{add_params[2]},{add_params[3]},{add_params[4]})'\
-                        == row[0]:  # If data matches, stop func.
-                    return True
-
         # Adding event as itself.
         elif item == 'add_event':
+            self.set_logged_user_data(item='check_user_categories')
+
             self.cursor2.execute(
                 f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name)\
                     VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (self.user_id,
@@ -811,6 +781,8 @@ class DbLogic:
 
         # Editing existing event in db.
         elif item == 'edit_event':
+            self.set_logged_user_data(item='check_user_categories')
+
             self.cursor2.execute(
                 f'UPDATE "ACTIVITY_LIST" SET (actl_name, cat_name) = (\'{edit_params[1]}\',\
                     \'{edit_params[0]}\') WHERE actl_id = \'{self.actl_id}\'')
@@ -1052,13 +1024,12 @@ class ActionsUI(QtWidgets.QMainWindow):
 
         # Writing all changes to db and closing 'Add Event' win.
         if not self.timedb.set_logged_user_data(item='check_event_data',
-                                                add_params=[category, title, int_duration, str_date, comment]) == True:
-            self.timedb.set_logged_user_data(item='add_event',
-                                             add_params=[category, title, int_duration, str_date, comment])
+            add_params=[category, title, int_duration, str_date, comment]) == True:
+            self.timedb.set_logged_user_data(item='add_event',\
+                add_params=[category, title, int_duration, str_date, comment])
 
-        self.aUi.close()
         self.add_event_status = True
-
+        self.aUi.close()
         # self.timedb.update_user_activities(self.user_n_name)
         # print(self.timedb().activity_name)
 

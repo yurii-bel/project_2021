@@ -1,3 +1,4 @@
+from PyQt5 import QtSql
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtSql import *
@@ -5,7 +6,7 @@ from PyQt5.QtWidgets import QAbstractItemView, QApplication, QCheckBox, QComboBo
 from uuid import uuid4
 from psycopg2 import Error
 import psycopg2 as db
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
+# from PyQt5 import QtCore, QtGui, QtWidgets, uic, QtQsl
 
 import datetime
 
@@ -20,13 +21,20 @@ class TableWidget(QWidget):
 
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
+        # # db connection
+        # self.connection = db.connect(database=self.database, user=self.user,\
+        #     password=self.password, host=self.host)
+        # self.cursor = self.connection.cursor()
 
-        # db connection
-        self.connection = db.connect(database=self.database, user=self.user,\
-            password=self.password, host=self.host)
-        self.cursor = self.connection.cursor()
+        self.qsqldb = QSqlDatabase().addDatabase('QPSQL')
 
-        self.model = QSqlTableModel(self)
+        self.qsqldb.setHostName(self.host);
+        self.qsqldb.setDatabaseName(self.database);
+        self.qsqldb.setPassword(self.password);
+        self.qsqldb.setUserName(self.user);
+        self.qsqldb.open()
+
+        self.model = QSqlTableModel(self, self.qsqldb)
         self.model.setTable("names")
         self.model.setHeaderData(0, Qt.Horizontal, "Дата")
         self.model.setHeaderData(1, Qt.Horizontal, "Категория")
@@ -63,7 +71,7 @@ class TableWidget(QWidget):
 
         addButton.clicked.connect(self.addRecord)
         #editButton.clicked.connect(self.editRecord) # omitted for simplicity
-        #deleteButton.clicked.connect(self.deleteRecord) # omitted for simplicity
+        deleteButton.clicked.connect(self.deleteRecord) # omitted for simplicity
         # self.checkbox.clicked.connect(self.checkBoxCloseDatabase)
         exitButton.clicked.connect(self.close)
 
@@ -124,6 +132,14 @@ class TableWidget(QWidget):
 
     def closeDatabase():
         db.close()
+
+    def deleteRecord(self):
+        query = QSqlQuery(self.qsqldb)
+        query.exec_('SELECT actl_name, cat_name FROM "ACTIVITY" WHERE user_id = \'12\'')
+        while query.next():
+            country = query.value(1)
+            print(country)
+        
 
 
 if __name__ == '__main__':

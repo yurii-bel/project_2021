@@ -1,8 +1,12 @@
+from typing import Text
 import telebot
-from telebot.types import User
+from telebot.apihelper import send_message
+from telebot.types import Message, User
 import psycopg2 as db
 from psycopg2 import sql
 import time
+
+
 
 tk = '1891194594:AAGDaHHTuZv5mDBIV8Q4Sjd7xU1RPPry0ns'
 
@@ -17,100 +21,58 @@ db_host = 'ec2-54-74-60-70.eu-west-1.compute.amazonaws.com'
 
 connection = db.connect(database = db_name, user = db_user, password = db_password, host = db_host)
 
-cursor = connection.cursor()
+cursor =   connection.cursor()
 correct_login_info = False
 bot = telebot.TeleBot(tk)
 
-#АВТОРИЗАЦИЯ ПОЛЬЗОВАТЕЛЯ
-#настроить команду старт чтобы при нажатии , я видел сообщение привет , пожалуйста залогинься команда (логин)
-#чувак вводит (ком.логин) : 
-# 1 введите ваше имя из приложения тайм-софт
-# 2 введите ваш id из приложения тайм-софт
-# если пользователь существует , то пользователь успешно зарегистрирован , если нет то скачайте по ссылке
+
+
+
 
 @bot.message_handler(commands=['start'])
 def welcome_func(message):
-    bot.send_message(message.chat.id,"Hey!,  if u want to login please get the command '/login'")
+    name = bot.send_message(message.chat.id,"Привет если вы хотите войти введите команы '/login'  для потверждения имени, '/пароль для потверждения пароля")
+        
 
 
 
 @bot.message_handler(commands=['login'])
-def message_about_name(message_l):
-        bot.send_message(message_l.chat.id,"Please enter your name, id  from app\
-            'Time_soft' across comand '/log_name', '/log_id'")
+def input_log_name(message):
+    name =  (message.chat.id,'Пожалуйста введите  имя зарегистрированое в "Timesoft":')
+    check_user = cursor.execute(f'SELECT user_n_name FROM "USER_NAME" WHERE user_n_name = {message.}')
+    print(message)
+    c = cursor.fetchall()
+    connection.commit()
+    # if  c == message.text:
+    bot.register_next_step_handler(bot.name,werivicate_name)
+    print(check_user)
+    # else:
+    #     print('Name is undefindet')
+    
 
 
-
-@bot.message_handler(commands=['log_name'])
-def input_log_name(message_n):
-    name = bot.send_message(message_n.chat.id,'Please input your name from app "Time-soft":')
-    user_n = message_n.text
-    bot.send_message(message_n.chat.id,f'your name is added {user_n}')
+def werivicate_name(message):
+        bot.send_message(message.chat.id,f'твое имя добавлено успешно message \'{message.text}\'')
 
 
-
-@bot.message_handler(commands=['log_id'])
 def input_log_name(message_id):
-    id = bot.send_message(message_id.chat.id,'Please input your id from app "Time-soft":')
-    bot.send_message(message_id,f'your name is added {id}')
+
+    id = bot.send_message(message_id.chat.id,'Пожалуйста введите  пароль для приложения  "Time-soft":')
+    bot.register_next_step_handler(id,werivicate_parol)
+    add_sql = cursor.execute(f'SELECT user_p_pasword FROM "USER_PRIVATE" WHERE user_p_pasword = {message_id.text}')
 
 
-
-
-# def input_category(message):
-#     x = bot.send_message(message.chat.id,'Input category name')
-#     bot.register_next_step_handler(x,get_category)
-
-
-# def get_category(message_3):
-#     user_category = message_3.text 
-#     print(user_category)
-    
-
-#ПРОВЕРКА
-#Если пользователь существует то вывести его имя , id 
-
-
-# @bot.message_handler(commands = ['categories'])
-# def add_action(message):
-#     m_id_2 = message.chat.id
-#     cursor.execute('INSERT INTO "CATEGORY" (user_id,cat_name) VALUES (%s,%s)'.format(sql.Identifier(m_id_2)))
-#     f = connection.commit()
-#     bot.send_message(message,'Data inserted sucsefully')
-#     connection.close(m_id_2,f)
-
-# @bot.message_handler(commands = ['input_data'])
-# def input_data(message):
-#     z = bot.send_message(message.chat.id,'Input user id: ')
-#     bot.register_next_step_handler(z,get_id)
+    c = cursor.fetchall()
+    connection.commit()
+    if c == message_id.text:
+        bot.register_next_step_handler( bot.name,werivicate_name)
+    else:
+        print('Name is undefindet')
     
 
 
-
-#@bot.message_handler(commands = ['sql'])
-# def sql_try(message):
-#     m_id = message.chat.id
-#     query = f'SELECT user_n_id FROM "USER_NAME" WHERE user_n_name = \'SAOP\''
-#     cursor.execute(query)
-#     # fetchall это метод который хранит данные которые пришли с запроса 
-#     resoult = cursor.fetchall()
-#     bot.send_message(m_id,resoult)
-
-
-# def get_category(message_3):
-#     user_category = message_3.text 
-#     print(user_category)
-
-# def get_id(message_2):
-#     id_user = message_2.text
-#     print(id_user)
-#     y = bot.send_message(message_2,'Id saved successfully')
-#     bot.register_next_step_handler(y,input_category)
-#     # cursor.execute('INSERT INTO "CATEGORY" (user_id, cat_name)\
-#     #     VALUES (%s, %s)'.format(id_cat[0].split,id_cat[1]))
-#     # c = cursor.fetchall()
-#     # connection.commit()
-#     # bot.send_message(message_2.chat.id,c)
+def werivicate_parol(message):
+    bot.send_message(message.chat.id,f'твой пароль потвержден успешно {message.text}')
 
 
 
@@ -120,4 +82,3 @@ if __name__ == '__main__':
             bot.infinity_polling(True)
         except Exception:
             time.sleep(15)
-

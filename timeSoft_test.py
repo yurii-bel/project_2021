@@ -445,32 +445,45 @@ class MainUI(QtWidgets.QMainWindow):
 
     # TABLE VIEWING BLOCK. uses DbLogic class.
 
-    def view_table(self, data):
-        # Getting all user activities.
+    def view_table(self):
+        # self.lay.removeWidget(self.tUi.tableW)
+        # self.tUi.tableW.setParent(None)
+
+        rows = self.timedb.table_rows_num
+        self.lay = QtWidgets.QHBoxLayout()
+
+        self.tUi.tableW.setRowCount(rows)
+        # # Removing parent from widget
+        # self.tUi.tableW.setParent(None)
+
+        # # Getting all user activities.
         # rows = self.timedb.get_logged_user_data(item='get_user_activities')
 
-        # Creating layout fro widget.
-        lay = QtWidgets.QHBoxLayout()
+        # # Creating layout fro widget.
+        # lay = QtWidgets.QHBoxLayout()
 
-        # Setting row count according to user activities quantity.
-        self.tUi.tableW.setRowCount(len(data))
+        # # Setting row count according to user activities quantity.
+        # self.tUi.tableW.setRowCount(len(rows))
 
-        i = 0
-        for row in data:
+        # i = 0
+        # for row in rows:
             # If user have left some comment,
             # in the name of activity * appears.
-            if not row[4] == '' and not row[4] == None:
-                row[0] = row[0] + '*'
+            # if not row[4] == '' and not row[4] == None:
+            #     row[0] = row[0] + '*'
 
-            self.tUi.tableW.setItem(i, 0,
-                                    QtWidgets.QTableWidgetItem(row[3]))
-            self.tUi.tableW.setItem(i, 1,
-                                    QtWidgets.QTableWidgetItem(row[0]))
-            self.tUi.tableW.setItem(i, 2,
-                                    QtWidgets.QTableWidgetItem(row[1]))
-            self.tUi.tableW.setItem(i, 3,
-                                    QtWidgets.QTableWidgetItem(row[2]))
-            i += 1
+        for i in range(rows):
+            # setting all activities data.
+            self.tUi.tableW.setItem(i, 0, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_creation_date[i]))
+            self.tUi.tableW.setItem(i, 1, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_category[i]))
+            self.tUi.tableW.setItem(i, 2, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_name[i]))
+            self.tUi.tableW.setItem(i, 3, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_duration[i]))
+            self.tUi.tableW.setItem(i, 4, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_comment[i]))
 
         # Forbiding cell selection.
         self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
@@ -478,30 +491,50 @@ class MainUI(QtWidgets.QMainWindow):
         # Resizing table columns to its contents.
         self.tUi.tableW.resizeColumnsToContents()
 
-        lay.addWidget(self.tUi.tableW)
-        self.wUi.setLayout(lay)
+        self.lay.addWidget(self.tUi.tableW)
+        self.wUi.setLayout(self.lay)
+
 
     def update_view_table(self):
-        rows = self.timedb.get_logged_user_data(item='get_user_activities')
+        self.lay = QtWidgets.QHBoxLayout()
+
+        self.lay.removeWidget(self.tUi.tableW)
+        self.tUi.tableW.setParent(None)
+
+        rows = self.timedb.table_rows_num
 
         self.tUi.tableW.setRowCount(rows)
+        # # Removing parent from widget
+        # self.tUi.tableW.setParent(None)
 
-        i = 0
-        for row in rows:
+        # # Getting all user activities.
+        # rows = self.timedb.get_logged_user_data(item='get_user_activities')
+
+        # # Creating layout fro widget.
+        # lay = QtWidgets.QHBoxLayout()
+
+        # # Setting row count according to user activities quantity.
+        # self.tUi.tableW.setRowCount(len(rows))
+
+        # i = 0
+        # for row in rows:
             # If user have left some comment,
             # in the name of activity * appears.
-            if not row[4] == '':
-                row[0] = row[0] + '*'
+            # if not row[4] == '' and not row[4] == None:
+            #     row[0] = row[0] + '*'
 
-            self.tUi.tableW.setItem(i, 0,
-                                    QtWidgets.QTableWidgetItem(row[2]))
-            self.tUi.tableW.setItem(i, 1,
-                                    QtWidgets.QTableWidgetItem(row[3]))
-            self.tUi.tableW.setItem(i, 2,
-                                    QtWidgets.QTableWidgetItem(row[0]))
-            self.tUi.tableW.setItem(i, 3,
-                                    QtWidgets.QTableWidgetItem(row[1]))
-            i += 1
+        for i in range(rows):
+            # setting all activities data.
+            self.tUi.tableW.setItem(i, 0, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_creation_date[i]))
+            self.tUi.tableW.setItem(i, 1, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_category[i]))
+            self.tUi.tableW.setItem(i, 2, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_name[i]))
+            self.tUi.tableW.setItem(i, 3, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_duration[i]))
+            self.tUi.tableW.setItem(i, 4, 
+            QtWidgets.QTableWidgetItem(self.timedb.activity_comment[i]))
 
         # Forbiding cell selection.
         self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
@@ -1029,9 +1062,10 @@ class ActionsUI(QtWidgets.QMainWindow):
                 add_params=[category, title, int_duration, str_date, comment])
 
         self.add_event_status = True
-        self.aUi.close()
-        # self.timedb.update_user_activities(self.user_n_name)
-        # print(self.timedb().activity_name)
+
+        # Testing !
+        self.mainclass = MainUI
+        self.mainclass().update_view_table()
 
     def suppose_category(self):
         pass

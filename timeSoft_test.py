@@ -214,9 +214,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
 
         # Edit event UI.
-        # self.eUi.edit_event_btn_save.clicked.connect(self.edit_event)
+        self.eUi.edit_event_btn_save.clicked.connect(self.edit_action)
         # self.eUi.edit_event_btn_del.clicked.connect(self.delete_event)
-        # self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
+        self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
 
         # Connecting line edits to appropriate slots.
         # self.aUi.add_event_lineEdit_name.textChanged.connect(
@@ -398,12 +398,19 @@ class MainUI(QtWidgets.QMainWindow):
         # #selected cell value.
         self.act_date = str(item.sibling(item.row(), 0).data())
         self.cat_name = str(item.sibling(item.row(), 1).data())
-        self.actl_name = str(item.sibling(item.row(), 2).data())
+        self.actl_name = str(item.sibling(item.row(), 2).data())[:-1]
         self.act_time = str(item.sibling(item.row(), 3).data())
-        self.act_comment = str(item.sibling(item.row(), 1).data())
+        # self.act_comment = self.timedb.get_logged_user_data(\
+        #     item='get_user_activities')
+        self.act_comment = str(item.sibling(item.row(), 4).data())
+        # if self.act_comment == None:
+        #     self.act_comment = ''
 
-        self.show_edit_event(self.actl_name, self.act_time, self.act_date, \
+
+
+        self.show_edit_action(self.actl_name, self.act_time, self.act_date, \
             self.cat_name, self.act_comment)
+        # print(self.act_comment)
         # def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
         #                 cat_name=str, act_comment=None)
         # return self.actl_name
@@ -463,7 +470,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi.close()
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
-    def show_edit_event(self, actl_name=str, act_time=str, act_date=None,\
+    def show_edit_action(self, actl_name=str, act_time=str, act_date=None,\
             cat_name=str, act_comment=None):
 
         self.act_id = self.timedb.get_logged_user_data(item='get_act_id',\
@@ -471,6 +478,10 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',\
             params=[actl_name, cat_name])
+
+        # self.timedb.set_logged_user_data(item='check_event_data',\
+        #     add_params=[cat_name, actl_name, act_time, act_date,\
+        #         act_comment])
 
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
         self.eUi.edit_event_dateEdit.setMaximumDate(
@@ -497,8 +508,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.eUi.show()
 
-    def edit_action(self, actl_name=str, act_time=str, act_date=None,\
-            cat_name=str, act_comment=None):
+    def edit_action(self):
         title = self.eUi.edit_event_lineEdit_name.text()
         category = self.eUi.edit_event_comboBox_category.currentText()
         duration = self.eUi.edit_event_lineEdit_time.text()
@@ -512,10 +522,12 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Writing all changes to db and closing 'Add Event' win.
         self.timedb.set_logged_user_data(item='check_event_data',\
-            add_params=[cat_name, actl_name, act_time, act_date, act_comment])
+            add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
+                self.act_comment])
 
         self.timedb.set_logged_user_data(item='edit_event',\
-            add_params=[cat_name, actl_name, act_time, act_date, act_comment],\
+            add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
+                self.act_comment],\
                 edit_params=[category, title, int_duration, str_date, comment])
 
         self.update_custom_view_table()
@@ -912,8 +924,8 @@ class DbLogic:
 
             # Storing act_id, using get_logged_user_data().
             self.act_id = self.get_logged_user_data(
-                item='get_act_id', params=[add_params[0], add_params[1],
-                                           add_params[2], add_params[3], add_params[4]])
+                item='get_act_id', params=[add_params[1], add_params[2],
+                                           add_params[3], add_params[0], add_params[4]])
 
             # Checking for matching same category in db.
             self.user_categories = self.get_logged_user_data(

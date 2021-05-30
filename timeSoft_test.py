@@ -833,8 +833,8 @@ class DbLogic:
             self.cursor.execute(
                 f'SELECT act_id FROM "ACTIVITY" WHERE\
                 (user_id, actl_name, act_time, act_date, cat_name, act_comment) =\
-                    (\'{self.user_id}\', \'{params[1]}\', \'{params[2]}\', \'{params[3]}\',\
-                        \'{params[0]}\', \'{params[4]}\')')
+                    (\'{self.user_id}\', \'{params[0]}\', \'{params[1]}\', \'{params[2]}\',\
+                        \'{params[3]}\', \'{params[4]}\')')
             return str(self.cursor.fetchall())[2:-3]
 
         # Getting user_p_id.

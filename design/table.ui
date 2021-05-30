@@ -82,11 +82,11 @@ QTableWidget::item:selected {
    <attribute name="horizontalHeaderCascadingSectionResizes">
     <bool>true</bool>
    </attribute>
-   <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>110</number>
-   </attribute>
    <attribute name="horizontalHeaderMinimumSectionSize">
     <number>20</number>
+   </attribute>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>110</number>
    </attribute>
    <attribute name="verticalHeaderMinimumSectionSize">
     <number>23</number>
@@ -149,6 +149,11 @@ QTableWidget::item:selected {
     <property name="icon">
      <iconset>
       <normaloff>img/icons/clock.png</normaloff>img/icons/clock.png</iconset>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>*</string>
     </property>
    </column>
   </widget>

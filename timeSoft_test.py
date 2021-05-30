@@ -215,7 +215,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Edit event UI.
         self.eUi.edit_event_btn_save.clicked.connect(self.edit_action)
-        # self.eUi.edit_event_btn_del.clicked.connect(self.delete_event)
+        self.eUi.edit_event_btn_del.clicked.connect(self.delete_action)
         self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
 
         # Connecting line edits to appropriate slots.
@@ -269,10 +269,10 @@ class MainUI(QtWidgets.QMainWindow):
         
         elif self.timedb.correct_login_info == True:
             self.user_n_name = login
-            self.timedb.get_logged_user_data(user_login=self.user_n_name,
-                                             item='set_working_user')
+            self.user_id = self.timedb.get_logged_user_data(user_login=self.user_n_name,
+                item='set_working_user')
             self.timedb.set_logged_user_data(user_login=self.user_n_name,
-                                             item='set_working_user')
+                item='set_working_user')
             self.timedb.get_logged_user_data(item='get_user_p_id')
             self.sUi.settings_lineedit_email.setText(
                 self.timedb.get_logged_user_data(item='get_user_email'))
@@ -398,15 +398,19 @@ class MainUI(QtWidgets.QMainWindow):
         # #selected cell value.
         self.act_date = str(item.sibling(item.row(), 0).data())
         self.cat_name = str(item.sibling(item.row(), 1).data())
-        self.actl_name = str(item.sibling(item.row(), 2).data())[:-1]
+        self.actl_name = str(item.sibling(item.row(), 2).data())
         self.act_time = str(item.sibling(item.row(), 3).data())
-        # self.act_comment = self.timedb.get_logged_user_data(\
-        #     item='get_user_activities')
         self.act_comment = str(item.sibling(item.row(), 4).data())
-        # if self.act_comment == None:
-        #     self.act_comment = ''
 
+        self.act_id, self.actl_id = \
+            self.timedb.get_logged_user_data(item='get_act_id',\
+                params=[self.actl_name, self.act_time, self.act_date,\
+                    self.cat_name, self.act_comment]),\
+                self.timedb.get_logged_user_data(item='get_actl_id',\
+                    params=[self.cat_name, self.actl_name])
 
+        
+        
 
         self.show_edit_action(self.actl_name, self.act_time, self.act_date, \
             self.cat_name, self.act_comment)
@@ -529,6 +533,14 @@ class MainUI(QtWidgets.QMainWindow):
             add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
                 self.act_comment],\
                 edit_params=[category, title, int_duration, str_date, comment])
+
+        self.update_custom_view_table()
+        self.eUi.close()
+
+    def delete_action(self):
+        self.timedb.set_logged_user_data(item='del_event',\
+            dd_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
+                self.act_comment])
 
         self.update_custom_view_table()
         self.eUi.close()
@@ -686,10 +698,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         x = 0
         for row in rows:
-            # If user have left some comment,
-            # in the name of activity * appears.
-            if not row[4] == '' and not row[4] == None:
-                row[1] = row[1] + '*'
+            self.tUi.tableW.horizontalHeader().sortIndicatorOrder()
             self.tUi.tableW.setItem(x, 0,
             QtWidgets.QTableWidgetItem(row[3]))
             self.tUi.tableW.setItem(x, 1,
@@ -698,6 +707,8 @@ class MainUI(QtWidgets.QMainWindow):
             QtWidgets.QTableWidgetItem(row[1]))
             self.tUi.tableW.setItem(x, 3,
             QtWidgets.QTableWidgetItem(row[2]))
+            self.tUi.tableW.setItem(x, 4,
+            QtWidgets.QTableWidgetItem(row[4]))
             x += 1 
 
         self.tUi.tableW.resizeColumnsToContents()
@@ -717,10 +728,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         x = 0
         for row in rows:
-            # If user have left some comment,
-            # in the name of activity * appears.
-            if not row[4] == '' and not row[4] == None:
-                row[1] = row[1] + '*'
+            self.tUi.tableW.horizontalHeader().sortIndicatorOrder()
             self.tUi.tableW.setItem(x, 0,
             QtWidgets.QTableWidgetItem(row[3]))
             self.tUi.tableW.setItem(x, 1,
@@ -729,6 +737,8 @@ class MainUI(QtWidgets.QMainWindow):
             QtWidgets.QTableWidgetItem(row[1]))
             self.tUi.tableW.setItem(x, 3,
             QtWidgets.QTableWidgetItem(row[2]))
+            self.tUi.tableW.setItem(x, 4,
+            QtWidgets.QTableWidgetItem(row[4]))
             x += 1 
 
         self.tUi.tableW.resizeColumnsToContents()
@@ -821,11 +831,6 @@ class DbLogic:
             pass
 
     def get_logged_user_data(self, user_login=None, item=None, params=None):
-        # params[0] = actl_name
-        # params[1] = act_time
-        # params[2] = act_date
-        # params[3] = cat_name
-        # params[4] = act_comment
 
         # Setting working user in db.
         if item == 'set_working_user':
@@ -1077,8 +1082,8 @@ if __name__ == '__main__':
     # dbl.get_logged_user_data(user_login='Timofey', item='set_working_user')
 
     # print(dbl.get_logged_user_data(item='get_user_categories'))
-    # print(dbl.get_logged_user_data(item='get_act_id', params=['Кушал', 60, '2021-05-26', 'Еда', '1']))
-    # print(dbl.get_logged_user_data(item='get_actl_id', params=['Еда', 'Кушал']))
+    # print(dbl.get_logged_user_data(item='get_act_id', params=['Kofe 3', 12, '2021-05-15', '12', '12']))
+    # print(dbl.get_logged_user_data(item='get_actl_id', params=['12', 'Kofe 3']))
     # print(dbl.get_logged_user_data(item='get_user_activities'))
     # print(dbl.get_logged_user_data(item='get_user_p_id'))
     # print(dbl.get_logged_user_data(item='get_user_email'))
@@ -1087,7 +1092,7 @@ if __name__ == '__main__':
     # dbl.set_logged_user_data(user_login='test', item='set_working_user')
 
     # if not dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']) == True:
-    # dbl.set_logged_user_data(item='add_event', add_params=['Еда', 'Кушал1', '60', '2021-05-26', '1'])
+    #     dbl.set_logged_user_data(item='add_event', add_params=['Еда', 'Кушал1', '60', '2021-05-26', '1'])
     # if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
     #     dbl.set_logged_user_data('test', 'edit_event', ['Еда', 'Кушал1', 30, '2021-05-27', 'Не вкусно!'], \
     #         ['Еда', 'Кушал', 60, '2021-05-26', '1'])

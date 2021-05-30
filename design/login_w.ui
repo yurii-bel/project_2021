@@ -242,7 +242,7 @@ QPushButton:hover {
 }</string>
     </property>
     <property name="text">
-     <string>Завести аккаунт</string>
+     <string>Зарегистрировать аккаунт</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="login_w_lineedit_password">

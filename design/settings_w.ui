@@ -137,7 +137,7 @@ QPushButton:hover {
     <string notr="true">color: rgb(110, 107, 123);</string>
    </property>
    <property name="text">
-    <string>Старый пароль</string>
+    <string>Текущий пароль</string>
    </property>
   </widget>
   <widget class="QLabel" name="settings_w_text_newpass">

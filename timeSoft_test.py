@@ -104,7 +104,7 @@ class InputCheck:
         self.correct_vals.extend(self.correct_rus_vals)
         for i in self.text:
             if ord(i) in self.correct_vals or ord(i) in self.incorrect_vals:
-                return [False, 'Разрешено вводить только числа.']
+                return [False, 'Разрешено вводить только количество минут.']
         return True
 
 
@@ -191,11 +191,15 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi.setWindowIcon(icon)
 
         # Add event UI.
+        self.sUi.setFixedHeight(768)
+        self.sUi.setFixedWidth(1280)
         self.aUi.add_event_btn_add.clicked.connect(self.add_action)
         self.aUi.add_event_btn_cancel.clicked.connect(self.aUi.close)
         self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
 
         # Edit event UI.
+        self.sUi.setFixedHeight(768)
+        self.sUi.setFixedWidth(1280)
         self.eUi.edit_event_btn_save.clicked.connect(self.edit_action)
         self.eUi.edit_event_btn_del.clicked.connect(self.delete_action)
         self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
@@ -353,7 +357,11 @@ class MainUI(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
                 'Длина пароля должна быть не менее 8 символов.', QtWidgets.QMessageBox.Ok)
             return
-        
+        if self.rUi.register_checkbox_agree.isChecked() == False:
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                'Пожалуйста, примите условия пользования.', QtWidgets.QMessageBox.Ok)
+            return
+
         self.timedb.register_user(login, email, password)
         if self.timedb.user_input_check == '1':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
@@ -517,10 +525,10 @@ class MainUI(QtWidgets.QMainWindow):
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        self.timedb.set_logged_user_data(item='check_event_data',\
-            add_params=[category, title, int_duration, str_date, comment])
-        self.timedb.set_logged_user_data(item='add_event',\
-            add_params=[category, title, int_duration, str_date, comment])
+        if not self.timedb.set_logged_user_data(item='check_event_data',\
+            add_params=[category, title, int_duration, str_date, comment]) == True:
+            self.timedb.set_logged_user_data(item='add_event',\
+                add_params=[category, title, int_duration, str_date, comment])
 
         self.update_users_categs()
         self.update_custom_view_table()
@@ -655,13 +663,12 @@ class MainUI(QtWidgets.QMainWindow):
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        self.timedb.set_logged_user_data(item='check_event_data',\
+        if not self.timedb.set_logged_user_data(item='check_event_data',\
             add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
-                self.act_comment])
-
-        self.timedb.set_logged_user_data(item='edit_event',\
-            add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
-                self.act_comment],\
+                self.act_comment]) == True:
+            self.timedb.set_logged_user_data(item='edit_event',\
+                add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
+                    self.act_comment],\
                 edit_params=[category, title, int_duration, str_date, comment])
 
         self.update_users_categs()
@@ -1073,6 +1080,26 @@ class DbLogic:
                     (self.user_id, add_params[0]))
 
                 self.connection.commit()
+
+            # Checking for matching same data in ACTIVITY_LIST table.
+            self.cursor.execute(
+                f'SELECT (actl_name, cat_name) FROM "ACTIVITY_LIST" WHERE user_id =\
+                    \'{self.user_id}\'')
+            check_activity_list = self.cursor.fetchall()
+            for row in check_activity_list:
+                # If data matches, stop func.
+                if f'({add_params[1]},{add_params[0]})' == row[0]:
+                    return True
+
+            # Checking for matching same data in ACTIVITY table.
+            self.cursor.execute(
+                f'SELECT (cat_name, actl_name, act_time, act_date, act_comment)\
+                    FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\'')
+            check_activity = self.cursor.fetchall()
+            for row in check_activity:
+                if f'({add_params[0]},{add_params[1]},{add_params[2]},\
+                    {add_params[3]},{add_params[4]})' == row[0]:  # If data matches, stop func.
+                    return True
 
         # Adding event as itself.
         elif item == 'add_event':

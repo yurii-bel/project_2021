@@ -163,7 +163,8 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Loading UI interfaces.
         self.mUi = uic.loadUi('design\\MainWindow_d.ui')  # Main window ui.
-        self.aUi = ActionsUI  # Loading ActionsUI class from logic.
+        self.aUi = uic.loadUi('design\\add_event_d.ui')  # Add actions ui.
+        self.eUi = uic.loadUi('design\\edit_event_d.ui')  # Edit actions ui.
         self.rUi = uic.loadUi('design\\register_d.ui')  # Registration window ui.
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
@@ -191,6 +192,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
+        self.mUi.mainwindow_btn_forecast.clicked.connect(self.delete_widget)
         self.mUi.setWindowIcon(icon)
 
         # Login UI.
@@ -207,6 +209,58 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
         self.rUi.setWindowIcon(icon)
+
+        # # Add event UI.
+        # # self.aUi.add_event_btn_add.clicked.connect(self.add_event)
+        # self.aUi.add_event_btn_cancel.clicked.connect(self.aUi.close)
+        # self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
+
+        # self.aUi.add_event_dateEdit.setCalendarPopup(True)
+        # self.aUi.add_event_dateEdit.setDate(
+        #     QtCore.QDate(QtCore.QDate.currentDate()))
+        # self.aUi.add_event_dateEdit.setMaximumDate(
+        #     QtCore.QDate(QtCore.QDate.currentDate()))
+
+        # # Updating user categories for combobox element.
+        # categs, i = self.timedb.get_logged_user_data(
+        #     item='get_user_categories'), 0
+        # for categ in categs:
+        #     self.aUi.add_event_comboBox_category.insertItem(i, categ)
+        #     i += 1
+
+        # Edit event UI.
+        # self.eUi.edit_event_btn_save.clicked.connect(self.edit_event)
+        # self.eUi.edit_event_btn_del.clicked.connect(self.delete_event)
+        # self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
+
+        # Разобраться.
+        # def init_edit_event_ui(self, settings):
+        #     self.eUi.edit_event_dateEdit.setCalendarPopup(True)
+        #     self.eUi.edit_event_dateEdit.setMaximumDate(
+        #         QtCore.QDate(QtCore.QDate.currentDate()))
+
+        #     categs, i = self.timedb.get_logged_user_data(
+        #         item='get_user_categories'), 0
+        #     for categ in categs:
+        #         self.eUi.edit_event_comboBox_category.insertItem(i, categ)
+        #         i += 1
+
+        #     date_ = datetime.datetime.strptime(settings[2], '%Y-%m-%d')
+        #     for d in [date_.timetuple()]:
+        #         year = int(d[0])
+        #         month = int(d[1])
+        #         day = int(d[2])
+        #         date = QtCore.QDate(year, month, day)
+
+        #     self.eUi.edit_event_lineEdit_name.setText(settings[0])
+        #     self.eUi.edit_event_comboBox_category.setCurrentText(settings[3])
+        #     self.eUi.edit_event_lineEdit_time.setText(settings[1])
+        #     self.eUi.edit_event_dateEdit.setDate(date)
+        #     self.eUi.edit_event_plaintextedit_comment.setPlainText(settings[4])
+
+        # Connecting line edits to appropriate slots.
+        # self.aUi.add_event_lineEdit_name.textChanged.connect(
+        #     self.suppose_category)
 
         # Settings UI.
         self.sUi.setFixedHeight(768)
@@ -264,8 +318,8 @@ class MainUI(QtWidgets.QMainWindow):
                 self.timedb.get_logged_user_data(item='get_user_email'))
             self.lUi.close()
             self.mUi.show()
-            self.custom_view_table()
-            # self.view_table(self.timedb.get_logged_user_data(item='get_user_activities'))  # Viewing table.
+            # self.custom_view_table()
+            self.view_table()  # Viewing table.
 
     # REGISTRATION BLOCK.
     def show_registration(self):
@@ -375,6 +429,9 @@ class MainUI(QtWidgets.QMainWindow):
             self.rUi.close()
             self.lUi.show()
 
+    def delete_widget(self):
+        self.lay.removeWidget(self.tUi.tableW)
+
     # FOR TABLE AND EDIT_EVENT.
     def get_current_row_tableview(self, item):
         '''
@@ -390,19 +447,84 @@ class MainUI(QtWidgets.QMainWindow):
         return self.actl_name
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method add_event().
-    def add_action(self):
-        '''
-        Current method shows user interface action adding.
-        '''
-        self.act = self.aUi(self.user_n_name)  # Loading ActionsUI class from logic.
+    def show_add_action(self):
+        self.aUi.show()
 
-        self.act.show_add_event()
+    def add_action(self):
+        pass
+        # # Getting all info, entered by user.
+        # title = self.aUi.add_event_lineEdit_name.text()
+        # category = self.aUi.add_event_comboBox_category.currentText()
+        # duration = self.aUi.add_event_lineEdit_time.text()
+        # date = self.aUi.add_event_dateEdit.date()
+        # comment = self.aUi.add_event_plaintextedit_comment.toPlainText()
+
+        # if title == '':
+        #     QtWidgets.QMessageBox.question(self, 'Ошибка!',
+        #                                    'Пожалуйста, дайте название своему событию.',
+        #                                    QtWidgets.QMessageBox.Ok)
+        #     return
+        # elif category == '':
+        #     QtWidgets.QMessageBox.question(self, 'Ошибка!',
+        #                                    'Пожалуйста, укажите категорию для своего события.',
+        #                                    QtWidgets.QMessageBox.Ok)
+        #     return
+        # elif duration == '':
+        #     QtWidgets.QMessageBox.question(self, 'Ошибка!',
+        #                                    'Пожалуйста, укажите потраченное время на активность в минутах.',
+        #                                    QtWidgets.QMessageBox.Ok)
+        #     return
+
+        # date_ = datetime.date(date.year(), date.month(), date.day())
+        # str_date = date_.strftime('%Y-%m-%d')
+
+        # int_duration = int(''.join(filter(str.isdigit, duration)))
+
+        # # Writing all changes to db and closing 'Add Event' win.
+        # if not self.timedb.set_logged_user_data(item='check_event_data',
+        #     add_params=[category, title, int_duration, str_date, comment]) == True:
+        #     self.timedb.set_logged_user_data(item='add_event',\
+        #         add_params=[category, title, int_duration, str_date, comment])
+
+        # self.add_event_status = True
+        # self.aUi.close()
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
     def edit_action(self):
-        self.act.show_edit_event(self.actl_name, self.act_time, self.act_date,
-                                 self.cat_name, self.act_comment)
-        self.tableview_updating()
+        pass
+        # def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
+        #                 cat_name=str, act_comment=None):
+
+        # settings = [actl_name, act_time, act_date, cat_name, act_comment]
+        # self.init_edit_event_ui(settings)
+
+        # self.act_id = self.timedb.get_logged_user_data(item='get_act_id',
+        #                                                params=[actl_name, act_time, act_date, cat_name, act_comment])
+
+        # self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',
+        #                                                 params=[actl_name, cat_name])
+
+        # self.eUi.show()
+
+        # def edit_event(self):
+        # title = self.eUi.edit_event_lineEdit_name.text()
+        # category = self.eUi.edit_event_comboBox_category.currentText()
+        # duration = self.eUi.edit_event_lineEdit_time.text()
+        # date = self.eUi.edit_event_dateEdit.date()
+        # comment = self.eUi.edit_event_plaintextedit_comment.toPlainText()
+
+        # date_ = datetime.date(date.year(), date.month(), date.day())
+        # str_date = date_.strftime('%Y-%m-%d')
+
+        # int_duration = int(''.join(filter(str.isdigit, duration)))
+
+        # # Writing all changes to db and closing 'Add Event' win.
+        # self.timedb.edit_event(self.user_n_name, title, int_duration,
+        #                        str_date, category, comment, self.act_id, self.actl_id)
+        # self.eUi.close()
+        # self.edit_event_status = True
+
+
 
     # SETTINGS BLOCK.
     def settings(self):
@@ -552,7 +674,7 @@ class MainUI(QtWidgets.QMainWindow):
 
     def custom_view_table(self):
         rows = self.timedb.get_logged_user_data(item='get_user_activities')
-        lay = QtWidgets.QHBoxLayout()
+        self.lay = QtWidgets.QHBoxLayout()
         self.tUi.tableW.setRowCount(len(rows))
 
         x = 0
@@ -574,8 +696,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.tUi.tableW.resizeColumnsToContents()
         self.tUi.tableW.verticalHeader().setVisible(False)
 
-        lay.addWidget(self.tUi.tableW)
-        self.wUi.setLayout(lay)
+        self.lay.addWidget(self.tUi.tableW)
+        self.wUi.setLayout(self.lay)
 
     def view_table(self):
         # self.lay.removeWidget(self.tUi.tableW)
@@ -679,7 +801,7 @@ class MainUI(QtWidgets.QMainWindow):
 
 # ----------------------------------------------------------END-----timeSoft.py
 
-# -------------------------------------0--------------------START----dblogic.py
+# ----------------------------------------------------------START----dblogic.py
 
 
 class DbLogic:
@@ -699,23 +821,6 @@ class DbLogic:
 
         self.correct_login_info = False
         self.user_input_check = None
-
-        # self.activity_creation_date = []
-        # self.activity_category = []
-        # self.activity_name = []
-        # self.activity_duration = []
-        # self.activity_comment = []
-        # self.table_rows_num = 0
-
-        # self.current_user_id = None
-
-        # self.current_user_n_id = None
-        # self.current_user_n_name = None
-        # self.current_user_n_telegram = None
-
-        # self.current_user_p_id = None
-        # self.current_user_p_email = None
-        # self.current_user_p_password = None
 
     # REGISTRATION AND AUTHORIZATION BLOCKS.
     def register_user(self, user_n_name, user_p_email, user_p_password):
@@ -748,66 +853,6 @@ class DbLogic:
                 VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (user_p_id, user_p_email, user_p_password))
         except Exception:
             pass
-
-    # def _login_user(self, user_n_name, user_p_password):
-    #     try:
-    #         self.connection.autocommit = True
-
-    #         # self.current_user_id = None
-
-    #         # self.current_user_n_id = None
-    #         # self.current_user_n_name = None
-    #         # self.current_user_n_telegram = None
-
-    #         # self.current_user_p_id = None
-    #         # self.current_user_p_email = None
-    #         # self.current_user_p_password = None
-
-    #         # working with USER_NAME table
-    #         self.cursor.execute(
-    #             f'SELECT user_n_id, user_n_name, user_n_telegram from "USER_NAME"')
-    #         user_name_table_rows = self.cursor.fetchall()
-
-    #         for row in user_name_table_rows:
-    #             if user_n_name == row[1]:
-    #                 self.current_user_n_id = row[0]
-    #                 self.current_user_n_name = row[1]
-    #                 self.current_user_n_telegram = row[2]
-    #                 break
-    #             else:
-    #                 pass
-
-    #         # working with USER table
-    #         self.cursor.execute(
-    #             f'SELECT user_id, user_n_id, user_p_id from "USER"')
-    #         user_table_rows = self.cursor.fetchall()
-
-    #         for row in user_table_rows:
-    #             if self.current_user_n_id == row[1]:
-    #                 self.current_user_id = row[0]
-    #                 self.current_user_p_id = row[2]
-    #             else:
-    #                 pass
-
-    #         # working with USER_PRIVATE table
-    #         self.cursor.execute(
-    #             f'SELECT user_p_id, user_p_email, user_p_password from "USER_PRIVATE"')
-    #         user_private_table_rows = self.cursor.fetchall()
-
-    #         for row in user_private_table_rows:
-    #             if user_p_password == row[2] and self.current_user_p_id == row[0]:
-    #                 self.current_user_p_email = row[1]
-    #                 self.current_user_p_password = row[2]
-    #                 self.correct_login_info = True
-    #                 break
-    #             else:
-    #                 self.correct_login_info = False
-
-    #         # if self.correct_login_info == True:
-    #         #     self.load_user_activities()   # loading activities from db
-
-    #     except Exception:
-    #         pass
 
     def login_user(self, user_n_name, user_p_password):
         try:
@@ -1085,175 +1130,6 @@ class DbLogic:
 # ----------------------------------------------------------END----dblogic.py
 
 
-# ----------------------------------------------------------START----actions_ui.py
-
-class ActionsUI(QtWidgets.QMainWindow):
-    '''
-    This class implements adding and editing actions.
-    '''
-
-    def __init__(self, user):
-        super().__init__()
-        # Creating database instance.
-        self.timedb = DbLogic()
-
-        # Setting working user in db.
-        self.timedb.get_logged_user_data(
-            user_login=user, item='set_working_user')
-        self.timedb.set_logged_user_data(
-            user_login=user, item='set_working_user')
-
-        # Getting current user name.
-        self.user_n_name = user
-
-        # Loading appropriate UI's.
-        self.aUi = uic.loadUi('design\\add_event_d.ui')
-        self.eUi = uic.loadUi('design\\edit_event_d.ui')
-
-        # Connecting buttons to appropriate slots.
-        self.aUi.add_event_btn_add.clicked.connect(self.add_event)
-        self.aUi.add_event_btn_cancel.clicked.connect(self.aUi.close)
-        self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
-
-        self.eUi.edit_event_btn_save.clicked.connect(self.edit_event)
-        # self.eUi.edit_event_btn_del.clicked.connect(self.delete_event)
-        self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
-
-        # Connecting line edits to appropriate slots.
-        self.aUi.add_event_lineEdit_name.textChanged.connect(
-            self.suppose_category)
-
-        # Extra variables.
-        self.add_event_status = None
-        self.edit_event_status = None
-        self.user_input_check = None
-
-    # Preparations for add_event_ui showing.
-    def init_add_event_ui(self):
-        # Setting calendar popup and current date in date field. Also, forbidding
-        # selecting the next day in date field.
-        self.aUi.add_event_dateEdit.setCalendarPopup(True)
-        self.aUi.add_event_dateEdit.setDate(
-            QtCore.QDate(QtCore.QDate.currentDate()))
-        self.aUi.add_event_dateEdit.setMaximumDate(
-            QtCore.QDate(QtCore.QDate.currentDate()))
-
-        # Updating user categories for combobox element.
-        categs, i = self.timedb.get_logged_user_data(
-            item='get_user_categories'), 0
-        for categ in categs:
-            self.aUi.add_event_comboBox_category.insertItem(i, categ)
-            i += 1
-
-    # Preparations for edit_event_ui showing.
-    def init_edit_event_ui(self, settings):
-        self.eUi.edit_event_dateEdit.setCalendarPopup(True)
-        self.eUi.edit_event_dateEdit.setMaximumDate(
-            QtCore.QDate(QtCore.QDate.currentDate()))
-
-        categs, i = self.timedb.get_logged_user_data(
-            item='get_user_categories'), 0
-        for categ in categs:
-            self.eUi.edit_event_comboBox_category.insertItem(i, categ)
-            i += 1
-
-        date_ = datetime.datetime.strptime(settings[2], '%Y-%m-%d')
-        for d in [date_.timetuple()]:
-            year = int(d[0])
-            month = int(d[1])
-            day = int(d[2])
-            date = QtCore.QDate(year, month, day)
-
-        self.eUi.edit_event_lineEdit_name.setText(settings[0])
-        self.eUi.edit_event_comboBox_category.setCurrentText(settings[3])
-        self.eUi.edit_event_lineEdit_time.setText(settings[1])
-        self.eUi.edit_event_dateEdit.setDate(date)
-        self.eUi.edit_event_plaintextedit_comment.setPlainText(settings[4])
-
-    def show_add_event(self):
-        self.init_add_event_ui()
-        self.aUi.show()
-
-    def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
-                        cat_name=str, act_comment=None):
-
-        settings = [actl_name, act_time, act_date, cat_name, act_comment]
-        self.init_edit_event_ui(settings)
-
-        self.act_id = self.timedb.get_logged_user_data(item='get_act_id',
-                                                       params=[actl_name, act_time, act_date, cat_name, act_comment])
-
-        self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',
-                                                        params=[actl_name, cat_name])
-
-        self.eUi.show()
-
-    def add_event(self):
-        # Getting all info, entered by user.
-        title = self.aUi.add_event_lineEdit_name.text()
-        category = self.aUi.add_event_comboBox_category.currentText()
-        duration = self.aUi.add_event_lineEdit_time.text()
-        date = self.aUi.add_event_dateEdit.date()
-        comment = self.aUi.add_event_plaintextedit_comment.toPlainText()
-
-        if title == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           'Пожалуйста, дайте название своему событию.',
-                                           QtWidgets.QMessageBox.Ok)
-            return
-        elif category == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           'Пожалуйста, укажите категорию для своего события.',
-                                           QtWidgets.QMessageBox.Ok)
-            return
-        elif duration == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           'Пожалуйста, укажите потраченное время на активность в минутах.',
-                                           QtWidgets.QMessageBox.Ok)
-            return
-
-        date_ = datetime.date(date.year(), date.month(), date.day())
-        str_date = date_.strftime('%Y-%m-%d')
-
-        int_duration = int(''.join(filter(str.isdigit, duration)))
-
-        # Writing all changes to db and closing 'Add Event' win.
-        if not self.timedb.set_logged_user_data(item='check_event_data',
-            add_params=[category, title, int_duration, str_date, comment]) == True:
-            self.timedb.set_logged_user_data(item='add_event',\
-                add_params=[category, title, int_duration, str_date, comment])
-
-        self.add_event_status = True
-        self.aUi.close()
-
-        # Testing !
-        self.mainclass = MainUI
-        self.mainclass().update_view_table()
-
-    def suppose_category(self):
-        pass
-
-    def edit_event(self):
-        title = self.eUi.edit_event_lineEdit_name.text()
-        category = self.eUi.edit_event_comboBox_category.currentText()
-        duration = self.eUi.edit_event_lineEdit_time.text()
-        date = self.eUi.edit_event_dateEdit.date()
-        comment = self.eUi.edit_event_plaintextedit_comment.toPlainText()
-
-        date_ = datetime.date(date.year(), date.month(), date.day())
-        str_date = date_.strftime('%Y-%m-%d')
-
-        int_duration = int(''.join(filter(str.isdigit, duration)))
-
-        # Writing all changes to db and closing 'Add Event' win.
-        self.timedb.edit_event(self.user_n_name, title, int_duration,
-                               str_date, category, comment, self.act_id, self.actl_id)
-        self.eUi.close()
-        self.edit_event_status = True
-
-# ----------------------------------------------------------END----actions_ui.py
-
-
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     win = MainUI()
@@ -1284,18 +1160,3 @@ if __name__ == '__main__':
     # print(dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']))
     # print(dbl.set_logged_user_data(item='change_password', edit_params=['qwerty123', 'test@test.test']))
 
-    # inp_chck = InputCheck("123")
-    # try:
-    #     print(inp_chck.check_email()[1])
-    # except TypeError:
-    #     print(inp_chck.check_email())
-    
-    # try:
-    #     print(inp_chck.check_incorrect_vals()[1])
-    # except TypeError:
-    #     print(inp_chck.check_incorrect_vals())
-
-    # try:
-    #     print(inp_chck.number_only()[1])
-    # except:
-    #     print(inp_chck.number_only())

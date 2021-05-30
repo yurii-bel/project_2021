@@ -38,7 +38,7 @@
   <widget class="QWidget" name="register_widget" native="true">
    <property name="geometry">
     <rect>
-     <x>790</x>
+     <x>800</x>
      <y>0</y>
      <width>484</width>
      <height>1080</height>
@@ -406,7 +406,7 @@ border: 1px solid rgb(95, 85, 200);
      <string>Я согласен с условиями использования</string>
     </property>
     <property name="checked">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

@@ -3,10 +3,14 @@ from uuid import uuid4
 from psycopg2 import Error
 import psycopg2 as db
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from pyqtgraph import PlotWidget
+import pyqtgraph as pg
 import sys
 import os
 import datetime
 import csv
+import pandas
+
 
 sys.path.append(".")
 
@@ -57,7 +61,7 @@ class InputCheck:
         if len(name) > 60:
             return [False, 'Имя почты длиннее 60 символов.']
 
-       # Добавляем в список корректных символов . ; " ! : ,
+        # Добавляем в список корректных символов . ; " ! : ,
         self.correct_vals_with_num.extend(self.only_in_quotes_char)
         self.correct_vals_with_num.extend([ord('.'),ord(';'),ord('"')])
         # Проверка на парные кавычки
@@ -104,7 +108,7 @@ class InputCheck:
         self.correct_vals.extend(self.correct_rus_vals)
         for i in self.text:
             if ord(i) in self.correct_vals or ord(i) in self.incorrect_vals:
-                return [False, 'Разрешено вводить только числа.']
+                return [False, 'Разрешено вводить только количество минут.']
         return True
 
 
@@ -191,11 +195,15 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi.setWindowIcon(icon)
 
         # Add event UI.
+        self.sUi.setFixedHeight(768)
+        self.sUi.setFixedWidth(1280)
         self.aUi.add_event_btn_add.clicked.connect(self.add_action)
         self.aUi.add_event_btn_cancel.clicked.connect(self.aUi.close)
         self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
 
         # Edit event UI.
+        self.sUi.setFixedHeight(768)
+        self.sUi.setFixedWidth(1280)
         self.eUi.edit_event_btn_save.clicked.connect(self.edit_action)
         self.eUi.edit_event_btn_del.clicked.connect(self.delete_action)
         self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
@@ -214,6 +222,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)
         self.mUi.mainwindow_act_settings.triggered.connect(self.settings)
         self.mUi.mainwindow_act_about_program.triggered.connect(self.abUi.show)
+
+        # Combobox Main UI.
+        self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(self.graph_plot)
 
     # AUTHORIZATION BLOCK.
     def show_login(self):
@@ -353,7 +364,11 @@ class MainUI(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
                 'Длина пароля должна быть не менее 8 символов.', QtWidgets.QMessageBox.Ok)
             return
-        
+        if self.rUi.register_checkbox_agree.isChecked() == False:
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                'Пожалуйста, примите условия пользования.', QtWidgets.QMessageBox.Ok)
+            return
+
         self.timedb.register_user(login, email, password)
         if self.timedb.user_input_check == '1':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
@@ -517,10 +532,10 @@ class MainUI(QtWidgets.QMainWindow):
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        self.timedb.set_logged_user_data(item='check_event_data',\
-            add_params=[category, title, int_duration, str_date, comment])
-        self.timedb.set_logged_user_data(item='add_event',\
-            add_params=[category, title, int_duration, str_date, comment])
+        if not self.timedb.set_logged_user_data(item='check_event_data',\
+            add_params=[category, title, int_duration, str_date, comment]) == True:
+            self.timedb.set_logged_user_data(item='add_event',\
+                add_params=[category, title, int_duration, str_date, comment])
 
         self.update_users_categs()
         self.update_custom_view_table()
@@ -655,13 +670,12 @@ class MainUI(QtWidgets.QMainWindow):
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        self.timedb.set_logged_user_data(item='check_event_data',\
+        if not self.timedb.set_logged_user_data(item='check_event_data',\
             add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
-                self.act_comment])
-
-        self.timedb.set_logged_user_data(item='edit_event',\
-            add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
-                self.act_comment],\
+                self.act_comment]) == True:
+            self.timedb.set_logged_user_data(item='edit_event',\
+                add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
+                    self.act_comment],\
                 edit_params=[category, title, int_duration, str_date, comment])
 
         self.update_users_categs()
@@ -686,7 +700,7 @@ class MainUI(QtWidgets.QMainWindow):
         data = self.timedb.get_logged_user_data(item='get_user_activities')
         try:
             settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file',
-                                                                     '/', 'CSV file (*.csv)')
+            '/', 'CSV file (*.csv)')
             if settingsSave[0]:
                 with open(settingsSave[0], 'w+', newline='') as f:
                     writer = csv.writer(f)
@@ -695,15 +709,15 @@ class MainUI(QtWidgets.QMainWindow):
 
         except Exception:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           'Экспорт не удался.', QtWidgets.QMessageBox.Ok)
+            'Экспорт не удался.', QtWidgets.QMessageBox.Ok)
         if ok:
             QtWidgets.QMessageBox.question(self, 'Успех!',
-                                           'Экспорт успешно завершён!', QtWidgets.QMessageBox.Ok)
+            'Экспорт успешно завершён!', QtWidgets.QMessageBox.Ok)
 
     def settings_import(self):
         try:
             settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file',
-                                                                     '/', 'CSV file (*.csv)')
+            '/', 'CSV file (*.csv)')
             if settingsLoad[0]:
                 with open(settingsLoad[0], 'r+') as f:
                     reader = csv.reader(f, delimiter=',')
@@ -715,10 +729,10 @@ class MainUI(QtWidgets.QMainWindow):
 
         except Exception:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           'Импорт не удался.', QtWidgets.QMessageBox.Ok)
+            'Импорт не удался.', QtWidgets.QMessageBox.Ok)
         if ok:
             QtWidgets.QMessageBox.question(self, 'Успех!',
-                                           'Импорт успешно завершён!', QtWidgets.QMessageBox.Ok)
+            'Импорт успешно завершён!', QtWidgets.QMessageBox.Ok)
 
     # def settings_save(self):
     #     self.timedb.get_logged_user_data(item='get_user_p_id')
@@ -877,6 +891,17 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.lay.addWidget(self.tUi.tableW)
 
+    def graph_plot(self):
+        print('Combobox changed...')
+
+        # combobox.currentIndexChanged().connect(updateGraph)
+
+        # self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
+        # self.graphWidget = pg.PlotWidget()
+        # self.lay.addWidget(self.graphWidget)
+        # self.wUi.setLayout(self.lay)
+
+
 # ----------------------------------------------------------END-----timeSoft.py
 
 # ----------------------------------------------------------START----dblogic.py
@@ -968,7 +993,7 @@ class DbLogic:
             user_n_id = str(self.cursor.fetchall())[2:-3]
 
             self.cursor.execute(
-                f'SELECT user_id FROM "USER" WHERE user_n_id = {user_n_id}')
+                f'SELECT user_id FROM "USER" WHERE user_n_id = \'{user_n_id}\'')
             self.user_id = str(self.cursor.fetchall())[2:-3]
             return self.user_id
 
@@ -977,7 +1002,8 @@ class DbLogic:
             self.cursor.execute(
                 f'SELECT actl_id FROM "ACTIVITY_LIST" WHERE\
                 (user_id, actl_name, cat_name) = (\'{self.user_id}\', \'{params[1]}\', \'{params[0]}\')')
-            return str(self.cursor.fetchall())[2:-3]
+            self.actl_id = str(self.cursor.fetchall())[2:-3]
+            return self.actl_id
 
         # Getting act_id.
         elif item == 'get_act_id':
@@ -986,7 +1012,8 @@ class DbLogic:
                 (user_id, actl_name, act_time, act_date, cat_name, act_comment) =\
                     (\'{self.user_id}\', \'{params[0]}\', \'{params[1]}\', \'{params[2]}\',\
                         \'{params[3]}\', \'{params[4]}\')')
-            return str(self.cursor.fetchall())[2:-3]
+            self.act_id = str(self.cursor.fetchall())[2:-3]
+            return self.act_id
 
         # Getting user_p_id.
         elif item == 'get_user_p_id':
@@ -1059,7 +1086,7 @@ class DbLogic:
             # Storing act_id, using get_logged_user_data().
             self.act_id = self.get_logged_user_data(
                 item='get_act_id', params=[add_params[1], add_params[2],
-                                           add_params[3], add_params[0], add_params[4]])
+                add_params[3], add_params[0], add_params[4]])
 
             # Checking for matching same category in db.
             self.user_categories = self.get_logged_user_data(
@@ -1074,6 +1101,26 @@ class DbLogic:
 
                 self.connection.commit()
 
+            # Checking for matching same data in ACTIVITY_LIST table.
+            self.cursor.execute(
+                f'SELECT (actl_name, cat_name) FROM "ACTIVITY_LIST" WHERE user_id =\
+                    \'{self.user_id}\'')
+            check_activity_list = self.cursor.fetchall()
+            for row in check_activity_list:
+                # If data matches, stop func.
+                if f'({add_params[1]},{add_params[0]})' == row[0]:
+                    return True
+
+            # Checking for matching same data in ACTIVITY table.
+            self.cursor.execute(
+                f'SELECT (cat_name, actl_name, act_time, act_date, act_comment)\
+                    FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\'')
+            check_activity = self.cursor.fetchall()
+            for row in check_activity:
+                if f'({add_params[0]},{add_params[1]},{add_params[2]},\
+                    {add_params[3]},{add_params[4]})' == row[0]:  # If data matches, stop func.
+                    return True
+
         # Adding event as itself.
         elif item == 'add_event':
             self.set_logged_user_data(item='check_user_categories')
@@ -1086,8 +1133,8 @@ class DbLogic:
             self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
                         act_time, act_date, cat_name, act_comment)\
                             VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING',
-                                 (self.user_id, add_params[1], add_params[2], add_params[3], add_params[0],
-                                  add_params[4]))
+                            (self.user_id, add_params[1], add_params[2], add_params[3], add_params[0],
+                            add_params[4]))
 
             self.connection.commit()
 

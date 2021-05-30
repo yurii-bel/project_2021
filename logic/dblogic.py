@@ -316,7 +316,7 @@ class DbLogic:
             f'UPDATE "ACTIVITY" SET (actl_name, act_time, act_date, cat_name, \
                 act_comment) = (\'{actl_name}\', \'{act_time}\', \'{act_date}\',\
                     \'{cat_name}\', \'{act_comment}\') WHERE act_id = \'{act_id}\'\
-                     ON CONFLICT DO NOTHING')
+                    ON CONFLICT DO NOTHING')
 
     def drop_event(self, user, actl_name):
         try:

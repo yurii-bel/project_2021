@@ -404,8 +404,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.show_edit_event(self.actl_name, self.act_time, self.act_date, \
             self.cat_name, self.act_comment)
-        # def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
-        #                 cat_name=str, act_comment=None)
+
         # return self.actl_name
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method add_event().

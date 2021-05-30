@@ -14,8 +14,13 @@ class InputCheck:
     def __init__(self, input_text):
         self.text = input_text
 
+        self.correct_rus_vals = []
+        for i in range(1040, 1104):
+            self.correct_rus_vals.append(ord(chr(i)))
+
         # Список с кодами корректных сиволов a-z - и _.
         self.correct_vals = list(range(ord('a'), ord('z')+1))
+        # self.correct_rus_vals = list(range(chr(1040), chr(1103))+1)
         self.correct_vals_with_num = list(range(ord('0'), ord('9')+1))
         self.correct_vals_with_num.extend(self.correct_vals)
 
@@ -96,6 +101,7 @@ class InputCheck:
     def number_only(self):
         self.incorrect_vals.extend(self.only_in_quotes_char)
         self.correct_vals.extend([ord('.'),ord(';'),ord('"')])
+        self.correct_vals.extend(self.correct_rus_vals)
         for i in self.text:
             if ord(i) in self.correct_vals or ord(i) in self.incorrect_vals:
                 return [False, 'Разрешено вводить только числа.']
@@ -418,21 +424,92 @@ class MainUI(QtWidgets.QMainWindow):
         date = self.aUi.add_event_dateEdit.date()
         comment = self.aUi.add_event_plaintextedit_comment.toPlainText()
 
+        chck_title = InputCheck(title)
+        chck_category = InputCheck(category)
+        chck_duration = InputCheck(duration)
+        chck_comment = InputCheck(comment)
+
         if title == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
                 'Пожалуйста, дайте название своему событию.',
                     QtWidgets.QMessageBox.Ok)
             return
-        elif category == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+        try:
+            check_title = chck_title.check_incorrect_vals()
+            if check_title[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Название: {check_title[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_title = chck_title.check_len()
+            if check_title[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Название: {check_title[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        if category == '':
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
                 'Пожалуйста, укажите категорию для своего события.',
                     QtWidgets.QMessageBox.Ok)
             return
-        elif duration == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+        try:
+            check_category = chck_category.check_incorrect_vals()
+            if check_category[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Категория: {check_category[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_category = chck_category.check_len()
+            if check_category[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Категория: {check_category[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        if duration == '':
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
                 'Пожалуйста, укажите потраченное время на активность в минутах.',
                     QtWidgets.QMessageBox.Ok)
             return
+        try:
+            check_duration = chck_duration.number_only()
+            if check_duration[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Длительность: {check_duration[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        try:
+            check_comment = chck_comment.check_incorrect_vals()
+            if check_comment[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Комментарий: {check_comment[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_comment = chck_comment.check_len()
+            if check_comment[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Комментарий: {check_comment[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
 
         date_ = datetime.date(date.year(), date.month(), date.day())
         str_date = date_.strftime('%Y-%m-%d')
@@ -484,6 +561,93 @@ class MainUI(QtWidgets.QMainWindow):
         duration = self.eUi.edit_event_lineEdit_time.text()
         date = self.eUi.edit_event_dateEdit.date()
         comment = self.eUi.edit_event_plaintextedit_comment.toPlainText()
+
+        chck_title = InputCheck(title)
+        chck_category = InputCheck(category)
+        chck_duration = InputCheck(duration)
+        chck_comment = InputCheck(comment)
+
+        if title == '':
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                'Пожалуйста, дайте название своему событию.',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        try:
+            check_title = chck_title.check_incorrect_vals()
+            if check_title[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Название: {check_title[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_title = chck_title.check_len()
+            if check_title[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Название: {check_title[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        if category == '':
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                'Пожалуйста, укажите категорию для своего события.',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        try:
+            check_category = chck_category.check_incorrect_vals()
+            if check_category[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Категория: {check_category[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_category = chck_category.check_len()
+            if check_category[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Категория: {check_category[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        if duration == '':
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                'Пожалуйста, укажите потраченное время на активность в минутах.',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        try:
+            check_duration = chck_duration.number_only()
+            if check_duration[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Длительность: {check_duration[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        try:
+            check_comment = chck_comment.check_incorrect_vals()
+            if check_comment[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Комментарий: {check_comment[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_comment = chck_comment.check_len()
+            if check_comment[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Комментарий: {check_comment[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
 
         date_ = datetime.date(date.year(), date.month(), date.day())
         str_date = date_.strftime('%Y-%m-%d')
@@ -797,7 +961,6 @@ class DbLogic:
             pass
 
     def get_logged_user_data(self, user_login=None, item=None, params=None):
-
         # Setting working user in db.
         if item == 'set_working_user':
             self.cursor.execute(
@@ -983,8 +1146,6 @@ class DbLogic:
                 act_comment from "ACTIVITY" WHERE user_id = \'{user_id}\'')
         user_activities_table_rows = self.cursor.fetchall()
         for row in user_activities_table_rows:
-            # print(f'row[1]: {row[1]} | self.current_user_id: {self.current_user_id:}')
-            # print(f'act id: {row[0]}| id: {row[1]}| activity: {row[2]}' )
             self.activity_creation_date.append(str(row[3]))  # act_date
             self.activity_category.append(str(row[4]))  # cat_name
             self.activity_name.append(str(row[1]))  # actl_name
@@ -1021,20 +1182,6 @@ class DbLogic:
                 self.activity_comment.append(str(row[6]))  # act_comment
 
         self.table_rows_num = len(self.activity_name)
-        # print(f'{row[4]}')
-        # print(f'\nDate: {self.activity_creation_date} \nCategory: \
-        #     {self.activity_category} \nActivity: {self.activity_name} \
-        #         \nDuration: {self.activity_duration} \nComment: {self.activity_comment}')
-
-    def copy_user(self, table_name, column):
-        try:
-            with self.connection:
-                with self.cursor:
-                    self.cursor.execute(f'SELECT * FROM "{table_name}"\
-                        WHERE USER_ID = \'{column}\'')
-                    return self.cursor.fetchall()
-        except (Exception, Error) as error:
-            return f'{error}'
 
 # ----------------------------------------------------------END----dblogic.py
 

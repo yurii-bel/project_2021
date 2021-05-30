@@ -1,10 +1,10 @@
 from typing import Text
 import telebot
 from telebot.apihelper import send_message
-from telebot.types import Message, User
 import psycopg2 as db
-from psycopg2 import sql
 import time
+
+from telebot.types import Message
 
 
 
@@ -30,49 +30,72 @@ bot = telebot.TeleBot(tk)
 
 
 @bot.message_handler(commands=['start'])
-def welcome_func(message):
-    name = bot.send_message(message.chat.id,"Привет если вы хотите войти введите команы '/login'  для потверждения имени, '/пароль для потверждения пароля")
-        
+def start_bot(message:Message):
+    bot.send_message(message.chat.id,'Чтобы ввести имя нажмите команду "name"')
 
+@bot.message_handler(commands=['name'])
+def welcome_func(query:Message):
+    message = query.text
+    bot.send_message(query.chat.id,'Привет введите имя из приложения \'Timesoft\'')
+    bot.register_next_step_handler(query,set_name)
 
-
-@bot.message_handler(commands=['login'])
-def input_log_name(message):
-    name =  (message.chat.id,'Пожалуйста введите  имя зарегистрированое в "Timesoft":')
-    check_user = cursor.execute(f'SELECT user_n_name FROM "USER_NAME" WHERE user_n_name = {message.}')
-    print(message)
-    c = cursor.fetchall()
-    connection.commit()
-    # if  c == message.text:
-    bot.register_next_step_handler(bot.name,werivicate_name)
-    print(check_user)
-    # else:
-    #     print('Name is undefindet')
+def set_name(message):
+    try:
+        name = message.text
+        check_user = cursor.execute(f"SELECT user_n_name FROM \"USER_NAME\" WHERE user_n_name = '{name}'")
+        bot.send_message(check_user,message.chat.id,(f'Ваше имя {name}'))
+    except Exception as e:
+        bot.send_message(message.chat.id,f'column {name} does not exist')
     
 
 
-def werivicate_name(message):
-        bot.send_message(message.chat.id,f'твое имя добавлено успешно message \'{message.text}\'')
 
 
-def input_log_name(message_id):
-
-    id = bot.send_message(message_id.chat.id,'Пожалуйста введите  пароль для приложения  "Time-soft":')
-    bot.register_next_step_handler(id,werivicate_parol)
-    add_sql = cursor.execute(f'SELECT user_p_pasword FROM "USER_PRIVATE" WHERE user_p_pasword = {message_id.text}')
-
-
-    c = cursor.fetchall()
-    connection.commit()
-    if c == message_id.text:
-        bot.register_next_step_handler( bot.name,werivicate_name)
-    else:
-        print('Name is undefindet')
     
 
 
-def werivicate_parol(message):
-    bot.send_message(message.chat.id,f'твой пароль потвержден успешно {message.text}')
+# @bot.message_handler(commands=['log_in'])
+# def input_log_name(message:Message):
+#     name =  (message.chat.id,'Пожалуйста введите  имя зарегистрированое в "Timesoft":')
+#     if f'{name}' in message.text:
+#         bot.send_message(message,f'Your name is {name}')
+#         return
+#     # user_name = None
+#     # name =  (message.chat.id,'Пожалуйста введите  имя зарегистрированое в "Timesoft":')
+#     # if message.text == user_name:
+#     #     print(user_name)
+#     # check_user = cursor.execute(f'SELECT user_n_name FROM "USER_NAME" WHERE user_n_name = {message.chat.id}')
+#     # c = cursor.fetchall()
+#     # connection.commit()
+#     # if  c == message.text:
+#         bot.register_next_step_handler(bot.name,werivicate_name)
+#     # else:
+#     #print('Name is undefindet')
+    
+
+
+# def werivicate_name(message):
+#         bot.send_message(message.chat.id,f'твое имя добавлено успешно message \'{message.text}\'')
+
+
+# def input_login_name(message_id):
+
+#     id = bot.send_message(message_id.chat.id,'Пожалуйста введите  пароль для приложения  "Time-soft":')
+#     bot.register_next_step_handler(id,werivicate_parol)
+#     add_sql = cursor.execute(f'SELECT user_p_pasword FROM "USER_PRIVATE" WHERE user_p_pasword = {message_id.text}')
+
+
+#     c = cursor.fetchall()
+#     connection.commit()
+#     if c == message_id.text:
+#         bot.register_next_step_handler( bot.name,werivicate_name)
+#     else:
+#         print('Name is undefindet')
+    
+
+
+# def werivicate_parol(message):
+#     bot.send_message(message.chat.id,f'твой пароль потвержден успешно {message.text}')
 
 
 

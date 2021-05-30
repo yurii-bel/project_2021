@@ -463,11 +463,11 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi.close()
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
-    def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
-                        cat_name=str, act_comment=None):
+    def show_edit_event(self, actl_name=str, act_time=str, act_date=None,\
+            cat_name=str, act_comment=None):
 
         self.act_id = self.timedb.get_logged_user_data(item='get_act_id',\
-            params=[actl_name, act_time, act_date, cat_name, act_comment])
+            params=[cat_name, act_time, act_date, actl_name, act_comment])
 
         self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',\
             params=[actl_name, cat_name])
@@ -497,24 +497,29 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.eUi.show()
 
-    # def edit_action(self):
-    #     title = self.eUi.edit_event_lineEdit_name.text()
-    #     category = self.eUi.edit_event_comboBox_category.currentText()
-    #     duration = self.eUi.edit_event_lineEdit_time.text()
-    #     date = self.eUi.edit_event_dateEdit.date()
-    #     comment = self.eUi.edit_event_plaintextedit_comment.toPlainText()
+    def edit_action(self, actl_name=str, act_time=str, act_date=None,\
+            cat_name=str, act_comment=None):
+        title = self.eUi.edit_event_lineEdit_name.text()
+        category = self.eUi.edit_event_comboBox_category.currentText()
+        duration = self.eUi.edit_event_lineEdit_time.text()
+        date = self.eUi.edit_event_dateEdit.date()
+        comment = self.eUi.edit_event_plaintextedit_comment.toPlainText()
 
-    #     date_ = datetime.date(date.year(), date.month(), date.day())
-    #     str_date = date_.strftime('%Y-%m-%d')
+        date_ = datetime.date(date.year(), date.month(), date.day())
+        str_date = date_.strftime('%Y-%m-%d')
 
-    #     int_duration = int(''.join(filter(str.isdigit, duration)))
+        int_duration = int(''.join(filter(str.isdigit, duration)))
 
-    #     # Writing all changes to db and closing 'Add Event' win.
-    #     self.timedb.edit_event(self.user_n_name, title, int_duration,
-    #                            str_date, category, comment, self.act_id, self.actl_id)
-    #     self.eUi.close()
-    #     self.edit_event_status = True
+        # Writing all changes to db and closing 'Add Event' win.
+        self.timedb.set_logged_user_data(item='check_event_data',\
+            add_params=[cat_name, actl_name, act_time, act_date, act_comment])
 
+        self.timedb.set_logged_user_data(item='edit_event',\
+            add_params=[cat_name, actl_name, act_time, act_date, act_comment],\
+                edit_params=[category, title, int_duration, str_date, comment])
+
+        self.update_custom_view_table()
+        self.eUi.close()
 
     # SETTINGS BLOCK.
     def settings(self):

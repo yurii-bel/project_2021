@@ -14,18 +14,6 @@ class InputCheck:
     def __init__(self, input_text):
         self.text = input_text
 
-        # before for k in includedomain:
-        # список с кодами корректных сиволов a-z - и _
-        # correctchrlist = list(range(ord('a'),ord('z')+1))
-        # correctchrlist.extend([ord('-'), ord('_')])
-
-        # before проверка на парные кавычки
-        # Добавляем в список корректных символов . ; " ! : ,
-        # correctchrlist.extend([ord('.'),ord(';'),ord('"')])
-        # onlyinquoteschrlist = [ord('!'), ord(','), ord(':')]
-        # correctchrlist.extend(onlyinquoteschrlist)
-
-
         # Список с кодами корректных сиволов a-z - и _.
         self.correct_vals = list(range(ord('a'), ord('z')+1))
         self.correct_vals_with_num = list(range(ord('0'), ord('9')+1))
@@ -137,23 +125,11 @@ class MainUI(QtWidgets.QMainWindow):
     # Сделать возможным повторение активностей. +
     # Нужно автоматизировать разделителей (module os).
     # Цветной вывод категорий.
-    # Изучить поведение виджетов, лаяутов и прочего.
     # NONGLOBAL:
     # SET_PREFERENCES FROM SETTINGS:
     # Дефолтный вывод инфы - график или таблица
     # Записывать длительность в бд в минутах,
     # А на выводе в таблице - * ч * мин.
-    # UNIT TESTS:
-    # При юзер инпуте проверять на наличие символов: [, ' ""]. 
-    # Max input symbols - 60.
-    # 1.Проверка для регистрации и логина:
-    # Проверка ввода логина.
-    # Проверка пароля.
-    # Проверка имейла.
-    # 2.Проверка в добавлении\редактировании активностей:
-    # Для названия события и категорий - 
-    # 3.Настройки:
-    # 
 
     def __init__(self):
         super().__init__()
@@ -218,10 +194,6 @@ class MainUI(QtWidgets.QMainWindow):
         self.eUi.edit_event_btn_del.clicked.connect(self.delete_action)
         self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
 
-        # Connecting line edits to appropriate slots.
-        # self.aUi.add_event_lineEdit_name.textChanged.connect(
-        #     self.suppose_category)
-
         # Settings UI.
         self.sUi.setFixedHeight(768)
         self.sUi.setFixedWidth(1280)
@@ -276,10 +248,10 @@ class MainUI(QtWidgets.QMainWindow):
             self.timedb.get_logged_user_data(item='get_user_p_id')
             self.sUi.settings_lineedit_email.setText(
                 self.timedb.get_logged_user_data(item='get_user_email'))
+            self.update_users_categs()
             self.lUi.close()
             self.mUi.show()
-            self.custom_view_table()
-            # self.view_table()  # Viewing table.
+            self.custom_view_table() # Viewing table.
 
     # REGISTRATION BLOCK.
     def show_registration(self):
@@ -389,6 +361,18 @@ class MainUI(QtWidgets.QMainWindow):
             self.rUi.close()
             self.lUi.show()
 
+    def update_users_categs(self):
+        self.aUi.add_event_comboBox_category.clear()
+        self.eUi.edit_event_comboBox_category.clear()
+
+        categs, i = self.timedb.get_logged_user_data(
+            item='get_user_categories'), 0
+        for categ in categs:
+            self.aUi.add_event_comboBox_category.insertItem(i, categ)
+            self.eUi.edit_event_comboBox_category.insertItem(i, categ)
+        i += 1
+
+
     # FOR TABLE AND EDIT_EVENT.
     def get_current_row_tableview(self, item):
         '''
@@ -409,9 +393,6 @@ class MainUI(QtWidgets.QMainWindow):
                 self.timedb.get_logged_user_data(item='get_actl_id',\
                     params=[self.cat_name, self.actl_name])
 
-        
-        
-
         self.show_edit_action(self.actl_name, self.act_time, self.act_date, \
             self.cat_name, self.act_comment)
         # print(self.act_comment)
@@ -427,12 +408,6 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi.add_event_dateEdit.setMaximumDate(
             QtCore.QDate(QtCore.QDate.currentDate()))
 
-        # Updating user categories for combobox element.
-        categs, i = self.timedb.get_logged_user_data(
-            item='get_user_categories'), 0
-        for categ in categs:
-            self.aUi.add_event_comboBox_category.insertItem(i, categ)
-            i += 1
         self.aUi.show()
 
     def add_action(self):
@@ -470,6 +445,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.timedb.set_logged_user_data(item='add_event',\
             add_params=[category, title, int_duration, str_date, comment])
 
+        self.update_users_categs()
         self.update_custom_view_table()
         self.aUi.close()
 
@@ -483,19 +459,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',\
             params=[actl_name, cat_name])
 
-        # self.timedb.set_logged_user_data(item='check_event_data',\
-        #     add_params=[cat_name, actl_name, act_time, act_date,\
-        #         act_comment])
-
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
         self.eUi.edit_event_dateEdit.setMaximumDate(
             QtCore.QDate(QtCore.QDate.currentDate()))
-
-        categs, i = self.timedb.get_logged_user_data(
-            item='get_user_categories'), 0
-        for categ in categs:
-            self.eUi.edit_event_comboBox_category.insertItem(i, categ)
-            i += 1
 
         date_ = datetime.datetime.strptime(act_date, '%Y-%m-%d')
         for d in [date_.timetuple()]:
@@ -534,14 +500,16 @@ class MainUI(QtWidgets.QMainWindow):
                 self.act_comment],\
                 edit_params=[category, title, int_duration, str_date, comment])
 
+        self.update_users_categs()
         self.update_custom_view_table()
         self.eUi.close()
 
     def delete_action(self):
         self.timedb.set_logged_user_data(item='del_event',\
-            dd_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
+            add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
                 self.act_comment])
 
+        self.update_users_categs()
         self.update_custom_view_table()
         self.eUi.close()
 
@@ -623,7 +591,6 @@ class MainUI(QtWidgets.QMainWindow):
     #         self.sUi.close()
 
     def settings_change_user_data(self):
-        self.timedb.get_logged_user_data(item='get_user_p_id')
         email_new = self.sUi.settings_lineedit_email_new.text()
         oldpass = self.sUi.settings_lineedit_oldpass.text()
         newpass = self.sUi.settings_lineedit_newpass
@@ -690,7 +657,6 @@ class MainUI(QtWidgets.QMainWindow):
         # elif
 
     # TABLE VIEWING BLOCK. uses DbLogic class.
-
     def custom_view_table(self):
         rows = self.timedb.get_logged_user_data(item='get_user_activities')
         self.lay = QtWidgets.QHBoxLayout()

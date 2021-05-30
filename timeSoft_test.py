@@ -18,20 +18,13 @@ class InputCheck:
     def __init__(self, input_text):
         self.text = input_text
 
-        # before for k in includedomain:
-        # список с кодами корректных сиволов a-z - и _
-        # correctchrlist = list(range(ord('a'),ord('z')+1))
-        # correctchrlist.extend([ord('-'), ord('_')])
-
-        # before проверка на парные кавычки
-        # Добавляем в список корректных символов . ; " ! : ,
-        # correctchrlist.extend([ord('.'),ord(';'),ord('"')])
-        # onlyinquoteschrlist = [ord('!'), ord(','), ord(':')]
-        # correctchrlist.extend(onlyinquoteschrlist)
-
+        self.correct_rus_vals = []
+        for i in range(1040, 1104):
+            self.correct_rus_vals.append(ord(chr(i)))
 
         # Список с кодами корректных сиволов a-z - и _.
         self.correct_vals = list(range(ord('a'), ord('z')+1))
+        # self.correct_rus_vals = list(range(chr(1040), chr(1103))+1)
         self.correct_vals_with_num = list(range(ord('0'), ord('9')+1))
         self.correct_vals_with_num.extend(self.correct_vals)
 
@@ -112,6 +105,7 @@ class InputCheck:
     def number_only(self):
         self.incorrect_vals.extend(self.only_in_quotes_char)
         self.correct_vals.extend([ord('.'),ord(';'),ord('"')])
+        self.correct_vals.extend(self.correct_rus_vals)
         for i in self.text:
             if ord(i) in self.correct_vals or ord(i) in self.incorrect_vals:
                 return [False, 'Разрешено вводить только числа.']
@@ -141,23 +135,11 @@ class MainUI(QtWidgets.QMainWindow):
     # Сделать возможным повторение активностей. +
     # Нужно автоматизировать разделителей (module os).
     # Цветной вывод категорий.
-    # Изучить поведение виджетов, лаяутов и прочего.
     # NONGLOBAL:
     # SET_PREFERENCES FROM SETTINGS:
     # Дефолтный вывод инфы - график или таблица
     # Записывать длительность в бд в минутах,
     # А на выводе в таблице - * ч * мин.
-    # UNIT TESTS:
-    # При юзер инпуте проверять на наличие символов: [, ' ""]. 
-    # Max input symbols - 60.
-    # 1.Проверка для регистрации и логина:
-    # Проверка ввода логина.
-    # Проверка пароля.
-    # Проверка имейла.
-    # 2.Проверка в добавлении\редактировании активностей:
-    # Для названия события и категорий - 
-    # 3.Настройки:
-    # 
 
     def __init__(self):
         super().__init__()
@@ -222,10 +204,6 @@ class MainUI(QtWidgets.QMainWindow):
         self.eUi.edit_event_btn_del.clicked.connect(self.delete_action)
         self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
 
-        # Connecting line edits to appropriate slots.
-        # self.aUi.add_event_lineEdit_name.textChanged.connect(
-        #     self.suppose_category)
-
         # Settings UI.
         self.sUi.setFixedHeight(768)
         self.sUi.setFixedWidth(1280)
@@ -283,10 +261,10 @@ class MainUI(QtWidgets.QMainWindow):
             self.timedb.get_logged_user_data(item='get_user_p_id')
             self.sUi.settings_lineedit_email.setText(
                 self.timedb.get_logged_user_data(item='get_user_email'))
+            self.update_users_categs()
             self.lUi.close()
             self.mUi.show()
-            self.custom_view_table()
-            # self.view_table()  # Viewing table.
+            self.custom_view_table() # Viewing table.
 
     # REGISTRATION BLOCK.
     def show_registration(self):
@@ -396,6 +374,18 @@ class MainUI(QtWidgets.QMainWindow):
             self.rUi.close()
             self.lUi.show()
 
+    def update_users_categs(self):
+        self.aUi.add_event_comboBox_category.clear()
+        self.eUi.edit_event_comboBox_category.clear()
+
+        categs, i = self.timedb.get_logged_user_data(
+            item='get_user_categories'), 0
+        for categ in categs:
+            self.aUi.add_event_comboBox_category.insertItem(i, categ)
+            self.eUi.edit_event_comboBox_category.insertItem(i, categ)
+        i += 1
+
+
     # FOR TABLE AND EDIT_EVENT.
     def get_current_row_tableview(self, item):
         '''
@@ -416,9 +406,6 @@ class MainUI(QtWidgets.QMainWindow):
                 self.timedb.get_logged_user_data(item='get_actl_id',\
                     params=[self.cat_name, self.actl_name])
 
-        
-        
-
         self.show_edit_action(self.actl_name, self.act_time, self.act_date, \
             self.cat_name, self.act_comment)
         # print(self.act_comment)
@@ -434,12 +421,6 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi.add_event_dateEdit.setMaximumDate(
             QtCore.QDate(QtCore.QDate.currentDate()))
 
-        # Updating user categories for combobox element.
-        categs, i = self.timedb.get_logged_user_data(
-            item='get_user_categories'), 0
-        for categ in categs:
-            self.aUi.add_event_comboBox_category.insertItem(i, categ)
-            i += 1
         self.aUi.show()
 
     def add_action(self):
@@ -450,21 +431,92 @@ class MainUI(QtWidgets.QMainWindow):
         date = self.aUi.add_event_dateEdit.date()
         comment = self.aUi.add_event_plaintextedit_comment.toPlainText()
 
+        chck_title = InputCheck(title)
+        chck_category = InputCheck(category)
+        chck_duration = InputCheck(duration)
+        chck_comment = InputCheck(comment)
+
         if title == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
                 'Пожалуйста, дайте название своему событию.',
                     QtWidgets.QMessageBox.Ok)
             return
-        elif category == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+        try:
+            check_title = chck_title.check_incorrect_vals()
+            if check_title[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Название: {check_title[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_title = chck_title.check_len()
+            if check_title[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Название: {check_title[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        if category == '':
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
                 'Пожалуйста, укажите категорию для своего события.',
                     QtWidgets.QMessageBox.Ok)
             return
-        elif duration == '':
-            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+        try:
+            check_category = chck_category.check_incorrect_vals()
+            if check_category[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Категория: {check_category[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_category = chck_category.check_len()
+            if check_category[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Категория: {check_category[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        if duration == '':
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
                 'Пожалуйста, укажите потраченное время на активность в минутах.',
                     QtWidgets.QMessageBox.Ok)
             return
+        try:
+            check_duration = chck_duration.number_only()
+            if check_duration[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Длительность: {check_duration[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        try:
+            check_comment = chck_comment.check_incorrect_vals()
+            if check_comment[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Комментарий: {check_comment[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_comment = chck_comment.check_len()
+            if check_comment[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Комментарий: {check_comment[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
 
         date_ = datetime.date(date.year(), date.month(), date.day())
         str_date = date_.strftime('%Y-%m-%d')
@@ -477,6 +529,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.timedb.set_logged_user_data(item='add_event',\
             add_params=[category, title, int_duration, str_date, comment])
 
+        self.update_users_categs()
         self.update_custom_view_table()
         self.aUi.close()
 
@@ -490,19 +543,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',\
             params=[actl_name, cat_name])
 
-        # self.timedb.set_logged_user_data(item='check_event_data',\
-        #     add_params=[cat_name, actl_name, act_time, act_date,\
-        #         act_comment])
-
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
         self.eUi.edit_event_dateEdit.setMaximumDate(
             QtCore.QDate(QtCore.QDate.currentDate()))
-
-        categs, i = self.timedb.get_logged_user_data(
-            item='get_user_categories'), 0
-        for categ in categs:
-            self.eUi.edit_event_comboBox_category.insertItem(i, categ)
-            i += 1
 
         date_ = datetime.datetime.strptime(act_date, '%Y-%m-%d')
         for d in [date_.timetuple()]:
@@ -526,6 +569,93 @@ class MainUI(QtWidgets.QMainWindow):
         date = self.eUi.edit_event_dateEdit.date()
         comment = self.eUi.edit_event_plaintextedit_comment.toPlainText()
 
+        chck_title = InputCheck(title)
+        chck_category = InputCheck(category)
+        chck_duration = InputCheck(duration)
+        chck_comment = InputCheck(comment)
+
+        if title == '':
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                'Пожалуйста, дайте название своему событию.',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        try:
+            check_title = chck_title.check_incorrect_vals()
+            if check_title[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Название: {check_title[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_title = chck_title.check_len()
+            if check_title[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Название: {check_title[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        if category == '':
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                'Пожалуйста, укажите категорию для своего события.',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        try:
+            check_category = chck_category.check_incorrect_vals()
+            if check_category[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Категория: {check_category[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_category = chck_category.check_len()
+            if check_category[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Категория: {check_category[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        if duration == '':
+            QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                'Пожалуйста, укажите потраченное время на активность в минутах.',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        try:
+            check_duration = chck_duration.number_only()
+            if check_duration[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Длительность: {check_duration[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
+        try:
+            check_comment = chck_comment.check_incorrect_vals()
+            if check_comment[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Комментарий: {check_comment[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+        try:
+            check_comment = chck_comment.check_len()
+            if check_comment[0] == False:
+                QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                f'Комментарий: {check_comment[1]}',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        except TypeError:
+            pass
+
         date_ = datetime.date(date.year(), date.month(), date.day())
         str_date = date_.strftime('%Y-%m-%d')
 
@@ -541,14 +671,16 @@ class MainUI(QtWidgets.QMainWindow):
                 self.act_comment],\
                 edit_params=[category, title, int_duration, str_date, comment])
 
+        self.update_users_categs()
         self.update_custom_view_table()
         self.eUi.close()
 
     def delete_action(self):
         self.timedb.set_logged_user_data(item='del_event',\
-            dd_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
+            add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
                 self.act_comment])
 
+        self.update_users_categs()
         self.update_custom_view_table()
         self.eUi.close()
 
@@ -630,7 +762,6 @@ class MainUI(QtWidgets.QMainWindow):
     #         self.sUi.close()
 
     def settings_change_user_data(self):
-        self.timedb.get_logged_user_data(item='get_user_p_id')
         email_new = self.sUi.settings_lineedit_email_new.text()
         oldpass = self.sUi.settings_lineedit_oldpass.text()
         newpass = self.sUi.settings_lineedit_newpass
@@ -697,7 +828,6 @@ class MainUI(QtWidgets.QMainWindow):
         # elif
 
     # TABLE VIEWING BLOCK. uses DbLogic class.
-
     def custom_view_table(self):
         rows = self.timedb.get_logged_user_data(item='get_user_activities')
         self.lay = QtWidgets.QHBoxLayout()
@@ -849,7 +979,6 @@ class DbLogic:
             pass
 
     def get_logged_user_data(self, user_login=None, item=None, params=None):
-
         # Setting working user in db.
         if item == 'set_working_user':
             self.cursor.execute(
@@ -1037,8 +1166,6 @@ class DbLogic:
                 act_comment from "ACTIVITY" WHERE user_id = \'{user_id}\'')
         user_activities_table_rows = self.cursor.fetchall()
         for row in user_activities_table_rows:
-            # print(f'row[1]: {row[1]} | self.current_user_id: {self.current_user_id:}')
-            # print(f'act id: {row[0]}| id: {row[1]}| activity: {row[2]}' )
             self.activity_creation_date.append(str(row[3]))  # act_date
             self.activity_category.append(str(row[4]))  # cat_name
             self.activity_name.append(str(row[1]))  # actl_name
@@ -1075,20 +1202,6 @@ class DbLogic:
                 self.activity_comment.append(str(row[6]))  # act_comment
 
         self.table_rows_num = len(self.activity_name)
-        # print(f'{row[4]}')
-        # print(f'\nDate: {self.activity_creation_date} \nCategory: \
-        #     {self.activity_category} \nActivity: {self.activity_name} \
-        #         \nDuration: {self.activity_duration} \nComment: {self.activity_comment}')
-
-    def copy_user(self, table_name, column):
-        try:
-            with self.connection:
-                with self.cursor:
-                    self.cursor.execute(f'SELECT * FROM "{table_name}"\
-                        WHERE USER_ID = \'{column}\'')
-                    return self.cursor.fetchall()
-        except (Exception, Error) as error:
-            return f'{error}'
 
 # ----------------------------------------------------------END----dblogic.py
 

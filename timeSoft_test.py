@@ -10,6 +10,12 @@ import csv
 
 sys.path.append(".")
 
+# ZAMETKA
+# def view_table(self):
+#         self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
+#         self.lay.addWidget(self.aUi)
+#         # self.lay.addWidget(self.aUi.add_event_widget_window)
+#         self.wUi.setLayout(self.lay)
 
 class InputCheck:
     def __init__(self, input_text):
@@ -189,10 +195,10 @@ class MainUI(QtWidgets.QMainWindow):
         # Main UI.
         self.mUi.setFixedHeight(768)
         self.mUi.setFixedWidth(1280)
-        self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.add_action)
+        self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.show_add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
-        self.mUi.mainwindow_btn_forecast.clicked.connect(self.delete_widget)
+        # self.mUi.mainwindow_btn_forecast.clicked.connect(self.update_custom_view_table)
         self.mUi.setWindowIcon(icon)
 
         # Login UI.
@@ -210,10 +216,10 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi.register_btn_create.clicked.connect(self.show_login)
         self.rUi.setWindowIcon(icon)
 
-        # # Add event UI.
-        # # self.aUi.add_event_btn_add.clicked.connect(self.add_event)
-        # self.aUi.add_event_btn_cancel.clicked.connect(self.aUi.close)
-        # self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
+        # Add event UI.
+        self.aUi.add_event_btn_add.clicked.connect(self.add_action)
+        self.aUi.add_event_btn_cancel.clicked.connect(self.aUi.close)
+        self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
 
         # self.aUi.add_event_dateEdit.setCalendarPopup(True)
         # self.aUi.add_event_dateEdit.setDate(
@@ -429,9 +435,6 @@ class MainUI(QtWidgets.QMainWindow):
             self.rUi.close()
             self.lUi.show()
 
-    def delete_widget(self):
-        self.lay.removeWidget(self.tUi.tableW)
-
     # FOR TABLE AND EDIT_EVENT.
     def get_current_row_tableview(self, item):
         '''
@@ -451,47 +454,45 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi.show()
 
     def add_action(self):
-        pass
         # # Getting all info, entered by user.
-        # title = self.aUi.add_event_lineEdit_name.text()
-        # category = self.aUi.add_event_comboBox_category.currentText()
-        # duration = self.aUi.add_event_lineEdit_time.text()
-        # date = self.aUi.add_event_dateEdit.date()
-        # comment = self.aUi.add_event_plaintextedit_comment.toPlainText()
+        title = self.aUi.add_event_lineEdit_name.text()
+        category = self.aUi.add_event_comboBox_category.currentText()
+        duration = self.aUi.add_event_lineEdit_time.text()
+        date = self.aUi.add_event_dateEdit.date()
+        comment = self.aUi.add_event_plaintextedit_comment.toPlainText()
 
-        # if title == '':
-        #     QtWidgets.QMessageBox.question(self, 'Ошибка!',
-        #                                    'Пожалуйста, дайте название своему событию.',
-        #                                    QtWidgets.QMessageBox.Ok)
-        #     return
-        # elif category == '':
-        #     QtWidgets.QMessageBox.question(self, 'Ошибка!',
-        #                                    'Пожалуйста, укажите категорию для своего события.',
-        #                                    QtWidgets.QMessageBox.Ok)
-        #     return
-        # elif duration == '':
-        #     QtWidgets.QMessageBox.question(self, 'Ошибка!',
-        #                                    'Пожалуйста, укажите потраченное время на активность в минутах.',
-        #                                    QtWidgets.QMessageBox.Ok)
-        #     return
+        if title == '':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                'Пожалуйста, дайте название своему событию.',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        elif category == '':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                'Пожалуйста, укажите категорию для своего события.',
+                    QtWidgets.QMessageBox.Ok)
+            return
+        elif duration == '':
+            QtWidgets.QMessageBox.question(self, 'Ошибка!',
+                'Пожалуйста, укажите потраченное время на активность в минутах.',
+                    QtWidgets.QMessageBox.Ok)
+            return
 
-        # date_ = datetime.date(date.year(), date.month(), date.day())
-        # str_date = date_.strftime('%Y-%m-%d')
+        date_ = datetime.date(date.year(), date.month(), date.day())
+        str_date = date_.strftime('%Y-%m-%d')
 
-        # int_duration = int(''.join(filter(str.isdigit, duration)))
+        int_duration = int(''.join(filter(str.isdigit, duration)))
 
-        # # Writing all changes to db and closing 'Add Event' win.
-        # if not self.timedb.set_logged_user_data(item='check_event_data',
-        #     add_params=[category, title, int_duration, str_date, comment]) == True:
-        #     self.timedb.set_logged_user_data(item='add_event',\
-        #         add_params=[category, title, int_duration, str_date, comment])
+        # Writing all changes to db and closing 'Add Event' win.
+        self.timedb.set_logged_user_data(item='check_event_data',\
+            add_params=[category, title, int_duration, str_date, comment])
+        self.timedb.set_logged_user_data(item='add_event',\
+            add_params=[category, title, int_duration, str_date, comment])
 
-        # self.add_event_status = True
-        # self.aUi.close()
+        self.update_custom_view_table()
+        self.aUi.close()
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
     def edit_action(self):
-        pass
         # def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
         #                 cat_name=str, act_comment=None):
 
@@ -523,7 +524,7 @@ class MainUI(QtWidgets.QMainWindow):
         #                        str_date, category, comment, self.act_id, self.actl_id)
         # self.eUi.close()
         # self.edit_event_status = True
-
+        pass
 
 
     # SETTINGS BLOCK.
@@ -699,105 +700,34 @@ class MainUI(QtWidgets.QMainWindow):
         self.lay.addWidget(self.tUi.tableW)
         self.wUi.setLayout(self.lay)
 
-    def view_table(self):
-        # self.lay.removeWidget(self.tUi.tableW)
-        # self.tUi.tableW.setParent(None)
+    def update_custom_view_table(self):
+        # self.lay.removeWidget(self.tUi)
+        self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
+        
+        rows = self.timedb.get_logged_user_data(item='get_user_activities')
 
-        rows = self.timedb.table_rows_num
-        self.lay = QtWidgets.QHBoxLayout()
+        self.tUi.tableW.setRowCount(len(rows))
 
-        self.tUi.tableW.setRowCount(rows)
-        # # Removing parent from widget
-        # self.tUi.tableW.setParent(None)
-
-        # # Getting all user activities.
-        # rows = self.timedb.get_logged_user_data(item='get_user_activities')
-
-        # # Creating layout fro widget.
-        # lay = QtWidgets.QHBoxLayout()
-
-        # # Setting row count according to user activities quantity.
-        # self.tUi.tableW.setRowCount(len(rows))
-
-        # i = 0
-        # for row in rows:
+        x = 0
+        for row in rows:
             # If user have left some comment,
             # in the name of activity * appears.
-            # if not row[4] == '' and not row[4] == None:
-            #     row[0] = row[0] + '*'
+            if not row[4] == '' and not row[4] == None:
+                row[1] = row[1] + '*'
+            self.tUi.tableW.setItem(x, 0,
+            QtWidgets.QTableWidgetItem(row[3]))
+            self.tUi.tableW.setItem(x, 1,
+            QtWidgets.QTableWidgetItem(row[0]))
+            self.tUi.tableW.setItem(x, 2,
+            QtWidgets.QTableWidgetItem(row[1]))
+            self.tUi.tableW.setItem(x, 3,
+            QtWidgets.QTableWidgetItem(row[2]))
+            x += 1 
 
-        for i in range(rows):
-            # setting all activities data.
-            self.tUi.tableW.setItem(i, 0, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_creation_date[i]))
-            self.tUi.tableW.setItem(i, 1, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_category[i]))
-            self.tUi.tableW.setItem(i, 2, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_name[i]))
-            self.tUi.tableW.setItem(i, 3, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_duration[i]))
-            self.tUi.tableW.setItem(i, 4, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_comment[i]))
-
-        # Forbiding cell selection.
-        self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
-
-        # Resizing table columns to its contents.
         self.tUi.tableW.resizeColumnsToContents()
+        self.tUi.tableW.verticalHeader().setVisible(False)
 
         self.lay.addWidget(self.tUi.tableW)
-        self.wUi.setLayout(self.lay)
-
-
-    def update_view_table(self):
-        self.lay = QtWidgets.QHBoxLayout()
-
-        self.lay.removeWidget(self.tUi.tableW)
-        self.tUi.tableW.setParent(None)
-
-        rows = self.timedb.table_rows_num
-
-        self.tUi.tableW.setRowCount(rows)
-        # # Removing parent from widget
-        # self.tUi.tableW.setParent(None)
-
-        # # Getting all user activities.
-        # rows = self.timedb.get_logged_user_data(item='get_user_activities')
-
-        # # Creating layout fro widget.
-        # lay = QtWidgets.QHBoxLayout()
-
-        # # Setting row count according to user activities quantity.
-        # self.tUi.tableW.setRowCount(len(rows))
-
-        # i = 0
-        # for row in rows:
-            # If user have left some comment,
-            # in the name of activity * appears.
-            # if not row[4] == '' and not row[4] == None:
-            #     row[0] = row[0] + '*'
-
-        for i in range(rows):
-            # setting all activities data.
-            self.tUi.tableW.setItem(i, 0, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_creation_date[i]))
-            self.tUi.tableW.setItem(i, 1, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_category[i]))
-            self.tUi.tableW.setItem(i, 2, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_name[i]))
-            self.tUi.tableW.setItem(i, 3, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_duration[i]))
-            self.tUi.tableW.setItem(i, 4, 
-            QtWidgets.QTableWidgetItem(self.timedb.activity_comment[i]))
-
-        # Forbiding cell selection.
-        self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
-
-        # Resizing table columns to its contents.
-        self.tUi.tableW.resizeColumnsToContents()
-
-        self.lay.addWidget(self.tUi.tableW)
-        self.wUi.setLayout(self.lay)
 
 # ----------------------------------------------------------END-----timeSoft.py
 

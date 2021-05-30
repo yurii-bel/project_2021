@@ -318,7 +318,7 @@ QComboBox:hover {
 color: #5E5873;</string>
             </property>
             <property name="text">
-             <string>Потрачено времени</string>
+             <string>Потрачено времени в минутах</string>
             </property>
            </widget>
           </item>
@@ -355,7 +355,7 @@ QLineEdit:hover {
 }</string>
             </property>
             <property name="placeholderText">
-             <string>60 минут</string>
+             <string>65</string>
             </property>
            </widget>
           </item>

@@ -3,10 +3,14 @@ from uuid import uuid4
 from psycopg2 import Error
 import psycopg2 as db
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from pyqtgraph import PlotWidget
+import pyqtgraph as pg
 import sys
 import os
 import datetime
 import csv
+import pandas
+
 
 sys.path.append(".")
 
@@ -57,7 +61,7 @@ class InputCheck:
         if len(name) > 60:
             return [False, 'Имя почты длиннее 60 символов.']
 
-       # Добавляем в список корректных символов . ; " ! : ,
+        # Добавляем в список корректных символов . ; " ! : ,
         self.correct_vals_with_num.extend(self.only_in_quotes_char)
         self.correct_vals_with_num.extend([ord('.'),ord(';'),ord('"')])
         # Проверка на парные кавычки
@@ -218,6 +222,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)
         self.mUi.mainwindow_act_settings.triggered.connect(self.settings)
         self.mUi.mainwindow_act_about_program.triggered.connect(self.abUi.show)
+
+        # Combobox Main UI.
+        self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(self.graph_plot)
 
     # AUTHORIZATION BLOCK.
     def show_login(self):
@@ -693,7 +700,7 @@ class MainUI(QtWidgets.QMainWindow):
         data = self.timedb.get_logged_user_data(item='get_user_activities')
         try:
             settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file',
-                                                                     '/', 'CSV file (*.csv)')
+            '/', 'CSV file (*.csv)')
             if settingsSave[0]:
                 with open(settingsSave[0], 'w+', newline='') as f:
                     writer = csv.writer(f)
@@ -702,15 +709,15 @@ class MainUI(QtWidgets.QMainWindow):
 
         except Exception:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           'Экспорт не удался.', QtWidgets.QMessageBox.Ok)
+            'Экспорт не удался.', QtWidgets.QMessageBox.Ok)
         if ok:
             QtWidgets.QMessageBox.question(self, 'Успех!',
-                                           'Экспорт успешно завершён!', QtWidgets.QMessageBox.Ok)
+            'Экспорт успешно завершён!', QtWidgets.QMessageBox.Ok)
 
     def settings_import(self):
         try:
             settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file',
-                                                                     '/', 'CSV file (*.csv)')
+            '/', 'CSV file (*.csv)')
             if settingsLoad[0]:
                 with open(settingsLoad[0], 'r+') as f:
                     reader = csv.reader(f, delimiter=',')
@@ -722,10 +729,10 @@ class MainUI(QtWidgets.QMainWindow):
 
         except Exception:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                                           'Импорт не удался.', QtWidgets.QMessageBox.Ok)
+            'Импорт не удался.', QtWidgets.QMessageBox.Ok)
         if ok:
             QtWidgets.QMessageBox.question(self, 'Успех!',
-                                           'Импорт успешно завершён!', QtWidgets.QMessageBox.Ok)
+            'Импорт успешно завершён!', QtWidgets.QMessageBox.Ok)
 
     # def settings_save(self):
     #     self.timedb.get_logged_user_data(item='get_user_p_id')
@@ -884,6 +891,17 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.lay.addWidget(self.tUi.tableW)
 
+    def graph_plot(self):
+        print('Combobox changed...')
+
+        # combobox.currentIndexChanged().connect(updateGraph)
+
+        # self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
+        # self.graphWidget = pg.PlotWidget()
+        # self.lay.addWidget(self.graphWidget)
+        # self.wUi.setLayout(self.lay)
+
+
 # ----------------------------------------------------------END-----timeSoft.py
 
 # ----------------------------------------------------------START----dblogic.py
@@ -975,7 +993,7 @@ class DbLogic:
             user_n_id = str(self.cursor.fetchall())[2:-3]
 
             self.cursor.execute(
-                f'SELECT user_id FROM "USER" WHERE user_n_id = {user_n_id}')
+                f'SELECT user_id FROM "USER" WHERE user_n_id = \'{user_n_id}\'')
             self.user_id = str(self.cursor.fetchall())[2:-3]
             return self.user_id
 
@@ -984,7 +1002,8 @@ class DbLogic:
             self.cursor.execute(
                 f'SELECT actl_id FROM "ACTIVITY_LIST" WHERE\
                 (user_id, actl_name, cat_name) = (\'{self.user_id}\', \'{params[1]}\', \'{params[0]}\')')
-            return str(self.cursor.fetchall())[2:-3]
+            self.actl_id = str(self.cursor.fetchall())[2:-3]
+            return self.actl_id
 
         # Getting act_id.
         elif item == 'get_act_id':
@@ -993,7 +1012,8 @@ class DbLogic:
                 (user_id, actl_name, act_time, act_date, cat_name, act_comment) =\
                     (\'{self.user_id}\', \'{params[0]}\', \'{params[1]}\', \'{params[2]}\',\
                         \'{params[3]}\', \'{params[4]}\')')
-            return str(self.cursor.fetchall())[2:-3]
+            self.act_id = str(self.cursor.fetchall())[2:-3]
+            return self.act_id
 
         # Getting user_p_id.
         elif item == 'get_user_p_id':
@@ -1066,7 +1086,7 @@ class DbLogic:
             # Storing act_id, using get_logged_user_data().
             self.act_id = self.get_logged_user_data(
                 item='get_act_id', params=[add_params[1], add_params[2],
-                                           add_params[3], add_params[0], add_params[4]])
+                add_params[3], add_params[0], add_params[4]])
 
             # Checking for matching same category in db.
             self.user_categories = self.get_logged_user_data(
@@ -1113,8 +1133,8 @@ class DbLogic:
             self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
                         act_time, act_date, cat_name, act_comment)\
                             VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING',
-                                 (self.user_id, add_params[1], add_params[2], add_params[3], add_params[0],
-                                  add_params[4]))
+                            (self.user_id, add_params[1], add_params[2], add_params[3], add_params[0],
+                            add_params[4]))
 
             self.connection.commit()
 

@@ -462,7 +462,7 @@ class MainUI(QtWidgets.QMainWindow):
             cat_name=str, act_comment=None):
 
         self.act_id = self.timedb.get_logged_user_data(item='get_act_id',\
-            params=[actl_name, act_time, act_date, cat_name, act_comment])
+            params=[cat_name, act_time, act_date, actl_name, act_comment])
 
         self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',\
             params=[actl_name, cat_name])

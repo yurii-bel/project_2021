@@ -3,10 +3,14 @@ from uuid import uuid4
 from psycopg2 import Error
 import psycopg2 as db
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from pyqtgraph import PlotWidget
+import pyqtgraph as pg
 import sys
 import os
 import datetime
 import csv
+import pandas
+
 
 sys.path.append(".")
 
@@ -236,6 +240,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)
         self.mUi.mainwindow_act_settings.triggered.connect(self.settings)
         self.mUi.mainwindow_act_about_program.triggered.connect(self.abUi.show)
+
+        # Combobox Main UI.
+        self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(self.graph_plot)
 
     # AUTHORIZATION BLOCK.
     def show_login(self):
@@ -746,6 +753,17 @@ class MainUI(QtWidgets.QMainWindow):
         self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
         self.lay.addWidget(self.tUi.tableW)
+
+    def graph_plot(self):
+        print('Combobox changed...')
+
+        # combobox.currentIndexChanged().connect(updateGraph)
+
+        # self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
+        # self.graphWidget = pg.PlotWidget()
+        # self.lay.addWidget(self.graphWidget)
+        # self.wUi.setLayout(self.lay)
+
 
 # ----------------------------------------------------------END-----timeSoft.py
 

@@ -27,6 +27,7 @@ class TableWidget(QWidget):
         # self.cursor = self.connection.cursor()
 
         self.qsqldb = QSqlDatabase().addDatabase('QPSQL')
+        
 
         self.qsqldb.setHostName(self.host);
         self.qsqldb.setDatabaseName(self.database);

@@ -177,7 +177,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.initUI()
 
         # Connect TableView with mouseClick.
-        self.tUi.tableW.clicked.connect(self.get_current_row_tableview)
+        self.tUi.tableW.doubleClicked.connect(self.get_current_row_tableview)
 
         # When starting a program, first login UI appears.
         self.show_login()
@@ -401,7 +401,12 @@ class MainUI(QtWidgets.QMainWindow):
         self.actl_name = str(item.sibling(item.row(), 2).data())
         self.act_time = str(item.sibling(item.row(), 3).data())
         self.act_comment = str(item.sibling(item.row(), 1).data())
-        return self.actl_name
+
+        self.show_edit_event(self.actl_name, self.act_time, self.act_date, \
+            self.cat_name, self.act_comment)
+        # def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
+        #                 cat_name=str, act_comment=None)
+        # return self.actl_name
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method add_event().
     def show_add_action(self):

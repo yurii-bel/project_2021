@@ -318,8 +318,8 @@ class MainUI(QtWidgets.QMainWindow):
                 self.timedb.get_logged_user_data(item='get_user_email'))
             self.lUi.close()
             self.mUi.show()
-            # self.custom_view_table()
-            self.view_table()  # Viewing table.
+            self.custom_view_table()
+            # self.view_table()  # Viewing table.
 
     # REGISTRATION BLOCK.
     def show_registration(self):

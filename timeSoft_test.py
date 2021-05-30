@@ -10,13 +10,6 @@ import csv
 
 sys.path.append(".")
 
-# ZAMETKA
-# def view_table(self):
-#         self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
-#         self.lay.addWidget(self.aUi)
-#         # self.lay.addWidget(self.aUi.add_event_widget_window)
-#         self.wUi.setLayout(self.lay)
-
 class InputCheck:
     def __init__(self, input_text):
         self.text = input_text
@@ -205,8 +198,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.lUi.setFixedHeight(768)
         self.lUi.setFixedWidth(1280)
         self.lUi.login_btn_login.clicked.connect(self.login)
-        self.lUi.login_btn_create_account.clicked.connect(
-            self.show_registration)
+        self.lUi.login_btn_create_account.clicked.connect(self.show_registration)
         self.lUi.setWindowIcon(icon)
 
         # Register UI.
@@ -221,48 +213,10 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi.add_event_btn_cancel.clicked.connect(self.aUi.close)
         self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
 
-        # self.aUi.add_event_dateEdit.setCalendarPopup(True)
-        # self.aUi.add_event_dateEdit.setDate(
-        #     QtCore.QDate(QtCore.QDate.currentDate()))
-        # self.aUi.add_event_dateEdit.setMaximumDate(
-        #     QtCore.QDate(QtCore.QDate.currentDate()))
-
-        # # Updating user categories for combobox element.
-        # categs, i = self.timedb.get_logged_user_data(
-        #     item='get_user_categories'), 0
-        # for categ in categs:
-        #     self.aUi.add_event_comboBox_category.insertItem(i, categ)
-        #     i += 1
-
         # Edit event UI.
         # self.eUi.edit_event_btn_save.clicked.connect(self.edit_event)
         # self.eUi.edit_event_btn_del.clicked.connect(self.delete_event)
         # self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
-
-        # Разобраться.
-        # def init_edit_event_ui(self, settings):
-        #     self.eUi.edit_event_dateEdit.setCalendarPopup(True)
-        #     self.eUi.edit_event_dateEdit.setMaximumDate(
-        #         QtCore.QDate(QtCore.QDate.currentDate()))
-
-        #     categs, i = self.timedb.get_logged_user_data(
-        #         item='get_user_categories'), 0
-        #     for categ in categs:
-        #         self.eUi.edit_event_comboBox_category.insertItem(i, categ)
-        #         i += 1
-
-        #     date_ = datetime.datetime.strptime(settings[2], '%Y-%m-%d')
-        #     for d in [date_.timetuple()]:
-        #         year = int(d[0])
-        #         month = int(d[1])
-        #         day = int(d[2])
-        #         date = QtCore.QDate(year, month, day)
-
-        #     self.eUi.edit_event_lineEdit_name.setText(settings[0])
-        #     self.eUi.edit_event_comboBox_category.setCurrentText(settings[3])
-        #     self.eUi.edit_event_lineEdit_time.setText(settings[1])
-        #     self.eUi.edit_event_dateEdit.setDate(date)
-        #     self.eUi.edit_event_plaintextedit_comment.setPlainText(settings[4])
 
         # Connecting line edits to appropriate slots.
         # self.aUi.add_event_lineEdit_name.textChanged.connect(
@@ -451,10 +405,22 @@ class MainUI(QtWidgets.QMainWindow):
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method add_event().
     def show_add_action(self):
+        self.aUi.add_event_dateEdit.setCalendarPopup(True)
+        self.aUi.add_event_dateEdit.setDate(
+            QtCore.QDate(QtCore.QDate.currentDate()))
+        self.aUi.add_event_dateEdit.setMaximumDate(
+            QtCore.QDate(QtCore.QDate.currentDate()))
+
+        # Updating user categories for combobox element.
+        categs, i = self.timedb.get_logged_user_data(
+            item='get_user_categories'), 0
+        for categ in categs:
+            self.aUi.add_event_comboBox_category.insertItem(i, categ)
+            i += 1
         self.aUi.show()
 
     def add_action(self):
-        # # Getting all info, entered by user.
+        # Getting all info, entered by user.
         title = self.aUi.add_event_lineEdit_name.text()
         category = self.aUi.add_event_comboBox_category.currentText()
         duration = self.aUi.add_event_lineEdit_time.text()
@@ -492,39 +458,57 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi.close()
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
-    def edit_action(self):
-        # def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
-        #                 cat_name=str, act_comment=None):
+    def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
+                        cat_name=str, act_comment=None):
 
-        # settings = [actl_name, act_time, act_date, cat_name, act_comment]
-        # self.init_edit_event_ui(settings)
+        self.act_id = self.timedb.get_logged_user_data(item='get_act_id',\
+            params=[actl_name, act_time, act_date, cat_name, act_comment])
 
-        # self.act_id = self.timedb.get_logged_user_data(item='get_act_id',
-        #                                                params=[actl_name, act_time, act_date, cat_name, act_comment])
+        self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',\
+            params=[actl_name, cat_name])
 
-        # self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',
-        #                                                 params=[actl_name, cat_name])
+        self.eUi.edit_event_dateEdit.setCalendarPopup(True)
+        self.eUi.edit_event_dateEdit.setMaximumDate(
+            QtCore.QDate(QtCore.QDate.currentDate()))
 
-        # self.eUi.show()
+        categs, i = self.timedb.get_logged_user_data(
+            item='get_user_categories'), 0
+        for categ in categs:
+            self.eUi.edit_event_comboBox_category.insertItem(i, categ)
+            i += 1
 
-        # def edit_event(self):
-        # title = self.eUi.edit_event_lineEdit_name.text()
-        # category = self.eUi.edit_event_comboBox_category.currentText()
-        # duration = self.eUi.edit_event_lineEdit_time.text()
-        # date = self.eUi.edit_event_dateEdit.date()
-        # comment = self.eUi.edit_event_plaintextedit_comment.toPlainText()
+        date_ = datetime.datetime.strptime(act_date, '%Y-%m-%d')
+        for d in [date_.timetuple()]:
+            year = int(d[0])
+            month = int(d[1])
+            day = int(d[2])
+            date = QtCore.QDate(year, month, day)
 
-        # date_ = datetime.date(date.year(), date.month(), date.day())
-        # str_date = date_.strftime('%Y-%m-%d')
+        self.eUi.edit_event_lineEdit_name.setText(actl_name)
+        self.eUi.edit_event_comboBox_category.setCurrentText(cat_name)
+        self.eUi.edit_event_lineEdit_time.setText(act_time)
+        self.eUi.edit_event_dateEdit.setDate(date)
+        self.eUi.edit_event_plaintextedit_comment.setPlainText(act_comment)
 
-        # int_duration = int(''.join(filter(str.isdigit, duration)))
+        self.eUi.show()
 
-        # # Writing all changes to db and closing 'Add Event' win.
-        # self.timedb.edit_event(self.user_n_name, title, int_duration,
-        #                        str_date, category, comment, self.act_id, self.actl_id)
-        # self.eUi.close()
-        # self.edit_event_status = True
-        pass
+    # def edit_action(self):
+    #     title = self.eUi.edit_event_lineEdit_name.text()
+    #     category = self.eUi.edit_event_comboBox_category.currentText()
+    #     duration = self.eUi.edit_event_lineEdit_time.text()
+    #     date = self.eUi.edit_event_dateEdit.date()
+    #     comment = self.eUi.edit_event_plaintextedit_comment.toPlainText()
+
+    #     date_ = datetime.date(date.year(), date.month(), date.day())
+    #     str_date = date_.strftime('%Y-%m-%d')
+
+    #     int_duration = int(''.join(filter(str.isdigit, duration)))
+
+    #     # Writing all changes to db and closing 'Add Event' win.
+    #     self.timedb.edit_event(self.user_n_name, title, int_duration,
+    #                            str_date, category, comment, self.act_id, self.actl_id)
+    #     self.eUi.close()
+    #     self.edit_event_status = True
 
 
     # SETTINGS BLOCK.
@@ -696,6 +680,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.tUi.tableW.resizeColumnsToContents()
         self.tUi.tableW.verticalHeader().setVisible(False)
+        self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
         self.lay.addWidget(self.tUi.tableW)
         self.wUi.setLayout(self.lay)
@@ -726,6 +711,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.tUi.tableW.resizeColumnsToContents()
         self.tUi.tableW.verticalHeader().setVisible(False)
+        self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
         self.lay.addWidget(self.tUi.tableW)
 

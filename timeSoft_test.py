@@ -9,7 +9,7 @@ import sys
 import os
 import datetime
 import csv
-import pandas
+# import pandas
 
 
 sys.path.append(".")
@@ -892,14 +892,72 @@ class MainUI(QtWidgets.QMainWindow):
         self.lay.addWidget(self.tUi.tableW)
 
     def graph_plot(self):
-        print('Combobox changed...')
+        rows = self.timedb.get_logged_user_data(item='get_user_activities')
+
+        # Checking if combobox status is Graph. 
+        # Getting categories array(similar not repeated) and
+        # sum of the corresponding durations array for them.
+        self.categories = []  # array of all (repeatable) categories. 
+        self.duration = []  # array of all durations. 
+        self.diff_duration = []  # array of apropriate sum of durations
+        # positioning relatively to the corresponding fields of non-repeatable 
+        # field of categories.
+        self.num_diff_categories = []
+
+        if self.mUi.mainwindow_comboBox_display_style.currentIndex() == 2:
+            for row in rows:
+                self.categories.append(row[0])
+                self.duration.append(int(row[2]))
+        
+        self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
+
+        for i in range(len(self.diff_categories)):
+            self.diff_duration.append(0)
+
+        self.item = 0
+        self.diff_item = 0
+
+        for i in self.categories:
+
+            for j in self.diff_categories:
+                if i == j:
+                    self.diff_duration[self.diff_item]+=self.duration[self.item]
+                self.diff_item += 1
+
+            self.item += 1
+            self.diff_item = 0
+
+        inc = 0
+        for i in self.diff_categories:
+            self.num_diff_categories.append(inc)
+            inc += 1
+
+        print(f'Categories: {self.diff_categories}')
+        print(f'Duration: {self.diff_duration}')
+        print(f'Number of categories: {self.num_diff_categories}')
 
         # combobox.currentIndexChanged().connect(updateGraph)
 
-        # self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
-        # self.graphWidget = pg.PlotWidget()
-        # self.lay.addWidget(self.graphWidget)
-        # self.wUi.setLayout(self.lay)
+        
+        ticks = [list(zip(range(len(self.diff_categories)), (self.diff_categories)))]
+
+        self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
+        self.graphWidget = pg.PlotWidget() # Plotting graphwidget.
+
+        xax = self.graphWidget.getAxis('bottom')
+        xax.setTicks(ticks)
+
+        
+        self.lay.addWidget(self.graphWidget) # Adding graphwidget to layout.
+        # self.wUi.setLayout(self.lay)  
+
+        pen = pg.mkPen(color=(255, 0, 0)) # Adding color to the graph curve.
+        self.graphWidget.setTitle("<span style=\"color:yellow;font-size:30pt\">График потраченого времени</span>")
+        # styles = {'color':'r', 'font-size':'20px'}
+        # self.graphWidget.setBackground('w')
+        self.graphWidget.setLabel('left', "<span style=\"color:red;font-size:20px\">Время (мин.)</span>")
+        self.graphWidget.setLabel('bottom', "<span style=\"color:red;font-size:20px\">Активности (категории)</span>")
+        self.graphWidget.plot(self.num_diff_categories, self.diff_duration, pen=pen)
 
 
 # ----------------------------------------------------------END-----timeSoft.py
@@ -993,7 +1051,7 @@ class DbLogic:
             user_n_id = str(self.cursor.fetchall())[2:-3]
 
             self.cursor.execute(
-                f'SELECT user_id FROM "USER" WHERE user_n_id = \'{user_n_id}\'')
+                f'SELECT user_id FROM "USER" WHERE user_n_id = {user_n_id}')
             self.user_id = str(self.cursor.fetchall())[2:-3]
             return self.user_id
 

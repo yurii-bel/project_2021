@@ -958,6 +958,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.lay.addWidget(self.tUi.tableW)
 
     def graph_plot(self):
+        # removing all widgets.
+        # Removing tUi widget from wUi.
+        
         rows = self.timedb.get_logged_user_data(item='get_user_activities')
         # Checking if combobox status is Graph. 
         # Getting categories array(similar not repeated) and
@@ -968,61 +971,84 @@ class MainUI(QtWidgets.QMainWindow):
         # positioning relatively to the corresponding fields of non-repeatable 
         # field of categories.
         self.num_diff_categories = []
+        
+        # Displaying the table if combobox current index is equal to 0.
+        if self.mUi.mainwindow_comboBox_display_style.currentIndex() == 0:
+            # Removing all widgets from layout.
+            for i in reversed(range(self.lay.count())): 
+                self.lay.itemAt(i).widget().setParent(None)
 
-        if self.mUi.mainwindow_comboBox_display_style.currentIndex() == 2:
+            self.lay.addWidget(self.ttUi.tableW)
+
+        # Displaying the diagram if combobox current index is equal to 1.
+        elif self.mUi.mainwindow_comboBox_display_style.currentIndex() == 1:
+            # Removing all widgets from layout.
+            for i in reversed(range(self.lay.count())): 
+                self.lay.itemAt(i).widget().setParent(None)
+            
+            print('Diagram')
+        # Displaying the graph if combobox current index is equal to 2.
+        elif self.mUi.mainwindow_comboBox_display_style.currentIndex() == 2:
+            # Removing all widgets from layout.
+            for i in reversed(range(self.lay.count())): 
+                self.lay.itemAt(i).widget().setParent(None)
+            
+
             for row in rows:
                 self.categories.append(row[0])
                 self.duration.append(int(row[2]))
         
-        self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
+            self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
 
-        for i in range(len(self.diff_categories)):
-            self.diff_duration.append(0)
+            for i in range(len(self.diff_categories)):
+                self.diff_duration.append(0)
 
-        self.item = 0
-        self.diff_item = 0
-
-        for i in self.categories:
-
-            for j in self.diff_categories:
-                if i == j:
-                    self.diff_duration[self.diff_item]+=self.duration[self.item]
-                self.diff_item += 1
-
-            self.item += 1
+            self.item = 0
             self.diff_item = 0
 
-        inc = 0
-        for i in self.diff_categories:
-            self.num_diff_categories.append(inc)
-            inc += 1
+            for i in self.categories:
 
-        print(f'Categories: {self.diff_categories}')
-        print(f'Duration: {self.diff_duration}')
-        print(f'Number of categories: {self.num_diff_categories}')
+                for j in self.diff_categories:
+                    if i == j:
+                        self.diff_duration[self.diff_item]+=self.duration[self.item]
+                    self.diff_item += 1
 
-        # combobox.currentIndexChanged().connect(updateGraph)
+                self.item += 1
+                self.diff_item = 0
 
-        
-        ticks = [list(zip(range(len(self.diff_categories)), (self.diff_categories)))]
+            inc = 0
+            for i in self.diff_categories:
+                self.num_diff_categories.append(inc)
+                inc += 1
 
-        self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
-        self.graphWidget = pg.PlotWidget() # Plotting graphwidget.
+            print(f'Categories: {self.diff_categories}')
+            print(f'Duration: {self.diff_duration}')
+            print(f'Number of categories: {self.num_diff_categories}')
 
-        xax = self.graphWidget.getAxis('bottom')
-        xax.setTicks(ticks)
+            # combobox.currentIndexChanged().connect(updateGraph)
 
-        
-        self.lay.addWidget(self.graphWidget) # Adding graphwidget to layout.
-        # self.wUi.setLayout(self.lay)  
+            
+            ticks = [list(zip(range(len(self.diff_categories)), (self.diff_categories)))]
 
-        pen = pg.mkPen(color=(255, 0, 0)) # Adding color to the graph curve.
-        self.graphWidget.setTitle("<span style=\"color:yellow;font-size:30pt\">График потраченого времени</span>")
-        # styles = {'color':'r', 'font-size':'20px'}
-        # self.graphWidget.setBackground('w')
-        self.graphWidget.setLabel('left', "<span style=\"color:red;font-size:20px\">Время (мин.)</span>")
-        self.graphWidget.setLabel('bottom', "<span style=\"color:red;font-size:20px\">Активности (категории)</span>")
-        self.graphWidget.plot(self.num_diff_categories, self.diff_duration, pen=pen)
+            # self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
+            self.graphWidget = pg.PlotWidget() # Plotting graphwidget.
+
+            xax = self.graphWidget.getAxis('bottom')
+            xax.setTicks(ticks)
+
+            
+            self.lay.addWidget(self.graphWidget) # Adding graphwidget to layout.
+            # self.wUi.setLayout(self.lay)  
+
+            pen = pg.mkPen(color=(255, 0, 0)) # Adding color to the graph curve.
+            self.graphWidget.setTitle("<span style=\"color:yellow;font-size:30pt\">График потраченого времени</span>")
+            # styles = {'color':'r', 'font-size':'20px'}
+            # self.graphWidget.setBackground('w')
+            self.graphWidget.setLabel('left', "<span style=\"color:red;font-size:20px\">Время (мин.)</span>")
+            self.graphWidget.setLabel('bottom', "<span style=\"color:red;font-size:20px\">Активности (категории)</span>")
+            self.graphWidget.plot(self.num_diff_categories, self.diff_duration, pen=pen)
+
+
 
 
 # ----------------------------------------------------------END-----timeSoft.py

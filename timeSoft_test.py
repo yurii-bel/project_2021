@@ -4,14 +4,17 @@ import os
 import datetime
 import csv
 # import pandas
-
-
 from psycopg2 import Error
 import psycopg2.extras
 import psycopg2 as db
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+
 from pyqtgraph import PlotWidget
 import pyqtgraph as pg
+
+from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
+from PyQt5.QtGui import QPainter, QPen
+from PyQt5.QtCore import Qt
 
 sys.path.append(".")
 
@@ -970,7 +973,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.diff_duration = []  # array of apropriate sum of durations
         # positioning relatively to the corresponding fields of non-repeatable 
         # field of categories.
-        self.num_diff_categories = []
+        self.num_diff_categories = []  
         
         # Displaying the table if combobox current index is equal to 0.
         if self.mUi.mainwindow_comboBox_display_style.currentIndex() == 0:
@@ -993,11 +996,10 @@ class MainUI(QtWidgets.QMainWindow):
             for i in reversed(range(self.lay.count())): 
                 self.lay.itemAt(i).widget().setParent(None)
             
-
             for row in rows:
                 self.categories.append(row[0])
                 self.duration.append(int(row[2]))
-        
+
             self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
 
             for i in range(len(self.diff_categories)):
@@ -1033,19 +1035,23 @@ class MainUI(QtWidgets.QMainWindow):
             # self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
             self.graphWidget = pg.PlotWidget() # Plotting graphwidget.
 
+            # Replacing x axis of our graph by customised words.
             xax = self.graphWidget.getAxis('bottom')
             xax.setTicks(ticks)
 
-            
-            self.lay.addWidget(self.graphWidget) # Adding graphwidget to layout.
-            # self.wUi.setLayout(self.lay)  
+            # Adding graphwidget to layout.
+            self.lay.addWidget(self.graphWidget) 
 
-            pen = pg.mkPen(color=(255, 0, 0)) # Adding color to the graph curve.
-            self.graphWidget.setTitle("<span style=\"color:yellow;font-size:30pt\">График потраченого времени</span>")
+            # cc = pg.colormap.get('CET-L17') # prepare a linear color map
+            # cm.reverse() # reverse it to put light colors at the top 
+            pen = pg.mkPen(color=(115, 103, 240), width=5 )
+            # self.graphWidget.setConfigOption('background', (40, 48, 70))
+            # pen = pg.mkPen(color=(255, 0, 0)) # Adding color to the graph curve.
+            self.graphWidget.setTitle("<span style=\"color:white;font-size:30pt\">График потраченого времени</span>")
             # styles = {'color':'r', 'font-size':'20px'}
-            # self.graphWidget.setBackground('w')
-            self.graphWidget.setLabel('left', "<span style=\"color:red;font-size:20px\">Время (мин.)</span>")
-            self.graphWidget.setLabel('bottom', "<span style=\"color:red;font-size:20px\">Активности (категории)</span>")
+            self.graphWidget.setBackground((40, 48, 70))
+            self.graphWidget.setLabel('left', "<span style=\"color:white;font-size:20px\">Время (мин.)</span>")
+            self.graphWidget.setLabel('bottom', "<span style=\"color:white;font-size:20px\">Активности (категории)</span>")
             self.graphWidget.plot(self.num_diff_categories, self.diff_duration, pen=pen)
 
 

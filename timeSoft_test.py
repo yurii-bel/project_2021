@@ -13,7 +13,7 @@ from pyqtgraph import PlotWidget
 import pyqtgraph as pg
 
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
-from PyQt5.QtGui import QPainter, QPen
+from PyQt5.QtGui import QBrush, QPainter, QPen
 from PyQt5.QtCore import Qt
 
 sys.path.append(".")
@@ -974,6 +974,34 @@ class MainUI(QtWidgets.QMainWindow):
         # positioning relatively to the corresponding fields of non-repeatable 
         # field of categories.
         self.num_diff_categories = []  
+
+        for row in rows:
+            self.categories.append(row[0])
+            self.duration.append(int(row[2]))
+
+        self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
+
+        for i in range(len(self.diff_categories)):
+            self.diff_duration.append(0)
+
+        self.item = 0
+        self.diff_item = 0
+
+        for i in self.categories:
+
+            for j in self.diff_categories:
+                if i == j:
+                    self.diff_duration[self.diff_item]+=self.duration[self.item]
+                self.diff_item += 1
+
+            self.item += 1
+            self.diff_item = 0
+
+        inc = 0
+        for i in self.diff_categories:
+            self.num_diff_categories.append(inc)
+            inc += 1
+        
         
         # Displaying the table if combobox current index is equal to 0.
         if self.mUi.mainwindow_comboBox_display_style.currentIndex() == 0:
@@ -983,45 +1011,52 @@ class MainUI(QtWidgets.QMainWindow):
 
             self.lay.addWidget(self.ttUi.tableW)
 
-        # Displaying the diagram if combobox current index is equal to 1.
+        # Displaying the diagram/chart if combobox current index is equal to 1.
         elif self.mUi.mainwindow_comboBox_display_style.currentIndex() == 1:
             # Removing all widgets from layout.
             for i in reversed(range(self.lay.count())): 
                 self.lay.itemAt(i).widget().setParent(None)
             
-            print('Diagram')
+            series = QPieSeries()
+            # Appending values to series.
+            for i in range(len(self.diff_categories)):
+                series.append(self.diff_categories[i], self.diff_duration[i])
+            
+            #adding slice
+            slice = QPieSlice()
+            slice = series.slices()[2]
+            slice.setExploded(True)
+            slice.setLabelVisible(True)
+            slice.setPen(QPen(Qt.darkGreen, 2))
+            slice.setBrush(Qt.green)
+
+            chart = QChart()
+            chart.legend().hide()
+            chart.addSeries(series)
+            chart.createDefaultAxes()
+            chart.setAnimationOptions(QChart.SeriesAnimations)
+            chart.setTitle("Круговая диаграмма потраченого времени")
+
+            # chart.setPlotAreaBackgroundBrush(QBrush(Qt.black))
+            # chart.setPlotAreaBackgroundVisible(True)
+            # chart.setBackgroundPen(QPen(Qt.darkGreen))
+            # chart.setPlotAreaBackgroundPen(QPen(Qt.darkGreen))
+            # chart.setPlotAreaBackgroundBrush(Qt.green)
+
+            chart.legend().setVisible(True)
+            chart.legend().setAlignment(Qt.AlignBottom)
+ 
+            chartview = QChartView(chart)
+            chartview.setRenderHint(QPainter.Antialiasing)
+ 
+            self.lay.addWidget(chartview)
+            
         # Displaying the graph if combobox current index is equal to 2.
         elif self.mUi.mainwindow_comboBox_display_style.currentIndex() == 2:
             # Removing all widgets from layout.
             for i in reversed(range(self.lay.count())): 
                 self.lay.itemAt(i).widget().setParent(None)
             
-            for row in rows:
-                self.categories.append(row[0])
-                self.duration.append(int(row[2]))
-
-            self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
-
-            for i in range(len(self.diff_categories)):
-                self.diff_duration.append(0)
-
-            self.item = 0
-            self.diff_item = 0
-
-            for i in self.categories:
-
-                for j in self.diff_categories:
-                    if i == j:
-                        self.diff_duration[self.diff_item]+=self.duration[self.item]
-                    self.diff_item += 1
-
-                self.item += 1
-                self.diff_item = 0
-
-            inc = 0
-            for i in self.diff_categories:
-                self.num_diff_categories.append(inc)
-                inc += 1
 
             print(f'Categories: {self.diff_categories}')
             print(f'Duration: {self.diff_duration}')
@@ -1047,11 +1082,11 @@ class MainUI(QtWidgets.QMainWindow):
             pen = pg.mkPen(color=(115, 103, 240), width=5 )
             # self.graphWidget.setConfigOption('background', (40, 48, 70))
             # pen = pg.mkPen(color=(255, 0, 0)) # Adding color to the graph curve.
-            self.graphWidget.setTitle("<span style=\"color:white;font-size:30pt\">График потраченого времени</span>")
+            self.graphWidget.setTitle("<span style=\"color:white;font-size:18pt\">График потраченого времени</span>")
             # styles = {'color':'r', 'font-size':'20px'}
             self.graphWidget.setBackground((40, 48, 70))
-            self.graphWidget.setLabel('left', "<span style=\"color:white;font-size:20px\">Время (мин.)</span>")
-            self.graphWidget.setLabel('bottom', "<span style=\"color:white;font-size:20px\">Активности (категории)</span>")
+            self.graphWidget.setLabel('left', "<span style=\"color:white;font-size:12px\">Время (мин.)</span>")
+            self.graphWidget.setLabel('bottom', "<span style=\"color:white;font-size:12px\">Активности (категории)</span>")
             self.graphWidget.plot(self.num_diff_categories, self.diff_duration, pen=pen)
 
 

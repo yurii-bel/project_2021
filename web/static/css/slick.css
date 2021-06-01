@@ -1,6 +1,5 @@
 /* Slider */
-.slick-slider
-{
+.slick-slider {
     position: relative;
     display: block;
     box-sizing: border-box;
@@ -15,27 +14,23 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-.slick-list
-{
+.slick-list {
     position: relative;
     display: block;
     overflow: hidden;
     margin: 0;
     padding: 0;
 }
-.slick-list:focus
-{
+.slick-list:focus {
     outline: none;
 }
-.slick-list.dragging
-{
+.slick-list.dragging {
     cursor: pointer;
     cursor: hand;
 }
 
 .slick-slider .slick-track,
-.slick-slider .slick-list
-{
+.slick-slider .slick-list {
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
     -ms-transform: translate3d(0, 0, 0);
@@ -43,8 +38,7 @@
     transform: translate3d(0, 0, 0);
 }
 
-.slick-track
-{
+.slick-track {
     position: relative;
     top: 0;
     left: 0;
@@ -52,21 +46,17 @@
     display: block;
 }
 .slick-track:before,
-.slick-track:after
-{
+.slick-track:after {
     display: table;
-    content: '';
+    content: "";
 }
-.slick-track:after
-{
+.slick-track:after {
     clear: both;
 }
-.slick-loading .slick-track
-{
+.slick-loading .slick-track {
     visibility: hidden;
 }
-.gallery-item.slick-slide
-{
+.gallery-item.slick-slide {
     float: none;
     height: 100%;
     min-height: 1px;
@@ -74,44 +64,35 @@
     position: relative;
     display: inline-block !important;
 }
-.slick-slide
-{
+.slick-slide {
     display: none;
     float: left;
     height: 100%;
     min-height: 1px;
 }
-.carousel-slider .slick-slide
-{
+.carousel-slider .slick-slide {
     margin: 0 64px;
 }
-[dir='rtl'] .slick-slide
-{
+[dir="rtl"] .slick-slide {
     float: right;
 }
-.slick-slide img
-{
+.slick-slide img {
     display: block;
     margin: 0 auto;
 }
-.slick-slide.slick-loading img
-{
+.slick-slide.slick-loading img {
     display: none;
 }
-.slick-slide.dragging img
-{
+.slick-slide.dragging img {
     pointer-events: none;
 }
-.slick-initialized .slick-slide
-{
+.slick-initialized .slick-slide {
     display: block;
 }
-.slick-loading .slick-slide
-{
+.slick-loading .slick-slide {
     visibility: hidden;
 }
-.slick-vertical .slick-slide
-{
+.slick-vertical .slick-slide {
     display: block;
 
     height: auto;
@@ -123,13 +104,12 @@
 }
 
 .slick-prev,
-.slick-next
-{
+.slick-next {
     font-size: 0;
     line-height: 0;
     position: absolute;
     top: 50%;
-    display: block;    
+    display: block;
     margin-top: -10px;
     padding: 0;
     cursor: pointer;
@@ -144,23 +124,19 @@
     transition: opacity 0.4s ease;
 }
 .slick-prev:hover,
-.slick-next:hover
-{
+.slick-next:hover {
     opacity: 1;
 }
-.slick-next
-{
+.slick-next {
     right: 0;
-    background-image: url("../images/opta_arrow@2x.png");
+
     background-repeat: no-repeat;
     background-size: 35px 20px;
     background-color: transparent;
     padding: 35px;
     background-position: center;
 }
-.slick-prev
-{
-    background-image: url(../images/opta_arrow@2x_left.png);
+.slick-prev {
     background-repeat: no-repeat;
     background-size: 35px 20px;
     background-color: transparent;
@@ -170,53 +146,43 @@
 .slick-prev:hover:before,
 .slick-prev:focus:before,
 .slick-next:hover:before,
-.slick-next:focus:before
-{
+.slick-next:focus:before {
     opacity: 1;
 }
 .slick-prev.slick-disabled:before,
-.slick-next.slick-disabled:before
-{
-    opacity: .25;
+.slick-next.slick-disabled:before {
+    opacity: 0.25;
 }
 
 .slick-prev:before,
-.slick-next:before
-{    
+.slick-next:before {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-[dir='rtl'] .slick-prev
-{
+[dir="rtl"] .slick-prev {
     right: -25px;
     left: auto;
 }
-.slick-prev:before
-{
-    content: '-';
+.slick-prev:before {
+    content: "-";
 }
-[dir='rtl'] .slick-prev:before
-{
-    content: '+';
+[dir="rtl"] .slick-prev:before {
+    content: "+";
 }
 
-[dir='rtl'] .slick-next
-{
+[dir="rtl"] .slick-next {
     right: auto;
     left: -25px;
 }
-.slick-next:before
-{
-    content: '+';
+.slick-next:before {
+    content: "+";
 }
-[dir='rtl'] .slick-next:before
-{
-    content: '-';
+[dir="rtl"] .slick-next:before {
+    content: "-";
 }
 
-.slick-dots
-{
+.slick-dots {
     position: absolute;
     bottom: -50px;
     display: block;
@@ -226,8 +192,7 @@
     list-style: none;
     text-align: center;
 }
-.slick-dots li
-{
+.slick-dots li {
     position: relative;
     display: inline-block;
     width: 20px;
@@ -236,8 +201,7 @@
     padding: 0;
     cursor: pointer;
 }
-.slick-dots li button
-{
+.slick-dots li button {
     font-size: 0;
     line-height: 0;
     display: block;
@@ -251,17 +215,14 @@
     background: transparent;
 }
 .slick-dots li button:hover,
-.slick-dots li button:focus
-{
+.slick-dots li button:focus {
     outline: none;
 }
 .slick-dots li button:hover:before,
-.slick-dots li button:focus:before
-{
+.slick-dots li button:focus:before {
     opacity: 1;
 }
-.slick-dots li button:before
-{    
+.slick-dots li button:before {
     font-size: 6px;
     line-height: 20px;
     position: absolute;
@@ -273,14 +234,13 @@
     border-radius: 90%;
     background-color: red;
     text-align: center;
-    opacity: .25;
+    opacity: 0.25;
     color: black;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-.slick-dots li.slick-active button:before
-{
-    opacity: .75;
+.slick-dots li.slick-active button:before {
+    opacity: 0.75;
     color: black;
 }
 :focus {

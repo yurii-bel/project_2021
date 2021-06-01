@@ -1,16 +1,17 @@
-import psycopg2.extras
-from uuid import uuid4
-from psycopg2 import Error
-import psycopg2 as db
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from pyqtgraph import PlotWidget
-import pyqtgraph as pg
 import sys
+from uuid import uuid4
 import os
 import datetime
 import csv
 # import pandas
 
+
+from psycopg2 import Error
+import psycopg2.extras
+import psycopg2 as db
+from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from pyqtgraph import PlotWidget
+import pyqtgraph as pg
 
 sys.path.append(".")
 
@@ -157,13 +158,14 @@ class MainUI(QtWidgets.QMainWindow):
         self.abUi = uic.loadUi('design\\about_us_d.ui') # About us ui.
         # Widget for viewing various data.
         self.wUi = self.mUi.mainwindow_widget_view
+        self.ttUi = uic.loadUi('design\\table_test.ui')  # Table ui.
 
         # Various settings for different UI elements, such as connecting
         # buttons to slots, setting menubars and status bar.
         self.initUI()
 
         # Connect TableView with mouseClick.
-        self.tUi.tableW.doubleClicked.connect(self.get_current_row_tableview)
+        self.ttUi.tableW.doubleClicked.connect(self.get_current_row_tableview)
 
         # When starting a program, first login UI appears.
         self.show_login()
@@ -195,15 +197,15 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi.setWindowIcon(icon)
 
         # Add event UI.
-        self.sUi.setFixedHeight(768)
-        self.sUi.setFixedWidth(1280)
+        self.aUi.setFixedHeight(640)
+        self.aUi.setFixedWidth(360)
         self.aUi.add_event_btn_add.clicked.connect(self.add_action)
         self.aUi.add_event_btn_cancel.clicked.connect(self.aUi.close)
         self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
 
         # Edit event UI.
-        self.sUi.setFixedHeight(768)
-        self.sUi.setFixedWidth(1280)
+        self.eUi.setFixedHeight(640)
+        self.eUi.setFixedWidth(360)
         self.eUi.edit_event_btn_save.clicked.connect(self.edit_action)
         self.eUi.edit_event_btn_del.clicked.connect(self.delete_action)
         self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
@@ -268,7 +270,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.update_users_categs()
             self.lUi.close()
             self.mUi.show()
-            self.custom_view_table() # Viewing table.
+            self.custom_view_table_test() # Viewing table.
 
     # REGISTRATION BLOCK.
     def show_registration(self):
@@ -401,18 +403,19 @@ class MainUI(QtWidgets.QMainWindow):
         in a TableView widget.
         '''
         # #selected cell value.
-        self.act_date = str(item.sibling(item.row(), 0).data())
-        self.cat_name = str(item.sibling(item.row(), 1).data())
-        self.actl_name = str(item.sibling(item.row(), 2).data())
-        self.act_time = str(item.sibling(item.row(), 3).data())
-        self.act_comment = str(item.sibling(item.row(), 4).data())
+        self.act_id = str(item.sibling(item.row(), 0).data())
+        self.act_date = str(item.sibling(item.row(), 1).data())
+        self.cat_name = str(item.sibling(item.row(), 2).data())
+        self.actl_name = str(item.sibling(item.row(), 3).data())
+        self.act_time = str(item.sibling(item.row(), 4).data())
+        self.act_comment = str(item.sibling(item.row(), 5).data())
 
-        self.act_id, self.actl_id = \
-            self.timedb.get_logged_user_data(item='get_act_id',\
-                params=[self.actl_name, self.act_time, self.act_date,\
-                    self.cat_name, self.act_comment]),\
-                self.timedb.get_logged_user_data(item='get_actl_id',\
-                    params=[self.cat_name, self.actl_name])
+        # self.act_id, self.actl_id = \
+        #     self.timedb.get_logged_user_data(item='get_act_id',\
+        #         params=[self.actl_name, self.act_time, self.act_date,\
+        #             self.cat_name, self.act_comment]),\
+        #         self.timedb.get_logged_user_data(item='get_actl_id',\
+        #             params=[self.cat_name, self.actl_name])
 
         self.show_edit_action(self.actl_name, self.act_time, self.act_date, \
             self.cat_name, self.act_comment)
@@ -538,18 +541,18 @@ class MainUI(QtWidgets.QMainWindow):
                 add_params=[category, title, int_duration, str_date, comment])
 
         self.update_users_categs()
-        self.update_custom_view_table()
+        self.update_custom_view_table_test()
         self.aUi.close()
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
     def show_edit_action(self, actl_name=str, act_time=str, act_date=None,\
             cat_name=str, act_comment=None):
 
-        self.act_id = self.timedb.get_logged_user_data(item='get_act_id',\
-            params=[cat_name, act_time, act_date, actl_name, act_comment])
+        # self.act_id = self.timedb.get_logged_user_data(item='get_act_id',\
+        #     params=[cat_name, act_time, act_date, actl_name, act_comment])
 
-        self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',\
-            params=[actl_name, cat_name])
+        # self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',\
+        #     params=[actl_name, cat_name])
 
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
         self.eUi.edit_event_dateEdit.setMaximumDate(
@@ -670,25 +673,25 @@ class MainUI(QtWidgets.QMainWindow):
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        if not self.timedb.set_logged_user_data(item='check_event_data',\
+        self.timedb.set_logged_user_data(item='check_event_data',\
             add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
-                self.act_comment]) == True:
-            self.timedb.set_logged_user_data(item='edit_event',\
-                add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
-                    self.act_comment],\
-                edit_params=[category, title, int_duration, str_date, comment])
+                self.act_comment, self.act_id])
+        self.timedb.set_logged_user_data(item='edit_event',\
+            add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
+                self.act_comment, self.act_id],\
+            edit_params=[category, title, int_duration, str_date, comment])
 
         self.update_users_categs()
-        self.update_custom_view_table()
+        self.update_custom_view_table_test()
         self.eUi.close()
 
     def delete_action(self):
         self.timedb.set_logged_user_data(item='del_event',\
             add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
-                self.act_comment])
+                self.act_comment, self.act_id])
 
         self.update_users_categs()
-        self.update_custom_view_table()
+        self.update_custom_view_table_test()
         self.eUi.close()
 
     # SETTINGS BLOCK.
@@ -862,6 +865,36 @@ class MainUI(QtWidgets.QMainWindow):
         self.lay.addWidget(self.tUi.tableW)
         self.wUi.setLayout(self.lay)
 
+    # TABLE VIEWING BLOCK. uses DbLogic class.
+    def custom_view_table_test(self):
+        rows = self.timedb.get_logged_user_data(item='get_user_activities_test')
+        self.lay = QtWidgets.QHBoxLayout()
+        self.ttUi.tableW.setRowCount(len(rows))
+
+        x = 0
+        for row in rows:
+            # self.ttUi.tableW.horizontalHeader().sortIndicatorOrder()
+            self.ttUi.tableW.setItem(x, 0,
+            QtWidgets.QTableWidgetItem(str(row[0])))
+            self.ttUi.tableW.setItem(x, 1,
+            QtWidgets.QTableWidgetItem(row[4]))
+            self.ttUi.tableW.setItem(x, 2,
+            QtWidgets.QTableWidgetItem(row[1]))
+            self.ttUi.tableW.setItem(x, 3,
+            QtWidgets.QTableWidgetItem(row[2]))
+            self.ttUi.tableW.setItem(x, 4,
+            QtWidgets.QTableWidgetItem(row[3]))
+            self.ttUi.tableW.setItem(x, 5,
+            QtWidgets.QTableWidgetItem(row[5]))
+            x += 1 
+
+        self.ttUi.tableW.resizeColumnsToContents()
+        self.ttUi.tableW.verticalHeader().setVisible(False)
+        self.ttUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+
+        self.lay.addWidget(self.ttUi.tableW)
+        self.wUi.setLayout(self.lay)
+
     def update_custom_view_table(self):
         # self.lay.removeWidget(self.tUi)
         self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
@@ -872,16 +905,49 @@ class MainUI(QtWidgets.QMainWindow):
 
         x = 0
         for row in rows:
-            self.tUi.tableW.horizontalHeader().sortIndicatorOrder()
-            self.tUi.tableW.setItem(x, 0,
-            QtWidgets.QTableWidgetItem(row[3]))
-            self.tUi.tableW.setItem(x, 1,
+            # self.ttUi.tableW.horizontalHeader().sortIndicatorOrder()
+            self.ttUi.tableW.setItem(x, 0,
             QtWidgets.QTableWidgetItem(row[0]))
-            self.tUi.tableW.setItem(x, 2,
+            self.ttUi.tableW.setItem(x, 1,
+            QtWidgets.QTableWidgetItem(row[4]))
+            self.ttUi.tableW.setItem(x, 2,
             QtWidgets.QTableWidgetItem(row[1]))
-            self.tUi.tableW.setItem(x, 3,
+            self.ttUi.tableW.setItem(x, 3,
             QtWidgets.QTableWidgetItem(row[2]))
-            self.tUi.tableW.setItem(x, 4,
+            self.ttUi.tableW.setItem(x, 4,
+            QtWidgets.QTableWidgetItem(row[3]))
+            self.ttUi.tableW.setItem(x, 5,
+            QtWidgets.QTableWidgetItem(row[5]))
+            x += 1 
+
+        self.tUi.tableW.resizeColumnsToContents()
+        self.tUi.tableW.verticalHeader().setVisible(False)
+        self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+
+        self.lay.addWidget(self.tUi.tableW)
+
+    def update_custom_view_table_test(self):
+        # self.lay.removeWidget(self.tUi)
+        self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
+        
+        rows = self.timedb.get_logged_user_data(item='get_user_activities_test')
+
+        self.tUi.tableW.setRowCount(len(rows))
+
+        x = 0
+        for row in rows:
+            self.ttUi.tableW.horizontalHeader().sortIndicatorOrder()
+            self.ttUi.tableW.setItem(x, 0,
+            QtWidgets.QTableWidgetItem(row[0]))
+            self.ttUi.tableW.setItem(x, 1,
+            QtWidgets.QTableWidgetItem(row[4]))
+            self.ttUi.tableW.setItem(x, 2,
+            QtWidgets.QTableWidgetItem(row[1]))
+            self.ttUi.tableW.setItem(x, 3,
+            QtWidgets.QTableWidgetItem(row[2]))
+            self.ttUi.tableW.setItem(x, 4,
+            QtWidgets.QTableWidgetItem(row[3]))
+            self.ttUi.tableW.setItem(x, 5,
             QtWidgets.QTableWidgetItem(row[4]))
             x += 1 
 
@@ -1118,6 +1184,21 @@ class DbLogic:
                 user_activities.append(row)
             return user_activities
 
+        elif item == 'get_user_activities_test':
+            self.cursor2.execute(
+                f'SELECT act_id, cat_name, actl_name, act_time, act_date, act_comment\
+                    FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\'')
+            user_activities = []
+            for row in self.cursor2.fetchall():
+                # Setting date in str fromat.
+                date_ = row[4].strftime('%Y-%m-%d')
+                row[4] = date_
+                # Setting duration in str fromat.
+                duration = str(row[3])
+                row[3] = duration
+                user_activities.append(row)
+            return user_activities
+
     def set_logged_user_data(self, user_login=None, item=None, add_params=None, edit_params=None):
         # params[0] = cat_name
         # params[1] = actl_name
@@ -1158,26 +1239,6 @@ class DbLogic:
 
                 self.connection.commit()
 
-            # Checking for matching same data in ACTIVITY_LIST table.
-            self.cursor.execute(
-                f'SELECT (actl_name, cat_name) FROM "ACTIVITY_LIST" WHERE user_id =\
-                    \'{self.user_id}\'')
-            check_activity_list = self.cursor.fetchall()
-            for row in check_activity_list:
-                # If data matches, stop func.
-                if f'({add_params[1]},{add_params[0]})' == row[0]:
-                    return True
-
-            # Checking for matching same data in ACTIVITY table.
-            self.cursor.execute(
-                f'SELECT (cat_name, actl_name, act_time, act_date, act_comment)\
-                    FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\'')
-            check_activity = self.cursor.fetchall()
-            for row in check_activity:
-                if f'({add_params[0]},{add_params[1]},{add_params[2]},\
-                    {add_params[3]},{add_params[4]})' == row[0]:  # If data matches, stop func.
-                    return True
-
         # Adding event as itself.
         elif item == 'add_event':
             self.set_logged_user_data(item='check_user_categories')
@@ -1206,7 +1267,7 @@ class DbLogic:
             self.cursor2.execute(
                 f'UPDATE "ACTIVITY" SET (actl_name, act_time, act_date, cat_name, \
                     act_comment) = (\'{edit_params[1]}\', \'{edit_params[2]}\', \'{edit_params[3]}\',\
-                        \'{edit_params[0]}\', \'{edit_params[4]}\') WHERE act_id = \'{self.act_id}\'')
+                        \'{edit_params[0]}\', \'{edit_params[4]}\') WHERE act_id = \'{add_params[5]}\'')
 
             self.connection.commit()
 
@@ -1217,7 +1278,8 @@ class DbLogic:
                     actl_name = \'{add_params[1]}\' and cat_name = \'{add_params[0]}\'')
 
             self.cursor.execute(
-                f'DELETE FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\' and \
+                f'DELETE FROM "ACTIVITY" WHERE act_id = \'{add_params[5]}\'\
+                    user_id = \'{self.user_id}\' and \
                     actl_name = \'{add_params[1]}\' and act_time = \'{add_params[2]}\' \
                         and act_date = \'{add_params[3]}\' and cat_name = \
                             \'{add_params[0]}\' and act_comment = \'{add_params[4]}\'')
@@ -1296,12 +1358,13 @@ if __name__ == '__main__':
     sys.exit(app.exec())
 
     # dbl = DbLogic()
-    # dbl.get_logged_user_data(user_login='Timofey', item='set_working_user')
+    # dbl.get_logged_user_data(user_login='test', item='set_working_user')
 
     # print(dbl.get_logged_user_data(item='get_user_categories'))
-    # print(dbl.get_logged_user_data(item='get_act_id', params=['Kofe 3', 12, '2021-05-15', '12', '12']))
+    # print(dbl.get_logged_user_data(item='get_act_id', params=['Кушал1', '60', '2021-05-26', 'Еда', '1']))
     # print(dbl.get_logged_user_data(item='get_actl_id', params=['12', 'Kofe 3']))
     # print(dbl.get_logged_user_data(item='get_user_activities'))
+    # print(dbl.get_logged_user_data(item='get_user_activities_test'))
     # print(dbl.get_logged_user_data(item='get_user_p_id'))
     # print(dbl.get_logged_user_data(item='get_user_email'))
     # print(dbl.get_logged_user_data(item='get_user_password'))
@@ -1309,7 +1372,7 @@ if __name__ == '__main__':
     # dbl.set_logged_user_data(user_login='test', item='set_working_user')
 
     # if not dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']) == True:
-    #     dbl.set_logged_user_data(item='add_event', add_params=['Еда', 'Кушал1', '60', '2021-05-26', '1'])
+    # dbl.set_logged_user_data(item='add_event', add_params=['Еда', 'Кушал1', '60', '2021-05-26', '1'])
     # if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
     #     dbl.set_logged_user_data('test', 'edit_event', ['Еда', 'Кушал1', 30, '2021-05-27', 'Не вкусно!'], \
     #         ['Еда', 'Кушал', 60, '2021-05-26', '1'])

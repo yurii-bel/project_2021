@@ -893,7 +893,6 @@ class MainUI(QtWidgets.QMainWindow):
 
     def graph_plot(self):
         rows = self.timedb.get_logged_user_data(item='get_user_activities')
-
         # Checking if combobox status is Graph. 
         # Getting categories array(similar not repeated) and
         # sum of the corresponding durations array for them.

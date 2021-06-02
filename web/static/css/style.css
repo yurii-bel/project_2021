@@ -2095,6 +2095,12 @@ footer a:hover {
     }
 }
 
+@media screen and (min-width: 756px) and (max-width: 1020px) {
+    .big-text {
+        margin-top: 25px;
+    }
+}
+
 @media screen and (max-width: 1020px) {
     #header-main-menu {
         padding-bottom: 70px;

@@ -170,6 +170,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Connect TableView with mouseClick.
         self.ttUi.tableW.doubleClicked.connect(self.get_current_row_tableview)
 
+        # self.ttUi.tableW.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         # When starting a program, first login UI appears.
         self.show_login()
 
@@ -230,6 +231,10 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Combobox Main UI.
         self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(self.graph_plot)
+
+        # Layout.
+        self.lay = QtWidgets.QHBoxLayout() 
+        self.wUi.setLayout(self.lay)
 
     # AUTHORIZATION BLOCK.
     def show_login(self):
@@ -871,7 +876,7 @@ class MainUI(QtWidgets.QMainWindow):
     # TABLE VIEWING BLOCK. uses DbLogic class.
     def custom_view_table_test(self):
         rows = self.timedb.get_logged_user_data(item='get_user_activities_test')
-        self.lay = QtWidgets.QHBoxLayout()
+        # self.lay = QtWidgets.QHBoxLayout()
         self.ttUi.tableW.setRowCount(len(rows))
 
         x = 0
@@ -896,7 +901,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.ttUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
         self.lay.addWidget(self.ttUi.tableW)
-        self.wUi.setLayout(self.lay)
+        # self.wUi.setLayout(self.lay)
 
     def update_custom_view_table(self):
         # self.lay.removeWidget(self.tUi)
@@ -931,17 +936,19 @@ class MainUI(QtWidgets.QMainWindow):
 
     def update_custom_view_table_test(self):
         # self.lay.removeWidget(self.tUi)
-        self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
+        # self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
+        for i in reversed(range(self.lay.count())): 
+            self.lay.itemAt(i).widget().setParent(None)
         
         rows = self.timedb.get_logged_user_data(item='get_user_activities_test')
 
-        self.tUi.tableW.setRowCount(len(rows))
+        self.ttUi.tableW.setRowCount(len(rows))
 
         x = 0
         for row in rows:
             self.ttUi.tableW.horizontalHeader().sortIndicatorOrder()
             self.ttUi.tableW.setItem(x, 0,
-            QtWidgets.QTableWidgetItem(row[0]))
+            QtWidgets.QTableWidgetItem(str(row[0])))
             self.ttUi.tableW.setItem(x, 1,
             QtWidgets.QTableWidgetItem(row[4]))
             self.ttUi.tableW.setItem(x, 2,
@@ -951,14 +958,15 @@ class MainUI(QtWidgets.QMainWindow):
             self.ttUi.tableW.setItem(x, 4,
             QtWidgets.QTableWidgetItem(row[3]))
             self.ttUi.tableW.setItem(x, 5,
-            QtWidgets.QTableWidgetItem(row[4]))
+            QtWidgets.QTableWidgetItem(row[5]))
             x += 1 
+            print(row)
 
-        self.tUi.tableW.resizeColumnsToContents()
-        self.tUi.tableW.verticalHeader().setVisible(False)
-        self.tUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+        self.ttUi.tableW.resizeColumnsToContents()
+        self.ttUi.tableW.verticalHeader().setVisible(False)
+        self.ttUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
-        self.lay.addWidget(self.tUi.tableW)
+        self.lay.addWidget(self.ttUi.tableW)
 
     def graph_plot(self):
         # removing all widgets.
@@ -1079,7 +1087,7 @@ class MainUI(QtWidgets.QMainWindow):
 
             # cc = pg.colormap.get('CET-L17') # prepare a linear color map
             # cm.reverse() # reverse it to put light colors at the top 
-            pen = pg.mkPen(color=(115, 103, 240), width=5 )
+            pen = pg.mkPen(color=(115, 103, 240), width=2)
             # self.graphWidget.setConfigOption('background', (40, 48, 70))
             # pen = pg.mkPen(color=(255, 0, 0)) # Adding color to the graph curve.
             self.graphWidget.setTitle("<span style=\"color:white;font-size:18pt\">График потраченого времени</span>")
@@ -1263,6 +1271,10 @@ class DbLogic:
                 # Setting duration in str fromat.
                 duration = str(row[3])
                 row[3] = duration
+                # row[0] = str(row[0])
+                # row[1] = str(row[1])
+                # row[2] = str(row[2])
+                # row[5] = str(row[0])
                 user_activities.append(row)
             return user_activities
 

@@ -1422,7 +1422,7 @@ background-color: #FFFFFF;</string>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
@@ -1465,7 +1465,7 @@ QMenu::item:pressed {
 }</string>
     </property>
     <property name="title">
-     <string>File</string>
+     <string>Файл</string>
     </property>
     <addaction name="mainwindow_w_act_make_prediction"/>
     <addaction name="mainwindow_w_act_settings"/>

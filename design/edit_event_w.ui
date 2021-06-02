@@ -477,6 +477,12 @@ color: #5E5873;</string>
               <height>126</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>Roboto-Light</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="styleSheet">
              <string notr="true">QPlainTextEdit {
 background-color: #FFFFFF;

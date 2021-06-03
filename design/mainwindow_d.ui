@@ -222,7 +222,13 @@ QPushButton:hover {
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>img/icons/sun.png</normaloff>img/icons/sun.png</iconset>
+             <normaloff>img/icons/white_and_dark.svg</normaloff>img/icons/white_and_dark.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>18</width>
+             <height>18</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -262,6 +268,12 @@ QPushButton:hover {
             <iconset>
              <normaloff>img/icons/settings.png</normaloff>img/icons/settings.png</iconset>
            </property>
+           <property name="iconSize">
+            <size>
+             <width>18</width>
+             <height>18</height>
+            </size>
+           </property>
           </widget>
          </item>
          <item>
@@ -299,6 +311,12 @@ QPushButton:hover {
            <property name="icon">
             <iconset>
              <normaloff>img/icons/power.png</normaloff>img/icons/power.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>18</width>
+             <height>18</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -1388,7 +1406,7 @@ background-color: #283046;</string>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">

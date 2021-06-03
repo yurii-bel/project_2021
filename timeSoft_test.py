@@ -1,6 +1,7 @@
 import sys
 from uuid import uuid4
 import os
+import configparser
 import datetime
 import csv
 # import pandas
@@ -1358,14 +1359,16 @@ class MainUI(QtWidgets.QMainWindow):
 
 class DbLogic:
 
-    database = 'dt1vdgsvah47r'
-    user = 'ryxcgrjdgvrsxx'
-    password = '2e4d8cbc5b0f94259507584c6868f20ae0d4da79fdc618f6c2602d18045b2b61'
-    host = 'ec2-54-74-60-70.eu-west-1.compute.amazonaws.com'
+    config = configparser.ConfigParser()
+    config.read('config.ini', encoding='utf-8-sig')
 
     def __init__(self):
-        self.connection = db.connect(database=self.database, user=self.user,
-                                     password=self.password, host=self.host)
+        self.connection = db.connect(database=self.config.get('PostgreSql', 'database'),
+                                     user=self.config.get(
+                                         'PostgreSql', 'user'),
+                                     password=self.config.get(
+                                         'PostgreSql', 'password'),
+                                     host=self.config.get('PostgreSql', 'host'))
 
         self.cursor = self.connection.cursor()
         self.cursor2 = self.connection.cursor(

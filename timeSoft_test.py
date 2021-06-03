@@ -244,15 +244,86 @@ class MainUI(QtWidgets.QMainWindow):
         # Variable of correctness login status for bot.
         self.correct_login = False
     
-    
+    # TODO: ADD STYLES.
     def change_theme(self):
         if self.change_theme_status == 0:
-            print('dark theme')
-            self.change_theme_status == 1
+            print('white theme')
+
+            
+
+            self.mUi.setStyleSheet('background-color: #F8F8F8;')
+            self.mUi.mainwindow_widget_logo.setStyleSheet('background-color: #F8F8F8;')
+            self.mUi.mainwindow_widget_menu.setStyleSheet('background-color: #F8F8F8;')
+            self.mUi.mainwindow_widget_navigation.setStyleSheet('background-color: #F8F8F8;')
+            self.mUi.mainwindow_btn_daily.setStyleSheet('background-color: #F8F8F8;\
+            color: #7367F0;')
+            self.mUi.mainwindow_btn_weekly.setStyleSheet('background-color: #F8F8F8;\
+            color: #7367F0;')
+            self.mUi.mainwindow_btn_monthly.setStyleSheet('background-color: #F8F8F8;\
+            color: #7367F0;')
+            self.mUi.mainwindow_btn_annually.setStyleSheet('background-color: #F8F8F8;\
+            color: #7367F0;')
+            self.mUi.mainwindow_widget_category.setStyleSheet('background-color: #F8F8F8;\
+            color: #7367F0;')
+            self.mUi.mainwindow_comboBox_display_style.setStyleSheet("""
+            QComboBox {background-color: rgb(22, 29, 49);
+            color: rgb(208, 210, 214);
+            border: 2px solid rgba(0, 0, 0, 0);
+            border-radius: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            }
+
+            QComboBox:hover {
+            background-color: rgb(40, 48, 70);
+            color: rgb(185, 185, 195);
+            border: 2px solid #7666F8;
+            border-radius: 5px;
+            }
+
+            QComboBox QAbstractItemView {
+            background-color: rgb(22, 29, 49);
+            border: 2px solid #7666F8;
+            color: rgb(203, 203, 203);
+            selection-background-color: rgb(94, 80, 238);
+            selection-color: rgb(0, 0, 0);
+            }"""
+            )
+
+            
+
+
+            self.mUi.mainwindow_widget_view.setStyleSheet('background-color: #FFFFFF;\
+            background-image: url(design/img/background-image_w.png);')
+
+            self.change_theme_status = 1
 
         else:
-            print('white theme')
-            self.change_theme_status == 0
+            print('dark theme')
+
+            self.mUi.setStyleSheet('background-color: #161D31;')
+            self.mUi.mainwindow_widget_logo.setStyleSheet('background-color: #283046;')
+            self.mUi.mainwindow_widget_menu.setStyleSheet('background-color: #283046;')
+            self.mUi.mainwindow_widget_navigation.setStyleSheet('background-color: #283046;')
+            self.mUi.mainwindow_btn_daily.setStyleSheet('background-color: #283046;\
+            color: #FFFFFF;')
+            self.mUi.mainwindow_btn_weekly.setStyleSheet('background-color: #283046;\
+            color: #FFFFFF;')
+            self.mUi.mainwindow_btn_monthly.setStyleSheet('background-color: #283046;\
+            color: #FFFFFF;')
+            self.mUi.mainwindow_btn_annually.setStyleSheet('background-color: #283046;\
+            color: #FFFFFF;')
+            self.mUi.mainwindow_widget_category.setStyleSheet('background-color: #283046;\
+            color: #FFFFFF;')
+            self.mUi.mainwindow_comboBox_display_style.setStyleSheet('background-color: rgb(22, 29, 49);\
+            color: rgb(208, 210, 214); border: 2px solid rgba(0, 0, 0, 0);\
+            border-radius: 5px; padding-left: 10px; padding-right: 10px;')
+
+
+            self.mUi.mainwindow_widget_view.setStyleSheet('background-color: #283046;\
+            background-image: url(design/img/background-image_d.png);')
+
+            self.change_theme_status = 0
 
     # AUTHORIZATION BLOCK.
     def show_login(self):

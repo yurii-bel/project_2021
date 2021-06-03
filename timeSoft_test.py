@@ -219,6 +219,11 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.settings_btn_apply.clicked.connect(self.settings_change_user_data)
         self.sUi.settings_lineedit_email.setReadOnly(True)
         self.sUi.setWindowIcon(icon)
+
+        # About us UI.
+        self.abUi.setFixedHeight(768)
+        self.abUi.setFixedWidth(1280)
+        self.abUi.setWindowIcon(icon)
         
         # Menubar Main UI.
         self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)

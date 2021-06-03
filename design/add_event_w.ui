@@ -479,7 +479,7 @@ color: #5E5873;</string>
             </property>
             <property name="font">
              <font>
-              <family>Roboto Light</family>
+              <family>Roboto-Light</family>
               <pointsize>12</pointsize>
              </font>
             </property>

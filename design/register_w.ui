@@ -84,7 +84,7 @@ QPushButton:hover {
 }</string>
     </property>
     <property name="text">
-     <string>Войти</string>
+     <string>Зарегистрироваться</string>
     </property>
     <property name="checkable">
      <bool>false</bool>

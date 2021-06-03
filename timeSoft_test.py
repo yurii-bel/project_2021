@@ -159,6 +159,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
         self.tUi = uic.loadUi('design\\table.ui')  # Table ui.
         self.abUi = uic.loadUi('design\\about_us_d.ui') # About us ui.
+
         # Widget for viewing various data.
         self.wUi = self.mUi.mainwindow_widget_view
         self.ttUi = uic.loadUi('design\\table_test.ui')  # Table ui.
@@ -232,9 +233,26 @@ class MainUI(QtWidgets.QMainWindow):
         # Combobox Main UI.
         self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(self.graph_plot)
 
-        # Layout.
+        # Theme of main window.
+        self.mUi.mainwindow_btn_theme.clicked.connect(self.change_theme)
+        self.change_theme_status = 0  # 0 is a sign of dark theme.
+
+        # Layout creation and appending widget for viewing various data to it.
         self.lay = QtWidgets.QHBoxLayout() 
         self.wUi.setLayout(self.lay)
+
+        # Variable of correctness login status for bot.
+        self.correct_login = False
+    
+    
+    def change_theme(self):
+        if self.change_theme_status == 0:
+            print('dark theme')
+            self.change_theme_status == 1
+
+        else:
+            print('white theme')
+            self.change_theme_status == 0
 
     # AUTHORIZATION BLOCK.
     def show_login(self):
@@ -279,6 +297,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.lUi.close()
             self.mUi.show()
             self.custom_view_table_test() # Viewing table.
+            self.correct_login = True
 
     # REGISTRATION BLOCK.
     def show_registration(self):
@@ -1066,9 +1085,9 @@ class MainUI(QtWidgets.QMainWindow):
                 self.lay.itemAt(i).widget().setParent(None)
             
 
-            print(f'Categories: {self.diff_categories}')
-            print(f'Duration: {self.diff_duration}')
-            print(f'Number of categories: {self.num_diff_categories}')
+            # print(f'Categories: {self.diff_categories}')
+            # print(f'Duration: {self.diff_duration}')
+            # print(f'Number of categories: {self.num_diff_categories}')
 
             # combobox.currentIndexChanged().connect(updateGraph)
 

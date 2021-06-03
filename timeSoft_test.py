@@ -8,6 +8,7 @@ from psycopg2 import Error
 import psycopg2.extras
 import psycopg2 as db
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+import csv
 
 from pyqtgraph import PlotWidget
 import pyqtgraph as pg
@@ -237,6 +238,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.mainwindow_btn_theme.clicked.connect(self.change_theme)
         self.change_theme_status = 0  # 0 is a sign of dark theme.
 
+        # Forecast.
+        self.mUi.mainwindow_btn_forecast.clicked.connect(self.forecast)
+
         # Layout creation and appending widget for viewing various data to it.
         self.lay = QtWidgets.QHBoxLayout() 
         self.wUi.setLayout(self.lay)
@@ -244,6 +248,30 @@ class MainUI(QtWidgets.QMainWindow):
         # Variable of correctness login status for bot.
         self.correct_login = False
     
+
+    def create_forecast_data(self):
+        self.graph_plot()
+        rows = self.timedb.get_logged_user_data(item='get_user_activities')
+        self.dates = []
+
+        for row in rows:
+            self.dates.append(row[3][0:-3])
+        # self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
+        
+        print(self.dates, self.diff_categories, self.diff_duration)
+
+        with open(f'{self.user_n_name}_data.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['Month', 'Category', 'Duration'])
+            # for i in 
+            # writer.writerow([1, "Potato", "Linux Kernel"])
+            # writer.writerow([2, "Tim Berners-Lee", "World Wide Web"])
+            # writer.writerow([3, "Guido van Rossum", "Python Programming"])
+    
+
+    def forecast(self):
+        print('forecast')
+
     # TODO: ADD STYLES.
     def change_theme(self):
         if self.change_theme_status == 0:
@@ -369,6 +397,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.mUi.show()
             self.custom_view_table_test() # Viewing table.
             self.correct_login = True
+            self.create_forecast_data()  # Forcast data creation
 
     # REGISTRATION BLOCK.
     def show_registration(self):

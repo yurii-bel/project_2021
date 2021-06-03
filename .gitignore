@@ -8,3 +8,7 @@ db.sqlite3
 getting-started/*
 temp/*
 .qt_for_python/*
+config.ini
+*.csv
+__pycache__
+*/__pycache__

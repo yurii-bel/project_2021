@@ -1,6 +1,7 @@
 import sys
 from uuid import uuid4
 import os
+import configparser
 import datetime
 import csv
 # import pandas
@@ -8,6 +9,7 @@ from psycopg2 import Error
 import psycopg2.extras
 import psycopg2 as db
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+import csv
 
 from pyqtgraph import PlotWidget
 import pyqtgraph as pg
@@ -17,6 +19,7 @@ from PyQt5.QtGui import QBrush, QPainter, QPen
 from PyQt5.QtCore import Qt
 
 sys.path.append(".")
+
 
 class InputCheck:
     def __init__(self, input_text):
@@ -33,7 +36,8 @@ class InputCheck:
         self.correct_vals_with_num.extend(self.correct_vals)
 
         self.only_in_quotes_char = [ord('!'), ord(','), ord(':')]
-        self.incorrect_vals = [ord('"'), ord('\''), ord('/'), ord('\\'), ord(',')]
+        self.incorrect_vals = [ord('"'), ord(
+            '\''), ord('/'), ord('\\'), ord(',')]
 
     def check_email(self):
         # Проверка на количсество знаков "@".
@@ -67,9 +71,9 @@ class InputCheck:
 
         # Добавляем в список корректных символов . ; " ! : ,
         self.correct_vals_with_num.extend(self.only_in_quotes_char)
-        self.correct_vals_with_num.extend([ord('.'),ord(';'),ord('"')])
+        self.correct_vals_with_num.extend([ord('.'), ord(';'), ord('"')])
         # Проверка на парные кавычки
-        if name.count('"')%2 != 0:
+        if name.count('"') % 2 != 0:
             return [False, 'Непарные кавычки.']
         # Переменные для отслеживания точки и открывающихся кавычек
         doubledot = False
@@ -99,16 +103,16 @@ class InputCheck:
             if ord(i) in self.incorrect_vals:
                 return [False, f'Недопустимый символ {i}.']
         return True
-        
+
     def check_spaces_tabs(self):
         tabs_spaces = [' ', '    ']
         if self.text in tabs_spaces:
             return [False, 'Табуляция или пробел.']
         return True
-                
+
     def number_only(self):
         self.incorrect_vals.extend(self.only_in_quotes_char)
-        self.correct_vals.extend([ord('.'),ord(';'),ord('"')])
+        self.correct_vals.extend([ord('.'), ord(';'), ord('"')])
         self.correct_vals.extend(self.correct_rus_vals)
         for i in self.text:
             if ord(i) in self.correct_vals or ord(i) in self.incorrect_vals:
@@ -154,11 +158,12 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi = uic.loadUi('design\\MainWindow_d.ui')  # Main window ui.
         self.aUi = uic.loadUi('design\\add_event_d.ui')  # Add actions ui.
         self.eUi = uic.loadUi('design\\edit_event_d.ui')  # Edit actions ui.
-        self.rUi = uic.loadUi('design\\register_d.ui')  # Registration window ui.
+        # Registration window ui.
+        self.rUi = uic.loadUi('design\\register_d.ui')
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
         self.tUi = uic.loadUi('design\\table.ui')  # Table ui.
-        self.abUi = uic.loadUi('design\\about_us_d.ui') # About us ui.
+        self.abUi = uic.loadUi('design\\about_us_d.ui')  # About us ui.
 
         # Widget for viewing various data.
         self.wUi = self.mUi.mainwindow_widget_view
@@ -181,7 +186,8 @@ class MainUI(QtWidgets.QMainWindow):
         # Main UI.
         self.mUi.setFixedHeight(768)
         self.mUi.setFixedWidth(1280)
-        self.mUi.mainwindow_btn_nav_add_act.clicked.connect(self.show_add_action)
+        self.mUi.mainwindow_btn_nav_add_act.clicked.connect(
+            self.show_add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
         # self.mUi.mainwindow_btn_forecast.clicked.connect(self.update_custom_view_table)
@@ -191,7 +197,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.lUi.setFixedHeight(768)
         self.lUi.setFixedWidth(1280)
         self.lUi.login_btn_login.clicked.connect(self.login)
-        self.lUi.login_btn_create_account.clicked.connect(self.show_registration)
+        self.lUi.login_btn_create_account.clicked.connect(
+            self.show_registration)
         self.lUi.setWindowIcon(icon)
 
         # Register UI.
@@ -221,107 +228,293 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.settings_btn_export.clicked.connect(self.settings_export)
         self.sUi.settings_btn_import.clicked.connect(self.settings_import)
         self.sUi.settings_btn_undo.clicked.connect(self.sUi.close)
-        self.sUi.settings_btn_apply.clicked.connect(self.settings_change_user_data)
+        self.sUi.settings_btn_apply.clicked.connect(
+            self.settings_change_user_data)
         self.sUi.settings_lineedit_email.setReadOnly(True)
         self.sUi.setWindowIcon(icon)
+
+<<<<<<< HEAD
+        # About us UI.
+        self.abUi.setFixedHeight(768)
+        self.abUi.setFixedWidth(1280)
+        self.abUi.setWindowIcon(icon)
         
+=======
+>>>>>>> 9f11cbe2a5503bfbf732dedf34d1655e290b55e5
         # Menubar Main UI.
         self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)
         self.mUi.mainwindow_act_settings.triggered.connect(self.settings)
         self.mUi.mainwindow_act_about_program.triggered.connect(self.abUi.show)
 
         # Combobox Main UI.
-        self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(self.graph_plot)
+        self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(
+            self.graph_plot)
 
         # Theme of main window.
         self.mUi.mainwindow_btn_theme.clicked.connect(self.change_theme)
         self.change_theme_status = 0  # 0 is a sign of dark theme.
 
+        # Forecast.
+        self.mUi.mainwindow_btn_forecast.clicked.connect(self.forecast)
+
         # Layout creation and appending widget for viewing various data to it.
-        self.lay = QtWidgets.QHBoxLayout() 
+        self.lay = QtWidgets.QHBoxLayout()
         self.wUi.setLayout(self.lay)
 
         # Variable of correctness login status for bot.
         self.correct_login = False
-    
+
+    def create_forecast_data(self):
+        self.graph_plot()
+        rows = self.timedb.get_logged_user_data(item='get_user_activities')
+        self.dates = []
+
+        for row in rows:
+            self.dates.append(row[3][0:-3])
+        # self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
+
+        print(self.dates, self.diff_categories, self.diff_duration)
+
+        with open(f'{self.user_n_name}_data.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['Month', 'Category', 'Duration'])
+            # for i in
+            # writer.writerow([1, "Potato", "Linux Kernel"])
+            # writer.writerow([2, "Tim Berners-Lee", "World Wide Web"])
+            # writer.writerow([3, "Guido van Rossum", "Python Programming"])
+
+    def forecast(self):
+        print('forecast')
+
     # TODO: ADD STYLES.
     def change_theme(self):
         if self.change_theme_status == 0:
             print('white theme')
 
-            
-
-            self.mUi.setStyleSheet('background-color: #F8F8F8;')
-            self.mUi.mainwindow_widget_logo.setStyleSheet('background-color: #F8F8F8;')
-            self.mUi.mainwindow_widget_menu.setStyleSheet('background-color: #F8F8F8;')
-            self.mUi.mainwindow_widget_navigation.setStyleSheet('background-color: #F8F8F8;')
-            self.mUi.mainwindow_btn_daily.setStyleSheet('background-color: #F8F8F8;\
-            color: #7367F0;')
-            self.mUi.mainwindow_btn_weekly.setStyleSheet('background-color: #F8F8F8;\
-            color: #7367F0;')
-            self.mUi.mainwindow_btn_monthly.setStyleSheet('background-color: #F8F8F8;\
-            color: #7367F0;')
-            self.mUi.mainwindow_btn_annually.setStyleSheet('background-color: #F8F8F8;\
-            color: #7367F0;')
-            self.mUi.mainwindow_widget_category.setStyleSheet('background-color: #F8F8F8;\
-            color: #7367F0;')
+            # self.mUi.mainwindow.setStyleSheet("""style""")
+            self.mUi.setStyleSheet("""
+            background-color: #F8F8F8;
+            """)
+            self.mUi.mainwindow_widget_category.setStyleSheet("""
+            QWidget { \nbackground-color: rgb(255, 255, 255);\nborder-top-left-radius: 5px;\nborder-bottom-left-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_checkBox_entertainment.setStyleSheet("""
+            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_checkBox_family.setStyleSheet("""
+            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_checkBox_health.setStyleSheet("""
+            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_checkBox_relaxation.setStyleSheet("""
+            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_checkBox_see_all.setStyleSheet("""
+            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_checkBox_work.setStyleSheet("""
+            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_checkBoxlbl_dinamic.setStyleSheet("""
+            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_lbl_time_all.setStyleSheet("""
+            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_lbl_time_dinamic.setStyleSheet("""
+            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_lbl_time_entertainment.setStyleSheet("""
+            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_lbl_time_family.setStyleSheet("""
+            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_lbl_time_health.setStyleSheet("""
+            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_lbl_time_relaxation.setStyleSheet("""
+            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_lbl_time_work.setStyleSheet("""
+            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_textlbl_category.setStyleSheet("""
+            color: #B9B9C3;\nborder: 2px solid rgba(0, 0, 0, 0);\nmargin-top: 2px;
+            """)
+            self.mUi.mainwindow_widget_navigation.setStyleSheet("""
+            QWidget { \nbackground-color: #FFFFFF;\nborder-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_btn_annually.setStyleSheet("""
+            QPushButton {\n	color: #7367F0;\n	border: 2px solid rgb(95, 85, 200);\n	border-top-left-radius: 0px;\n	border-top-right-radius: 5px;\n	border-bottom-right-radius: 5px;\n	border-bottom-left-radius: 0px;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgba(104, 93, 216, 0.2); \n	color: #7367F0;\n	border: 2px solid rgb(121, 109, 255);\n	border-top-left-radius: 0px;\n	border-top-right-radius: 5px;\n	border-bottom-right-radius: 5px;\n	border-bottom-left-radius: 0px;\n}
+            """)
+            self.mUi.mainwindow_btn_daily.setStyleSheet("""
+            QPushButton {\n	color: #7367F0;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-top-left-radius: 5px;\n	border-top-right-radius: 0px;\n	border-bottom-right-radius: 0px;\n	border-bottom-left-radius: 5px;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgba(104, 93, 216, 0.2); \n	color: #7367F0;\n	border: 2px solid rgb(121, 109, 255);\n	border-top-left-radius: 5px;\n	border-top-right-radius: 0px;\n	border-bottom-right-radius: 0px;\n	border-bottom-left-radius: 5px;\n}
+            """)
+            self.mUi.mainwindow_btn_monthly.setStyleSheet("""
+            QPushButton {\n	color: #7367F0;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-radius: 0;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgba(104, 93, 216, 0.2); \n	color: #7367F0;\n	border: 2px solid rgb(121, 109, 255);\n	border-radius: 0;\n}
+            """)
+            self.mUi.mainwindow_btn_nav_add_act.setStyleSheet("""
+            QPushButton {\n	background-color: rgb(115, 103, 240);\n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(115, 103, 240);\n	border-radius: 5px;\n	padding-left: 12px;\n	padding-right: 12px;\n	padding-top: 5px;\n	padding-bottom: 5px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);\n	color: rgb(94, 88, 115);\n	border: 2px solid rgb(115, 103, 240);\n}
+            """)
+            self.mUi.mainwindow_btn_weekly.setStyleSheet("""
+            QPushButton {\n	color: #7367F0;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-radius: 0;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgba(104, 93, 216, 0.2); \n	color: #7367F0;\n	border: 2px solid rgb(121, 109, 255);\n	border-radius: 0;\n}
+            """)
+            self.mUi.mainwindow_dateEdit_po.setStyleSheet("""
+            /* QDateEdit {\n	background-color: rgb(255, 255, 255);\n	border-radius: 5px;\n	color: #5E5873;\n}\nQDateEdit:hover {\n	background-color: rgb(248, 248, 248); \n	color: #5E5873;\n}\n*/\nQDateEdit {\n	background-color: rgb(248, 248, 248);\n	border-radius: 5px;\n	color: #5E5873;\n}\nQDateEdit:hover {\n	background-color: rgb(230, 230, 230);\n	color: #5E5873;\n}
+            """)
+            self.mUi.mainwindow_dateEdit_s.setStyleSheet("""
+            QDateEdit {\n	background-color: rgb(248, 248, 248);\n	border-radius: 5px;\n	color: #5E5873;\n}\nQDateEdit:hover {\n	background-color: rgb(230, 230, 230);\n	color: #5E5873;\n}
+            """)
+            self.mUi.mainwindow_lbl_icon_clendar.setStyleSheet("""
+            margin-left: 30px;\ncolor: #D0D2D6;\npadding-top: 4px;\npadding-bottom: 4px;
+            """)
+            self.mUi.mainwindow_textlbl_po.setStyleSheet("""
+            padding-left: 5px;\npadding-right: 5px;\ncolor: #6E6B7B;
+            """)
+            self.mUi.mainwindow_textlbl_s.setStyleSheet("""
+            padding-left: 5px;\npadding-right: 5px;\ncolor: #6E6B7B;
+            """)
+            self.mUi.mainwindow_widget_view.setStyleSheet("""
+            background-color: #283046;\nbackground-image: url(design/img/background-image_d.png);\ncolor: rgb(110, 107, 123);\nborder-top-right-radius: 5px;\nborder-bottom-right-radius: 5px;\n
+            """)
+            self.mUi.mainwindow_widget_view_spacer.setStyleSheet("""
+            border-right: 1px solid #EBE9F1;\nbackground-color: #FFFFFF;
+            """)
+            self.mUi.mainwindow_widget_logo.setStyleSheet("""
+            background-color: rgb(255, 255, 255);
+            """)
+            self.mUi.mainwindow_lbl_logo_title.setStyleSheet("""
+            color: #7367F0;
+            """)
+            self.mUi.mainwindow_widget_menu.setStyleSheet("""
+            background-color: rgb(255, 255, 255);
+            """)
+            self.mUi.mainwindow_btn_exit.setStyleSheet("""
+            QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: #5E5873;\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: #7367F0;\n}
+            """)
+            self.mUi.mainwindow_btn_forecast.setStyleSheet("""
+            QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: #5E5873;\n	text-align: left;\n	padding-right: 10px;\n	margin-top: 27px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: #7367F0;\n}
+            """)
+            self.mUi.mainwindow_btn_settings.setStyleSheet("""
+            QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: #5E5873;\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: #7367F0;\n}
+            """)
+            self.mUi.mainwindow_btn_theme.setStyleSheet("""
+            QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: #5E5873;\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: #7367F0;\n}
+            """)
             self.mUi.mainwindow_comboBox_display_style.setStyleSheet("""
-            QComboBox {background-color: rgb(22, 29, 49);
-            color: rgb(208, 210, 214);
-            border: 2px solid rgba(0, 0, 0, 0);
-            border-radius: 5px;
-            padding-left: 10px;
-            padding-right: 10px;
-            }
-
-            QComboBox:hover {
-            background-color: rgb(40, 48, 70);
-            color: rgb(185, 185, 195);
-            border: 2px solid #7666F8;
-            border-radius: 5px;
-            }
-
-            QComboBox QAbstractItemView {
-            background-color: rgb(22, 29, 49);
-            border: 2px solid #7666F8;
-            color: rgb(203, 203, 203);
-            selection-background-color: rgb(94, 80, 238);
-            selection-color: rgb(0, 0, 0);
-            }"""
-            )
-
-            
-
-
-            self.mUi.mainwindow_widget_view.setStyleSheet('background-color: #FFFFFF;\
-            background-image: url(design/img/background-image_w.png);')
+            QComboBox {\nbackground-color: rgb(248, 248, 248);\ncolor: rgb(94, 88, 115);\nborder: 2px solid rgba(0, 0, 0, 0);\nborder-radius: 5px;\npadding-left: 10px;\npadding-right: 10px;\n}\n\nQComboBox:hover {\nbackground-color: rgb(230, 230, 230);\ncolor: rgb(94, 88, 115);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}\n\nQComboBox QAbstractItemView {\nbackground-color: rgb(230, 230, 230);\nborder: 2px solid #7666F8;\ncolor: rgb(94, 88, 115);\nselection-background-color: rgb(94, 80, 238);\nselection-color: rgb(0, 0, 0);\n}
+            """)
+            self.mUi.mainwindow_textlbl_display_style.setStyleSheet("""
+            color: rgb(94, 88, 115);\nmargin-top: 20px;
+            """)
+            self.mUi.mainwindow_menubar.setStyleSheet("""
+            QMenuBar {\n	color: rgb(205, 205, 205);	\n	background-color: rgba(0, 0, 0, 130);\n}\nQMenuBar::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenuBar::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
+            """)
+            self.mUi.mainwindow_menuFile.setStyleSheet("""
+            QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
+            """)
+            self.mUi.mainwindow_menuEdit.setStyleSheet("""
+            QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
+            """)
+            self.mUi.mainwindow_dropdown_menu_select_chart.setStyleSheet("""
+            QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
+            """)
+            self.mUi.mainwindow_menuHelp.setStyleSheet("""
+            QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
+            """)
 
             self.change_theme_status = 1
 
         else:
             print('dark theme')
 
-            self.mUi.setStyleSheet('background-color: #161D31;')
-            self.mUi.mainwindow_widget_logo.setStyleSheet('background-color: #283046;')
-            self.mUi.mainwindow_widget_menu.setStyleSheet('background-color: #283046;')
-            self.mUi.mainwindow_widget_navigation.setStyleSheet('background-color: #283046;')
-            self.mUi.mainwindow_btn_daily.setStyleSheet('background-color: #283046;\
-            color: #FFFFFF;')
-            self.mUi.mainwindow_btn_weekly.setStyleSheet('background-color: #283046;\
-            color: #FFFFFF;')
-            self.mUi.mainwindow_btn_monthly.setStyleSheet('background-color: #283046;\
-            color: #FFFFFF;')
-            self.mUi.mainwindow_btn_annually.setStyleSheet('background-color: #283046;\
-            color: #FFFFFF;')
-            self.mUi.mainwindow_widget_category.setStyleSheet('background-color: #283046;\
-            color: #FFFFFF;')
-            self.mUi.mainwindow_comboBox_display_style.setStyleSheet('background-color: rgb(22, 29, 49);\
-            color: rgb(208, 210, 214); border: 2px solid rgba(0, 0, 0, 0);\
-            border-radius: 5px; padding-left: 10px; padding-right: 10px;')
-
-
-            self.mUi.mainwindow_widget_view.setStyleSheet('background-color: #283046;\
-            background-image: url(design/img/background-image_d.png);')
+            self.mUi.setStyleSheet("""background-color: #161D31;""")
+            self.mUi.mainwindow_widget_category.setStyleSheet(
+                """QWidget { \nbackground-color: #283046;\nborder-top-left-radius: 5px;\nborder-bottom-left-radius: 5px;\n}""")
+            self.mUi.mainwindow_checkBox_entertainment.setStyleSheet(
+                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_checkBox_family.setStyleSheet(
+                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_checkBox_health.setStyleSheet(
+                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_checkBox_relaxation.setStyleSheet(
+                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_checkBox_see_all.setStyleSheet(
+                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_checkBox_work.setStyleSheet(
+                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_checkBoxlbl_dinamic.setStyleSheet(
+                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_lbl_time_all.setStyleSheet(
+                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_lbl_time_dinamic.setStyleSheet(
+                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_lbl_time_entertainment.setStyleSheet(
+                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_lbl_time_family.setStyleSheet(
+                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_lbl_time_health.setStyleSheet(
+                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_lbl_time_relaxation.setStyleSheet(
+                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_lbl_time_work.setStyleSheet(
+                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_textlbl_category.setStyleSheet(
+                """color: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0);\nmargin-top: 2px;""")
+            self.mUi.mainwindow_widget_navigation.setStyleSheet(
+                """QWidget { \nbackground-color: #283046;\nborder-radius: 5px;\n}""")
+            self.mUi.mainwindow_btn_annually.setStyleSheet("""QPushButton {\n	background-color: #283046;\n	color: #FFFFFF;\n	border: 2px solid rgb(95, 85, 200);\n	border-top-left-radius: 0px;\n	border-top-right-radius: 5px;\n	border-bottom-right-radius: 5px;\n	border-bottom-left-radius: 0px;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(121, 109, 255);\n	border-top-left-radius: 0px;\n	border-top-right-radius: 5px;\n	border-bottom-right-radius: 5px;\n	border-bottom-left-radius: 0px;\n}""")
+            self.mUi.mainwindow_btn_daily.setStyleSheet("""QPushButton {\n	background-color: #283046;\n	color: #FFFFFF;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-top-left-radius: 5px;\n	border-top-right-radius: 0px;\n	border-bottom-right-radius: 0px;\n	border-bottom-left-radius: 5px;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(121, 109, 255);\n	border-top-left-radius: 5px;\n	border-top-right-radius: 0px;\n	border-bottom-right-radius: 0px;\n	border-bottom-left-radius: 5px;\n}""")
+            self.mUi.mainwindow_btn_monthly.setStyleSheet(
+                """QPushButton {\n	background-color: #283046;\n	color: #FFFFFF;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-radius: 0;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(121, 109, 255);\n	border-radius: 0;\n}""")
+            self.mUi.mainwindow_btn_nav_add_act.setStyleSheet(
+                """QPushButton {\n	background-color: rgb(115, 103, 240);\n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(115, 103, 240);\n	border-radius: 5px;\n	padding-left: 12px;\n	padding-right: 12px;\n	padding-top: 5px;\n	padding-bottom: 5px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);\n	color: rgb(115, 103, 240);\n	border: 2px solid rgb(115, 103, 240);\n}""")
+            self.mUi.mainwindow_btn_weekly.setStyleSheet(
+                """QPushButton {\n	background-color: #283046;\n	color: #FFFFFF;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-radius: 0;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(121, 109, 255);\n	border-radius: 0;\n}""")
+            self.mUi.mainwindow_dateEdit_po.setStyleSheet(
+                """QDateEdit {\n	background-color: #283046;\n	border-radius: 5px;\n	color: rgb(255, 255, 255);\n}\nQDateEdit:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n}""")
+            self.mUi.mainwindow_dateEdit_s.setStyleSheet(
+                """QDateEdit {\n	background-color: #283046;\n	border-radius: 5px;\n	color: rgb(255, 255, 255);\n}\nQDateEdit:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n}""")
+            self.mUi.mainwindow_lbl_icon_clendar.setStyleSheet(
+                """margin-left: 30px;\ncolor: #D0D2D6;\npadding-top: 4px;\npadding-bottom: 4px;""")
+            self.mUi.mainwindow_textlbl_po.setStyleSheet(
+                """padding-left: 5px;\npadding-right: 5px;\ncolor: #D0D2D6;""")
+            self.mUi.mainwindow_textlbl_s.setStyleSheet(
+                """padding-left: 5px;\npadding-right: 5px;\ncolor: #D0D2D6;""")
+            self.mUi.mainwindow_widget_view.setStyleSheet(
+                """background-color: #283046;\nbackground-image: url(design/img/background-image_d.png);\nborder-top-right-radius: 5px;\nborder-bottom-right-radius: 5px;\n""")
+            self.mUi.mainwindow_widget_view_spacer.setStyleSheet(
+                """border-right: 1px solid #3B4253;\nbackground-color: #283046;""")
+            self.mUi.mainwindow_widget_logo.setStyleSheet(
+                """background-color: #283046;""")
+            self.mUi.mainwindow_lbl_logo_title.setStyleSheet(
+                """color: #7367F0;""")
+            self.mUi.mainwindow_widget_menu.setStyleSheet(
+                """background-color: #283046;""")
+            self.mUi.mainwindow_btn_exit.setStyleSheet(
+                """QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: rgb(208, 210, 214);\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: rgb(95, 85, 200);\n}""")
+            self.mUi.mainwindow_btn_forecast.setStyleSheet(
+                """QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: rgb(208, 210, 214);\n	text-align: left;\n	padding-right: 10px;\n	margin-top: 27px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: rgb(95, 85, 200);\n}""")
+            self.mUi.mainwindow_btn_settings.setStyleSheet(
+                """QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: rgb(208, 210, 214);\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: rgb(95, 85, 200);\n}""")
+            self.mUi.mainwindow_btn_theme.setStyleSheet(
+                """QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: rgb(208, 210, 214);\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: rgb(95, 85, 200);\n}""")
+            self.mUi.mainwindow_comboBox_display_style.setStyleSheet(
+                """QComboBox {\nbackground-color: rgb(22, 29, 49);\ncolor: rgb(208, 210, 214);\nborder: 2px solid rgba(0, 0, 0, 0);\nborder-radius: 5px;\npadding-left: 10px;\npadding-right: 10px;\n}\n\nQComboBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}\n\nQComboBox QAbstractItemView {\nbackground-color: rgb(22, 29, 49);\nborder: 2px solid #7666F8;\ncolor: rgb(203, 203, 203);\nselection-background-color: rgb(94, 80, 238);\nselection-color: rgb(0, 0, 0);\n}""")
+            self.mUi.mainwindow_textlbl_display_style.setStyleSheet(
+                """color: #D0D2D6;\nmargin-top: 20px;""")
+            self.mUi.mainwindow_menubar.setStyleSheet(
+                """stQMenuBar {\n	color: rgb(205, 205, 205);	\n	background-color: rgba(0, 0, 0, 130);\n}\nQMenuBar::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenuBar::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}le""")
+            self.mUi.mainwindow_menuFile.setStyleSheet(
+                """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
+            self.mUi.mainwindow_menuEdit.setStyleSheet(
+                """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
+            self.mUi.mainwindow_dropdown_menu_select_chart.setStyleSheet(
+                """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
+            self.mUi.mainwindow_menuHelp.setStyleSheet(
+                """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
 
             self.change_theme_status = 0
 
@@ -336,39 +529,40 @@ class MainUI(QtWidgets.QMainWindow):
     def login(self):
         login = self.lUi.login_lineedit_email.text()
         password = self.lUi.login_lineedit_password.text()
-        
+
         if login == '':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Строка логина пуста. Пожалуйста, введите Ваш логин.',
-                    QtWidgets.QMessageBox.Ok)
+                                              'Строка логина пуста. Пожалуйста, введите Ваш логин.',
+                                              QtWidgets.QMessageBox.Ok)
             return
 
         if password == '':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',
-                    QtWidgets.QMessageBox.Ok)
+                                              'Строка с паролем пуста. Пожалуйста, введите Ваш пароль.',
+                                              QtWidgets.QMessageBox.Ok)
             return
 
         self.timedb.login_user(login, password)
 
         if self.timedb.correct_login_info == False:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
-                'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
-        
+                                           'Неверный логин или пароль! ', QtWidgets.QMessageBox.Ok)
+
         elif self.timedb.correct_login_info == True:
             self.user_n_name = login
             self.user_id = self.timedb.get_logged_user_data(user_login=self.user_n_name,
-                item='set_working_user')
+                                                            item='set_working_user')
             self.timedb.set_logged_user_data(user_login=self.user_n_name,
-                item='set_working_user')
+                                             item='set_working_user')
             self.timedb.get_logged_user_data(item='get_user_p_id')
             self.sUi.settings_lineedit_email.setText(
                 self.timedb.get_logged_user_data(item='get_user_email'))
             self.update_users_categs()
             self.lUi.close()
             self.mUi.show()
-            self.custom_view_table_test() # Viewing table.
+            self.custom_view_table_test()  # Viewing table.
             self.correct_login = True
+            self.create_forecast_data()  # Forcast data creation
 
     # REGISTRATION BLOCK.
     def show_registration(self):
@@ -390,13 +584,13 @@ class MainUI(QtWidgets.QMainWindow):
         # Login checks.
         if login == '':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Нельзя создать пустой логин пользователя.', QtWidgets.QMessageBox.Ok)
+                                              'Нельзя создать пустой логин пользователя.', QtWidgets.QMessageBox.Ok)
             return
         try:
             chck_incorrect = chck_login.check_incorrect_vals()
             if chck_incorrect[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                    f'Логин: {chck_incorrect[1]}', QtWidgets.QMessageBox.Ok)
+                                                  f'Логин: {chck_incorrect[1]}', QtWidgets.QMessageBox.Ok)
                 return
         except TypeError:
             pass
@@ -404,7 +598,7 @@ class MainUI(QtWidgets.QMainWindow):
             chck_len = chck_login.check_len()
             if chck_len[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                    f'Логин: {chck_len[1]}', QtWidgets.QMessageBox.Ok)
+                                                  f'Логин: {chck_len[1]}', QtWidgets.QMessageBox.Ok)
                 return
         except TypeError:
             pass
@@ -412,35 +606,35 @@ class MainUI(QtWidgets.QMainWindow):
             chck_spaces_tabs = chck_login.check_spaces_tabs()
             if chck_spaces_tabs[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                    f'Логин: {chck_spaces_tabs[1]}', QtWidgets.QMessageBox.Ok)
+                                                  f'Логин: {chck_spaces_tabs[1]}', QtWidgets.QMessageBox.Ok)
                 return
         except TypeError:
             pass
-        
+
         # Email checks.
         if email == '':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Нельзя создать пустой email пользователя.', QtWidgets.QMessageBox.Ok)
+                                              'Нельзя создать пустой email пользователя.', QtWidgets.QMessageBox.Ok)
             return
         try:
             chck_incorrect = chck_email.check_email()
             if chck_incorrect[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                    f'Почта: {chck_incorrect[1]}', QtWidgets.QMessageBox.Ok)
+                                                  f'Почта: {chck_incorrect[1]}', QtWidgets.QMessageBox.Ok)
                 return
         except TypeError:
             pass
-        
+
         # Password checks.
         if password == '':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Нельзя создать пустой пароль пользователя.', QtWidgets.QMessageBox.Ok)
+                                              'Нельзя создать пустой пароль пользователя.', QtWidgets.QMessageBox.Ok)
             return
         try:
             chck_incorrect = chck_pass.check_incorrect_vals()
             if chck_incorrect[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                    f'Пароль: {chck_incorrect[1]}', QtWidgets.QMessageBox.Ok)
+                                                  f'Пароль: {chck_incorrect[1]}', QtWidgets.QMessageBox.Ok)
                 return
         except TypeError:
             pass
@@ -448,7 +642,7 @@ class MainUI(QtWidgets.QMainWindow):
             chck_len = chck_pass.check_len()
             if chck_len[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                    f'Пароль: {chck_len[1]}', QtWidgets.QMessageBox.Ok)
+                                                  f'Пароль: {chck_len[1]}', QtWidgets.QMessageBox.Ok)
                 return
         except TypeError:
             pass
@@ -456,27 +650,27 @@ class MainUI(QtWidgets.QMainWindow):
             chck_spaces_tabs = chck_pass.check_spaces_tabs()
             if chck_spaces_tabs[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                    f'Пароль: {chck_spaces_tabs[1]}', QtWidgets.QMessageBox.Ok)
+                                                  f'Пароль: {chck_spaces_tabs[1]}', QtWidgets.QMessageBox.Ok)
                 return
         except TypeError:
             pass
         if len(password) <= 7:
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Длина пароля должна быть не менее 8 символов.', QtWidgets.QMessageBox.Ok)
+                                              'Длина пароля должна быть не менее 8 символов.', QtWidgets.QMessageBox.Ok)
             return
         if self.rUi.register_checkbox_agree.isChecked() == False:
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Пожалуйста, примите условия пользования.', QtWidgets.QMessageBox.Ok)
+                                              'Пожалуйста, примите условия пользования.', QtWidgets.QMessageBox.Ok)
             return
 
         self.timedb.register_user(login, email, password)
         if self.timedb.user_input_check == '1':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Данный пользователь уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
+                                              'Данный пользователь уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
             return
         elif self.timedb.user_input_check == '2':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Данный email уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
+                                              'Данный email уже зарегистрирован.', QtWidgets.QMessageBox.Ok)
             return
         else:
             self.rUi.close()
@@ -493,8 +687,8 @@ class MainUI(QtWidgets.QMainWindow):
             self.eUi.edit_event_comboBox_category.insertItem(i, categ)
         i += 1
 
-
     # FOR TABLE AND EDIT_EVENT.
+
     def get_current_row_tableview(self, item):
         '''
         Current method displays clicked column and row of a choosen cell 
@@ -515,8 +709,8 @@ class MainUI(QtWidgets.QMainWindow):
         #         self.timedb.get_logged_user_data(item='get_actl_id',\
         #             params=[self.cat_name, self.actl_name])
 
-        self.show_edit_action(self.actl_name, self.act_time, self.act_date, \
-            self.cat_name, self.act_comment)
+        self.show_edit_action(self.actl_name, self.act_time, self.act_date,
+                              self.cat_name, self.act_comment)
         # print(self.act_comment)
         # def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
         #                 cat_name=str, act_comment=None)
@@ -547,15 +741,15 @@ class MainUI(QtWidgets.QMainWindow):
 
         if title == '':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Пожалуйста, дайте название своему событию.',
-                    QtWidgets.QMessageBox.Ok)
+                                              'Пожалуйста, дайте название своему событию.',
+                                              QtWidgets.QMessageBox.Ok)
             return
         try:
             check_title = chck_title.check_incorrect_vals()
             if check_title[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Название: {check_title[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Название: {check_title[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
@@ -563,23 +757,23 @@ class MainUI(QtWidgets.QMainWindow):
             check_title = chck_title.check_len()
             if check_title[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Название: {check_title[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Название: {check_title[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
 
         if category == '':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Пожалуйста, укажите категорию для своего события.',
-                    QtWidgets.QMessageBox.Ok)
+                                              'Пожалуйста, укажите категорию для своего события.',
+                                              QtWidgets.QMessageBox.Ok)
             return
         try:
             check_category = chck_category.check_incorrect_vals()
             if check_category[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Категория: {check_category[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Категория: {check_category[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
@@ -587,23 +781,23 @@ class MainUI(QtWidgets.QMainWindow):
             check_category = chck_category.check_len()
             if check_category[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Категория: {check_category[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Категория: {check_category[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
 
         if duration == '':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Пожалуйста, укажите потраченное время на активность в минутах.',
-                    QtWidgets.QMessageBox.Ok)
+                                              'Пожалуйста, укажите потраченное время на активность в минутах.',
+                                              QtWidgets.QMessageBox.Ok)
             return
         try:
             check_duration = chck_duration.number_only()
             if check_duration[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Длительность: {check_duration[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Длительность: {check_duration[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
@@ -612,8 +806,8 @@ class MainUI(QtWidgets.QMainWindow):
             check_comment = chck_comment.check_incorrect_vals()
             if check_comment[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Комментарий: {check_comment[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Комментарий: {check_comment[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
@@ -621,8 +815,8 @@ class MainUI(QtWidgets.QMainWindow):
             check_comment = chck_comment.check_len()
             if check_comment[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Комментарий: {check_comment[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Комментарий: {check_comment[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
@@ -633,18 +827,18 @@ class MainUI(QtWidgets.QMainWindow):
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        if not self.timedb.set_logged_user_data(item='check_event_data',\
-            add_params=[category, title, int_duration, str_date, comment]) == True:
-            self.timedb.set_logged_user_data(item='add_event',\
-                add_params=[category, title, int_duration, str_date, comment])
+        if not self.timedb.set_logged_user_data(item='check_event_data',
+                                                add_params=[category, title, int_duration, str_date, comment]) == True:
+            self.timedb.set_logged_user_data(item='add_event',
+                                             add_params=[category, title, int_duration, str_date, comment])
 
         self.update_users_categs()
         self.update_custom_view_table_test()
         self.aUi.close()
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
-    def show_edit_action(self, actl_name=str, act_time=str, act_date=None,\
-            cat_name=str, act_comment=None):
+    def show_edit_action(self, actl_name=str, act_time=str, act_date=None,
+                         cat_name=str, act_comment=None):
 
         # self.act_id = self.timedb.get_logged_user_data(item='get_act_id',\
         #     params=[cat_name, act_time, act_date, actl_name, act_comment])
@@ -685,15 +879,15 @@ class MainUI(QtWidgets.QMainWindow):
 
         if title == '':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Пожалуйста, дайте название своему событию.',
-                    QtWidgets.QMessageBox.Ok)
+                                              'Пожалуйста, дайте название своему событию.',
+                                              QtWidgets.QMessageBox.Ok)
             return
         try:
             check_title = chck_title.check_incorrect_vals()
             if check_title[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Название: {check_title[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Название: {check_title[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
@@ -701,23 +895,23 @@ class MainUI(QtWidgets.QMainWindow):
             check_title = chck_title.check_len()
             if check_title[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Название: {check_title[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Название: {check_title[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
 
         if category == '':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Пожалуйста, укажите категорию для своего события.',
-                    QtWidgets.QMessageBox.Ok)
+                                              'Пожалуйста, укажите категорию для своего события.',
+                                              QtWidgets.QMessageBox.Ok)
             return
         try:
             check_category = chck_category.check_incorrect_vals()
             if check_category[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Категория: {check_category[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Категория: {check_category[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
@@ -725,23 +919,23 @@ class MainUI(QtWidgets.QMainWindow):
             check_category = chck_category.check_len()
             if check_category[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Категория: {check_category[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Категория: {check_category[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
 
         if duration == '':
             QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                'Пожалуйста, укажите потраченное время на активность в минутах.',
-                    QtWidgets.QMessageBox.Ok)
+                                              'Пожалуйста, укажите потраченное время на активность в минутах.',
+                                              QtWidgets.QMessageBox.Ok)
             return
         try:
             check_duration = chck_duration.number_only()
             if check_duration[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Длительность: {check_duration[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Длительность: {check_duration[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
@@ -750,8 +944,8 @@ class MainUI(QtWidgets.QMainWindow):
             check_comment = chck_comment.check_incorrect_vals()
             if check_comment[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Комментарий: {check_comment[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Комментарий: {check_comment[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
@@ -759,8 +953,8 @@ class MainUI(QtWidgets.QMainWindow):
             check_comment = chck_comment.check_len()
             if check_comment[0] == False:
                 QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                f'Комментарий: {check_comment[1]}',
-                    QtWidgets.QMessageBox.Ok)
+                                                  f'Комментарий: {check_comment[1]}',
+                                                  QtWidgets.QMessageBox.Ok)
             return
         except TypeError:
             pass
@@ -771,22 +965,22 @@ class MainUI(QtWidgets.QMainWindow):
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
         # Writing all changes to db and closing 'Add Event' win.
-        self.timedb.set_logged_user_data(item='check_event_data',\
-            add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
-                self.act_comment, self.act_id])
-        self.timedb.set_logged_user_data(item='edit_event',\
-            add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
-                self.act_comment, self.act_id],\
-            edit_params=[category, title, int_duration, str_date, comment])
+        self.timedb.set_logged_user_data(item='check_event_data',
+                                         add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,
+                                                     self.act_comment, self.act_id])
+        self.timedb.set_logged_user_data(item='edit_event',
+                                         add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,
+                                                     self.act_comment, self.act_id],
+                                         edit_params=[category, title, int_duration, str_date, comment])
 
         self.update_users_categs()
         self.update_custom_view_table_test()
         self.eUi.close()
 
     def delete_action(self):
-        self.timedb.set_logged_user_data(item='del_event',\
-            add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,\
-                self.act_comment, self.act_id])
+        self.timedb.set_logged_user_data(item='del_event',
+                                         add_params=[self.cat_name, self.actl_name, self.act_time, self.act_date,
+                                                     self.act_comment, self.act_id])
 
         self.update_users_categs()
         self.update_custom_view_table_test()
@@ -801,7 +995,7 @@ class MainUI(QtWidgets.QMainWindow):
         data = self.timedb.get_logged_user_data(item='get_user_activities')
         try:
             settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(self, 'Save file',
-            '/', 'CSV file (*.csv)')
+                                                                     '/', 'CSV file (*.csv)')
             if settingsSave[0]:
                 with open(settingsSave[0], 'w+', newline='') as f:
                     writer = csv.writer(f)
@@ -810,15 +1004,15 @@ class MainUI(QtWidgets.QMainWindow):
 
         except Exception:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
-            'Экспорт не удался.', QtWidgets.QMessageBox.Ok)
+                                           'Экспорт не удался.', QtWidgets.QMessageBox.Ok)
         if ok:
             QtWidgets.QMessageBox.question(self, 'Успех!',
-            'Экспорт успешно завершён!', QtWidgets.QMessageBox.Ok)
+                                           'Экспорт успешно завершён!', QtWidgets.QMessageBox.Ok)
 
     def settings_import(self):
         try:
             settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file',
-            '/', 'CSV file (*.csv)')
+                                                                     '/', 'CSV file (*.csv)')
             if settingsLoad[0]:
                 with open(settingsLoad[0], 'r+') as f:
                     reader = csv.reader(f, delimiter=',')
@@ -830,10 +1024,10 @@ class MainUI(QtWidgets.QMainWindow):
 
         except Exception:
             QtWidgets.QMessageBox.question(self, 'Ошибка!',
-            'Импорт не удался.', QtWidgets.QMessageBox.Ok)
+                                           'Импорт не удался.', QtWidgets.QMessageBox.Ok)
         if ok:
             QtWidgets.QMessageBox.question(self, 'Успех!',
-            'Импорт успешно завершён!', QtWidgets.QMessageBox.Ok)
+                                           'Импорт успешно завершён!', QtWidgets.QMessageBox.Ok)
 
     # def settings_save(self):
     #     self.timedb.get_logged_user_data(item='get_user_p_id')
@@ -879,13 +1073,13 @@ class MainUI(QtWidgets.QMainWindow):
 
         # New emails checks.
         if email_new == '' and oldpass == '' and newpass == '' and rep_newpass == '':
-            QtWidgets.QMessageBox.information(self, 'Внимание!',\
-                f'Если Вы хотите изменить только текущую почту,\n' \
-                f'укажите новую почту и текущий пароль в соответсвующих полях.\n'\
-                f'Если Вы хотите изменить только текущий пароль,\n'\
-                f'укажите его в соостветсвующем поле, также заполнив поля ниже.\n'\
-                f'Для изменения всей информации, заполните все поля.',\
-                    QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.information(self, 'Внимание!',
+                                              f'Если Вы хотите изменить только текущую почту,\n'
+                                              f'укажите новую почту и текущий пароль в соответсвующих полях.\n'
+                                              f'Если Вы хотите изменить только текущий пароль,\n'
+                                              f'укажите его в соостветсвующем поле, также заполнив поля ниже.\n'
+                                              f'Для изменения всей информации, заполните все поля.',
+                                              QtWidgets.QMessageBox.Ok)
         # elif not email_new == '' and not oldpass == '':
         #     try:
         #         chck_email = check_email.check_email()
@@ -895,7 +1089,7 @@ class MainUI(QtWidgets.QMainWindow):
         #         return
         #     except Exception as e:
         #         print(e)
-                
+
         #     if not oldpass == self.timedb.get_logged_user_data(item='get_user_password'):
         #         QtWidgets.QMessageBox.information(self, 'Ошибка!',\
         #             f'Текущий пароль не совпадает с настоящим.', QtWidgets.QMessageBox.Ok)
@@ -945,16 +1139,16 @@ class MainUI(QtWidgets.QMainWindow):
         for row in rows:
             self.tUi.tableW.horizontalHeader().sortIndicatorOrder()
             self.tUi.tableW.setItem(x, 0,
-            QtWidgets.QTableWidgetItem(row[3]))
+                                    QtWidgets.QTableWidgetItem(row[3]))
             self.tUi.tableW.setItem(x, 1,
-            QtWidgets.QTableWidgetItem(row[0]))
+                                    QtWidgets.QTableWidgetItem(row[0]))
             self.tUi.tableW.setItem(x, 2,
-            QtWidgets.QTableWidgetItem(row[1]))
+                                    QtWidgets.QTableWidgetItem(row[1]))
             self.tUi.tableW.setItem(x, 3,
-            QtWidgets.QTableWidgetItem(row[2]))
+                                    QtWidgets.QTableWidgetItem(row[2]))
             self.tUi.tableW.setItem(x, 4,
-            QtWidgets.QTableWidgetItem(row[4]))
-            x += 1 
+                                    QtWidgets.QTableWidgetItem(row[4]))
+            x += 1
 
         self.tUi.tableW.resizeColumnsToContents()
         self.tUi.tableW.verticalHeader().setVisible(False)
@@ -965,7 +1159,8 @@ class MainUI(QtWidgets.QMainWindow):
 
     # TABLE VIEWING BLOCK. uses DbLogic class.
     def custom_view_table_test(self):
-        rows = self.timedb.get_logged_user_data(item='get_user_activities_test')
+        rows = self.timedb.get_logged_user_data(
+            item='get_user_activities_test')
         # self.lay = QtWidgets.QHBoxLayout()
         self.ttUi.tableW.setRowCount(len(rows))
 
@@ -973,18 +1168,18 @@ class MainUI(QtWidgets.QMainWindow):
         for row in rows:
             # self.ttUi.tableW.horizontalHeader().sortIndicatorOrder()
             self.ttUi.tableW.setItem(x, 0,
-            QtWidgets.QTableWidgetItem(str(row[0])))
+                                     QtWidgets.QTableWidgetItem(str(row[0])))
             self.ttUi.tableW.setItem(x, 1,
-            QtWidgets.QTableWidgetItem(row[4]))
+                                     QtWidgets.QTableWidgetItem(row[4]))
             self.ttUi.tableW.setItem(x, 2,
-            QtWidgets.QTableWidgetItem(row[1]))
+                                     QtWidgets.QTableWidgetItem(row[1]))
             self.ttUi.tableW.setItem(x, 3,
-            QtWidgets.QTableWidgetItem(row[2]))
+                                     QtWidgets.QTableWidgetItem(row[2]))
             self.ttUi.tableW.setItem(x, 4,
-            QtWidgets.QTableWidgetItem(row[3]))
+                                     QtWidgets.QTableWidgetItem(row[3]))
             self.ttUi.tableW.setItem(x, 5,
-            QtWidgets.QTableWidgetItem(row[5]))
-            x += 1 
+                                     QtWidgets.QTableWidgetItem(row[5]))
+            x += 1
 
         self.ttUi.tableW.resizeColumnsToContents()
         self.ttUi.tableW.verticalHeader().setVisible(False)
@@ -995,8 +1190,8 @@ class MainUI(QtWidgets.QMainWindow):
 
     def update_custom_view_table(self):
         # self.lay.removeWidget(self.tUi)
-        self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
-        
+        self.tUi.tableW.setParent(None)  # Removing tUi widget from wUi.
+
         rows = self.timedb.get_logged_user_data(item='get_user_activities')
 
         self.tUi.tableW.setRowCount(len(rows))
@@ -1005,18 +1200,18 @@ class MainUI(QtWidgets.QMainWindow):
         for row in rows:
             # self.ttUi.tableW.horizontalHeader().sortIndicatorOrder()
             self.ttUi.tableW.setItem(x, 0,
-            QtWidgets.QTableWidgetItem(row[0]))
+                                     QtWidgets.QTableWidgetItem(row[0]))
             self.ttUi.tableW.setItem(x, 1,
-            QtWidgets.QTableWidgetItem(row[4]))
+                                     QtWidgets.QTableWidgetItem(row[4]))
             self.ttUi.tableW.setItem(x, 2,
-            QtWidgets.QTableWidgetItem(row[1]))
+                                     QtWidgets.QTableWidgetItem(row[1]))
             self.ttUi.tableW.setItem(x, 3,
-            QtWidgets.QTableWidgetItem(row[2]))
+                                     QtWidgets.QTableWidgetItem(row[2]))
             self.ttUi.tableW.setItem(x, 4,
-            QtWidgets.QTableWidgetItem(row[3]))
+                                     QtWidgets.QTableWidgetItem(row[3]))
             self.ttUi.tableW.setItem(x, 5,
-            QtWidgets.QTableWidgetItem(row[5]))
-            x += 1 
+                                     QtWidgets.QTableWidgetItem(row[5]))
+            x += 1
 
         self.tUi.tableW.resizeColumnsToContents()
         self.tUi.tableW.verticalHeader().setVisible(False)
@@ -1027,10 +1222,11 @@ class MainUI(QtWidgets.QMainWindow):
     def update_custom_view_table_test(self):
         # self.lay.removeWidget(self.tUi)
         # self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
-        for i in reversed(range(self.lay.count())): 
+        for i in reversed(range(self.lay.count())):
             self.lay.itemAt(i).widget().setParent(None)
-        
-        rows = self.timedb.get_logged_user_data(item='get_user_activities_test')
+
+        rows = self.timedb.get_logged_user_data(
+            item='get_user_activities_test')
 
         self.ttUi.tableW.setRowCount(len(rows))
 
@@ -1038,18 +1234,18 @@ class MainUI(QtWidgets.QMainWindow):
         for row in rows:
             self.ttUi.tableW.horizontalHeader().sortIndicatorOrder()
             self.ttUi.tableW.setItem(x, 0,
-            QtWidgets.QTableWidgetItem(str(row[0])))
+                                     QtWidgets.QTableWidgetItem(str(row[0])))
             self.ttUi.tableW.setItem(x, 1,
-            QtWidgets.QTableWidgetItem(row[4]))
+                                     QtWidgets.QTableWidgetItem(row[4]))
             self.ttUi.tableW.setItem(x, 2,
-            QtWidgets.QTableWidgetItem(row[1]))
+                                     QtWidgets.QTableWidgetItem(row[1]))
             self.ttUi.tableW.setItem(x, 3,
-            QtWidgets.QTableWidgetItem(row[2]))
+                                     QtWidgets.QTableWidgetItem(row[2]))
             self.ttUi.tableW.setItem(x, 4,
-            QtWidgets.QTableWidgetItem(row[3]))
+                                     QtWidgets.QTableWidgetItem(row[3]))
             self.ttUi.tableW.setItem(x, 5,
-            QtWidgets.QTableWidgetItem(row[5]))
-            x += 1 
+                                     QtWidgets.QTableWidgetItem(row[5]))
+            x += 1
             print(row)
 
         self.ttUi.tableW.resizeColumnsToContents()
@@ -1061,23 +1257,24 @@ class MainUI(QtWidgets.QMainWindow):
     def graph_plot(self):
         # removing all widgets.
         # Removing tUi widget from wUi.
-        
+
         rows = self.timedb.get_logged_user_data(item='get_user_activities')
-        # Checking if combobox status is Graph. 
+        # Checking if combobox status is Graph.
         # Getting categories array(similar not repeated) and
         # sum of the corresponding durations array for them.
-        self.categories = []  # array of all (repeatable) categories. 
-        self.duration = []  # array of all durations. 
+        self.categories = []  # array of all (repeatable) categories.
+        self.duration = []  # array of all durations.
         self.diff_duration = []  # array of apropriate sum of durations
-        # positioning relatively to the corresponding fields of non-repeatable 
+        # positioning relatively to the corresponding fields of non-repeatable
         # field of categories.
-        self.num_diff_categories = []  
+        self.num_diff_categories = []
 
         for row in rows:
             self.categories.append(row[0])
             self.duration.append(int(row[2]))
 
-        self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
+        self.diff_categories = list(
+            (set([x for x in self.categories if self.categories.count(x) > 1])))
 
         for i in range(len(self.diff_categories)):
             self.diff_duration.append(0)
@@ -1089,7 +1286,7 @@ class MainUI(QtWidgets.QMainWindow):
 
             for j in self.diff_categories:
                 if i == j:
-                    self.diff_duration[self.diff_item]+=self.duration[self.item]
+                    self.diff_duration[self.diff_item] += self.duration[self.item]
                 self.diff_item += 1
 
             self.item += 1
@@ -1099,12 +1296,11 @@ class MainUI(QtWidgets.QMainWindow):
         for i in self.diff_categories:
             self.num_diff_categories.append(inc)
             inc += 1
-        
-        
+
         # Displaying the table if combobox current index is equal to 0.
         if self.mUi.mainwindow_comboBox_display_style.currentIndex() == 0:
             # Removing all widgets from layout.
-            for i in reversed(range(self.lay.count())): 
+            for i in reversed(range(self.lay.count())):
                 self.lay.itemAt(i).widget().setParent(None)
 
             self.lay.addWidget(self.ttUi.tableW)
@@ -1112,15 +1308,15 @@ class MainUI(QtWidgets.QMainWindow):
         # Displaying the diagram/chart if combobox current index is equal to 1.
         elif self.mUi.mainwindow_comboBox_display_style.currentIndex() == 1:
             # Removing all widgets from layout.
-            for i in reversed(range(self.lay.count())): 
+            for i in reversed(range(self.lay.count())):
                 self.lay.itemAt(i).widget().setParent(None)
-            
+
             series = QPieSeries()
             # Appending values to series.
             for i in range(len(self.diff_categories)):
                 series.append(self.diff_categories[i], self.diff_duration[i])
-            
-            #adding slice
+
+            # adding slice
             slice = QPieSlice()
             slice = series.slices()[2]
             slice.setExploded(True)
@@ -1143,18 +1339,17 @@ class MainUI(QtWidgets.QMainWindow):
 
             chart.legend().setVisible(True)
             chart.legend().setAlignment(Qt.AlignBottom)
- 
+
             chartview = QChartView(chart)
             chartview.setRenderHint(QPainter.Antialiasing)
- 
+
             self.lay.addWidget(chartview)
-            
+
         # Displaying the graph if combobox current index is equal to 2.
         elif self.mUi.mainwindow_comboBox_display_style.currentIndex() == 2:
             # Removing all widgets from layout.
-            for i in reversed(range(self.lay.count())): 
+            for i in reversed(range(self.lay.count())):
                 self.lay.itemAt(i).widget().setParent(None)
-            
 
             # print(f'Categories: {self.diff_categories}')
             # print(f'Duration: {self.diff_duration}')
@@ -1162,32 +1357,34 @@ class MainUI(QtWidgets.QMainWindow):
 
             # combobox.currentIndexChanged().connect(updateGraph)
 
-            
-            ticks = [list(zip(range(len(self.diff_categories)), (self.diff_categories)))]
+            ticks = [
+                list(zip(range(len(self.diff_categories)), (self.diff_categories)))]
 
             # self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
-            self.graphWidget = pg.PlotWidget() # Plotting graphwidget.
+            self.graphWidget = pg.PlotWidget()  # Plotting graphwidget.
 
             # Replacing x axis of our graph by customised words.
             xax = self.graphWidget.getAxis('bottom')
             xax.setTicks(ticks)
 
             # Adding graphwidget to layout.
-            self.lay.addWidget(self.graphWidget) 
+            self.lay.addWidget(self.graphWidget)
 
             # cc = pg.colormap.get('CET-L17') # prepare a linear color map
-            # cm.reverse() # reverse it to put light colors at the top 
+            # cm.reverse() # reverse it to put light colors at the top
             pen = pg.mkPen(color=(115, 103, 240), width=2)
             # self.graphWidget.setConfigOption('background', (40, 48, 70))
             # pen = pg.mkPen(color=(255, 0, 0)) # Adding color to the graph curve.
-            self.graphWidget.setTitle("<span style=\"color:white;font-size:18pt\">График потраченого времени</span>")
+            self.graphWidget.setTitle(
+                "<span style=\"color:white;font-size:18pt\">График потраченого времени</span>")
             # styles = {'color':'r', 'font-size':'20px'}
             self.graphWidget.setBackground((40, 48, 70))
-            self.graphWidget.setLabel('left', "<span style=\"color:white;font-size:12px\">Время (мин.)</span>")
-            self.graphWidget.setLabel('bottom', "<span style=\"color:white;font-size:12px\">Активности (категории)</span>")
-            self.graphWidget.plot(self.num_diff_categories, self.diff_duration, pen=pen)
-
-
+            self.graphWidget.setLabel(
+                'left', "<span style=\"color:white;font-size:12px\">Время (мин.)</span>")
+            self.graphWidget.setLabel(
+                'bottom', "<span style=\"color:white;font-size:12px\">Активности (категории)</span>")
+            self.graphWidget.plot(self.num_diff_categories,
+                                  self.diff_duration, pen=pen)
 
 
 # ----------------------------------------------------------END-----timeSoft.py
@@ -1197,17 +1394,19 @@ class MainUI(QtWidgets.QMainWindow):
 
 class DbLogic:
 
-    database = 'dt1vdgsvah47r'
-    user = 'ryxcgrjdgvrsxx'
-    password = '2e4d8cbc5b0f94259507584c6868f20ae0d4da79fdc618f6c2602d18045b2b61'
-    host = 'ec2-54-74-60-70.eu-west-1.compute.amazonaws.com'
+    config = configparser.ConfigParser()
+    config.read('config.ini', encoding='utf-8-sig')
 
     def __init__(self):
-        self.connection = db.connect(database=self.database, user=self.user,\
-            password=self.password, host=self.host)
+        self.connection = db.connect(database=self.config.get('PostgreSql', 'database'),
+                                     user=self.config.get(
+                                         'PostgreSql', 'user'),
+                                     password=self.config.get(
+                                         'PostgreSql', 'password'),
+                                     host=self.config.get('PostgreSql', 'host'))
 
         self.cursor = self.connection.cursor()
-        self.cursor2 = self.connection.cursor(\
+        self.cursor2 = self.connection.cursor(
             cursor_factory=psycopg2.extras.DictCursor)
 
         self.correct_login_info = False
@@ -1220,20 +1419,20 @@ class DbLogic:
             user_p_id = str(uuid4())
             self.connection.autocommit = True
 
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT user_n_name = \'{user_n_name}\' FROM "USER_NAME"')
             lst = str(self.cursor.fetchall())
             if 'True' in lst:
                 self.user_input_check = '1'
                 return
             # Сделано в Китае. Разработано в России.
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT user_p_email = \'{user_p_email}\' FROM "USER_PRIVATE"')
             lst = str(self.cursor.fetchall())
             if 'True' in lst:
                 self.user_input_check = '2'
                 return
-                
+
             self.cursor.execute('INSERT INTO "USER" (user_n_id, user_p_id)\
                 VALUES (%s,%s) ON CONFLICT DO NOTHING', (user_n_id, user_p_id))
 
@@ -1249,19 +1448,19 @@ class DbLogic:
         try:
             self.connection.autocommit = True
 
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT user_n_id FROM "USER_NAME" WHERE user_n_name = \'{user_n_name}\'')
             user_n_id = str(self.cursor.fetchall())[3:-4]
 
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT user_p_id FROM "USER" WHERE user_n_id = \'{user_n_id}\'')
             user_p_id = str(self.cursor.fetchall())[3:-4]
 
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT user_p_email FROM "USER_PRIVATE" WHERE user_p_id = \'{user_p_id}\'')
             user_p_email = str(self.cursor.fetchall())[3:-4]
 
-            self.cursor.execute(\
+            self.cursor.execute(
                 f'SELECT user_p_password FROM "USER_PRIVATE" WHERE\
                     user_p_id = \'{user_p_id}\' and user_p_email = \'{user_p_email}\'')
             user_password = str(self.cursor.fetchall())[3:-4]
@@ -1393,7 +1592,7 @@ class DbLogic:
             # Storing act_id, using get_logged_user_data().
             self.act_id = self.get_logged_user_data(
                 item='get_act_id', params=[add_params[1], add_params[2],
-                add_params[3], add_params[0], add_params[4]])
+                                           add_params[3], add_params[0], add_params[4]])
 
             # Checking for matching same category in db.
             self.user_categories = self.get_logged_user_data(
@@ -1420,8 +1619,8 @@ class DbLogic:
             self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
                         act_time, act_date, cat_name, act_comment)\
                             VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING',
-                            (self.user_id, add_params[1], add_params[2], add_params[3], add_params[0],
-                            add_params[4]))
+                                 (self.user_id, add_params[1], add_params[2], add_params[3], add_params[0],
+                                  add_params[4]))
 
             self.connection.commit()
 
@@ -1551,4 +1750,3 @@ if __name__ == '__main__':
     # dbl.set_logged_user_data(item='del_event', add_params=['Спорт23', 'Бег23', 300, '2021-05-27', 'ВАУ'])
     # print(dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']))
     # print(dbl.set_logged_user_data(item='change_password', edit_params=['qwerty123', 'test@test.test']))
-

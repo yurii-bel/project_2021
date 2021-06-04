@@ -222,13 +222,7 @@ QPushButton:hover {
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>img/icons/white_and_dark.svg</normaloff>img/icons/white_and_dark.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>18</width>
-             <height>18</height>
-            </size>
+             <normaloff>img/icons/sun.png</normaloff>img/icons/sun.png</iconset>
            </property>
           </widget>
          </item>
@@ -268,12 +262,6 @@ QPushButton:hover {
             <iconset>
              <normaloff>img/icons/settings.png</normaloff>img/icons/settings.png</iconset>
            </property>
-           <property name="iconSize">
-            <size>
-             <width>18</width>
-             <height>18</height>
-            </size>
-           </property>
           </widget>
          </item>
          <item>
@@ -311,12 +299,6 @@ QPushButton:hover {
            <property name="icon">
             <iconset>
              <normaloff>img/icons/power.png</normaloff>img/icons/power.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>18</width>
-             <height>18</height>
-            </size>
            </property>
           </widget>
          </item>
@@ -1143,6 +1125,55 @@ border-radius: 5px;
         </property>
        </widget>
       </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="mainwindow_btn_cat_plus">
+        <property name="minimumSize">
+         <size>
+          <width>29</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>102</width>
+          <height>102</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto Light</family>
+          <pointsize>14</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+          <underline>false</underline>
+          <strikeout>false</strikeout>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+	background-color: rgb(40, 48, 70);
+	color: rgb(205, 205, 205);
+	border: 2px solid rgb(40, 48, 70);
+	border-radius: 5px;
+}
+QPushButton:hover {
+	background-color: rgba(0, 0, 0, 0);
+	color: rgb(205, 205, 205);
+	border: 2px solid #7666F8;
+}</string>
+        </property>
+        <property name="text">
+         <string>+</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>27</height>
+         </size>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="0">
        <widget class="QCheckBox" name="mainwindow_checkBox_see_all">
         <property name="maximumSize">
@@ -1378,10 +1409,6 @@ border-radius: 5px;
     <property name="styleSheet">
      <string notr="true">background-color: #283046;
 background-image: url(design/img/background-image_d.png);
-color: rgb(110, 107, 123);
-border-top-right-radius: 5px;
-border-bottom-right-radius: 5px;
-padding-left: 20px;
 </string>
     </property>
    </widget>
@@ -1406,7 +1433,7 @@ background-color: #283046;</string>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">

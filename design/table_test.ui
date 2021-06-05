@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>930</width>
+    <height>905</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableWidget" name="tableW">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>710</width>
+     <height>621</height>
+    </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>710</width>
+     <height>621</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto-Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTableWidget { 	
+	background-color: rgba(0, 0, 0, 0);
+	gridline-color: #3B4253;
+	color: #B4B7BD;
+}
+QTableView QTableCornerButton::section {
+	background-color: rgba(0, 0, 0, 255);
+}
+QTableView QHeaderView::section {
+    padding-left: auto;
+    padding-right: auto;
+}
+QHeaderView::section {
+	background-color: rgb(40, 48, 70);
+    color: #B4B7BD;
+	border: 2px solid rgba(0, 0, 0, 0);
+}
+QHeaderView::section:checked {
+    background-color: rgb(115, 103, 240);
+	color: rgb(255, 255, 255);
+}
+QHeaderView::section:selected {
+	background-color: rgb(0, 85, 0);
+    color: #B4B7BD;
+	border: 2px solid rgba(0, 0, 0, 0);
+}
+QTableWidget::item {
+	color: #B4B7BD;
+}
+QTableWidget::item:selected {
+	background-color: rgb(115, 103, 240);
+	color: rgb(255, 255, 255);
+}
+</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="rowCount">
+    <number>0</number>
+   </property>
+   <attribute name="horizontalHeaderCascadingSectionResizes">
+    <bool>true</bool>
+   </attribute>
+   <attribute name="horizontalHeaderMinimumSectionSize">
+    <number>20</number>
+   </attribute>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>110</number>
+   </attribute>
+   <attribute name="verticalHeaderMinimumSectionSize">
+    <number>23</number>
+   </attribute>
+   <column>
+    <property name="text">
+     <string>id</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto-Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/icons/calendar.png</normaloff>img/icons/calendar.png</iconset>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto-Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/icons/pie-chart.png</normaloff>img/icons/pie-chart.png</iconset>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto-Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/icons/check-square.png</normaloff>img/icons/check-square.png</iconset>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/icons/clock.png</normaloff>img/icons/clock.png</iconset>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>*</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

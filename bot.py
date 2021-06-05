@@ -128,8 +128,7 @@ def display_by_date(message):
 @bot.message_handler(func=lambda message: message.text and message.text.startswith('/open_'))
 def edit_display_by_date(message):
     global act_id
-    if not act_id:
-        act_id = message.text[6:]
+    act_id = message.text[6:]
     cursor.execute(f"SELECT act_date, cat_name, actl_name, act_time, act_comment FROM \"ACTIVITY\" WHERE act_id = {act_id}")
     data = cursor.fetchall()
     act_date, cat_name, actl_name, act_time, act_comment = [str(x) for x in data[0]]
@@ -176,12 +175,8 @@ def choose_command(message):
         bot.register_next_step_handler(message, process_command)
         cursor.execute(f"DELETE FROM \"ACTIVITY\" WHERE act_id = {act_id}")
         connection.commit()
-        act_id = None
-        modifier = None
         display_by_date(message)
     elif message.text == '/exit':
-        act_id = None
-        modifier = None
         display_by_date(message)
     else:
         pass
@@ -190,9 +185,25 @@ def choose_command(message):
 def process_command(message):
     global act_id
     global modifier
-    cursor.execute(f"UPDATE \"ACTIVITY\" SET {modifier} = '{message.text}' WHERE act_id = {act_id}")
-    connection.commit()
-    edit_display_by_date(message)
+    commands = [
+        '/edit_date',
+        '/edit_event',
+        '/edit_category',
+        '/edit_time',
+        '/edit_comment',
+        '/delete_event',
+        '/exit'
+    ]
+    if not message.text.startswith('/open_'):
+        if message.text not in commands:
+            cursor.execute(f"UPDATE \"ACTIVITY\" SET {modifier} = '{message.text}' WHERE act_id = {act_id}")
+            connection.commit()
+            edit_display_by_date(message)
+        else:
+            choose_command(message)
+    else:
+        bot.clear_step_handler(message)
+        edit_display_by_date(message)
 
 
 @bot.message_handler(commands=[TOKEN])
@@ -206,3 +217,4 @@ if __name__ == '__main__':
             bot.polling(none_stop=True)
         except Exception as e:
             print(e)
+

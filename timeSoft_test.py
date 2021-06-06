@@ -39,7 +39,7 @@ class InputCheck:
 
         self.only_in_quotes_char = [ord('!'), ord(','), ord(':')]
         self.incorrect_vals = [ord('"'), ord(
-            '\''), ord('/'), ord('\\'), ord(',')]
+            '\''), ord('/'), ord('\\'), ord(','), ord('--'), ord(';')]
 
     def check_email(self):
         # Проверка на количсество знаков "@".

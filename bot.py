@@ -34,7 +34,6 @@ user_id = None
 act_id = None
 modifier = None
 
-# TODO: Подправить для работы с heroku
 # Initialize the connection to db
 connection = psycopg2.connect(database=config.get('PostgreSql', 'database'),
                               user=config.get('PostgreSql', 'user'),
@@ -162,57 +161,73 @@ def edit_display_by_date(message):
     bot.register_next_step_handler(edit_mode_message, choose_command)
 
 
-# TODO: need to fix that ASAP
 def choose_command(message):
     global act_id
     global modifier
     try:
         if message.text == '/edit_date':
-            modifier = 'act_date'
             event_message = bot.send_message(
                 message.from_user.id, 'Введи дату.')
+            bot.register_next_step_handler(event_message, process_command)
+            modifier = 'act_date'
         elif message.text == '/edit_event':
-            modifier = 'actl_name'
             event_message = bot.send_message(
                 message.from_user.id, 'Введи категорию.')
+            bot.register_next_step_handler(event_message, process_command)
+            modifier = 'actl_name'
         elif message.text == '/edit_category':
-            modifier = 'cat_name'
             event_message = bot.send_message(
                 message.from_user.id, 'Введи название.')
+            bot.register_next_step_handler(event_message, process_command)
+            modifier = 'cat_name'
         elif message.text == '/edit_time':
-            modifier = 'act_time'
             event_message = bot.send_message(
                 message.from_user.id, 'Введи время.')
+            bot.register_next_step_handler(event_message, process_command)
+            modifier = 'act_time'
         elif message.text == '/edit_comment':
-            modifier = 'act_comment'
             event_message = bot.send_message(
                 message.from_user.id, 'Введи комментарий.')
-        bot.register_next_step_handler(event_message, process_command)
+            bot.register_next_step_handler(event_message, process_command)
+            modifier = 'act_comment'
+        else:
+            pass
     except Exception:
         display_by_date(message)
-    try:
-        if message.text == '/delete_event':
-            cursor.execute(f"DELETE FROM \"ACTIVITY\" WHERE act_id = {act_id}")
-            connection.commit()
-            bot.register_next_step_handler(message, process_command)
-            display_by_date(message)
-        elif message.text == '/exit':
-            display_by_date(message)
-    except Exception:
+    if message.text == '/delete_event':
+        bot.register_next_step_handler(message, process_command)
+        cursor.execute(f"DELETE FROM \"ACTIVITY\" WHERE act_id = {act_id}")
+        connection.commit()
         display_by_date(message)
-    finally:
-        act_id = None
-        modifier = None
-        bot.clear_step_handler_by_chat_id(message.chat.id)
+    elif message.text == '/exit':
+        display_by_date(message)
+    else:
+        pass
 
 
 def process_command(message):
     global act_id
     global modifier
-    cursor.execute(
-        f"UPDATE \"ACTIVITY\" SET {modifier} = {message.text} WHERE act_id = {act_id}")
-    connection.commit()
-    edit_display_by_date(message)
+    commands = [
+        '/edit_date',
+        '/edit_event',
+        '/edit_category',
+        '/edit_time',
+        '/edit_comment',
+        '/delete_event',
+        '/exit'
+    ]
+    if not message.text.startswith('/open_'):
+        if message.text not in commands:
+            cursor.execute(
+                f"UPDATE \"ACTIVITY\" SET {modifier} = '{message.text}' WHERE act_id = {act_id}")
+            connection.commit()
+            edit_display_by_date(message)
+        else:
+            choose_command(message)
+    else:
+        bot.clear_step_handler(message)
+        edit_display_by_date(message)
 
 
 @bot.message_handler(commands=[TOKEN])

@@ -1,6 +1,8 @@
 import sys
 from uuid import uuid4
 import os
+import re
+
 import configparser
 import datetime
 import csv
@@ -91,6 +93,11 @@ class InputCheck:
                     return [False, 'Две точки в названии почты.']
                 else:
                     doubledot = True
+        return True
+
+    def check_date(self):
+        if re.match(r"^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$", self.text):
+            return [False, 'Неверный формат даты.']
         return True
 
     def check_len(self):
@@ -241,7 +248,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.abUi.setFixedHeight(768)
         self.abUi.setFixedWidth(1280)
         self.abUi.setWindowIcon(icon)
-        
+
         # Menubar Main UI.
         self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)
         self.mUi.mainwindow_act_settings.triggered.connect(self.settings)
@@ -1040,21 +1047,21 @@ class MainUI(QtWidgets.QMainWindow):
                 f'Если Вы хотите изменить только текущий пароль,\n'
                 f'укажите его в соостветсвующем поле, также заполнив поля ниже.\n'
                 f'Для изменения всей информации, заполните все поля.',
-                    QtWidgets.QMessageBox.Ok)
+                QtWidgets.QMessageBox.Ok)
         if not email_new == '' and oldpass == '':
             try:
                 chck_email = check_email.check_email()
                 if chck_email[0] == False:
-                    QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-                        f'Новая почта: {chck_email[1]}', QtWidgets.QMessageBox.Ok)
+                    QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                                                      f'Новая почта: {chck_email[1]}', QtWidgets.QMessageBox.Ok)
                 return
             except Exception as e:
                 print(e)
             QtWidgets.QMessageBox.information(
                 self, 'Внимание!',
                 f'Вы не указали старый пароль для изенения почты.\n',
-                    QtWidgets.QMessageBox.Ok)
-            
+                QtWidgets.QMessageBox.Ok)
+
             # try:
             #     chck_pass = check_pass.check_incorrect_vals()
             #     if chck_pass[0] == False:

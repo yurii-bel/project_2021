@@ -15,14 +15,7 @@ config = configparser.ConfigParser()
 config.read('config.ini', encoding='utf-8-sig')
 
 
-<<<<<<< HEAD
 TOKEN = config.get('Bot', 'bot_token_sasha')
-=======
-try:
-    BOT_TOKEN = os.environ['BOT_TOKEN']
-except Exception:
-    BOT_TOKEN = config.get('Bot', 'bot_token_sasha')
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
 
 general_commands = [
     '/edit_date',
@@ -34,12 +27,7 @@ general_commands = [
     '/exit'
 ]
 
-<<<<<<< HEAD
 bot = telebot.TeleBot(TOKEN)
-=======
-# general Bot Telegram API class
-bot = telebot.TeleBot(BOT_TOKEN)
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
 
 user_n_name = None
 user_n_id = None
@@ -60,18 +48,12 @@ cursor = connection.cursor()
 
 def pre_check(message):
     global user_id
-<<<<<<< HEAD
     global user_n_id
     cursor.execute(f"SELECT user_n_id FROM \"USER_NAME\" WHERE user_n_telegram = '{message.from_user.id}'")
-=======
-    cursor.execute(
-        f"SELECT user_n_id FROM \"USER_NAME\" WHERE user_n_telegram = '{message.from_user.id}'")
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
     user_n_id = cursor.fetchall()
     if user_n_id:
         user_n_id = user_n_id[0][0]
-        cursor.execute(
-            f"SELECT user_id FROM \"USER\" WHERE user_n_id = '{user_n_id}'")
+        cursor.execute(f"SELECT user_id FROM \"USER\" WHERE user_n_id = '{user_n_id}'")
         user_id = cursor.fetchall()
         if user_id:
             user_id = user_id[0][0]
@@ -79,14 +61,12 @@ def pre_check(message):
 
 @bot.message_handler(commands=['start'])
 def welcome_func(message):
-    bot.send_message(
-        message.chat.id, "Привет, для использования функционала бота войди в аккаунт с помощью комманды '/login'")
+    bot.send_message(message.chat.id, "Привет, для использования функционала бота войди в аккаунт с помощью комманды '/login'")
 
 
 @bot.message_handler(commands=['login'])
 def login_command(message):
-    name_msg = bot.send_message(
-        message.from_user.id, "Привет, введи своё имя.")
+    name_msg = bot.send_message(message.from_user.id, "Привет, введи своё имя.")
     bot.register_next_step_handler(name_msg, check_name)
 
 
@@ -141,66 +121,40 @@ def add_event(message):
 def check_name(message):
     global user_n_id
     global user_p_id
-<<<<<<< HEAD
     cursor.execute(f"SELECT user_n_id FROM \"USER_NAME\" WHERE user_n_name = '{message.text}'")
     user_n_id = cursor.fetchall()
     if user_n_id:
         user_n_id = user_n_id[0][0]
         cursor.execute(f"SELECT user_p_id FROM \"USER\" WHERE user_n_id = '{user_n_id}'")
-=======
-    # getting user_n_id from USER_NAME
-    cursor.execute(
-        f"SELECT user_n_id FROM \"USER_NAME\" WHERE user_n_name = '{message.text}'")
-    user_n_id = cursor.fetchall()
-    if user_n_id:
-        user_n_id = user_n_id[0][0]
-        # getting user_p_id from USER
-        cursor.execute(
-            f"SELECT user_p_id FROM \"USER\" WHERE user_n_id = '{user_n_id}'")
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
         user_p_id = cursor.fetchall()
         if user_p_id:
             user_p_id = user_p_id[0][0]
-        name_found_message = bot.send_message(
-            message.from_user.id, 'Пользователь найден. Введите пароль.')
+        name_found_message = bot.send_message(message.from_user.id, 'Пользователь найден. Введите пароль.')
         bot.register_next_step_handler(name_found_message, check_password)
     else:
-        bot.send_message(
-            message.from_user.id, 'Зарегистрируйтесь в приложении для получения обновлений.')
+        bot.send_message(message.from_user.id, 'Зарегистрируйтесь в приложении для получения обновлений.')
 
 
 def check_password(message):
     global user_id
-<<<<<<< HEAD
     global user_p_password
     cursor.execute(f"SELECT user_p_password FROM \"USER_PRIVATE\" WHERE user_p_id = '{user_p_id}'")
-=======
-    # getting user_p_password from USER_PRIVATE
-    cursor.execute(
-        f"SELECT user_p_password FROM \"USER_PRIVATE\" WHERE user_p_id = '{user_p_id}'")
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
     user_p_password = cursor.fetchall()
     if user_p_password:
         user_p_password = user_p_password[0][0]
         if message.text == user_p_password:
-<<<<<<< HEAD
-=======
-            # setting user_n_telegram from USER_NAME
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
             cursor.execute(f"UPDATE \"USER_NAME\" SET user_n_telegram = '{message.from_user.id}' "
                            f"WHERE user_n_id = '{user_n_id}'")
             connection.commit()
             bot.send_message(message.from_user.id, 'Успешно, вход в аккаунт..')
-            cursor.execute(
-                f"SELECT user_id FROM \"USER\" WHERE user_n_id = '{user_n_id}'")
+            cursor.execute(f"SELECT user_id FROM \"USER\" WHERE user_n_id = '{user_n_id}'")
             user_id = cursor.fetchall()
             if user_id:
                 user_id = user_id[0][0]
         elif message.text == '/login':
             login_command(message)
         else:
-            unsuccessful_msg = bot.send_message(
-                message.from_user.id, 'Неверный пароль, повторите попытку..')
+            unsuccessful_msg = bot.send_message(message.from_user.id, 'Неверный пароль, повторите попытку..')
             bot.register_next_step_handler(unsuccessful_msg, check_password)
 
 
@@ -216,7 +170,6 @@ def display_by_date(message, sort_callback='date_sort'):
     global sent
     global sorting
     pre_check(message)
-<<<<<<< HEAD
     if sort_callback == 'date_sort':
         sort_column = 'act_date ASC'
         sort_type = 'категориям'
@@ -267,37 +220,16 @@ def display_by_date(message, sort_callback='date_sort'):
     else:
         bot.edit_message_text(chat_id=sent[0], message_id=sent[1], text=text)
         bot.edit_message_reply_markup(chat_id=sent[0], message_id=sent[1], reply_markup=markup)
-=======
-    seven_days_ago_date = (
-        datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
-    cursor.execute(
-        f"SELECT * FROM \"ACTIVITY\" WHERE user_id = '{user_id}' AND act_date > '{seven_days_ago_date}'::date ORDER BY act_date, act_id")
-    data = cursor.fetchall()
-    data_list = [' '.join(['> ' + y[4].strftime('%Y.%m.%d'), str(y[2]), '({0})'.format(
-        str(y[5])), str(y[3]), 'мин. /open_' + str(y[0])]) for y in data]
-    data = '\n'.join(data_list)
-    bot.send_message(message.from_user.id,
-                     'Это ваши активности за последние 7 дней:\n\n' + data)
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
 
 
 @bot.message_handler(func=lambda message: message.text and message.text.startswith('/open_'))
 def edit_display_by_date(message):
     global act_id
-<<<<<<< HEAD
     if not act_id:
         act_id = message.text[6:]
     cursor.execute(f"SELECT act_date, actl_name, cat_name, act_time, act_comment FROM \"ACTIVITY\" WHERE act_id = {act_id}")
     data = cursor.fetchall()
     act_date, actl_name, cat_name, act_time, act_comment = [str(x) for x in data[0]]
-=======
-    act_id = message.text[6:]
-    cursor.execute(
-        f"SELECT act_date, cat_name, actl_name, act_time, act_comment FROM \"ACTIVITY\" WHERE act_id = {act_id}")
-    data = cursor.fetchall()
-    act_date, cat_name, actl_name, act_time, act_comment = [
-        str(x) for x in data[0]]
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
     options = 'Дата: ' + act_date + ' /edit_date\n' + \
               'Название: ' + actl_name + ' /edit_event\n' + \
               'Категория: ' + cat_name + ' /edit_category\n' + \
@@ -305,8 +237,7 @@ def edit_display_by_date(message):
               'Комментарий: ' + act_comment + ' /edit_comment\n' + \
               'Удалить событие /delete_event\n' + \
               'Выйти из режима просмотра /exit'
-    edit_mode_message = bot.send_message(
-        message.from_user.id, 'Внимание! Режим просмотра активности!\n\n' + options)
+    edit_mode_message = bot.send_message(message.from_user.id, 'Внимание! Режим просмотра активности!\n\n' + options)
     bot.register_next_step_handler(edit_mode_message, choose_command)
 
 
@@ -316,50 +247,23 @@ def choose_command(message):
     global modifier
     try:
         if message.text == '/edit_date':
-<<<<<<< HEAD
             event_message = bot.send_message(message.from_user.id, 'Введи дату.')
             modifier = 'act_date'
             bot.register_next_step_handler(event_message, process_command)
         elif message.text == '/edit_event':
             event_message = bot.send_message(message.from_user.id, 'Введи название.')
             modifier = 'actl_name'
-=======
-            event_message = bot.send_message(
-                message.from_user.id, 'Введи дату.')
-            bot.register_next_step_handler(event_message, process_command)
-            modifier = 'act_date'
-        elif message.text == '/edit_event':
-            event_message = bot.send_message(
-                message.from_user.id, 'Введи категорию.')
-            bot.register_next_step_handler(event_message, process_command)
-            modifier = 'actl_name'
-        elif message.text == '/edit_category':
-            event_message = bot.send_message(
-                message.from_user.id, 'Введи название.')
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
             bot.register_next_step_handler(event_message, process_command)
         elif message.text == '/edit_category':
             event_message = bot.send_message(message.from_user.id, 'Введи категорию.')
             modifier = 'cat_name'
             bot.register_next_step_handler(event_message, process_command)
         elif message.text == '/edit_time':
-<<<<<<< HEAD
             event_message = bot.send_message(message.from_user.id, 'Введи время.')
-=======
-            event_message = bot.send_message(
-                message.from_user.id, 'Введи время.')
-            bot.register_next_step_handler(event_message, process_command)
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
             modifier = 'act_time'
             bot.register_next_step_handler(event_message, process_command)
         elif message.text == '/edit_comment':
-<<<<<<< HEAD
             event_message = bot.send_message(message.from_user.id, 'Введи комментарий.')
-=======
-            event_message = bot.send_message(
-                message.from_user.id, 'Введи комментарий.')
-            bot.register_next_step_handler(event_message, process_command)
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
             modifier = 'act_comment'
             bot.register_next_step_handler(event_message, process_command)
         else:
@@ -383,7 +287,6 @@ def process_command(message):
     global modifier
     pre_check(message)
     if not message.text.startswith('/open_'):
-<<<<<<< HEAD
         if modifier == 'act_name':
             cursor.execute(f"UPDATE \"ACTIVITY\" SET {modifier} = '{message.text}' WHERE act_id = {act_id}")
         elif modifier == 'cat_name':
@@ -394,13 +297,6 @@ def process_command(message):
                 actl_id = actl_id[0][0]
                 cursor.execute(f"UPDATE \"ACTIVITY\" SET {modifier} = '{message.text}' WHERE act_id = {act_id}")
                 cursor.execute(f"UPDATE \"ACTIVITY_LIST\" SET {modifier} = '{message.text}' WHERE actl_id = {actl_id}")
-=======
-        if message.text not in commands:
-            cursor.execute(
-                f"UPDATE \"ACTIVITY\" SET {modifier} = '{message.text}' WHERE act_id = {act_id}")
-            connection.commit()
-            edit_display_by_date(message)
->>>>>>> d4342101e49f8c5b0be2544ecc4223b57bb98051
         else:
             cursor.execute(f"SELECT actl_id FROM \"ACTIVITY_LIST\" WHERE user_id = '{user_id}' LIMIT 1")
             actl_id = cursor.fetchall()

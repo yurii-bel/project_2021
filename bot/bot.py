@@ -16,10 +16,10 @@ from timeSoft_test import InputCheck
 config = configparser.ConfigParser()
 config.read('config.ini', encoding='utf-8-sig')
 
-try:
-    BOT_TOKEN = os.environ['BOT_TOKEN']
-except Exception:
-    TOKEN = config.get('Bot', 'bot_token_actvs')
+# try:
+#     BOT_TOKEN = os.environ['BOT_TOKEN']
+# except Exception:
+TOKEN = config.get('Bot', 'bot_token_sasha')
 
 general_commands = [
     '/edit_date',
@@ -41,6 +41,7 @@ user_id = None
 act_id = None
 modifier = None
 sorting = None
+change = False
 sent = []
 
 connection = psycopg2.connect(database=config.get('PostgreSql', 'database'),
@@ -164,6 +165,9 @@ def check_password(message):
 
 @bot.message_handler(commands=['display'])
 def display_command(message):
+    global change
+    if not change:
+        change = True
     request_message = bot.send_message(message.from_user.id,
                                        'Выбери за сколько дней или между какими датами (раздели запятой) '
                                        'отобразить события.')
@@ -173,7 +177,10 @@ def display_command(message):
 def display_by_date(message, sort_callback='date_sort'):
     global sent
     global sorting
+    global change
     pre_check(message)
+    if not change:
+        change = True
     if sort_callback == 'date_sort':
         sort_column = 'act_date ASC'
         sort_type = 'категориям'
@@ -217,13 +224,14 @@ def display_by_date(message, sort_callback='date_sort'):
     keyboard = types.InlineKeyboardMarkup()
     button = types.InlineKeyboardButton("Сортировать по " + sort_type, callback_data=sort_callback)
     markup = keyboard.add(button)
-    if not sent:
+    if change:
         bot.send_message(message.from_user.id, text, reply_markup=markup)
+    else:
         sent.append(message.chat.id)
         sent.append(message.message_id + 1)
-    else:
         bot.edit_message_text(chat_id=sent[0], message_id=sent[1], text=text)
         bot.edit_message_reply_markup(chat_id=sent[0], message_id=sent[1], reply_markup=markup)
+    change = False
 
 
 @bot.message_handler(func=lambda message: message.text and message.text.startswith('/open_'))

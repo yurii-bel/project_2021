@@ -293,6 +293,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Theme of main window.
         self.mUi.mainwindow_btn_theme.clicked.connect(self.change_theme)
         self.change_theme_status = 0  # 0 is a sign of dark theme.
+
         self.mUi.setWindowIcon(icon)
 
         # Login UI.

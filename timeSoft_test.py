@@ -959,7 +959,6 @@ class MainUI(QtWidgets.QMainWindow):
                 f'укажите новую почту и текущий пароль в соответсвующих полях.\n'
                 f'Если Вы хотите изменить только текущий пароль,\n'
                 f'укажите его в соостветсвующем поле, также заполнив поля ниже.\n'
-<<<<<<< HEAD
                 f'Для изменения всей информации, заполните все поля.')
             return
         
@@ -1100,70 +1099,6 @@ class MainUI(QtWidgets.QMainWindow):
                 webbrowser.open_new_tab('https://web.telegram.org/#/im?p=@fexcin_bot')
         else:
             webbrowser.open_new_tab('https://web.telegram.org/#/im?p=@fexcin_bot')
-=======
-                f'Для изменения всей информации, заполните все поля.',
-                QtWidgets.QMessageBox.Ok)
-        if not email_new == '' and oldpass == '':
-            try:
-                chck_email = check_email.check_email()
-                if chck_email[0] == False:
-                    QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                                                      f'Новая почта: {chck_email[1]}', QtWidgets.QMessageBox.Ok)
-                return
-            except Exception as e:
-                print(e)
-            QtWidgets.QMessageBox.information(
-                self, 'Внимание!',
-                f'Вы не указали старый пароль для изенения почты.\n',
-                QtWidgets.QMessageBox.Ok)
-
-            # try:
-            #     chck_pass = check_pass.check_incorrect_vals()
-            #     if chck_pass[0] == False:
-            #         QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-            #             f'Новый пароль: {chck_pass[1]}', QtWidgets.QMessageBox.Ok)
-            #     return
-            # except Exception as e:
-            #     print(e)
-        #     if not oldpass == self.timedb.get_logged_user_data(item='get_user_password'):
-        #         QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-        #             f'Текущий пароль не совпадает с настоящим.', QtWidgets.QMessageBox.Ok)
-        #         return
-
-        # if newpass == '' and rep_newpass == '':
-        #     if email_new == '':
-        #         QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-        #             f'Вы не указали новый email для изменения.\n'
-        #             f'Для того, чтобы измнеить email, Вам так же потребуется ввести\n'
-        #             f'старый пароль в соответсвующую строку.', QtWidgets.QMessageBox.Ok)
-        #         return
-        #     if oldpass == '':
-        #         QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-        #             'Старый пароль не соотвествует текущему.',\
-        #                 QtWidgets.QMessageBox.Ok)
-        #     try:
-        #         chck_email = check_email.check_email()
-        #         if chck_email[0] == False:
-        #             QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-        #                 chck_email[1], QtWidgets.QMessageBox.Ok)
-        #     except Exception as e:
-        #         print(e)
-
-            # if not oldpass == self.timedb.get_logged_user_data(
-            #         item='get_user_password') or oldpass == '':
-            #     QtWidgets.QMessageBox.question(self, 'Ошибка!',
-            #                                    'Для изменения почты, введите свой старый пароль в соответсвующую строку.',
-            #                                    QtWidgets.QMessageBox.Ok)
-
-            # elif not self.sUi.settings_lineedit_newpass == '' and\
-            #         not self.sUi.settings_lineedit_repnewpass == '':
-            #     self.timedb.set_logged_user_data(item='change_email',
-            #                                      edit_params=[email_new])
-            #     QtWidgets.QMessageBox.question(self, 'Ошибка!',
-            #                                    'Пароль успешно изменён.', QtWidgets.QMessageBox.Ok)
-            #     self.sUi.close()
-        # elif
->>>>>>> 0fcd21344e67376d7756114154cf695e926726d5
 
     # TABLE VIEWING BLOCK. uses DbLogic class.
     def custom_view_table(self):

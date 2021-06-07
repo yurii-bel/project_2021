@@ -1,6 +1,12 @@
 from timeSoft_test import *
 import unittest
 
+# TODO:
+# Do 5 unit-tests for each class of timeSoft.
+# class InputCheck
+# class MainUI
+# class DbLogic
+
 class TestInputCheckSuccess(unittest.TestCase):
     def setUp(self):
         self.check = InputCheck

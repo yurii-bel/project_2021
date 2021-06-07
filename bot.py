@@ -1,6 +1,8 @@
 import telebot
 import psycopg2
 
+import os
+
 from psycopg2 import DatabaseError
 
 import configparser
@@ -14,8 +16,10 @@ from timeSoft_test import InputCheck
 config = configparser.ConfigParser()
 config.read('config.ini', encoding='utf-8-sig')
 
-
-TOKEN = config.get('Bot', 'bot_token_sasha')
+try:
+    BOT_TOKEN = os.environ['BOT_TOKEN']
+except Exception:
+    TOKEN = config.get('Bot', 'bot_token_actvs')
 
 general_commands = [
     '/edit_date',

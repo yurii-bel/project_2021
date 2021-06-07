@@ -16,39 +16,11 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(40, 48, 70);</string>
   </property>
-  <widget class="QLineEdit" name="settings_lineedit_email">
-   <property name="geometry">
-    <rect>
-     <x>58</x>
-     <y>110</y>
-     <width>384</width>
-     <height>38</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Roboto</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit { 
-color: #676D7D;
-background: #283046;
-border: 1px solid #404656;
-border-radius: 5px;
-}
-
-QLineEdit:hover {
-border: 1px solid rgb(95, 85, 200);
-}</string>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="settings_lineedit_oldpass">
    <property name="geometry">
     <rect>
-     <x>58</x>
-     <y>252</y>
+     <x>60</x>
+     <y>270</y>
      <width>384</width>
      <height>38</height>
     </rect>
@@ -82,7 +54,7 @@ border: 1px solid rgb(95, 85, 200);
    <property name="geometry">
     <rect>
      <x>58</x>
-     <y>476</y>
+     <y>530</y>
      <width>111</width>
      <height>38</height>
     </rect>
@@ -121,8 +93,8 @@ QPushButton:hover {
   <widget class="QLabel" name="settings_text_oldpass">
    <property name="geometry">
     <rect>
-     <x>58</x>
-     <y>232</y>
+     <x>60</x>
+     <y>250</y>
      <width>384</width>
      <height>20</height>
     </rect>
@@ -143,8 +115,8 @@ QPushButton:hover {
   <widget class="QLabel" name="settings_text_newpass">
    <property name="geometry">
     <rect>
-     <x>58</x>
-     <y>306</y>
+     <x>60</x>
+     <y>330</y>
      <width>384</width>
      <height>20</height>
     </rect>
@@ -188,8 +160,8 @@ QPushButton:hover {
   <widget class="QLineEdit" name="settings_lineedit_newpass">
    <property name="geometry">
     <rect>
-     <x>58</x>
-     <y>326</y>
+     <x>60</x>
+     <y>350</y>
      <width>384</width>
      <height>38</height>
     </rect>
@@ -222,8 +194,8 @@ border: 1px solid rgb(95, 85, 200);
   <widget class="QLabel" name="settings_text_repnewpass">
    <property name="geometry">
     <rect>
-     <x>58</x>
-     <y>380</y>
+     <x>60</x>
+     <y>410</y>
      <width>384</width>
      <height>20</height>
     </rect>
@@ -244,8 +216,8 @@ border: 1px solid rgb(95, 85, 200);
   <widget class="QLineEdit" name="settings_lineedit_repnewpass">
    <property name="geometry">
     <rect>
-     <x>58</x>
-     <y>400</y>
+     <x>60</x>
+     <y>430</y>
      <width>384</width>
      <height>38</height>
     </rect>
@@ -279,7 +251,7 @@ border: 1px solid rgb(95, 85, 200);
    <property name="geometry">
     <rect>
      <x>58</x>
-     <y>454</y>
+     <y>508</y>
      <width>384</width>
      <height>20</height>
     </rect>
@@ -300,8 +272,8 @@ border: 1px solid rgb(95, 85, 200);
   <widget class="QLabel" name="settings_text_email">
    <property name="geometry">
     <rect>
-     <x>58</x>
-     <y>90</y>
+     <x>60</x>
+     <y>100</y>
      <width>384</width>
      <height>18</height>
     </rect>
@@ -344,8 +316,8 @@ border: 1px solid rgb(95, 85, 200);
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>57</x>
-     <y>594</y>
+     <x>50</x>
+     <y>640</y>
      <width>381</width>
      <height>80</height>
     </rect>
@@ -421,7 +393,7 @@ border: 2px solid rgb(234, 84, 85);
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>476</y>
+     <y>530</y>
      <width>38</width>
      <height>38</height>
     </rect>
@@ -451,7 +423,7 @@ border: 2px solid rgb(234, 84, 85);
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>476</y>
+     <y>530</y>
      <width>38</width>
      <height>38</height>
     </rect>
@@ -481,7 +453,7 @@ border: 2px solid rgb(234, 84, 85);
    <property name="geometry">
     <rect>
      <x>57</x>
-     <y>526</y>
+     <y>580</y>
      <width>251</width>
      <height>50</height>
     </rect>
@@ -566,8 +538,8 @@ border: 1px solid rgb(95, 85, 200);
   <widget class="QLabel" name="settings_text_email_2">
    <property name="geometry">
     <rect>
-     <x>58</x>
-     <y>164</y>
+     <x>60</x>
+     <y>170</y>
      <width>384</width>
      <height>18</height>
     </rect>
@@ -591,8 +563,8 @@ border: 1px solid rgb(95, 85, 200);
   <widget class="QLineEdit" name="settings_lineedit_email_new">
    <property name="geometry">
     <rect>
-     <x>58</x>
-     <y>184</y>
+     <x>60</x>
+     <y>190</y>
      <width>384</width>
      <height>38</height>
     </rect>
@@ -619,9 +591,50 @@ border: 1px solid rgb(95, 85, 200);
     <string>my@email.com</string>
    </property>
   </widget>
+  <widget class="QLabel" name="settings_lineedit_email">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>130</y>
+     <width>381</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel { 
+color: #676D7D;
+background: #283046;
+border-radius: 5px;
+text-decoration: underline;
+font-size: 13pt;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_lbl_error">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>476</y>
+     <width>381</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+font-size: 10pt;
+color: #7367F0;
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>settings_imglbl_telegram_verify</zorder>
   <zorder>settings_imglbl_telegram_noverify</zorder>
-  <zorder>settings_lineedit_email</zorder>
   <zorder>settings_lineedit_oldpass</zorder>
   <zorder>settings_btn_telegram</zorder>
   <zorder>settings_text_oldpass</zorder>
@@ -637,6 +650,8 @@ border: 1px solid rgb(95, 85, 200);
   <zorder>horizontalLayoutWidget_2</zorder>
   <zorder>settings_text_email_2</zorder>
   <zorder>settings_lineedit_email_new</zorder>
+  <zorder>settings_lineedit_email</zorder>
+  <zorder>settings_lbl_error</zorder>
  </widget>
  <resources/>
  <connections/>

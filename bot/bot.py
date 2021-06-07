@@ -10,7 +10,7 @@ import configparser
 from datetime import datetime, timedelta
 from telebot import types
 
-from project_2021.timeSoft_test import InputCheck
+from timeSoft_test import InputCheck
 
 
 config = configparser.ConfigParser()

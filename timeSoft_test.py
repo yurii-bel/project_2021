@@ -1391,10 +1391,8 @@ class DbLogic:
 
     def __init__(self):
         self.connection = db.connect(database=self.config.get('PostgreSql', 'database'),
-                                     user=self.config.get(
-                                         'PostgreSql', 'user'),
-                                     password=self.config.get(
-                                         'PostgreSql', 'password'),
+                                     user=self.config.get('PostgreSql', 'user'),
+                                     password=self.config.get('PostgreSql', 'password'),
                                      host=self.config.get('PostgreSql', 'host'))
 
         self.cursor = self.connection.cursor()

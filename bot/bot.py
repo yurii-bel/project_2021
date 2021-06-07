@@ -2,7 +2,7 @@
 import telebot
 
 # Идентифицируем телеграм бота.
-bot = telebot.TeleBot('1312068351:AAHAepAMP4z00-AYQcqJdowW6MPJywD3Kq0')
+bot = telebot.TeleBot('1891194594:AAGDaHHTuZv5mDBIV8Q4Sjd7xU1RPPry0ns')
 
 
 # Отслеживаем ввод текста для того, что бы ответить что-то умное.

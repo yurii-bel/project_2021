@@ -19,7 +19,7 @@ cursor = connection.cursor()
 correct_login_info = False
 bot = telebot.TeleBot(tk)
 
-def  find_at(msg):
+def find_at(msg):
     for text in msg:
         if '@' in text:
             return text
@@ -45,8 +45,7 @@ def welcome_help(message):
 @bot.message_handler(commands=['get_me'])
 def get_message(message):
     name = message.from_user.id
-    cursor.execute('S'
-        #add values
+    cursor.execute('S')
     bot.send_message(message.chat.id,f"it's your name {name}") #print(cursor.fetchone().cursor))
     connection.commit()
     connection.close
@@ -56,7 +55,6 @@ def get_message(message):
 
 
 if __name__ == '__main__':
- while True:
     try:
         bot.infinity_polling(True)
     except Exception:

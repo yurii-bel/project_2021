@@ -30,7 +30,17 @@ sys.path.append(".")
 
 
 class InputCheck:
+    """
+    This class implements base checking system for various input data.
+    """
     def __init__(self, input_text):
+        """
+        Parameters:
+            input_text (str):The string which can be checked using various methods.
+
+        Returns:
+            None
+        """
         self.text = input_text
 
         self.correct_rus_vals = []
@@ -48,11 +58,24 @@ class InputCheck:
             '\''), ord('/'), ord('\\'), ord(',')]
 
     def check_email(self):
-        # Проверка на количсество знаков "@".
+        """
+        This method makes various checks for correct email. 
+        This method does various checks for email. 
+        If the email passes verification, it returns True(bool) only.
+        If not passes, it returns list that contains two values:
+        False(bool) and error message(str).
+
+        Parameters:
+            None
+
+        Returns:
+            True | [False | err_msg]
+        """
+        # Check for the number of "@" characters. 
         if self.text.count('@') > 1 or self.text.count('@') == 0:
             return [False, 'Неверное количество знаков "@".']
 
-        # Проверка на длинну домена.
+        # Check for domain length. 
         [name, domain] = self.text.split('@')
         if len(domain) < 3:
             return [False, 'Доменное имя короче 3 символов.']
@@ -61,14 +84,15 @@ class InputCheck:
         if domain.count('.') == 0:
             return [False, 'Доменное имя не содержит точки.']
 
-        # Проверка домена.
+        # Domain check. 
         includedomain = domain.split('.')
         self.correct_vals.extend([ord('-'), ord('_')])
         for k in includedomain:
-            # проверяем нет ли пустых подстрок в домене
+            # Checking if there are empty substrings in the domain.
             if k == '':
                 return [False, 'Доменное имя содержит пустую строку между точками.']
-            # Проверяем нет ли нелегальных символов в подстроках в домене
+            # Checking if there are any illegal characters in substrings
+            # of the domain.
             for n in k:
                 if ord(n) not in self.correct_vals:
                     return [False, f'Недопустимый символ {n}']
@@ -77,13 +101,13 @@ class InputCheck:
         if len(name) > 60:
             return [False, 'Имя почты длиннее 60 символов.']
 
-        # Добавляем в список корректных символов . ; " ! : ,
+        # Add to the list of valid characters (; " ! : ,).
         self.correct_vals_with_num.extend(self.only_in_quotes_char)
         self.correct_vals_with_num.extend([ord('.'), ord(';'), ord('"')])
-        # Проверка на парные кавычки
+        # Checking for double quotes.
         if name.count('"') % 2 != 0:
             return [False, 'Непарные кавычки.']
-        # Переменные для отслеживания точки и открывающихся кавычек
+        # Variables to track period and opening quotes. 
         doubledot = False
         inquotes = False
         for k in name:
@@ -93,7 +117,7 @@ class InputCheck:
                 return [False, 'Недопустимый символ вне кавычек.']
             if ord(k) not in self.correct_vals_with_num:
                 return [False, f'Недопустимый символ. "{k}"']
-            # проверка на две точки подряд
+            # Checking for two points in a row.
             if (k == '.'):
                 if doubledot == True:
                     return [False, 'Две точки в названии почты.']
@@ -211,14 +235,13 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         return True
 
 # ----------------------------------------------------------START-----timeSoft
-class AlignDelegate(QtWidgets.QStyledItemDelegate):
-    '''
-    This class implements center positioning for icons in TableView widget
-    '''
-
-    def initStyleOption(self, option, index):
-        super().initStyleOption(option, index)
-        option.decorationSize = option.rect.size()
+# class AlignDelegate(QtWidgets.QStyledItemDelegate):
+#     '''
+#     This class implements center positioning for icons in TableView widget
+#     '''
+#     def initStyleOption(self, option, index):
+#         super().initStyleOption(option, index)
+#         option.decorationSize = option.rect.size()
 
 
 class MainUI(QtWidgets.QMainWindow):
@@ -235,7 +258,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi = uic.loadUi('design\\register_d.ui')
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
-        self.ttUi = uic.loadUi('design\\table_test.ui')  # Table ui.
+        self.ttUi = uic.loadUi('design\\table.ui')  # Table ui.
         self.abUi = uic.loadUi('design\\about_us_d.ui')  # About us ui.
 
         # Widget for viewing various data.
@@ -1797,9 +1820,9 @@ class DbLogic:
 # ----------------------------------------------------------END----dblogic.py
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    win = MainUI()
-    sys.exit(app.exec())
+    # app = QtWidgets.QApplication(sys.argv)
+    # win = MainUI()
+    # sys.exit(app.exec())
 
     # dbl = DbLogic()
     # print(dbl.get_logged_user_data(user_login='Sif', item='set_working_user'))
@@ -1831,3 +1854,5 @@ if __name__ == '__main__':
     # app = QtWidgets.QApplication(sys.argv)
     # win = InputCheckWithDiags('tl@ea..a').check_email('Почта')
     # sys.exit(app.exec())
+    a = InputCheck
+    print(a(',').check_incorrect_vals())

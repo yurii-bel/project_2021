@@ -3,6 +3,7 @@ venv
 .vscode/*
 *.pyc
 .idea
+.idea/*
 staticfiles
 .env
 db.sqlite3

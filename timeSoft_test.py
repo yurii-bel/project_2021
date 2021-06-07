@@ -1,6 +1,8 @@
 import sys
 from uuid import uuid4
 import os
+import re
+
 import configparser
 import datetime
 import csv
@@ -8,12 +10,12 @@ import csv
 from psycopg2 import Error
 import psycopg2.extras
 import psycopg2 as db
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import csv
 
 from pyqtgraph import PlotWidget
 import pyqtgraph as pg
 
+from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QBrush, QPainter, QPen
 from PyQt5.QtCore import Qt
@@ -93,6 +95,11 @@ class InputCheck:
                     doubledot = True
         return True
 
+    def check_date(self):
+        if re.match(r"^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$", self.text):
+            return [False, 'Неверный формат даты.']
+        return True
+
     def check_len(self):
         if len(self.text) > 60:
             return [False, 'Длиннее 60 символов.']
@@ -162,12 +169,11 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi = uic.loadUi('design\\register_d.ui')
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
-        self.tUi = uic.loadUi('design\\table.ui')  # Table ui.
+        self.ttUi = uic.loadUi('design\\table.ui')  # Table ui.
         self.abUi = uic.loadUi('design\\about_us_d.ui')  # About us ui.
 
         # Widget for viewing various data.
         self.wUi = self.mUi.mainwindow_widget_view
-        self.ttUi = uic.loadUi('design\\table_test.ui')  # Table ui.
 
         # Various settings for different UI elements, such as connecting
         # buttons to slots, setting menubars and status bar.
@@ -190,7 +196,12 @@ class MainUI(QtWidgets.QMainWindow):
             self.show_add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.settings)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
-        # self.mUi.mainwindow_btn_forecast.clicked.connect(self.update_custom_view_table)
+        # Combobox.
+        self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(
+            self.graph_plot)
+        # Theme of main window.
+        self.mUi.mainwindow_btn_theme.clicked.connect(self.change_theme)
+        self.change_theme_status = 0  # 0 is a sign of dark theme.
         self.mUi.setWindowIcon(icon)
 
         # Login UI.
@@ -233,18 +244,15 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.settings_lineedit_email.setReadOnly(True)
         self.sUi.setWindowIcon(icon)
 
+        # About us UI.
+        self.abUi.setFixedHeight(768)
+        self.abUi.setFixedWidth(1280)
+        self.abUi.setWindowIcon(icon)
+
         # Menubar Main UI.
         self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)
         self.mUi.mainwindow_act_settings.triggered.connect(self.settings)
         self.mUi.mainwindow_act_about_program.triggered.connect(self.abUi.show)
-
-        # Combobox Main UI.
-        self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(
-            self.graph_plot)
-
-        # Theme of main window.
-        self.mUi.mainwindow_btn_theme.clicked.connect(self.change_theme)
-        self.change_theme_status = 0  # 0 is a sign of dark theme.
 
         # Forecast.
         self.mUi.mainwindow_btn_forecast.clicked.connect(self.forecast)
@@ -1021,67 +1029,47 @@ class MainUI(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.question(self, 'Успех!',
                                            'Импорт успешно завершён!', QtWidgets.QMessageBox.Ok)
 
-    # def settings_save(self):
-    #     self.timedb.get_logged_user_data(item='get_user_p_id')
-    #     email = self.sUi.settings_lineedit_email.text()
-    #     old_pass = self.sUi.settings_lineedit_oldpass.text()
-    #     new_pass = self.sUi.settings_lineedit_newpass.text()
-    #     repeat_new_pass = self.sUi.settings_lineedit_repnewpass.text()
-
-    #     if not email == self.timedb.get_logged_user_data(item='get_user_email'):
-    #         QtWidgets.QMessageBox.question(self, 'Ошибка!',
-    #                                        'Введённый email не совпадает с зарегестрированным.',
-    #                                        QtWidgets.QMessageBox.Ok)
-    #     elif not old_pass == self.timedb.get_logged_user_data(item='get_user_password'):
-    #         QtWidgets.QMessageBox.question(self, 'Ошибка!',
-    #                                        'Текущий пароль неверный.',
-    #                                        QtWidgets.QMessageBox.Ok)
-    #     elif len(new_pass) <= 7:
-    #         QtWidgets.QMessageBox.question(self, 'Ошибка!',
-    #                                        'Пароль должен состоять миниммум из восьми символов.',
-    #                                        QtWidgets.QMessageBox.Ok)
-    #     elif not new_pass == repeat_new_pass:
-    #         QtWidgets.QMessageBox.question(self, 'Ошибка!',
-    #                                        'Проверьте правильность ввода новых паролей.',
-    #                                        QtWidgets.QMessageBox.Ok)
-    #     elif len(repeat_new_pass) <= 7:
-    #         QtWidgets.QMessageBox.question(self, 'Ошибка!',
-    #                                        'Пароль должен состоять миниммум из восьми символов.',
-    #                                        QtWidgets.QMessageBox.Ok)
-    #     else:
-    #         self.timedb.set_logged_user_data(item='change_password',
-    #                                          edit_params=[repeat_new_pass, email])
-    #         QtWidgets.QMessageBox.question(self, 'Ошибка!',
-    #                                        'Пароль успешно изменён.', QtWidgets.QMessageBox.Ok)
-    #         self.sUi.close()
-
     def settings_change_user_data(self):
         email_new = self.sUi.settings_lineedit_email_new.text()
         oldpass = self.sUi.settings_lineedit_oldpass.text()
-        newpass = self.sUi.settings_lineedit_newpass
-        rep_newpass = self.sUi.settings_lineedit_repnewpass
+        newpass = self.sUi.settings_lineedit_newpass.text()
+        rep_newpass = self.sUi.settings_lineedit_repnewpass.text()
 
         check_email = InputCheck(email_new)
+        check_pass = InputCheck(newpass)
 
         # New emails checks.
         if email_new == '' and oldpass == '' and newpass == '' and rep_newpass == '':
-            QtWidgets.QMessageBox.information(self, 'Внимание!',
-                                              f'Если Вы хотите изменить только текущую почту,\n'
-                                              f'укажите новую почту и текущий пароль в соответсвующих полях.\n'
-                                              f'Если Вы хотите изменить только текущий пароль,\n'
-                                              f'укажите его в соостветсвующем поле, также заполнив поля ниже.\n'
-                                              f'Для изменения всей информации, заполните все поля.',
-                                              QtWidgets.QMessageBox.Ok)
-        # elif not email_new == '' and not oldpass == '':
-        #     try:
-        #         chck_email = check_email.check_email()
-        #         if chck_email[0] == False:
-        #             QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-        #                 f'Новая почта: {chck_email[1]}', QtWidgets.QMessageBox.Ok)
-        #         return
-        #     except Exception as e:
-        #         print(e)
+            QtWidgets.QMessageBox.information(
+                self, 'Внимание!',
+                f'Если Вы хотите изменить только текущую почту,\n'
+                f'укажите новую почту и текущий пароль в соответсвующих полях.\n'
+                f'Если Вы хотите изменить только текущий пароль,\n'
+                f'укажите его в соостветсвующем поле, также заполнив поля ниже.\n'
+                f'Для изменения всей информации, заполните все поля.',
+                QtWidgets.QMessageBox.Ok)
+        if not email_new == '' and oldpass == '':
+            try:
+                chck_email = check_email.check_email()
+                if chck_email[0] == False:
+                    QtWidgets.QMessageBox.information(self, 'Ошибка!',
+                                                      f'Новая почта: {chck_email[1]}', QtWidgets.QMessageBox.Ok)
+                return
+            except Exception as e:
+                print(e)
+            QtWidgets.QMessageBox.information(
+                self, 'Внимание!',
+                f'Вы не указали старый пароль для изенения почты.\n',
+                QtWidgets.QMessageBox.Ok)
 
+            # try:
+            #     chck_pass = check_pass.check_incorrect_vals()
+            #     if chck_pass[0] == False:
+            #         QtWidgets.QMessageBox.information(self, 'Ошибка!',\
+            #             f'Новый пароль: {chck_pass[1]}', QtWidgets.QMessageBox.Ok)
+            #     return
+            # except Exception as e:
+            #     print(e)
         #     if not oldpass == self.timedb.get_logged_user_data(item='get_user_password'):
         #         QtWidgets.QMessageBox.information(self, 'Ошибка!',\
         #             f'Текущий пароль не совпадает с настоящим.', QtWidgets.QMessageBox.Ok)

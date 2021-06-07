@@ -7,8 +7,8 @@ class TestInputCheck(unittest.TestCase):
     This class implements testing of InputCheck class from timeSoft.py file.
     """
     def setUp(self):
-        # Setting up a reference to a InputCheck class.
-        # In the next methods, using indexing for returning boolean type only.
+        #* Setting up a reference to a InputCheck class.
+        #* In the next methods, using indexing for returning boolean type only.
         self.check = InputCheck
         
     def test_email_InputCheck(self):

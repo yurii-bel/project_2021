@@ -14,9 +14,16 @@ import csv
 from pyqtgraph import PlotWidget
 import pyqtgraph as pg
 
+
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QBrush, QPainter, QPen
 from PyQt5.QtCore import Qt
+
+from pandas import read_csv
+from matplotlib import pyplot as plt
+
+from pandas import read_csv
+
 
 sys.path.append(".")
 
@@ -248,7 +255,22 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Variable of correctness login status for bot.
         self.correct_login = False
-    
+
+            
+    def sorting_data_csv(self):
+        if self.idx < len(self.diff_categories):
+            with open(f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(['Month', 'Duration'])
+                for item in self.duration_by_dates_and_categories:
+                    if item['category'] == self.diff_categories[self.idx]:
+                        print(item)
+                        writer.writerow([item['date'], item['duration']])
+            print('---')
+            self.idx += 1
+            self.sorting_data_csv()
+        else:
+            print('all data sorted by month and category successfully!')
 
     def create_forecast_data(self):
         self.graph_plot()
@@ -257,21 +279,84 @@ class MainUI(QtWidgets.QMainWindow):
 
         for row in rows:
             self.dates.append(row[3][0:-3])
-        # self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
+            # self.dates.append(row[3][0:-3])
+        self.diff_dates = list((set([x for x in self.dates if self.dates.count(x) > 1])))
         
-        print(self.dates, self.diff_categories, self.diff_duration)
+        self.sorted_diff_dates = sorted(self.diff_dates, key=lambda x: datetime.datetime.strptime(x, '%Y-%m'))
 
-        with open(f'{self.user_n_name}_data.csv', 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(['Month', 'Category', 'Duration'])
+        self.final_date = []
+        self.final_category = []
+        self.final_duration = []
+
+        for i in self.sorted_diff_dates:
+            for row in rows:
+                for j in self.diff_categories:
+                    if i == row[3][0:-3] and j == row[0]:
+                        self.final_date.append(i)
+                        self.final_category.append(j)
+                        self.final_duration.append(int(row[2]))
+        
+        self.duration_by_dates_and_categories = []
+        self.sum_of_durations = 0
+        self.case = dict
+
+        for i in self.sorted_diff_dates:  # dates.
+            for j in self.diff_categories:  # categories.
+                for z in range(len(self.final_date)):  # number of all dates in order.
+                    if i == self.final_date[z] and j == self.final_category[z]:
+                        self.sum_of_durations += self.final_duration[z]
+                self.case = {'date': i, 'category': j, 'duration': self.sum_of_durations}
+                self.duration_by_dates_and_categories.append(self.case)
+                # self.case.clear()
+                self.sum_of_durations = 0
+
+        # print(self.duration_by_dates_and_categories)
+
+        # Looping through dicts in list.
+        # self.categories_range = range(len(self.diff_categories))
+    
+
+        # categories_range = range(len(self.diff_categories))
+        # dates_len = len(self.diff_dates)
+        # idx = 0
+        # for item in self.duration_by_dates_and_categories:
+        #     for i in categories_range:
+        #         if item['category'] == self.diff_categories[i] and item['date'] == self.diff_dates[idx] and idx <= dates_len:
+        #             print(item)
+        # idx+=1
+
+        # print(f'\n{self.final_date}\n{self.final_category}\n{self.final_duration}')
+        # print(self.dates, self.diff_categories, self.diff_duration)
+        # for i in diff_categ
+        
+        # with open(f'./csv_data/{self.user_n_name}_data.csv', 'w', newline='') as file:
+        #     writer = csv.writer(file)
+        #     writer.writerow(['Month', 'Category', 'Duration'])
+
             # for i in 
             # writer.writerow([1, "Potato", "Linux Kernel"])
             # writer.writerow([2, "Tim Berners-Lee", "World Wide Web"])
             # writer.writerow([3, "Guido van Rossum", "Python Programming"])
-    
 
     def forecast(self):
-        print('forecast')
+        self.idx = 0  # Setting index to 0.
+        self.sorting_data_csv()
+
+        # load data.
+        index = 0
+        pathes = []
+
+        
+
+        for i in range(len(self.diff_categories)):
+            path = f'./csv_data/{self.user_n_name}_{self.diff_categories[index]}_data.csv'
+            pathes.append(path)
+            # plot the time series.
+            df = read_csv(pathes[i])
+            df.plot(subplots=True)
+            # df.plot(subplots=True, legend = True)
+            index += 1
+        plt.show()
 
     # TODO: ADD STYLES.
     def change_theme(self):

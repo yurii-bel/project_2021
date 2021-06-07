@@ -7,8 +7,8 @@ class TestInputCheck(unittest.TestCase):
     This class implements testing of InputCheck class from timeSoft.py file.
     """
     def setUp(self):
-        #* Setting up a reference to a InputCheck class.
-        #* In the next methods, using indexing for returning boolean type only.
+        # Setting up a reference to a InputCheck class.
+        # In the next methods, using indexing for returning boolean type only.
         self.check = InputCheck
         
     def test_email_InputCheck(self):
@@ -43,7 +43,6 @@ class TestInputCheck(unittest.TestCase):
     def test_number_only_InputCheck(self):
         # Cheking if number_only() returns True when it takes a correct arg.
         self.assertTrue(self.check('0').number_only())
-
         # Making a few various tests:
         # Cheking if number_only() returns False when it takes a incorrect args.
         self.assertFalse(self.check('Hello0World!').number_only()[0])

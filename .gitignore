@@ -2,10 +2,15 @@ venv
 .vscode
 .vscode/*
 *.pyc
+.idea
+.idea/*
 staticfiles
 .env
 db.sqlite3
 getting-started/*
 temp/*
 .qt_for_python/*
-/config.ini
+config.ini
+*.csv
+__pycache__
+*/__pycache__

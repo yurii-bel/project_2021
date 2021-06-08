@@ -20,11 +20,28 @@ from PyQt5.QtGui import QBrush, QIcon, QPainter, QPen, QPixmap
 from PyQt5.QtCore import Qt
 from pyqtgraph.graphicsItems.ButtonItem import ButtonItem
 
+from pandas import read_csv
+from matplotlib import pyplot as plt
+
+from pandas import read_csv
+
+
 sys.path.append(".")
 
 
 class InputCheck:
+    """
+    This class implements base checking system for various input data.
+    """
+
     def __init__(self, input_text):
+        """
+        Parameters:
+            input_text (str):The string which can be checked using various methods.
+
+        Returns:
+            None
+        """
         self.text = input_text
 
         self.correct_rus_vals = []
@@ -39,14 +56,27 @@ class InputCheck:
 
         self.only_in_quotes_char = [ord('!'), ord(','), ord(':')]
         self.incorrect_vals = [ord('"'), ord(
-            '\''), ord('/'), ord('\\'), ord(',')]
+            '\''), ord('/'), ord('\\'), ord(','), ord('--'), ord(';')]
 
     def check_email(self):
-        # Проверка на количсество знаков "@".
+        """
+        This method makes various checks for correct email. 
+        This method does various checks for email. 
+        If the email passes verification, it returns True(bool) only.
+        If not passes, it returns list that contains two values:
+        False(bool) and error message(str).
+
+        Parameters:
+            None
+
+        Returns:
+            True | [False | err_msg]
+        """
+        # Check for the number of "@" characters.
         if self.text.count('@') > 1 or self.text.count('@') == 0:
             return [False, 'Неверное количество знаков "@".']
 
-        # Проверка на длинну домена.
+        # Check for domain length.
         [name, domain] = self.text.split('@')
         if len(domain) < 3:
             return [False, 'Доменное имя короче 3 символов.']
@@ -55,14 +85,15 @@ class InputCheck:
         if domain.count('.') == 0:
             return [False, 'Доменное имя не содержит точки.']
 
-        # Проверка домена.
+        # Domain check.
         includedomain = domain.split('.')
         self.correct_vals.extend([ord('-'), ord('_')])
         for k in includedomain:
-            # проверяем нет ли пустых подстрок в домене
+            # Checking if there are empty substrings in the domain.
             if k == '':
                 return [False, 'Доменное имя содержит пустую строку между точками.']
-            # Проверяем нет ли нелегальных символов в подстроках в домене
+            # Checking if there are any illegal characters in substrings
+            # of the domain.
             for n in k:
                 if ord(n) not in self.correct_vals:
                     return [False, f'Недопустимый символ {n}']
@@ -71,13 +102,13 @@ class InputCheck:
         if len(name) > 60:
             return [False, 'Имя почты длиннее 60 символов.']
 
-        # Добавляем в список корректных символов . ; " ! : ,
+        # Add to the list of valid characters (; " ! : ,).
         self.correct_vals_with_num.extend(self.only_in_quotes_char)
         self.correct_vals_with_num.extend([ord('.'), ord(';'), ord('"')])
-        # Проверка на парные кавычки
+        # Checking for double quotes.
         if name.count('"') % 2 != 0:
             return [False, 'Непарные кавычки.']
-        # Переменные для отслеживания точки и открывающихся кавычек
+        # Variables to track period and opening quotes.
         doubledot = False
         inquotes = False
         for k in name:
@@ -87,7 +118,7 @@ class InputCheck:
                 return [False, 'Недопустимый символ вне кавычек.']
             if ord(k) not in self.correct_vals_with_num:
                 return [False, f'Недопустимый символ. "{k}"']
-            # проверка на две точки подряд
+            # Checking for two points in a row.
             if (k == '.'):
                 if doubledot == True:
                     return [False, 'Две точки в названии почты.']
@@ -148,7 +179,7 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
             self.exec()
             return False
         return True
-        
+
     def check_email(self, err_txt):
         try:
             chck_email = InputCheck(self.input_text).check_email()
@@ -159,7 +190,7 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         except Exception:
             pass
         return True
-    
+
     def check_len(self, err_txt):
         try:
             chck_len = InputCheck(self.input_text).check_len()
@@ -170,10 +201,11 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         except Exception:
             pass
         return True
-    
+
     def check_incorrect_vals(self, err_txt):
         try:
-            chck_incorrect_vals = InputCheck(self.input_text).check_incorrect_vals()
+            chck_incorrect_vals = InputCheck(
+                self.input_text).check_incorrect_vals()
             if chck_incorrect_vals[0] == False:
                 self.setText(f'{err_txt}: {chck_incorrect_vals[1]}')
                 self.exec()
@@ -192,7 +224,7 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         except Exception:
             pass
         return True
-    
+
     def check_number_only(self, err_txt):
         try:
             chck_number_only = InputCheck(self.input_text).number_only()
@@ -205,14 +237,13 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         return True
 
 # ----------------------------------------------------------START-----timeSoft
-class AlignDelegate(QtWidgets.QStyledItemDelegate):
-    '''
-    This class implements center positioning for icons in TableView widget
-    '''
-
-    def initStyleOption(self, option, index):
-        super().initStyleOption(option, index)
-        option.decorationSize = option.rect.size()
+# class AlignDelegate(QtWidgets.QStyledItemDelegate):
+#     '''
+#     This class implements center positioning for icons in TableView widget
+#     '''
+#     def initStyleOption(self, option, index):
+#         super().initStyleOption(option, index)
+#         option.decorationSize = option.rect.size()
 
 
 class MainUI(QtWidgets.QMainWindow):
@@ -229,7 +260,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.rUi = uic.loadUi('design\\register_d.ui')
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
-        self.ttUi = uic.loadUi('design\\table_test.ui')  # Table ui.
+        self.ttUi = uic.loadUi('design\\table.ui')  # Table ui.
         self.abUi = uic.loadUi('design\\about_us_d.ui')  # About us ui.
 
         # Widget for viewing various data.
@@ -262,6 +293,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Theme of main window.
         self.mUi.mainwindow_btn_theme.clicked.connect(self.change_theme)
         self.change_theme_status = 0  # 0 is a sign of dark theme.
+
         self.mUi.setWindowIcon(icon)
 
         # Login UI.
@@ -322,8 +354,23 @@ class MainUI(QtWidgets.QMainWindow):
         # Variable of correctness login status for bot.
         self.correct_login = False
 
-        # For various checks.
         self.input_check = InputCheckWithDiags
+
+    def sorting_data_csv(self):
+        if self.idx < len(self.diff_categories):
+            with open(f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(['Month', 'Duration'])
+                for item in self.duration_by_dates_and_categories:
+                    if item['category'] == self.diff_categories[self.idx]:
+                        print(item)
+                        writer.writerow([item['date'], item['duration']])
+            print('---')
+            self.idx += 1
+            self.sorting_data_csv()
+        else:
+            print('all data sorted by month and category successfully!')
+        # For various checks.
 
     def post_initUI(self):
         self.user_id = self.timedb.get_logged_user_data(
@@ -334,8 +381,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.settings_lineedit_email.setText(
             self.timedb.get_logged_user_data(item='get_user_email'))
         if not self.timedb.get_logged_user_data(
-            item='get_user_telegram') == '0' and not self.timedb.get_logged_user_data(
-            item='get_user_telegram') == 'None':
+                item='get_user_telegram') == '0' and not self.timedb.get_logged_user_data(
+                item='get_user_telegram') == 'None':
             self.sUi.settings_imglbl_telegram_noverify.setHidden(True)
         self.update_users_categs()
 
@@ -346,6 +393,64 @@ class MainUI(QtWidgets.QMainWindow):
 
         for row in rows:
             self.dates.append(row[3][0:-3])
+            # self.dates.append(row[3][0:-3])
+        self.diff_dates = list(
+            (set([x for x in self.dates if self.dates.count(x) > 1])))
+
+        self.sorted_diff_dates = sorted(
+            self.diff_dates, key=lambda x: datetime.datetime.strptime(x, '%Y-%m'))
+
+        self.final_date = []
+        self.final_category = []
+        self.final_duration = []
+
+        for i in self.sorted_diff_dates:
+            for row in rows:
+                for j in self.diff_categories:
+                    if i == row[3][0:-3] and j == row[0]:
+                        self.final_date.append(i)
+                        self.final_category.append(j)
+                        self.final_duration.append(int(row[2]))
+
+        self.duration_by_dates_and_categories = []
+        self.sum_of_durations = 0
+        self.case = dict
+
+        for i in self.sorted_diff_dates:  # dates.
+            for j in self.diff_categories:  # categories.
+                # number of all dates in order.
+                for z in range(len(self.final_date)):
+                    if i == self.final_date[z] and j == self.final_category[z]:
+                        self.sum_of_durations += self.final_duration[z]
+                self.case = {'date': i, 'category': j,
+                             'duration': self.sum_of_durations}
+                self.duration_by_dates_and_categories.append(self.case)
+                # self.case.clear()
+                self.sum_of_durations = 0
+
+        # print(self.duration_by_dates_and_categories)
+
+        # Looping through dicts in list.
+        # self.categories_range = range(len(self.diff_categories))
+
+        # categories_range = range(len(self.diff_categories))
+        # dates_len = len(self.diff_dates)
+        # idx = 0
+        # for item in self.duration_by_dates_and_categories:
+        #     for i in categories_range:
+        #         if item['category'] == self.diff_categories[i] and item['date'] == self.diff_dates[idx] and idx <= dates_len:
+        #             print(item)
+        # idx+=1
+
+        # print(f'\n{self.final_date}\n{self.final_category}\n{self.final_duration}')
+        # print(self.dates, self.diff_categories, self.diff_duration)
+        # for i in diff_categ
+
+        # with open(f'./csv_data/{self.user_n_name}_data.csv', 'w', newline='') as file:
+        #     writer = csv.writer(file)
+        #     writer.writerow(['Month', 'Category', 'Duration'])
+
+            # for i in
         # self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
 
         print(self.dates, self.diff_categories, self.diff_duration)
@@ -359,7 +464,22 @@ class MainUI(QtWidgets.QMainWindow):
             # writer.writerow([3, "Guido van Rossum", "Python Programming"])
 
     def forecast(self):
-        print('forecast')
+        self.idx = 0  # Setting index to 0.
+        self.sorting_data_csv()
+
+        # load data.
+        index = 0
+        pathes = []
+
+        for i in range(len(self.diff_categories)):
+            path = f'./csv_data/{self.user_n_name}_{self.diff_categories[index]}_data.csv'
+            pathes.append(path)
+            # plot the time series.
+            df = read_csv(pathes[i])
+            df.plot(subplots=True)
+            # df.plot(subplots=True, legend = True)
+            index += 1
+        plt.show()
 
     # TODO: ADD STYLES.
     def change_theme(self):
@@ -770,7 +890,7 @@ class MainUI(QtWidgets.QMainWindow):
                 'Пожалуйста, укажите категорию для своего события.')
             return
         elif self.input_check(category).check_incorrect_vals(
-            'Категория') == False:
+                'Категория') == False:
             return
         elif self.input_check(category).check_len('Категория') == False:
             return
@@ -788,7 +908,7 @@ class MainUI(QtWidgets.QMainWindow):
             return
         elif self.input_check(comment).check_len('Комментарий') == False:
             return
-        
+
         date_ = datetime.date(date.year(), date.month(), date.day())
         str_date = date_.strftime('%Y-%m-%d')
 
@@ -861,7 +981,7 @@ class MainUI(QtWidgets.QMainWindow):
                 'Пожалуйста, укажите категорию для своего события.')
             return
         elif self.input_check(category).check_incorrect_vals(
-            'Категория') == False:
+                'Категория') == False:
             return
         elif self.input_check(category).check_len('Категория') == False:
             return
@@ -959,47 +1079,46 @@ class MainUI(QtWidgets.QMainWindow):
                 f'укажите новую почту и текущий пароль в соответсвующих полях.\n'
                 f'Если Вы хотите изменить только текущий пароль,\n'
                 f'укажите его в соостветсвующем поле, также заполнив поля ниже.\n'
-<<<<<<< HEAD
                 f'Для изменения всей информации, заполните все поля.')
             return
-        
+
         # Change all data at once.
         if not email_new == '' and not oldpass == '' and not newpass == '' and not rep_newpass == '':
             if self.input_check(email_new).check_email('Новая почта') == False:
                 return
             elif not oldpass == self.timedb.get_logged_user_data(
-                item='get_user_password'):
+                    item='get_user_password'):
                 self.input_check().simple_diag(
                     'Текущий пароль неверный.')
                 return
-            
+
             elif self.input_check(newpass).check_incorrect_vals(
-                'Новый пароль') == False:
+                    'Новый пароль') == False:
                 return
             elif self.input_check(newpass).check_len(
-                'Новый пароль') == False:
+                    'Новый пароль') == False:
                 return
             elif self.input_check(newpass).check_spaces_tabs(
-                'Новый пароль') == False:
+                    'Новый пароль') == False:
                 return
             elif self.input_check(newpass).check_password_len(
-                'Новый пароль') == False:
+                    'Новый пароль') == False:
                 return
             elif self.input_check(rep_newpass).check_incorrect_vals(
-                'Подтверждение пароля') == False:
+                    'Подтверждение пароля') == False:
                 return
             elif self.input_check(rep_newpass).check_len(
-                'Подтверждение пароля') == False:
+                    'Подтверждение пароля') == False:
                 return
             elif self.input_check(rep_newpass).check_spaces_tabs(
-                'Подтверждение пароля') == False:
+                    'Подтверждение пароля') == False:
                 return
             elif self.input_check(rep_newpass).check_password_len(
-                'Подтверждение пароля') == False:
+                    'Подтверждение пароля') == False:
                 return
             elif not newpass == rep_newpass:
                 self.input_check().simple_diag(
-                'Новый пароль не совпадает с его повторением.')
+                    'Новый пароль не совпадает с его повторением.')
                 return
             else:
                 self.timedb.set_logged_user_data(
@@ -1011,7 +1130,7 @@ class MainUI(QtWidgets.QMainWindow):
                 self.sUi.settings_lineedit_email.setText(
                     self.timedb.get_logged_user_data(item='get_user_email'))
                 return
-            
+
         # Change email checks.
         if not email_new == '' and oldpass == '' and newpass == '' and rep_newpass == '':
             self.input_check().simple_diag(
@@ -1021,7 +1140,7 @@ class MainUI(QtWidgets.QMainWindow):
             if self.input_check(email_new).check_email('Новая почта') == False:
                 return
             elif not oldpass == self.timedb.get_logged_user_data(
-                item='get_user_password'):
+                    item='get_user_password'):
                 self.input_check().simple_diag(
                     'Текущий пароль неверный.')
                 return
@@ -1033,7 +1152,7 @@ class MainUI(QtWidgets.QMainWindow):
                 self.sUi.settings_lineedit_email.setText(
                     self.timedb.get_logged_user_data(item='get_user_email'))
                 return
-        
+
         # Change password checks.
         if not oldpass == '' and newpass == '' and rep_newpass == '':
             self.input_check().simple_diag(
@@ -1045,37 +1164,37 @@ class MainUI(QtWidgets.QMainWindow):
             return
         elif not oldpass == '' and not newpass == '' and not rep_newpass == '' and email_new == '':
             if not oldpass == self.timedb.get_logged_user_data(
-                item='get_user_password'):
+                    item='get_user_password'):
                 self.input_check().simple_diag(
                     'Текущий пароль неверный.')
                 return
             elif self.input_check(newpass).check_incorrect_vals(
-                'Новый пароль') == False:
+                    'Новый пароль') == False:
                 return
             elif self.input_check(newpass).check_len(
-                'Новый пароль') == False:
+                    'Новый пароль') == False:
                 return
             elif self.input_check(newpass).check_spaces_tabs(
-                'Новый пароль') == False:
+                    'Новый пароль') == False:
                 return
             elif self.input_check(newpass).check_password_len(
-                'Новый пароль') == False:
+                    'Новый пароль') == False:
                 return
             elif self.input_check(rep_newpass).check_incorrect_vals(
-                'Подтверждение пароля') == False:
+                    'Подтверждение пароля') == False:
                 return
             elif self.input_check(rep_newpass).check_len(
-                'Подтверждение пароля') == False:
+                    'Подтверждение пароля') == False:
                 return
             elif self.input_check(rep_newpass).check_spaces_tabs(
-                'Подтверждение пароля') == False:
+                    'Подтверждение пароля') == False:
                 return
             elif self.input_check(rep_newpass).check_password_len(
-                'Подтверждение пароля') == False:
+                    'Подтверждение пароля') == False:
                 return
             elif not newpass == rep_newpass:
                 self.input_check().simple_diag(
-                'Новый пароль не совпадает с его повторением.')
+                    'Новый пароль не совпадает с его повторением.')
                 return
             else:
                 self.timedb.set_logged_user_data(
@@ -1097,73 +1216,11 @@ class MainUI(QtWidgets.QMainWindow):
                 self.timedb.set_logged_user_data(item='del_telegram')
                 self.input_check().simple_diag('Телеграм успешно отвязан!')
             elif msg == 6:
-                webbrowser.open_new_tab('https://web.telegram.org/#/im?p=@fexcin_bot')
+                webbrowser.open_new_tab(
+                    'https://web.telegram.org/#/im?p=@fexcin_bot')
         else:
-            webbrowser.open_new_tab('https://web.telegram.org/#/im?p=@fexcin_bot')
-=======
-                f'Для изменения всей информации, заполните все поля.',
-                QtWidgets.QMessageBox.Ok)
-        if not email_new == '' and oldpass == '':
-            try:
-                chck_email = check_email.check_email()
-                if chck_email[0] == False:
-                    QtWidgets.QMessageBox.information(self, 'Ошибка!',
-                                                      f'Новая почта: {chck_email[1]}', QtWidgets.QMessageBox.Ok)
-                return
-            except Exception as e:
-                print(e)
-            QtWidgets.QMessageBox.information(
-                self, 'Внимание!',
-                f'Вы не указали старый пароль для изенения почты.\n',
-                QtWidgets.QMessageBox.Ok)
-
-            # try:
-            #     chck_pass = check_pass.check_incorrect_vals()
-            #     if chck_pass[0] == False:
-            #         QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-            #             f'Новый пароль: {chck_pass[1]}', QtWidgets.QMessageBox.Ok)
-            #     return
-            # except Exception as e:
-            #     print(e)
-        #     if not oldpass == self.timedb.get_logged_user_data(item='get_user_password'):
-        #         QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-        #             f'Текущий пароль не совпадает с настоящим.', QtWidgets.QMessageBox.Ok)
-        #         return
-
-        # if newpass == '' and rep_newpass == '':
-        #     if email_new == '':
-        #         QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-        #             f'Вы не указали новый email для изменения.\n'
-        #             f'Для того, чтобы измнеить email, Вам так же потребуется ввести\n'
-        #             f'старый пароль в соответсвующую строку.', QtWidgets.QMessageBox.Ok)
-        #         return
-        #     if oldpass == '':
-        #         QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-        #             'Старый пароль не соотвествует текущему.',\
-        #                 QtWidgets.QMessageBox.Ok)
-        #     try:
-        #         chck_email = check_email.check_email()
-        #         if chck_email[0] == False:
-        #             QtWidgets.QMessageBox.information(self, 'Ошибка!',\
-        #                 chck_email[1], QtWidgets.QMessageBox.Ok)
-        #     except Exception as e:
-        #         print(e)
-
-            # if not oldpass == self.timedb.get_logged_user_data(
-            #         item='get_user_password') or oldpass == '':
-            #     QtWidgets.QMessageBox.question(self, 'Ошибка!',
-            #                                    'Для изменения почты, введите свой старый пароль в соответсвующую строку.',
-            #                                    QtWidgets.QMessageBox.Ok)
-
-            # elif not self.sUi.settings_lineedit_newpass == '' and\
-            #         not self.sUi.settings_lineedit_repnewpass == '':
-            #     self.timedb.set_logged_user_data(item='change_email',
-            #                                      edit_params=[email_new])
-            #     QtWidgets.QMessageBox.question(self, 'Ошибка!',
-            #                                    'Пароль успешно изменён.', QtWidgets.QMessageBox.Ok)
-            #     self.sUi.close()
-        # elif
->>>>>>> 0fcd21344e67376d7756114154cf695e926726d5
+            webbrowser.open_new_tab(
+                'https://web.telegram.org/#/im?p=@fexcin_bot')
 
     # TABLE VIEWING BLOCK. uses DbLogic class.
     def custom_view_table(self):
@@ -1435,8 +1492,10 @@ class DbLogic:
 
     def __init__(self):
         self.connection = db.connect(database=self.config.get('PostgreSql', 'database'),
-                                     user=self.config.get('PostgreSql', 'user'),
-                                     password=self.config.get('PostgreSql', 'password'),
+                                     user=self.config.get(
+                                         'PostgreSql', 'user'),
+                                     password=self.config.get(
+                                         'PostgreSql', 'password'),
                                      host=self.config.get('PostgreSql', 'host'))
 
         self.cursor = self.connection.cursor()
@@ -1600,7 +1659,7 @@ class DbLogic:
                 # row[5] = str(row[0])
                 user_activities.append(row)
             return user_activities
-        
+
         elif item == 'get_user_telegram':
             self.cursor.execute(
                 f'SELECT user_n_telegram FROM "USER_NAME" WHERE user_n_id = {self.user_n_id}')
@@ -1766,10 +1825,11 @@ class DbLogic:
 
 # ----------------------------------------------------------END----dblogic.py
 
+
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    win = MainUI()
-    sys.exit(app.exec())
+    # app = QtWidgets.QApplication(sys.argv)
+    # win = MainUI()
+    # sys.exit(app.exec())
 
     # dbl = DbLogic()
     # print(dbl.get_logged_user_data(user_login='Sif', item='set_working_user'))
@@ -1801,3 +1861,5 @@ if __name__ == '__main__':
     # app = QtWidgets.QApplication(sys.argv)
     # win = InputCheckWithDiags('tl@ea..a').check_email('Почта')
     # sys.exit(app.exec())
+    a = InputCheck
+    print(a(',').check_incorrect_vals())

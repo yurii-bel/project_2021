@@ -198,9 +198,7 @@ def display_by_date(message, sort_callback='date_sort'):
     pre_check(message)
     global change
     global sorting
-    if not change:
-        change = True
-    else:
+    if change:
         sorting = message.text
     if sort_callback == 'date_sort':
         sort_column = 'act_date ASC'
@@ -255,8 +253,12 @@ def display_by_date(message, sort_callback='date_sort'):
     if change:
         bot.send_message(message.from_user.id, text, reply_markup=markup)
     else:
-        bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id + 1, text=text)
-        bot.edit_message_reply_markup(chat_id=message.chat.id, message_id=message.message_id + 1, reply_markup=markup)
+        bot.edit_message_text(chat_id=message.message.chat.id,
+                              message_id=message.message.message_id,
+                              text=text)
+        bot.edit_message_reply_markup(chat_id=message.message.chat.id,
+                              message_id=message.message.message_id,
+                              reply_markup=markup)
     change = False
 
 
@@ -303,12 +305,12 @@ def choose_command(message):
         elif message.text == '/delete_event':
             cursor.execute(f"DELETE FROM \"ACTIVITY\" WHERE act_id = {act_id}")
             display_by_date(message)
-            return
+            return None
         elif message.text == '/exit_event':
             display_by_date(message)
-            return
+            return None
         else:
-            return
+            return None
         bot.register_next_step_handler(event_message, process_command)
     except (Exception, DatabaseError):
         display_by_date(message)

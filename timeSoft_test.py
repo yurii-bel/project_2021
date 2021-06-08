@@ -1838,41 +1838,41 @@ class DbLogic:
 # ----------------------------------------------------------END----dblogic.py
 
 
-if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    win = MainUI()
-    sys.exit(app.exec())
+# if __name__ == '__main__':
+#     app = QtWidgets.QApplication(sys.argv)
+#     win = MainUI()
+#     sys.exit(app.exec())
 
-    # dbl = DbLogic()
-    # print(dbl.get_logged_user_data(user_login='Sif', item='set_working_user'))
+#     dbl = DbLogic()
+#     print(dbl.get_logged_user_data(user_login='Sif', item='set_working_user'))
 
-    # print(dbl.get_logged_user_data(item='get_user_categories'))
-    # print(dbl.get_logged_user_data(item='get_act_id', params=['Кушал1', '60', '2021-05-26', 'Еда', '1']))
-    # print(dbl.get_logged_user_data(item='get_actl_id', params=['12', 'Kofe 3']))
-    # print(dbl.get_logged_user_data(item='get_user_activities'))
-    # print(dbl.get_logged_user_data(item='get_user_activities_test'))
-    # print(dbl.get_logged_user_data(item='get_user_p_id'))
-    # print(dbl.get_logged_user_data(item='get_user_email'))
-    # print(dbl.get_logged_user_data(item='get_user_password'))
-    # print(dbl.get_logged_user_data(item='get_user_telegram'))
+#     print(dbl.get_logged_user_data(item='get_user_categories'))
+#     print(dbl.get_logged_user_data(item='get_act_id', params=['Кушал1', '60', '2021-05-26', 'Еда', '1']))
+#     print(dbl.get_logged_user_data(item='get_actl_id', params=['12', 'Kofe 3']))
+#     print(dbl.get_logged_user_data(item='get_user_activities'))
+#     print(dbl.get_logged_user_data(item='get_user_activities_test'))
+#     print(dbl.get_logged_user_data(item='get_user_p_id'))
+#     print(dbl.get_logged_user_data(item='get_user_email'))
+#     print(dbl.get_logged_user_data(item='get_user_password'))
+#     print(dbl.get_logged_user_data(item='get_user_telegram'))
 
-    # dbl.set_logged_user_data(user_login='test', item='set_working_user')
+#     dbl.set_logged_user_data(user_login='test', item='set_working_user')
 
-    # if not dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']) == True:
-    # dbl.set_logged_user_data(item='add_event', add_params=['Еда', 'Кушал1', '60', '2021-05-26', '1'])
-    # if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
-    #     dbl.set_logged_user_data('test', 'edit_event', ['Еда', 'Кушал1', 30, '2021-05-27', 'Не вкусно!'], \
-    #         ['Еда', 'Кушал', 60, '2021-05-26', '1'])
+#     if not dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']) == True:
+#     dbl.set_logged_user_data(item='add_event', add_params=['Еда', 'Кушал1', '60', '2021-05-26', '1'])
+#     if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
+#         dbl.set_logged_user_data('test', 'edit_event', ['Еда', 'Кушал1', 30, '2021-05-27', 'Не вкусно!'], \
+#             ['Еда', 'Кушал', 60, '2021-05-26', '1'])
 
-    # dbl.set_logged_user_data('test', 'del_event', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ'])
-    # print(dbl.get_logged_user_data(item='get_user_activities'))
-    # dbl.set_logged_user_data(item='del_event', add_params=['Спорт23', 'Бег23', 300, '2021-05-27', 'ВАУ'])
-    # print(dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']))
-    # print(dbl.set_logged_user_data(item='change_password', edit_params=['qwerty123', 'test@test.test']))
+#     dbl.set_logged_user_data('test', 'del_event', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ'])
+#     print(dbl.get_logged_user_data(item='get_user_activities'))
+#     dbl.set_logged_user_data(item='del_event', add_params=['Спорт23', 'Бег23', 300, '2021-05-27', 'ВАУ'])
+#     print(dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']))
+#     print(dbl.set_logged_user_data(item='change_password', edit_params=['qwerty123', 'test@test.test']))
 
-    # app = QtWidgets.QApplication(sys.argv)
-    # win = InputCheckWithDiags('tl@ea..a').check_email('Почта')
-    # sys.exit(app.exec())
-    # a = InputCheck
-    # print(a(',').check_incorrect_vals())
-    # pass
+#     app = QtWidgets.QApplication(sys.argv)
+#     win = InputCheckWithDiags('tl@ea..a').check_email('Почта')
+#     sys.exit(app.exec())
+#     a = InputCheck
+#     print(a(',').check_incorrect_vals())
+#     pass

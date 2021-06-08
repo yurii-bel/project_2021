@@ -1873,5 +1873,5 @@ if __name__ == '__main__':
     # app = QtWidgets.QApplication(sys.argv)
     # win = InputCheckWithDiags('tl@ea..a').check_email('Почта')
     # sys.exit(app.exec())
-    a = InputCheck
-    print(a(',').check_incorrect_vals())
+    # a = InputCheck
+    # print(a(',').check_incorrect_vals())

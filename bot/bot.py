@@ -34,10 +34,13 @@ general_commands = [
     '/edit_time',
     '/edit_comment',
     '/delete_event',
-    '/exit'
+    '/exit_event'
 ]
 
 bot = telebot.TeleBot(BOT_TOKEN)
+
+cursor = connection.cursor()
+
 
 user_n_name = None
 user_n_id = None
@@ -48,14 +51,11 @@ act_id = None
 modifier = None
 sorting = None
 change = False
-sent = []
-
-cursor = connection.cursor()
 
 
 def pre_check(message):
-    global user_id
     global user_n_id
+    global user_id
     cursor.execute(f"SELECT user_n_id FROM \"USER_NAME\" WHERE user_n_telegram = '{message.from_user.id}'")
     user_n_id = cursor.fetchall()
     if user_n_id:
@@ -66,6 +66,7 @@ def pre_check(message):
             user_id = user_id[0][0]
 
 
+# define command handlers
 @bot.message_handler(commands=['start'])
 def welcome_func(message):
     bot.send_message(message.chat.id, "Привет, для использования функционала бота войди в аккаунт с помощью комманды /login")
@@ -73,16 +74,29 @@ def welcome_func(message):
 
 @bot.message_handler(commands=['login'])
 def login_command(message):
-    name_msg = bot.send_message(message.from_user.id, "Привет, введи своё имя.")
+    name_msg = bot.send_message(message.from_user.id, "Введи своё имя.")
     bot.register_next_step_handler(name_msg, check_name)
+
+
+@bot.message_handler(commands=['display'])
+def display_command(message):
+    global change
+    change = message.from_user.id
+    if not change:
+        change = True
+    request_message = bot.send_message(message.from_user.id, 'Выбери за сколько дней или между какими датами отобразить '
+                                                             'события \\(раздели запятой\\), например *7* или '
+                                                             '*01\\.01\\.2020*, *01\\.01\\.2021*\\.', parse_mode='MarkdownV2')
+    bot.register_next_step_handler(request_message, display_by_date)
 
 
 @bot.message_handler(commands=['add'])
 def login_command(message):
     date = datetime.now().strftime('%d.%m.%Y')
     name_msg = bot.send_message(message.from_user.id, f"Введи название, время, дату "
-                                                      f"(для применения сегодняшней даты [{date}] используй '-'), "
-                                                      f"категорию и комментарий (необязательно) события.")
+                                                      f"(для применения сегодняшней даты [*{date}*] используй '-'), "
+                                                      f"категорию и комментарий (необязательно) события.",
+                                parse_mode='MarkdownV2')
     bot.register_next_step_handler(name_msg, add_event)
 
 
@@ -126,7 +140,7 @@ def add_event(message):
                                f"({user_id}, '{actl_name}', '{cat_name}') ON CONFLICT DO NOTHING")
                 cursor.execute(f"INSERT INTO \"ACTIVITY\" (user_id, actl_name, act_time, act_date, cat_name, act_comment) "
                                f"VALUES ({user_id}, '{actl_name}', '{act_time}', '{act_date}'::date, '{cat_name}', "
-                               f"{act_comment}) ON CONFLICT DO NOTHING")
+                               f"'{act_comment}') ON CONFLICT DO NOTHING")
                 connection.commit()
                 bot.send_message(message.from_user.id, 'Событие было успешно добавлено.')
             except (Exception, DatabaseError):
@@ -156,6 +170,8 @@ def check_name(message):
 
 def check_password(message):
     global user_id
+    global user_p_id
+    global user_n_id
     global user_p_password
     cursor.execute(f"SELECT user_p_password FROM \"USER_PRIVATE\" WHERE user_p_id = '{user_p_id}'")
     user_p_password = cursor.fetchall()
@@ -178,23 +194,10 @@ def check_password(message):
             bot.register_next_step_handler(unsuccessful_msg, check_password)
 
 
-@bot.message_handler(commands=['display'])
-def display_command(message):
-    global change
-    if not change:
-        change = True
-    request_message = bot.send_message(message.from_user.id, 'Выбери за сколько дней или между какими датами отобразить '
-                                                             'события \\(раздели запятой\\), например *7* или '
-                                                             '*01\\.01\\.2020*, *01\\.01\\.2021*\\.', parse_mode='MarkdownV2')
-    bot.register_next_step_handler(request_message, display_by_date)
-
-
 def display_by_date(message, sort_callback='date_sort'):
-    global user_id
-    global sent
-    global sorting
-    global change
     pre_check(message)
+    global change
+    global sorting
     if not change:
         change = True
     else:
@@ -252,10 +255,8 @@ def display_by_date(message, sort_callback='date_sort'):
     if change:
         bot.send_message(message.from_user.id, text, reply_markup=markup)
     else:
-        sent.append(message.chat.id)
-        sent.append(message.message_id + 1)
-        bot.edit_message_text(chat_id=sent[0], message_id=sent[1], text=text)
-        bot.edit_message_reply_markup(chat_id=sent[0], message_id=sent[1], reply_markup=markup)
+        bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id + 1, text=text)
+        bot.edit_message_reply_markup(chat_id=message.chat.id, message_id=message.message_id + 1, reply_markup=markup)
     change = False
 
 
@@ -276,77 +277,72 @@ def edit_display_by_date(message):
               'Время: ' + act_time + ' /edit_time\n' + \
               'Комментарий: ' + act_comment + ' /edit_comment\n' + \
               'Удалить событие /delete_event\n' + \
-              'Выйти из режима просмотра /exit'
-    edit_mode_message = bot.send_message(message.from_user.id, 'Внимание! Режим просмотра активности!\n\n' + options)
-    bot.register_next_step_handler(edit_mode_message, choose_command)
+              'Выйти из режима просмотра /exit_event'
+    bot.send_message(message.from_user.id, 'Внимание! Режим просмотра активности!\n\n' + options)
 
 
 @bot.message_handler(func=lambda message: message.text and message.text in general_commands)
 def choose_command(message):
-    global act_id
     global modifier
-    pre_check(message)
     try:
         if message.text == '/edit_date':
             event_message = bot.send_message(message.from_user.id, 'Введи дату.')
             modifier = 'act_date'
-            bot.register_next_step_handler(event_message, process_command)
         elif message.text == '/edit_event':
             event_message = bot.send_message(message.from_user.id, 'Введи название.')
             modifier = 'actl_name'
-            bot.register_next_step_handler(event_message, process_command)
         elif message.text == '/edit_category':
             event_message = bot.send_message(message.from_user.id, 'Введи категорию.')
             modifier = 'cat_name'
-            bot.register_next_step_handler(event_message, process_command)
         elif message.text == '/edit_time':
             event_message = bot.send_message(message.from_user.id, 'Введи время.')
             modifier = 'act_time'
-            bot.register_next_step_handler(event_message, process_command)
         elif message.text == '/edit_comment':
             event_message = bot.send_message(message.from_user.id, 'Введи комментарий.')
             modifier = 'act_comment'
-            bot.register_next_step_handler(event_message, process_command)
+        elif message.text == '/delete_event':
+            cursor.execute(f"DELETE FROM \"ACTIVITY\" WHERE act_id = {act_id}")
+            display_by_date(message)
+            return
+        elif message.text == '/exit_event':
+            display_by_date(message)
+            return
         else:
-            pass
+            return
+        bot.register_next_step_handler(event_message, process_command)
     except (Exception, DatabaseError):
         display_by_date(message)
-    if message.text == '/delete_event':
-        print(act_id)
-        cursor.execute(f"DELETE FROM \"ACTIVITY\" WHERE act_id = {act_id}")
-        connection.commit()
-        display_by_date(message)
-    elif message.text == '/exit':
-        display_by_date(message)
-    else:
-        pass
 
 
 def process_command(message):
-    global user_id
-    global act_id
-    global user_id
-    global modifier
-    pre_check(message)
-    if not message.text.startswith('/open_'):
-        if modifier == 'act_date':
-            date = datetime.combine(datetime.strptime(message.text, '%d.%m.%Y'), datetime.min.time()).strftime('%Y-%m-%d')
-            cursor.execute(f"UPDATE \"ACTIVITY\" SET {modifier} = '{date}' WHERE act_id = {act_id}")
-        elif modifier == 'act_name' or modifier == 'cat_name':
-            if modifier == 'cat_name':
-                cursor.execute(f"INSERT INTO \"CATEGORY\" (cat_name, user_id) VALUES ('{message.text}', {user_id})"
-                               f"ON CONFLICT DO NOTHING")
+    if not message.text.startswith('/open_') and message.text not in general_commands:
+        global modifier
+        global act_id
+        global user_id
+        if modifier == 'actl_name':
+            cursor.execute(f"SELECT cat_name FROM \"ACTIVITY\" WHERE act_id = '{act_id}'")
+            cat_name = cursor.fetchall()
+            if cat_name:
+                cat_name = cat_name[0][0]
+                cursor.execute(f"INSERT INTO \"ACTIVITY_LIST\" (user_id, actl_name, cat_name) VALUES "
+                               f"({user_id}, '{message.text}', '{cat_name}') ON CONFLICT DO NOTHING")
+        elif modifier == 'cat_name':
+            cursor.execute(f"INSERT INTO \"CATEGORY\" (cat_name, user_id) VALUES ('{message.text}', {user_id})"
+                           f"ON CONFLICT DO NOTHING")
             cursor.execute(f"SELECT actl_name FROM \"ACTIVITY\" WHERE act_id = '{act_id}'")
             actl_name = cursor.fetchall()
             if actl_name:
                 actl_name = actl_name[0][0]
                 cursor.execute(f"INSERT INTO \"ACTIVITY_LIST\" (user_id, actl_name, cat_name) VALUES "
-                               f"('{user_id}', '{actl_name}', '{message.text}') ON CONFLICT DO NOTHING")
-                cursor.execute(f"UPDATE \"ACTIVITY\" SET {modifier} = '{message.text}' WHERE act_id = {act_id}")
+                               f"({user_id}, '{actl_name}', '{message.text}') ON CONFLICT DO NOTHING")
+        if modifier == 'act_date':
+            value = datetime.combine(datetime.strptime(message.text, '%d.%m.%Y'), datetime.min.time()).strftime('%Y-%m-%d')
         else:
-            cursor.execute(f"UPDATE \"ACTIVITY\" SET {modifier} = '{message.text}' WHERE act_id = {act_id}")
+            value = message.text
+        cursor.execute(f"UPDATE \"ACTIVITY\" SET {modifier} = '{value}' WHERE act_id = {act_id}")
         connection.commit()
         edit_display_by_date(message)
+        return
     else:
         choose_command(message)
 
@@ -360,16 +356,15 @@ def callback_listener(callback):
         elif callback.data == 'date_sort':
             display_by_date(callback, 'cat_sort')
             bot.answer_callback_query(callback.id)
-
-
-@bot.message_handler(commands=[BOT_TOKEN])
-def stop_bot():
-    bot.stop_polling()
+        else:
+            return None
+    else:
+        return None
 
 
 if __name__ == '__main__':
     while True:
         try:
-            bot.polling(none_stop=True)
+            bot.infinity_polling()
         except Exception as e:
             print(e)

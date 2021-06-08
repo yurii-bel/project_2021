@@ -1839,9 +1839,9 @@ class DbLogic:
 
 
 if __name__ == '__main__':
-    # app = QtWidgets.QApplication(sys.argv)
-    # win = MainUI()
-    # sys.exit(app.exec())
+    app = QtWidgets.QApplication(sys.argv)
+    win = MainUI()
+    sys.exit(app.exec())
 
     # dbl = DbLogic()
     # print(dbl.get_logged_user_data(user_login='Sif', item='set_working_user'))
@@ -1875,3 +1875,4 @@ if __name__ == '__main__':
     # sys.exit(app.exec())
     # a = InputCheck
     # print(a(',').check_incorrect_vals())
+    # pass

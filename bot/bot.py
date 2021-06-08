@@ -1,7 +1,7 @@
 import telebot
 import psycopg2
 
-# import os
+import os
 
 from psycopg2 import DatabaseError
 
@@ -16,10 +16,16 @@ from timeSoft_test import InputCheck
 config = configparser.ConfigParser()
 config.read('config.ini', encoding='utf-8-sig')
 
-# try:
-#     BOT_TOKEN = os.environ['BOT_TOKEN']
-# except Exception:
-TOKEN = config.get('Bot', 'bot_token_sasha')
+try:
+    BOT_TOKEN = os.environ['BOT_TOKEN']
+    DATABASE_URL = os.environ['DATABASE_URL']
+    connection = psycopg2.connect(DATABASE_URL, sslmode='require')
+except Exception:
+    BOT_TOKEN = config.get('Bot', 'bot_token_sasha')
+    connection = psycopg2.connect(database=config.get('PostgreSql', 'database'),
+                                  user=config.get('PostgreSql', 'user'),
+                                  password=config.get('PostgreSql', 'password'),
+                                  host=config.get('PostgreSql', 'host'))
 
 general_commands = [
     '/edit_date',
@@ -31,7 +37,7 @@ general_commands = [
     '/exit'
 ]
 
-bot = telebot.TeleBot(TOKEN)
+bot = telebot.TeleBot(BOT_TOKEN)
 
 user_n_name = None
 user_n_id = None
@@ -44,10 +50,6 @@ sorting = None
 change = False
 sent = []
 
-connection = psycopg2.connect(database=config.get('PostgreSql', 'database'),
-                              user=config.get('PostgreSql', 'user'),
-                              password=config.get('PostgreSql', 'password'),
-                              host=config.get('PostgreSql', 'host'))
 cursor = connection.cursor()
 
 
@@ -357,7 +359,7 @@ def callback_listener(callback):
             bot.answer_callback_query(callback.id)
 
 
-@bot.message_handler(commands=[TOKEN])
+@bot.message_handler(commands=[BOT_TOKEN])
 def stop_bot():
     bot.stop_polling()
 

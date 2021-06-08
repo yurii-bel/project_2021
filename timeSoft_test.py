@@ -7,6 +7,7 @@ import configparser
 import datetime
 import csv
 import webbrowser
+from datetime import datetime
 
 # import pandas
 from psycopg2 import Error
@@ -54,9 +55,10 @@ class InputCheck:
         self.correct_vals_with_num = list(range(ord('0'), ord('9')+1))
         self.correct_vals_with_num.extend(self.correct_vals)
 
-        self.only_in_quotes_char = [ord('!'), ord(','), ord(':')]
-        self.incorrect_vals = [ord('"'), ord(
-            '\''), ord('/'), ord('\\'), ord(','), ord('--'), ord(';')]
+        # todo: Проверить необходимость использования.
+        # self.only_in_quotes_char = [ord('!'), ord(','), ord(':')]
+        self.incorrect_vals = [ord('"'), ord('\''), ord(
+            '/'), ord('\\'), ord(','), ord('--'), ord(';')]
 
     def check_email(self):
         """
@@ -127,13 +129,23 @@ class InputCheck:
         return True
 
     def check_date(self):
-        if re.match(r"^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$", self.text):
+        if re.match(r"^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$", self.text) or datetime.strptime(self.text, '%d.%m.%Y').year < 1900 or datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
             return [False, 'Неверный формат даты.']
         return True
 
     def check_len(self):
         if len(self.text) > 60:
             return [False, 'Длиннее 60 символов.']
+        return True
+
+    def check_comment_len(self):
+        if len(self.text) > 500:
+            return [False, 'Длиннее 500 символов.']
+        return True
+
+    def check_time_value(self):
+        if 1 > self.text or self.text > 1440:
+            return [False, 'Введено ошибочное количество потраченных минут.']
         return True
 
     def check_incorrect_vals(self):

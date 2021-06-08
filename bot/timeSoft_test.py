@@ -113,23 +113,25 @@ class InputCheck:
         # Variables to track period and opening quotes.
         doubledot = False
         inquotes = False
-        for k in name:
-            if (k == '"'):
-                inquotes = not inquotes
-            if (ord(k) in self.only_in_quotes_char) and (inquotes == False):
-                return [False, 'Недопустимый символ вне кавычек.']
-            if ord(k) not in self.correct_vals_with_num:
-                return [False, f'Недопустимый символ. "{k}"']
-            # Checking for two points in a row.
-            if (k == '.'):
-                if doubledot == True:
-                    return [False, 'Две точки в названии почты.']
-                else:
-                    doubledot = True
+        # for k in name:
+        #     if (k == '"'):
+        #         inquotes = not inquotes
+        #     if (ord(k) in self.only_in_quotes_char) and (inquotes == False):
+        #         return [False, 'Недопустимый символ вне кавычек.']
+        #     if ord(k) not in self.correct_vals_with_num:
+        #         return [False, f'Недопустимый символ. "{k}"']
+        #     # Checking for two points in a row.
+        #     if (k == '.'):
+        #         if doubledot == True:
+        #             return [False, 'Две точки в названии почты.']
+        #         else:
+        #             doubledot = True
         return True
 
     def check_date(self):
-        if re.match(r"^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$", self.text) or datetime.strptime(self.text, '%d.%m.%Y').year < 1900 or datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
+        if not re.match(r"^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20)\d\d$", self.text):
+            if datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
+                return [False, 'Дата должна быть меньше или равна сегодняшней ({0}).'.format(datetime.now.striftime('%d.%m.%Y'))]
             return [False, 'Неверный формат даты.']
         return True
 
@@ -144,14 +146,14 @@ class InputCheck:
         return True
 
     def check_time_value(self):
-        if 1 > self.text or self.text > 1440:
+        if not (0 < self.text < 1440):
             return [False, 'Введено ошибочное количество потраченных минут.']
         return True
 
     def check_incorrect_vals(self):
         for i in self.text:
             if ord(i) in self.incorrect_vals:
-                return [False, f'Недопустимый символ {i}.']
+                return [False, f'Недопустимый символ ({i}).']
         return True
 
     def check_spaces_tabs(self):

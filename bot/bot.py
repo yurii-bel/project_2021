@@ -92,10 +92,13 @@ def display_command(message):
 
 @bot.message_handler(commands=['add'])
 def login_command(message):
-    date = datetime.now().strftime('%d.%m.%Y')
+    date = datetime.now().strftime('%d\\.%m\\.%Y')
     name_msg = bot.send_message(message.from_user.id, f"Введи название, время, дату "
-                                                      f"(для применения сегодняшней даты [*{date}*] используй '-'), "
-                                                      f"категорию и комментарий (необязательно) события.",
+                                                      f"\\(для применения сегодняшней даты \\[*{date}*\\] используй '\\-'\\), "
+                                                      f"категорию и комментарий \\(необязательно\\) события\\.\n\n__Например:__\n"
+                                                      f"_Готовился к экзамену, 125, 06\\.06\\.2021, Учёба_\n"
+                                                      f"_Смотрел фильм, 37, 07\\.06\\.2021, Отдых, 10\\/10_\n"
+                                                      f"_Ходил на концерт, 190, \\-, Развлечения_",
                                 parse_mode='MarkdownV2')
     bot.register_next_step_handler(name_msg, add_event)
 
@@ -194,7 +197,7 @@ def check_password(message):
             bot.register_next_step_handler(unsuccessful_msg, check_password)
 
 
-def display_by_date(message, sort_callback='date_sort'):
+def display_by_date(message, sort_callback='date_sort', close=False):
     pre_check(message)
     global change
     global sorting
@@ -214,20 +217,10 @@ def display_by_date(message, sort_callback='date_sort'):
                        f"'{n_days_ago_date}'::date ORDER BY {sort_column} LIMIT 40")
         activities_type = ' за последние {} дней'.format(sorting)
     elif len(sorting.split(', ')) == 2:
-        try:
-            date_1 = datetime.strptime(sorting.split(', ')[0], '%d.%m.%Y').strftime('%Y-%m-%d')
-            date_2 = datetime.strptime(sorting.split(', ')[1], '%d.%m.%Y').strftime('%Y-%m-%d')
-            entry = [InputCheck(date_1).check_date(), InputCheck(date_2).check_date()]
-            failed = [x[1] for x in entry if type(x) == list]
-            if not failed:
-                cursor.execute(f"SELECT * FROM \"ACTIVITY\" WHERE user_id = '{user_id}' AND act_date >= "
-                               f"'{date_1}'::date AND act_date <= '{date_2}'::date ORDER BY {sort_column} LIMIT 40")
-            else:
-                bot.send_message(message.from_user.id, 'Ошибка.\nНеверный формат даты.')
-            activities_type = ' с {0} по {1}'.format(sorting.split(', ')[0], sorting.split(', ')[1])
-        except (Exception, DatabaseError):
-            bot.send_message(message.from_user.id, 'Ошибка.\nНеверный формат даты.')
-            activities_type = None
+        date_1, date_2 = datetime.strptime(sorting.split(', '))
+        cursor.execute(f"SELECT * FROM \"ACTIVITY\" WHERE user_id = '{user_id}' AND act_date >= "
+                       f"'{date_1}'::date AND act_date <= '{date_2}'::date ORDER BY {sort_column} LIMIT 40")
+        activities_type = ' с {0} по {1}'.format(sorting.split(', ')[0], sorting.split(', ')[1])
     else:
         bot.send_message(message.from_user.id, 'Ошибка.\nНеверный формат.')
         return None
@@ -250,15 +243,18 @@ def display_by_date(message, sort_callback='date_sort'):
     except (Exception, DatabaseError):
         text = 'Активности отсутствуют.'
         markup = None
-    if change:
+    if close:
         bot.send_message(message.from_user.id, text, reply_markup=markup)
     else:
-        bot.edit_message_text(chat_id=message.message.chat.id,
-                              message_id=message.message.message_id,
-                              text=text)
-        bot.edit_message_reply_markup(chat_id=message.message.chat.id,
-                              message_id=message.message.message_id,
-                              reply_markup=markup)
+        if change:
+            bot.send_message(message.from_user.id, text, reply_markup=markup)
+        else:
+            bot.edit_message_text(chat_id=message.message.chat.id,
+                                  message_id=message.message.message_id,
+                                  text=text)
+            bot.edit_message_reply_markup(chat_id=message.message.chat.id,
+                                  message_id=message.message.message_id,
+                                  reply_markup=markup)
     change = False
 
 
@@ -286,6 +282,7 @@ def edit_display_by_date(message):
 @bot.message_handler(func=lambda message: message.text and message.text in general_commands)
 def choose_command(message):
     global modifier
+    global change
     try:
         if message.text == '/edit_date':
             event_message = bot.send_message(message.from_user.id, 'Введи дату.')
@@ -304,16 +301,20 @@ def choose_command(message):
             modifier = 'act_comment'
         elif message.text == '/delete_event':
             cursor.execute(f"DELETE FROM \"ACTIVITY\" WHERE act_id = {act_id}")
-            display_by_date(message)
+            display_by_date(message, close=True)
+            change = True
             return None
         elif message.text == '/exit_event':
-            display_by_date(message)
+            display_by_date(message, close=True)
+            change = True
             return None
         else:
             return None
         bot.register_next_step_handler(event_message, process_command)
     except (Exception, DatabaseError):
-        display_by_date(message)
+        display_by_date(message, close=True)
+        change = True
+        return None
 
 
 def process_command(message):
@@ -326,20 +327,53 @@ def process_command(message):
             cat_name = cursor.fetchall()
             if cat_name:
                 cat_name = cat_name[0][0]
-                cursor.execute(f"INSERT INTO \"ACTIVITY_LIST\" (user_id, actl_name, cat_name) VALUES "
-                               f"({user_id}, '{message.text}', '{cat_name}') ON CONFLICT DO NOTHING")
+                actl_name_check_len = InputCheck(message.text).check_len()
+                actl_name_check_incorrect_vals = InputCheck(message.text).check_incorrect_vals()
+                entry = [actl_name_check_len, actl_name_check_incorrect_vals]
+                failed = '\n'.join([x[1] for x in entry if type(x) == list])
+                if failed:
+                    bot.send_message(message.from_user.id, 'Ошибка.\n' + failed)
+                    return None
+                else:
+                    cursor.execute(f"INSERT INTO \"ACTIVITY_LIST\" (user_id, actl_name, cat_name) VALUES "
+                                   f"({user_id}, '{message.text}', '{cat_name}') ON CONFLICT DO NOTHING")
         elif modifier == 'cat_name':
-            cursor.execute(f"INSERT INTO \"CATEGORY\" (cat_name, user_id) VALUES ('{message.text}', {user_id})"
-                           f"ON CONFLICT DO NOTHING")
-            cursor.execute(f"SELECT actl_name FROM \"ACTIVITY\" WHERE act_id = '{act_id}'")
-            actl_name = cursor.fetchall()
-            if actl_name:
-                actl_name = actl_name[0][0]
-                cursor.execute(f"INSERT INTO \"ACTIVITY_LIST\" (user_id, actl_name, cat_name) VALUES "
-                               f"({user_id}, '{actl_name}', '{message.text}') ON CONFLICT DO NOTHING")
+            cat_name_check_len = InputCheck(message.text).check_len()
+            cat_name_check_incorrect_vals = InputCheck(message.text).check_incorrect_vals()
+            entry = [cat_name_check_len, cat_name_check_incorrect_vals]
+            failed = '\n'.join([x[1] for x in entry if type(x) == list])
+            if failed:
+                bot.send_message(message.from_user.id, 'Ошибка.\n' + failed)
+                return None
+            else:
+                cursor.execute(f"INSERT INTO \"CATEGORY\" (cat_name, user_id) VALUES ('{message.text}', {user_id})"
+                               f"ON CONFLICT DO NOTHING")
+                cursor.execute(f"SELECT actl_name FROM \"ACTIVITY\" WHERE act_id = '{act_id}'")
+                actl_name = cursor.fetchall()
+                if actl_name:
+                    actl_name = actl_name[0][0]
+                    cursor.execute(f"INSERT INTO \"ACTIVITY_LIST\" (user_id, actl_name, cat_name) VALUES "
+                                   f"({user_id}, '{actl_name}', '{message.text}') ON CONFLICT DO NOTHING")
         if modifier == 'act_date':
             value = datetime.combine(datetime.strptime(message.text, '%d.%m.%Y'), datetime.min.time()).strftime('%Y-%m-%d')
+            entry = InputCheck(message.text).check_date()
+            failed = entry[1] if type(entry) == list else False
+            if failed:
+                bot.send_message(message.from_user.id, 'Ошибка.\n' + failed)
+                return None
         else:
+            if modifier == 'act_time':
+                act_time_check_number_only = InputCheck(message.text).number_only()
+                act_time_check_value = InputCheck(message.text).check_time_value()
+                entry = [act_time_check_number_only, act_time_check_value]
+            elif modifier == 'act_comment':
+                act_comment_check_comment_len = InputCheck(message.text).check_comment_len()
+                act_comment_check_incorrect_vals = InputCheck(message.text).check_incorrect_vals()
+                entry = [act_comment_check_comment_len, act_comment_check_incorrect_vals]
+            failed = '\n'.join([x[1] for x in entry if type(x) == list])
+            if failed:
+                bot.send_message(message.from_user.id, 'Ошибка.\n' + failed)
+                return None
             value = message.text
         cursor.execute(f"UPDATE \"ACTIVITY\" SET {modifier} = '{value}' WHERE act_id = {act_id}")
         connection.commit()

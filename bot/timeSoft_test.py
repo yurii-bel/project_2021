@@ -1838,10 +1838,17 @@ class DbLogic:
 # ----------------------------------------------------------END----dblogic.py
 
 
+<<<<<<< HEAD
 # if __name__ == '__main__':
     # app = QtWidgets.QApplication(sys.argv)
     # win = MainUI()
     # sys.exit(app.exec())
+=======
+if __name__ == '__main__':
+    app = QtWidgets.QApplication(sys.argv)
+    win = MainUI()
+    sys.exit(app.exec())
+>>>>>>> 8ab0b4cbdf8c35cd0c30eb3ea957ac72760dbf72
 
     # dbl = DbLogic()
     # print(dbl.get_logged_user_data(user_login='Sif', item='set_working_user'))
@@ -1875,3 +1882,4 @@ class DbLogic:
     # sys.exit(app.exec())
     # a = InputCheck
     # print(a(',').check_incorrect_vals())
+    # pass

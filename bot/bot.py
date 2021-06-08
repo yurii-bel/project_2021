@@ -94,9 +94,9 @@ def add_event(message):
         actl_name = args[0]
         actl_name_check_len = InputCheck(actl_name).check_len()
         actl_name_check_incorrect_vals = InputCheck(actl_name).check_incorrect_vals()
-        actl_name_check_spaces_tabs = InputCheck(actl_name).check_spaces_tabs()
         act_time = args[1]
-        act_time_check = InputCheck(act_time).number_only()
+        act_time_check_number_only = InputCheck(act_time).number_only()
+        act_time_check_value = InputCheck(act_time).check_time_value()
         act_date = args[2]
         if act_date != '-':
             act_date_check = InputCheck(act_date).check_date()
@@ -106,16 +106,17 @@ def add_event(message):
         cat_name = args[3]
         cat_name_check_len = InputCheck(cat_name).check_len()
         cat_name_check_incorrect_vals = InputCheck(cat_name).check_incorrect_vals()
-        cat_name_check_spaces_tabs = InputCheck(cat_name).check_spaces_tabs()
         if len(args) == 5:
             act_comment = "'{}'".format(args[4])
-            act_comment_check = InputCheck(act_comment)
+            act_comment_check_comment_len = InputCheck(act_comment).check_comment_len()
+            act_comment_check_incorrect_vals = InputCheck(act_comment).check_incorrect_vals()
         else:
             act_comment = '(NULL)'
-            act_comment_check = True
-        entry = [actl_name_check_len, actl_name_check_incorrect_vals, actl_name_check_spaces_tabs, act_time_check, 
-                 act_date_check, cat_name_check_len, cat_name_check_incorrect_vals, cat_name_check_spaces_tabs,
-                 act_comment_check]
+            act_comment_check_comment_len = True
+            act_comment_check_incorrect_vals = True
+        entry = [actl_name_check_len, actl_name_check_incorrect_vals, act_time_check_number_only,
+                 act_time_check_value, act_date_check, cat_name_check_len, cat_name_check_incorrect_vals,
+                 act_comment_check_comment_len, act_comment_check_incorrect_vals]
         failed = '\n'.join([x[1] for x in entry if type(x) == list])
         if not failed:
             try:
@@ -132,6 +133,8 @@ def add_event(message):
                 bot.send_message(message.from_user.id, 'Произошла ошибка.')
         else:
             bot.send_message(message.from_user.id, 'Ошибка.\n' + failed)
+    else:
+        bot.send_message(message.from_user.id, 'Произошла ошибка. Не все поля были заполнены.')
 
 
 def check_name(message):

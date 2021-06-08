@@ -1838,7 +1838,7 @@ class DbLogic:
 # ----------------------------------------------------------END----dblogic.py
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 # if __name__ == '__main__':
     # app = QtWidgets.QApplication(sys.argv)
     # win = MainUI()

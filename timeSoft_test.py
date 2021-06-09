@@ -1299,6 +1299,7 @@ class MainUI(QtWidgets.QMainWindow):
                 x, 5, QtWidgets.QTableWidgetItem(row[5]))
             x += 1
 
+        self.ttUi.tableW.resizeColumnsToContents()
         self.lay.addWidget(self.ttUi.tableW)
 
     def graph_plot(self):
@@ -1704,24 +1705,20 @@ class DbLogic:
             self.connection.commit()
 
             self.cursor2.execute(
-                f'SELECT count(cat_name) FROM "ACTIVITY" WHERE\
-                    user_id = \'{self.user_id}\' and cat_name = \'{add_params[0]}\'')
-            activity_cat_name = self.cursor2.fetchall()
-            if activity_cat_name[0] == [0]:
-                self.cursor.execute(
-                    f'DELETE FROM "ACTIVITY_LIST" WHERE\
-                        user_id = \'{self.user_id}\' and\
-                            actl_name = \'{add_params[1]}\'\
-                                and cat_name = \'{add_params[0]}\'')
-
-                self.cursor.execute(
-                    f'DELETE FROM "CATEGORY" WHERE\
+                f'SELECT count(cat_name), count(actl_name) FROM "ACTIVITY" WHERE\
+                    user_id = \'{self.user_id}\' and cat_name = \'{add_params[0]}\' and\
+                        actl_name = \'{add_params[1]}\'')
+            activity_cat_actl_name = self.cursor2.fetchall()
+            for row in activity_cat_actl_name:
+                if row[0] == 0 and row[1] == 0:
+                    print(row)
+                    self.cursor.execute(
+                        f'DELETE FROM "ACTIVITY_LIST" WHERE\
                             user_id = \'{self.user_id}\' and\
-                                cat_name = \'{add_params[0]}\'')
-            
-                self.connection.commit()
-            else:
-                return
+                                actl_name = \'{add_params[1]}\'\
+                                    and cat_name = \'{add_params[0]}\'')
+                
+                    self.connection.commit()
 
         # Changing old user password to new.
         elif item == 'change_password':

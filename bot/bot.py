@@ -110,7 +110,7 @@ def add_command(message):
 
 
 def check_name(message):
-    if message.text not in commands:
+    if message.text not in commands and not message.text.startswith('/open_'):
         global user_n_id
         global user_p_id
         cursor.execute(f"SELECT user_n_id FROM \"USER_NAME\" WHERE user_n_name = '{message.text}'")
@@ -139,7 +139,7 @@ def check_name(message):
 
 
 def check_password(message):
-    if message.text not in commands:
+    if message.text not in commands and not message.text.startswith('/open_'):
         global user_id
         global user_p_id
         global user_n_id
@@ -175,11 +175,11 @@ def check_password(message):
 
 
 def display_events(message, sort_callback='date_sort', close=False):
-    if message.text not in commands:
-        pre_check(message)
+    if message.text not in commands and not message.text.startswith('/open_'):
         global change
         global sorting
-        if change and not sorting:
+        pre_check(message)
+        if not (change and sorting):
             sorting = message.text
         if sort_callback == 'date_sort':
             sort_column = 'act_date ASC'
@@ -252,6 +252,7 @@ def process_command(message):
         global modifier
         global act_id
         global user_id
+        pre_check(message)
         if modifier == 'actl_name':
             cursor.execute(f"SELECT cat_name FROM \"ACTIVITY\" WHERE act_id = '{act_id}'")
             cat_name = cursor.fetchall()
@@ -317,7 +318,7 @@ def process_command(message):
 
 
 def add_event(message):
-    if message.text not in commands:
+    if message.text not in commands and not message.text.startswith('/open_'):
         global user_id
         pre_check(message)
         args = message.text.split(', ')
@@ -383,14 +384,28 @@ def add_event(message):
 def edit_events(message):
     global act_id
     act_id = message.text[6:]
+    cursor.execute(f"SELECT act_id FROM \"ACTIVITY\"")
+    act_ids = cursor.fetchall()
+    act_ids = [str(x[0]) for x in act_ids]
+    if act_id not in act_ids:
+        bot.send_message(message.from_user.id, 'События \'{}\' не существует.'.format(str(act_id)))
+        display_events(message)
+        return None
+    data = cursor.fetchall()
+    if len(act_id) > 9:
+        bot.send_message('')
     cursor.execute(f"SELECT act_date, actl_name, cat_name, act_time, act_comment FROM \"ACTIVITY\" WHERE act_id = {act_id}")
     data = cursor.fetchall()
-    act_date, actl_name, cat_name, act_time, act_comment = data[0]
+    if data:
+        act_date, actl_name, cat_name, act_time, act_comment = data[0]
+    else:
+        bot.send_message(message.from_user.id, 'Произошла ошибка. Используй комманду /login, что бы ввойти в свой аккаунт.')
+        return None
     act_date = datetime.combine(act_date, datetime.min.time()).strftime('%d.%m.%Y')
     act_comment = act_comment if act_comment else '—'
     actl_name, cat_name, act_time, act_comment = str(actl_name), str(cat_name), str(act_time), str(act_comment)
     options = 'Дата: ' + act_date + ' /edit_date\n' + \
-              'Название: ' + actl_name + ' /edit_event\n' + \
+              'Название: ' + actl_name + '/edit_event\n' + \
               'Категория: ' + cat_name + ' /edit_category\n' + \
               'Время: ' + act_time + ' /edit_time\n' + \
               'Комментарий: ' + act_comment + ' /edit_comment\n' + \
@@ -403,7 +418,11 @@ def edit_events(message):
 def choose_command(message):
     global modifier
     global change
+    global act_id
     try:
+        if not act_id:
+            bot.send_message(message.from_user.id, 'Произошла ошибка, используй комманду /login, что бы ввойти в свой аккаунт')
+            return None
         if message.text == '/edit_date':
             event_message = bot.send_message(message.from_user.id, 'Введи дату.')
             modifier = 'act_date'
@@ -420,7 +439,11 @@ def choose_command(message):
             event_message = bot.send_message(message.from_user.id, 'Введи комментарий.')
             modifier = 'act_comment'
         elif message.text == '/delete_event':
-            cursor.execute(f"DELETE FROM \"ACTIVITY\" WHERE act_id = {act_id}")
+            if act_id:
+                cursor.execute(f"DELETE FROM \"ACTIVITY\" WHERE act_id = {act_id}")
+            else:
+                bot.send_message(message.from_user.id, 'Произошла ошибка, используй комманду /login, что бы ввойти в свой аккаунт')
+                return None
             display_events(message, close=True)
             change = False
             return None

@@ -1,4 +1,3 @@
-import os
 import re
 import sys
 import string
@@ -9,9 +8,9 @@ import webbrowser
 import psycopg2 as db
 import psycopg2.extras
 import pyqtgraph as pg
-
 from uuid import uuid4
-from datetime import datetime
+import datetime
+
 from pandas import read_csv
 from matplotlib import pyplot as plt
 from psycopg2 import Error
@@ -858,26 +857,20 @@ class MainUI(QtWidgets.QMainWindow):
         Current method displays clicked column and row of a choosen cell 
         in a TableView widget.
         '''
-        # #selected cell value.
+        #selected cell value.
         self.act_id = str(item.sibling(item.row(), 0).data())
         self.act_date = str(item.sibling(item.row(), 1).data())
         self.cat_name = str(item.sibling(item.row(), 2).data())
         self.actl_name = str(item.sibling(item.row(), 3).data())
-        self.act_time = str(item.sibling(item.row(), 4).data())
+        self.act_time = str(self.timedb.set_logged_user_data(
+            item='get_act_time', add_params=[self.act_id]))
         self.act_comment = str(item.sibling(item.row(), 5).data())
 
-        # self.act_id, self.actl_id = \
-        #     self.timedb.get_logged_user_data(item='get_act_id',\
-        #         params=[self.actl_name, self.act_time, self.act_date,\
-        #             self.cat_name, self.act_comment]),\
-        #         self.timedb.get_logged_user_data(item='get_actl_id',\
-        #             params=[self.cat_name, self.actl_name])
-
-        self.show_edit_action(self.actl_name, self.act_time, self.act_date,
-                              self.cat_name, self.act_comment)
-        # def show_edit_event(self, actl_name=str, act_time=str, act_date=None,
-        #                 cat_name=str, act_comment=None)
-        # return self.actl_name
+        if self.actl_name[-1] == '*':
+           self.actl_name = self.actl_name.removesuffix('*')
+        
+        self.show_edit_action(
+            self.actl_name, self.act_time, self.act_date, self.cat_name, self.act_comment)
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method add_event().
     def show_add_action(self):
@@ -960,7 +953,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.eUi.edit_event_dateEdit.setMaximumDate(
             QtCore.QDate(QtCore.QDate.currentDate()))
 
-        date_ = datetime.strptime(act_date, '%Y-%m-%d')
+        date_ = datetime.datetime.strptime(act_date, '%Y-%m-%d')
         for d in [date_.timetuple()]:
             year = int(d[0])
             month = int(d[1])
@@ -1243,19 +1236,27 @@ class MainUI(QtWidgets.QMainWindow):
 
         x = 0
         for row in rows:
+            if int(row[3]) > 60:
+                row3 = "{}ч. {}мин.".format(*divmod(int(row[3]), 60))
+            else:
+                row3 = f'{row[3]} мин.'
+            
+            if not row[5] == None and not row[5] == '' and not row[5] == '(NULL)':
+                row[2] = f'{row[2]}*'
+
             # self.ttUi.tableW.horizontalHeader().sortIndicatorOrder()
-            self.ttUi.tableW.setItem(x, 0,
-                                     QtWidgets.QTableWidgetItem(str(row[0])))
-            self.ttUi.tableW.setItem(x, 1,
-                                     QtWidgets.QTableWidgetItem(row[4]))
-            self.ttUi.tableW.setItem(x, 2,
-                                     QtWidgets.QTableWidgetItem(row[1]))
-            self.ttUi.tableW.setItem(x, 3,
-                                     QtWidgets.QTableWidgetItem(row[2]))
-            self.ttUi.tableW.setItem(x, 4,
-                                     QtWidgets.QTableWidgetItem(row[3]))
-            self.ttUi.tableW.setItem(x, 5,
-                                     QtWidgets.QTableWidgetItem(row[5]))
+            self.ttUi.tableW.setItem(
+                x, 0, QtWidgets.QTableWidgetItem(str(row[0])))
+            self.ttUi.tableW.setItem(
+                x, 1, QtWidgets.QTableWidgetItem(row[4]))
+            self.ttUi.tableW.setItem(
+                x, 2,QtWidgets.QTableWidgetItem(row[1]))
+            self.ttUi.tableW.setItem(
+                x, 3, QtWidgets.QTableWidgetItem(row[2]))
+            self.ttUi.tableW.setItem(
+                x, 4, QtWidgets.QTableWidgetItem(row3))
+            self.ttUi.tableW.setItem(
+                x, 5, QtWidgets.QTableWidgetItem(row[5]))
             x += 1
 
         self.ttUi.tableW.resizeColumnsToContents()
@@ -1275,19 +1276,27 @@ class MainUI(QtWidgets.QMainWindow):
 
         x = 0
         for row in rows:
+            if int(row[3]) > 60:
+                row3 = "{}ч. {}мин.".format(*divmod(int(row[3]), 60))
+            else:
+                row3 = f'{row[3]} мин.'
+            
+            if not row[5] == None and not row[5] == '' and not row[5] == '(NULL)':
+                row[2] = f'{row[2]}*'
+
             self.ttUi.tableW.horizontalHeader().sortIndicatorOrder()
-            self.ttUi.tableW.setItem(x, 0,
-                                     QtWidgets.QTableWidgetItem(str(row[0])))
-            self.ttUi.tableW.setItem(x, 1,
-                                     QtWidgets.QTableWidgetItem(row[4]))
-            self.ttUi.tableW.setItem(x, 2,
-                                     QtWidgets.QTableWidgetItem(row[1]))
-            self.ttUi.tableW.setItem(x, 3,
-                                     QtWidgets.QTableWidgetItem(row[2]))
-            self.ttUi.tableW.setItem(x, 4,
-                                     QtWidgets.QTableWidgetItem(row[3]))
-            self.ttUi.tableW.setItem(x, 5,
-                                     QtWidgets.QTableWidgetItem(row[5]))
+            self.ttUi.tableW.setItem(
+                x, 0, QtWidgets.QTableWidgetItem(str(row[0])))
+            self.ttUi.tableW.setItem(
+                x, 1, QtWidgets.QTableWidgetItem(row[4]))
+            self.ttUi.tableW.setItem(
+                x, 2,QtWidgets.QTableWidgetItem(row[1]))
+            self.ttUi.tableW.setItem(
+                x, 3, QtWidgets.QTableWidgetItem(row[2]))
+            self.ttUi.tableW.setItem(
+                x, 4, QtWidgets.QTableWidgetItem(row3))
+            self.ttUi.tableW.setItem(
+                x, 5, QtWidgets.QTableWidgetItem(row[5]))
             x += 1
 
         self.lay.addWidget(self.ttUi.tableW)
@@ -1625,43 +1634,31 @@ class DbLogic:
             self.user_id = self.get_logged_user_data(
                 user_login=user_login, item='set_working_user')
             return self.user_id
-
-        # Storing user_p_id
-        # self.user_p_id = self.get_logged_user_data(item='get_user_p_id')
+        
+        elif item == 'get_act_time':
+            self.cursor.execute(
+                f'SELECT act_time FROM "ACTIVITY" WHERE\
+                    act_id = \'{add_params[0]}\' and user_id = \'{self.user_id}\'')
+            return str(self.cursor.fetchall())[2:-3]
 
         # Adding event as itself.
         elif item == 'add_event':
-            # Checking for matching same category in CATEGORY table.
-            user_categories = self.get_logged_user_data(
-                item='get_user_categories')
-            for row in user_categories:
-                if row == add_params[0]:
-                    break
-            else:  # If not matching, adding category to db.
-                self.cursor.execute(
-                    f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)', 
-                    (self.user_id, add_params[0]))
+            # Updating CATEGORY table, if there are no matching data.
+            self.cursor.execute(
+                f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES\
+                    (%s,%s) ON CONFLICT DO NOTHING', 
+                        (self.user_id, add_params[0]))
 
-                self.connection.commit()
+            self.connection.commit()
 
             # Updating ACTIVITY_LIST table also, if there are no matching data.
             self.cursor.execute(
-                f'SELECT actl_name, cat_name FROM "ACTIVITY_LIST" WHERE\
-                    user_id = \'{self.user_id}\'')
-            user_activities_list = self.cursor.fetchall()
+                f'INSERT INTO "ACTIVITY_LIST" (\
+                    user_id, actl_name, cat_name) VALUES\
+                        (%s,%s,%s) ON CONFLICT DO NOTHING', 
+                    (self.user_id, add_params[1], add_params[0]))
 
-            for row in user_activities_list:
-                if row[0] == add_params[1]:
-                    break
-                elif row[1] == add_params[0]:
-                    break
-            else: # If not matching, updating table.
-                self.cursor.execute(
-                    f'INSERT INTO "ACTIVITY_LIST" (\
-                        user_id, actl_name, cat_name) VALUES (%s,%s,%s)', 
-                        (self.user_id, add_params[1], add_params[0]))
-
-                self.connection.commit()
+            self.connection.commit()
 
             self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
                         act_time, act_date, cat_name, act_comment)\
@@ -1673,37 +1670,22 @@ class DbLogic:
 
         # Editing existing event in db.
         elif item == 'edit_event':
-            # Checking for matching same category in CATEGORY table.
-            user_categories = self.get_logged_user_data(
-                item='get_user_categories')
-            for row in user_categories:
-                if row == edit_params[0]:
-                    break
-            else:  # If not matching, adding category to db.
-                self.cursor.execute(
-                    f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)', 
-                    (self.user_id, edit_params[0]))
+            # Updating CATEGORY table, if there are no matching data.
+            self.cursor.execute(
+                f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES\
+                    (%s,%s) ON CONFLICT DO NOTHING', 
+                        (self.user_id, edit_params[0]))
 
-                self.connection.commit()
+            self.connection.commit()
 
             # Updating ACTIVITY_LIST table also, if there are no matching data.
             self.cursor.execute(
-                f'SELECT actl_name, cat_name FROM "ACTIVITY_LIST" WHERE\
-                    user_id = \'{self.user_id}\'')
-            user_activities_list = self.cursor.fetchall()
+                f'INSERT INTO "ACTIVITY_LIST" (\
+                    user_id, actl_name, cat_name) VALUES\
+                        (%s,%s,%s) ON CONFLICT DO NOTHING', 
+                    (self.user_id, edit_params[1], edit_params[0]))
 
-            for row in user_activities_list:
-                if row[0] == edit_params[1]:
-                    break
-                elif row[1] == edit_params[0]:
-                    break
-            else: # If not matching, updating table.
-                self.cursor.execute(
-                    f'INSERT INTO "ACTIVITY_LIST" (\
-                        user_id, actl_name, cat_name) VALUES (%s,%s,%s)', 
-                        (self.user_id, edit_params[1], edit_params[0]))
-
-                self.connection.commit()
+            self.connection.commit()
 
             self.cursor2.execute(
                 f'UPDATE "ACTIVITY" SET (actl_name, act_time, act_date, cat_name, \
@@ -1816,11 +1798,11 @@ class DbLogic:
 
 
 if __name__ == '__main__':
-    # app = QtWidgets.QApplication(sys.argv)
-    # win = MainUI()
-    # sys.exit(app.exec())
+    app = QtWidgets.QApplication(sys.argv)
+    win = MainUI()
+    sys.exit(app.exec())
 
-    dbl = DbLogic()
+    # dbl = DbLogic()
     # dbl.get_logged_user_data(user_login='Timofey', item='set_working_user')
 
     # print(dbl.get_logged_user_data(item='get_user_categories'))
@@ -1833,10 +1815,10 @@ if __name__ == '__main__':
     # print(dbl.get_logged_user_data(item='get_user_password'))
     # print(dbl.get_logged_user_data(item='get_user_telegram'))
 
-    dbl.set_logged_user_data(user_login='Timofey', item='set_working_user')
+    # dbl.set_logged_user_data(user_login='Timofey', item='set_working_user')
 
     # if not dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']) == True:
-    # dbl.set_logged_user_data(item='add_event', add_params=['Еда123', 'Кушал56', '60', '2021-05-26', '.'])
+    # dbl.set_logged_user_data(item='add_event', add_params=['12Еда12321', 'Кушал56', '60', '2021-05-26', '.'])
     # if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
     # dbl.set_logged_user_data('test', 'edit_event', ['Еда1', 'Кушал2', '60', '2021-05-26', '1', '905'], \
     #     ['Еда1', 'Кушал3', 60, '2021-05-26', '1'])
@@ -1850,5 +1832,6 @@ if __name__ == '__main__':
     # print(dbl.set_logged_user_data(item='change_password', edit_params=['qwerty123', 'test@test.test']))
     # print(dbl.set_logged_user_data(item='check_action_delete_data'))
     # print(dbl.set_logged_user_data(item='del_event', add_params=['Еда123', 'Кушал56', '927']))
+    # print(dbl.set_logged_user_data(item='get_act_time', add_params=['941']))
 
     

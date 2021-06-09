@@ -1,34 +1,29 @@
-import sys
-from uuid import uuid4
 import os
 import re
-
+import sys
+import string
 import configparser
 import datetime
 import csv
 import webbrowser
-from datetime import datetime
-
-# import pandas
-from psycopg2 import Error
-import psycopg2.extras
 import psycopg2 as db
-from pyqtgraph import PlotWidget
+import psycopg2.extras
 import pyqtgraph as pg
+
+from uuid import uuid4
+from datetime import datetime
+from pandas import read_csv
+from matplotlib import pyplot as plt
+from psycopg2 import Error
+from pyqtgraph import PlotWidget
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QBrush, QIcon, QPainter, QPen, QPixmap
 from PyQt5.QtCore import Qt
 from pyqtgraph.graphicsItems.ButtonItem import ButtonItem
 
-from pandas import read_csv
-from matplotlib import pyplot as plt
-
-from pandas import read_csv
-
 
 sys.path.append(".")
-
 
 class InputCheck:
     """
@@ -47,18 +42,15 @@ class InputCheck:
 
         self.correct_rus_vals = []
         for i in range(1040, 1104):
-            self.correct_rus_vals.append(ord(chr(i)))
+            self.correct_rus_vals.append(chr(i))
 
-        # Список с кодами корректных сиволов a-z - и _.
-        self.correct_vals = list(range(ord('a'), ord('z')+1))
-        # self.correct_rus_vals = list(range(chr(1040), chr(1103))+1)
-        self.correct_vals_with_num = list(range(ord('0'), ord('9')+1))
-        self.correct_vals_with_num.extend(self.correct_vals)
+        # Список с кодами корректных символов
+        self.correct_vals = list(string.ascii_lowercase)
+        self.correct_vals_with_num = self.correct_vals + ['_'] + [str(x) for x in range(0, 10)]
 
-        # todo: Проверить необходимость использования.
-        # self.only_in_quotes_char = [ord('!'), ord(','), ord(':')]
-        self.incorrect_vals = [ord('"'), ord('\''), ord(
-            '/'), ord('\\'), ord(','), ord('--'), ord(';')]
+        # Проверить необходимость использования
+        self.only_in_quotes_char = ['!', ',', ':']
+        self.incorrect_vals = ['"', '\'', '/', '\\', ',', '--', ';']
 
     def check_email(self):
         """
@@ -68,12 +60,11 @@ class InputCheck:
         If not passes, it returns list that contains two values:
         False(bool) and error message(str).
 
-        Parameters:
-            None
 
         Returns:
             True | [False | err_msg]
         """
+
         # Check for the number of "@" characters.
         if self.text.count('@') > 1 or self.text.count('@') == 0:
             return [False, 'Неверное количество знаков "@".']
@@ -89,7 +80,7 @@ class InputCheck:
 
         # Domain check.
         includedomain = domain.split('.')
-        self.correct_vals.extend([ord('-'), ord('_')])
+        self.correct_vals.extend(['-', '_'])
         for k in includedomain:
             # Checking if there are empty substrings in the domain.
             if k == '':
@@ -97,7 +88,7 @@ class InputCheck:
             # Checking if there are any illegal characters in substrings
             # of the domain.
             for n in k:
-                if ord(n) not in self.correct_vals:
+                if n not in self.correct_vals:
                     return [False, f'Недопустимый символ {n}']
             if (k[0] == '-') or (k[len(k)-1] == '-'):
                 return [False, 'Доменное имя не может начинаться/заканчиваться знаком "-".']
@@ -106,7 +97,7 @@ class InputCheck:
 
         # Add to the list of valid characters (; " ! : ,).
         self.correct_vals_with_num.extend(self.only_in_quotes_char)
-        self.correct_vals_with_num.extend([ord('.'), ord(';'), ord('"')])
+        self.correct_vals_with_num.extend(['.', ';', '"'])
         # Checking for double quotes.
         if name.count('"') % 2 != 0:
             return [False, 'Непарные кавычки.']
@@ -114,15 +105,15 @@ class InputCheck:
         doubledot = False
         inquotes = False
         for k in name:
-            if (k == '"'):
+            if k == '"':
                 inquotes = not inquotes
-            if (ord(k) in self.only_in_quotes_char) and (inquotes == False):
+            if k in self.only_in_quotes_char and not inquotes:
                 return [False, 'Недопустимый символ вне кавычек.']
-            if ord(k) not in self.correct_vals_with_num:
+            if k not in self.correct_vals_with_num:
                 return [False, f'Недопустимый символ. "{k}"']
             # Checking for two points in a row.
-            if (k == '.'):
-                if doubledot == True:
+            if k == '.':
+                if doubledot:
                     return [False, 'Две точки в названии почты.']
                 else:
                     doubledot = True
@@ -130,9 +121,13 @@ class InputCheck:
 
     def check_date(self):
         if not re.match(r"^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20)\d\d$", self.text):
-            if datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
-                return [False, 'Дата должна быть меньше или равна сегодняшней ({0}).'.format(datetime.now.striftime('%d.%m.%Y'))]
-            return [False, 'Неверный формат даты.']
+            try:
+                if datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
+                    return [False, 'Дата должна не может быть больше сегодняшней ({0}).'.format(
+                        datetime.now().strftime('%d.%m.%Y'))]
+                return [False, 'Неверный формат даты.']
+            except Exception:
+                return [False, 'Неверный формат даты.']
         return True
 
     def check_len(self):
@@ -146,13 +141,13 @@ class InputCheck:
         return True
 
     def check_time_value(self):
-        if not (0 < self.text < 1440):
+        if not (0 < int(self.text) < 1440):
             return [False, 'Введено ошибочное количество потраченных минут.']
         return True
 
     def check_incorrect_vals(self):
         for i in self.text:
-            if ord(i) in self.incorrect_vals:
+            if i in self.incorrect_vals:
                 return [False, f'Недопустимый символ ({i}).']
         return True
 
@@ -164,10 +159,10 @@ class InputCheck:
 
     def number_only(self):
         self.incorrect_vals.extend(self.only_in_quotes_char)
-        self.correct_vals.extend([ord('.'), ord(';'), ord('"')])
+        self.correct_vals.extend(['.', ';', '"'])
         self.correct_vals.extend(self.correct_rus_vals)
         for i in self.text:
-            if ord(i) in self.correct_vals or ord(i) in self.incorrect_vals:
+            if i in self.correct_vals or i in self.incorrect_vals:
                 return [False, 'Разрешено вводить только количество минут.']
         return True
 
@@ -952,7 +947,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.eUi.edit_event_dateEdit.setMaximumDate(
             QtCore.QDate(QtCore.QDate.currentDate()))
 
-        date_ = datetime.datetime.strptime(act_date, '%Y-%m-%d')
+        date_ = datetime.strptime(act_date, '%Y-%m-%d')
         for d in [date_.timetuple()]:
             year = int(d[0])
             month = int(d[1])

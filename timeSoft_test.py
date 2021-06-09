@@ -59,6 +59,7 @@ class InputCheck:
         # self.only_in_quotes_char = [ord('!'), ord(','), ord(':')]
         self.incorrect_vals = [ord('"'), ord('\''), ord(
             '/'), ord('\\'), ord(','), ord('--'), ord(';')]
+        self.incorrect_vals_special = ['"', '\'', '/', '\\', ',', '--', ';']
 
     def check_email(self):
         """
@@ -152,22 +153,22 @@ class InputCheck:
 
     def check_incorrect_vals(self):
         for i in self.text:
-            if ord(i) in self.incorrect_vals:
+            if i in self.incorrect_vals_special:
                 return [False, f'Недопустимый символ ({i}).']
         return True
 
     def check_spaces_tabs(self):
-        tabs_spaces = [' ', '    ']
-        if self.text in tabs_spaces:
-            return [False, 'Табуляция или пробел.']
+        n = len(self.text)
+        if self.text in [' ' * n, '\t' * n, '\n' * n]:
+            return [False, 'Пробел, табуляция или перенос строки.']
         return True
 
     def number_only(self):
-        self.incorrect_vals.extend(self.only_in_quotes_char)
-        self.correct_vals.extend([ord('.'), ord(';'), ord('"')])
+        self.incorrect_vals_special.extend(self.only_in_quotes_char)
+        self.correct_vals.extend(['.', ';', '"'])
         self.correct_vals.extend(self.correct_rus_vals)
         for i in self.text:
-            if ord(i) in self.correct_vals or ord(i) in self.incorrect_vals:
+            if i in self.correct_vals or i in self.incorrect_vals_special:
                 return [False, 'Разрешено вводить только количество минут.']
         return True
 
@@ -1632,10 +1633,10 @@ class DbLogic:
             return self.user_id
 
         # Storing user_p_id
-        self.user_p_id = self.get_logged_user_data(item='get_user_p_id')
+        # self.user_p_id = self.get_logged_user_data(item='get_user_p_id')
 
-        # Сhecking for an existing record in db.
-        if item == 'check_action_data':
+        # Adding event as itself.
+        elif item == 'add_event':
             # Checking for matching same category in CATEGORY table.
             user_categories = self.get_logged_user_data(
                 item='get_user_categories')
@@ -1643,48 +1644,30 @@ class DbLogic:
                 if row == add_params[0]:
                     break
             else:  # If not matching, adding category to db.
-                self.cursor2.execute(
+                self.cursor.execute(
                     f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)', 
                     (self.user_id, add_params[0]))
 
                 self.connection.commit()
 
             # Updating ACTIVITY_LIST table also, if there are no matching data.
-            self.cursor2.execute(
+            self.cursor.execute(
                 f'SELECT actl_name, cat_name FROM "ACTIVITY_LIST" WHERE\
                     user_id = \'{self.user_id}\'')
-            user_activites_list = self.cursor2.fetchall()
-            for row in user_activites_list:
+            user_activities_list = self.cursor.fetchall()
+
+            for row in user_activities_list:
                 if row[0] == add_params[1]:
                     break
                 elif row[1] == add_params[0]:
                     break
-            else:
-                self.cursor2.execute(
+            else: # If not matching, updating table.
+                self.cursor.execute(
                     f'INSERT INTO "ACTIVITY_LIST" (\
                         user_id, actl_name, cat_name) VALUES (%s,%s,%s)', 
                         (self.user_id, add_params[1], add_params[0]))
-                
+
                 self.connection.commit()
-
-        elif item == 'check_action_delete_data':
-            user_categories = self.get_logged_user_data(item='get_user_categories')
-            self.cursor2.execute(
-                f'SELECT actl_name, cat_name FROM "ACTIVITY_LIST" WHERE\
-                    user_id = \'{self.user_id}\'')
-            user_activites_list = self.cursor2.fetchall()
-            user_activities = self.get_logged_user_data(item='get_user_activities_table')
-            
-            print(user_activites_list)
-            print(user_activities)
-            print(user_categories)
-            
-
-        # Adding event as itself.
-        elif item == 'add_event':
-            self.set_logged_user_data(
-                item='check_action_data', add_params=[
-                    add_params[0], add_params[1]])
 
             self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
                         act_time, act_date, cat_name, act_comment)\
@@ -1696,9 +1679,37 @@ class DbLogic:
 
         # Editing existing event in db.
         elif item == 'edit_event':
-            self.set_logged_user_data(
-                item='check_action_data', add_params=[
-                    add_params[0], add_params[1]])
+            # Checking for matching same category in CATEGORY table.
+            user_categories = self.get_logged_user_data(
+                item='get_user_categories')
+            for row in user_categories:
+                if row == edit_params[0]:
+                    break
+            else:  # If not matching, adding category to db.
+                self.cursor.execute(
+                    f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES (%s,%s)', 
+                    (self.user_id, edit_params[0]))
+
+                self.connection.commit()
+
+            # Updating ACTIVITY_LIST table also, if there are no matching data.
+            self.cursor.execute(
+                f'SELECT actl_name, cat_name FROM "ACTIVITY_LIST" WHERE\
+                    user_id = \'{self.user_id}\'')
+            user_activities_list = self.cursor.fetchall()
+
+            for row in user_activities_list:
+                if row[0] == edit_params[1]:
+                    break
+                elif row[1] == edit_params[0]:
+                    break
+            else: # If not matching, updating table.
+                self.cursor.execute(
+                    f'INSERT INTO "ACTIVITY_LIST" (\
+                        user_id, actl_name, cat_name) VALUES (%s,%s,%s)', 
+                        (self.user_id, edit_params[1], edit_params[0]))
+
+                self.connection.commit()
 
             self.cursor2.execute(
                 f'UPDATE "ACTIVITY" SET (actl_name, act_time, act_date, cat_name, \
@@ -1711,16 +1722,30 @@ class DbLogic:
 
         # Deleting existing event.
         elif item == 'del_event':
-            
-
             self.cursor.execute(
                 f'DELETE FROM "ACTIVITY" WHERE act_id = \'{add_params[2]}\'')
-        
-            # self.cursor.execute(
-            #     f'DELETE FROM "ACTIVITY_LIST" WHERE user_id = \'{self.user_id}\' and \
-            #         actl_name = \'{add_params[1]}\' and cat_name = \'{add_params[0]}\'')
 
             self.connection.commit()
+
+            self.cursor2.execute(
+                f'SELECT count(cat_name) FROM "ACTIVITY" WHERE\
+                    user_id = \'{self.user_id}\' and cat_name = \'{add_params[0]}\'')
+            activity_cat_name = self.cursor2.fetchall()
+            if activity_cat_name[0] == [0]:
+                self.cursor.execute(
+                    f'DELETE FROM "ACTIVITY_LIST" WHERE\
+                        user_id = \'{self.user_id}\' and\
+                            actl_name = \'{add_params[1]}\'\
+                                and cat_name = \'{add_params[0]}\'')
+
+                self.cursor.execute(
+                    f'DELETE FROM "CATEGORY" WHERE\
+                            user_id = \'{self.user_id}\' and\
+                                cat_name = \'{add_params[0]}\'')
+            
+                self.connection.commit()
+            else:
+                return
 
         # Changing old user password to new.
         elif item == 'change_password':
@@ -1817,10 +1842,10 @@ if __name__ == '__main__':
     dbl.set_logged_user_data(user_login='Timofey', item='set_working_user')
 
     # if not dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']) == True:
-    # dbl.set_logged_user_data(item='add_event', add_params=['Еда1', 'Кушал2', '60', '2021-05-26', '1'])
+    # dbl.set_logged_user_data(item='add_event', add_params=['Еда123', 'Кушал56', '60', '2021-05-26', '.'])
     # if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
-    dbl.set_logged_user_data('test', 'edit_event', ['Еда1', 'Кушал2', '60', '2021-05-26', '1', '905'], \
-        ['Еда1', 'Кушал3', 60, '2021-05-26', '1'])
+    # dbl.set_logged_user_data('test', 'edit_event', ['Еда1', 'Кушал2', '60', '2021-05-26', '1', '905'], \
+    #     ['Еда1', 'Кушал3', 60, '2021-05-26', '1'])
 
     # dbl.set_logged_user_data('test', 'del_event', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ'])
     # print(dbl.get_logged_user_data(item='get_user_activities'))
@@ -1830,5 +1855,6 @@ if __name__ == '__main__':
     #     add_params=['Категория1', 'Активность1']))
     # print(dbl.set_logged_user_data(item='change_password', edit_params=['qwerty123', 'test@test.test']))
     # print(dbl.set_logged_user_data(item='check_action_delete_data'))
+    # print(dbl.set_logged_user_data(item='del_event', add_params=['Еда123', 'Кушал56', '927']))
 
     

@@ -235,26 +235,29 @@ font: 25 12pt &quot;Roboto-Light&quot;;
 background-color: #283046;
 border: 1px solid rgb(122, 122, 122);
 border-radius: 5px;
-color: rgb(255, 255, 255);
+color: white;
 }
 QComboBox:hover {
 	background-color: rgb(40, 48, 70); 
 	border: 1px solid rgb(95, 85, 200);
 }
-QComboBox QAbstractItemView {
+QComboBox::QListView{
 background-color: rgb(22, 29, 49);
 border: 2px solid #7666F8;
-color: rgb(203, 203, 203);
-selection-background-color: rgb(94, 80, 238);
-selection-color: rgb(0, 0, 0);
+selection-background-color: white;
 }</string>
             </property>
             <property name="editable">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <item>
              <property name="text">
               <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>а вдруг?</string>
              </property>
             </item>
            </widget>

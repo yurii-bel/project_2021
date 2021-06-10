@@ -449,7 +449,7 @@ border-radius: 5px;
        <height>38</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_navigation" stretch="0,0,0,0,0,0,0,0,0,0,0">
+     <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_navigation" stretch="0,0,0,0,0,0,0,0,0,0,0,0">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -781,6 +781,7 @@ color: #D0D2D6;</string>
 	background-color: #283046;
 	border-radius: 5px;
 	color: rgb(255, 255, 255);
+	margin-right: 5px;
 }
 QDateEdit:hover {
 	background-color: rgb(40, 48, 70); 
@@ -789,6 +790,34 @@ QDateEdit:hover {
         </property>
         <property name="calendarPopup">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="mainwindow_filter_clear">
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+	background-color: rgb(115, 103, 240);
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(115, 103, 240);
+	border-radius: 5px;
+	padding-right: 5px;
+	padding-left: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+QPushButton:hover {
+	background-color: rgba(0, 0, 0, 0);
+	color: rgb(115, 103, 240);
+	border: 2px solid rgb(115, 103, 240);
+}</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>img/icons/clear_filter.svg</normaloff>img/icons/clear_filter.svg</iconset>
         </property>
        </widget>
       </item>
@@ -1465,7 +1494,7 @@ background-color: #283046;</string>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">

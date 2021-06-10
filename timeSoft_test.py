@@ -426,11 +426,11 @@ class MainUI(QtWidgets.QMainWindow):
             # for i in 
         # self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
 
-        print(self.dates, self.diff_categories, self.diff_duration)
+        # print(self.dates, self.diff_categories, self.diff_duration)
 
-        with open(f'{self.user_n_name}_data.csv', 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(['Month', 'Category', 'Duration'])
+        # with open(f'{self.user_n_name}_data.csv', 'w', newline='') as file:
+        #     writer = csv.writer(file)
+        #     writer.writerow(['Month', 'Category', 'Duration'])
             # for i in
             # writer.writerow([1, "Potato", "Linux Kernel"])
             # writer.writerow([2, "Tim Berners-Lee", "World Wide Web"])
@@ -444,8 +444,6 @@ class MainUI(QtWidgets.QMainWindow):
         index = 0
         pathes = []
 
-        
-
         for i in range(len(self.diff_categories)):
             path = f'./csv_data/{self.user_n_name}_{self.diff_categories[index]}_data.csv'
             pathes.append(path)
@@ -455,7 +453,7 @@ class MainUI(QtWidgets.QMainWindow):
             # df.plot(subplots=True, legend = True)
             index += 1
         plt.show()
-
+    
     # TODO: ADD STYLES.
     def change_theme(self):
         if self.change_theme_status == 0:

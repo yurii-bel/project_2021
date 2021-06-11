@@ -446,7 +446,7 @@ class MainUI(QtWidgets.QMainWindow):
                 # self.case.clear()
                 self.sum_of_durations = 0
 
-        # print(self.duration_by_dates_and_categories)
+        print(self.duration_by_dates_and_categories)
 
         # Looping through dicts in list.
         # self.categories_range = range(len(self.diff_categories))
@@ -495,6 +495,7 @@ class MainUI(QtWidgets.QMainWindow):
             # plot the time series.
             df = read_csv(pathes[i])
             df.plot(subplots=True)
+            plt.title(f'{self.diff_categories[index]}')
             # df.plot(subplots=True, legend = True)
             index += 1
         plt.show()

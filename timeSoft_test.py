@@ -314,11 +314,22 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.mainwindow_btn_settings.clicked.connect(self.sUi.show)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
         self.mUi.mainwindow_btn_category_delete.clicked.connect(self.cUi.show)
-        # Sorting by date buttons.
+        # Sorting by date buttons and dateEdit element.
+        self.mUi.mainwindow_dateEdit_s.setDate(
+            QtCore.QDate(QtCore.QDate.currentDate()))
+        self.mUi.mainwindow_dateEdit_s.setMaximumDate(
+            QtCore.QDate(QtCore.QDate.currentDate()))
+        self.mUi.mainwindow_dateEdit_po.setDate(
+            QtCore.QDate(QtCore.QDate.currentDate()))
+        self.mUi.mainwindow_dateEdit_po.setMaximumDate(
+            QtCore.QDate(QtCore.QDate.currentDate()))
+
         self.mUi.mainwindow_btn_daily.clicked.connect(self.view_table_sort_by_day)
         self.mUi.mainwindow_btn_weekly.clicked.connect(self.view_table_sort_by_week)
         self.mUi.mainwindow_btn_monthly.clicked.connect(self.view_table_sort_by_month)
         self.mUi.mainwindow_btn_annually.clicked.connect(self.view_table_sort_by_year)
+        self.mUi.mainwindow_dateEdit_s.dateChanged.connect(self.view_table_custom_sort)
+        self.mUi.mainwindow_dateEdit_po.dateChanged.connect(self.view_table_custom_sort)
         self.mUi.mainwindow_filter_clear.clicked.connect(self.view_table_clear_filter)
         # Combobox.
         self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(
@@ -1382,6 +1393,11 @@ class MainUI(QtWidgets.QMainWindow):
         self.update_view_table(
             date=self.today.strftime('%Y-%m-%d'), custom_date=new.strftime('%Y-%m-%d'))
     
+    def view_table_custom_sort(self):
+        date_from = self.mUi.mainwindow_dateEdit_s.date().toString('yyyy-MM-dd')
+        date_to = self.mUi.mainwindow_dateEdit_po.date().toString('yyyy-MM-dd')
+        self.update_view_table(date=date_to, custom_date=date_from)
+
     def view_table_clear_filter(self):
         self.update_view_table()
 

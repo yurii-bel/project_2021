@@ -287,6 +287,10 @@ class MainUI(QtWidgets.QMainWindow):
         self.ttUi = uic.loadUi('design\\table.ui')  # Table ui.
         self.abUi = uic.loadUi('design\\about_us_d.ui')  # About us ui.
 
+        self.big_uis = [
+            self.mUi, self.rUi, self.lUi, self.sUi, self.ttUi, self.abUi]
+        self.small_uis = [self.aUi, self.eUi, self.cUi]
+
         # Widget for viewing various data.
         self.wUi = self.mUi.mainwindow_widget_view
 
@@ -305,10 +309,20 @@ class MainUI(QtWidgets.QMainWindow):
 
     def pre_initUI(self):
         icon = QtGui.QIcon('design\\img\\main\\favicon.png')
+
+        for row in self.big_uis:
+            row.setFixedHeight(768)
+            row.setFixedWidth(1280)
+            row.setWindowIcon(icon)
+        
+        for row in self.small_uis:
+            row.setFixedHeight(640)
+            row.setFixedWidth(360)
+            row.setWindowIcon(icon)
+
         # Connecting buttons to slots.
+
         # Main UI.
-        self.mUi.setFixedHeight(768)
-        self.mUi.setFixedWidth(1280)
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(
             self.show_add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.sUi.show)
@@ -334,74 +348,62 @@ class MainUI(QtWidgets.QMainWindow):
         # Combobox.
         self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(
             self.graph_plot)
+        # Menubar Main UI.
+        self.mUi.mainwindow_act_make_prediction.triggered.connect(self.forecast)
+        self.mUi.mainwindow_act_settings.triggered.connect(self.sUi.show)
+        self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)
+        
+        self.mUi.mainwindow_act_add_event.triggered.connect(self.show_add_action)
+        #? self.mUi.mainwindow_act_edit_event.triggered.connect(self.get_current_row_tableview)
+
+        self.mUi.mainwindow_act_about_program.triggered.connect(self.abUi.show)
         # Theme of main window.
+        self.mUi.mainwindow_act_light.triggered.connect(self.change_theme)
+        self.change_theme_status = 1  # 0 is a sign of dark theme.
+
         self.mUi.mainwindow_btn_theme.clicked.connect(self.change_theme)
         self.change_theme_status = 0  # 0 is a sign of dark theme.
 
-        self.mUi.setWindowIcon(icon)
+        self.mUi.mainwindow_act_dark.triggered.connect(self.change_theme)
+        self.change_theme_status = 0  # 0 is a sign of dark theme.
+
+        self.mUi.mainwindow_act_help.triggered.connect(self.help)
 
         # Login UI.
-        self.lUi.setFixedHeight(768)
-        self.lUi.setFixedWidth(1280)
         self.lUi.login_btn_login.clicked.connect(self.login)
         self.lUi.login_btn_create_account.clicked.connect(
             self.show_registration)
-        self.lUi.setWindowIcon(icon)
 
         # Register UI.
-        self.rUi.setFixedHeight(768)
-        self.rUi.setFixedWidth(1280)
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
-        self.rUi.setWindowIcon(icon)
 
         # Add event UI.
-        self.aUi.setFixedHeight(640)
-        self.aUi.setFixedWidth(360)
         self.aUi.add_event_btn_add.clicked.connect(self.add_action)
         self.aUi.add_event_btn_cancel.clicked.connect(self.aUi.close)
         self.aUi.add_event_btn_exit.clicked.connect(self.aUi.close)
 
         # Edit event UI.
-        self.eUi.setFixedHeight(640)
-        self.eUi.setFixedWidth(360)
         self.eUi.edit_event_btn_save.clicked.connect(self.edit_action)
         self.eUi.edit_event_btn_del.clicked.connect(self.delete_action)
         self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
 
         # Category deleting UI.
-        self.cUi.setFixedHeight(640)
-        self.cUi.setFixedWidth(360)
         self.cUi.category_delete_btn_cancel.clicked.connect(self.cUi.close)
         self.cUi.category_delete_btn_delete.clicked.connect(self.del_categ)
-        # self.cUi.category_delete_comboBox_category.setStyleSheet()
-        self.cUi.setWindowIcon(icon)
 
         # Settings UI.
-        self.sUi.setFixedHeight(768)
-        self.sUi.setFixedWidth(1280)
         self.sUi.settings_btn_export.clicked.connect(self.settings_export)
         self.sUi.settings_btn_import.clicked.connect(self.settings_import)
         self.sUi.settings_btn_apply.clicked.connect(self.settings_change_user_data)
         self.sUi.settings_btn_undo.clicked.connect(self.sUi.close)
         self.sUi.settings_btn_telegram.clicked.connect(self.settings_telegram)
-        self.sUi.setWindowIcon(icon)
-
-        # About us UI.
-        self.abUi.setFixedHeight(768)
-        self.abUi.setFixedWidth(1280)
-        self.abUi.setWindowIcon(icon)
 
         # Table widget UI.
         self.ttUi.tableW.setColumnHidden(0, True)
         self.ttUi.tableW.setColumnHidden(5, True)
         self.ttUi.tableW.verticalHeader().setVisible(False)
         self.ttUi.tableW.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
-
-        # Menubar Main UI.
-        self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)
-        self.mUi.mainwindow_act_settings.triggered.connect(self.sUi.show)
-        self.mUi.mainwindow_act_about_program.triggered.connect(self.abUi.show)
 
         # Forecast.
         self.mUi.mainwindow_btn_forecast.clicked.connect(self.forecast)
@@ -673,9 +675,6 @@ class MainUI(QtWidgets.QMainWindow):
             self.mUi.mainwindow_menuEdit.setStyleSheet("""
             QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
             """)
-            self.mUi.mainwindow_dropdown_menu_select_chart.setStyleSheet("""
-            QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
-            """)
             self.mUi.mainwindow_menuHelp.setStyleSheet("""
             QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
             """)
@@ -765,8 +764,6 @@ class MainUI(QtWidgets.QMainWindow):
             self.mUi.mainwindow_menuFile.setStyleSheet(
                 """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
             self.mUi.mainwindow_menuEdit.setStyleSheet(
-                """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
-            self.mUi.mainwindow_dropdown_menu_select_chart.setStyleSheet(
                 """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
             self.mUi.mainwindow_menuHelp.setStyleSheet(
                 """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
@@ -975,7 +972,9 @@ class MainUI(QtWidgets.QMainWindow):
         # Comment checks.
         if self.input_check(comment).check_incorrect_vals('Комментарий') == False:
             return
-        elif self.input_check(comment).check_len('Комментарий') == False:
+        elif len(comment) > 500:
+            self.input_check().simple_diag(
+                'Длительность комментария превышает 500 символов.')
             return
 
         date_ = datetime.date(date.year(), date.month(), date.day())
@@ -995,12 +994,6 @@ class MainUI(QtWidgets.QMainWindow):
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
     def show_edit_action(self, actl_name=str, act_time=str, act_date=None,
                          cat_name=str, act_comment=None):
-
-        # self.act_id = self.timedb.get_logged_user_data(item='get_act_id',\
-        #     params=[cat_name, act_time, act_date, actl_name, act_comment])
-
-        # self.actl_id = self.timedb.get_logged_user_data(item='get_actl_id',\
-        #     params=[actl_name, cat_name])
 
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
         self.eUi.edit_event_dateEdit.setMaximumDate(
@@ -1060,7 +1053,9 @@ class MainUI(QtWidgets.QMainWindow):
         # Comment checks.
         if self.input_check(comment).check_incorrect_vals('Комментарий') == False:
             return
-        elif self.input_check(comment).check_len('Комментарий') == False:
+        elif len(comment) > 500:
+            self.input_check().simple_diag(
+                'Длительность комментария превышает 500 символов.')
             return
 
         date_ = datetime.date(date.year(), date.month(), date.day())
@@ -1532,6 +1527,15 @@ class MainUI(QtWidgets.QMainWindow):
                 'bottom', "<span style=\"color:white;font-size:12px\">Активности (категории)</span>")
             self.graphWidget.plot(self.num_diff_categories,
                                   self.diff_duration, pen=pen)
+
+    def help(self):
+        webbrowser.open_new_tab(
+                    'https://doc.qt.io/qtforpython/#documentation')
+        webbrowser.open_new_tab(
+                    'http://timesoft.pp.ua/')
+        webbrowser.open_new_tab(
+                    'https://docs.python.org/3/')
+        
 
 
 # ----------------------------------------------------------END-----timeSoft.py

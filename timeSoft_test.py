@@ -448,6 +448,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.settings_btn_undo.clicked.connect(self.sUi.close)
         self.sUi.settings_btn_telegram.clicked.connect(self.settings_telegram)
 
+        # About us UI.
+        self.abUi.about_us_btn_exit.clicked.connect(self.abUi.close)
+
         # Table widget UI.
         self.ttUi.tableW.setColumnHidden(0, True)
         self.ttUi.tableW.setColumnHidden(5, True)

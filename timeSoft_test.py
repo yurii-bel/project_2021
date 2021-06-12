@@ -23,12 +23,38 @@ from psycopg2 import Error
 from pyqtgraph import PlotWidget
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
-from PyQt5.QtGui import QBrush, QIcon, QPainter, QPen, QPixmap
+from PyQt5.QtGui import QBrush, QIcon, QPainter, QPen
 from PyQt5.QtCore import Qt
 from pyqtgraph.graphicsItems.ButtonItem import ButtonItem
 
-
 sys.path.append(".")
+
+"""
+TODO BUGS
+
+Тема (change_theme)
+Кнопка телеги (settings_telegram)
+Убрать крестик чёрный сверху справа - добавить к 4 кнопкам ещё одну "Всё". Переподключить (view_table_clear_filter)\
+Менюбар - редактировать выбранное событие: скрыть или вывести соответсвующее сообщение(mainwindow_act_edit_event.triggered)
+
+
+TODO
+
+!докстринги + комменты + пепы(понедельник дидлйон)
+
+Категории
+	Рандомные цвета у категорий, сортировка по ним
+
+Автокомплит в добавлении\редактировании активностей
+
+QComboBox - в ListView разобаться со цветом текста
+
+Перед импортом задать вопрос - перезаписать или добавить?
+подключённый телеграм юзера (окошко с предупреждением). !
+
+сделать комбобокс для названия кативностей + авктокомлит после введения для категории
+"""
+
 
 class InputCheck:
     """
@@ -46,6 +72,7 @@ class InputCheck:
         self.text = input_text
 
         self.correct_rus_vals = []
+        # Appending correct_rus_vals with lower and upper case russian symbols.
         for i in range(1040, 1104):
             self.correct_rus_vals.append(chr(i))
 
@@ -53,7 +80,7 @@ class InputCheck:
         self.correct_vals = list(string.ascii_lowercase)
         self.correct_vals_with_num = self.correct_vals + ['_'] + [str(x) for x in range(0, 10)]
 
-        # Проверить необходимость использования
+        # TODO: избавиться от only_in_quotes
         self.only_in_quotes_char = ['!', ',', ':']
         self.incorrect_vals = ['"', '\'', '/', '\\', ',', '--', ';']
 
@@ -146,7 +173,7 @@ class InputCheck:
         return True
 
     def check_time_value(self):
-        if not (0 < int(self.text) < 1440):
+        if not (0 < int(self.text) <= 1440):
             return [False, 'Введено ошибочное количество потраченных минут.']
         return True
 
@@ -293,17 +320,20 @@ class MainUI(QtWidgets.QMainWindow):
         self.ttUi = uic.loadUi('design\\table.ui')  # Table ui.
         self.abUi = uic.loadUi('design\\about_us_d.ui')  # About us ui.
 
+        # Creating list for future customizing various ui elements.
         self.big_uis = [
             self.mUi, self.rUi, self.lUi, self.sUi, self.ttUi, self.abUi]
+
         self.small_uis = [self.aUi, self.eUi, self.cUi]
 
         # Widget for viewing various data.
         self.wUi = self.mUi.mainwindow_widget_view
 
+        # Widget for viewing user categories.
         self.ccUi = self.mUi.mainwindow_widget_category
 
         # Various settings for different UI elements, such as connecting
-        # buttons to slots, setting menubars and status bar.
+        # buttons to slots and setting menubars.
         self.pre_initUI()
 
         # Connect TableView with mouseClick.
@@ -419,10 +449,11 @@ class MainUI(QtWidgets.QMainWindow):
         self.lay = QtWidgets.QHBoxLayout()
         self.wUi.setLayout(self.lay)
 
+        # Layout creation and appending widget for viewing various data to it.
         self.categ_lay = QtWidgets.QGridLayout()
         self.ccUi.setLayout(self.categ_lay)
 
-        # Variable of correctness login status for bot.
+        # Variable of correctness login status.
         self.correct_login = False
 
         self.input_check = InputCheckWithDiags
@@ -837,7 +868,7 @@ class MainUI(QtWidgets.QMainWindow):
             return
 
         self.timedb.login_user(login, password)
-
+        
         if self.timedb.correct_login_info == False:
             self.input_check().simple_diag('Неверный логин или пароль!')
 
@@ -849,7 +880,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.lUi.close()
             self.mUi.show()
             self.correct_login = True
-            self.create_forecast_data()  # Forcast data creation
+            self.create_forecast_data()  # Forecast data creation
 
     # REGISTRATION BLOCK.
     def show_registration(self):
@@ -1360,6 +1391,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.ttUi.tableW.setItem(
                 x, 3, QtWidgets.QTableWidgetItem(row[2]))
             self.ttUi.tableW.setItem(
+                # 'row3' is valid. 
                 x, 4, QtWidgets.QTableWidgetItem(row3))
             self.ttUi.tableW.setItem(
                 x, 5, QtWidgets.QTableWidgetItem(row[5]))
@@ -1452,8 +1484,9 @@ class MainUI(QtWidgets.QMainWindow):
             margin-top: 7px;
             margin-left: 10px;}
         ''')
+        # lbl.setMinimumSize(104, 36)
 
-        btn = QtWidgets.QPushButton('—')
+        btn = QtWidgets.QPushButton('-')
         btn.setStyleSheet('''
         QPushButton {
             font-family: "Roboto", Light;
@@ -1471,6 +1504,7 @@ class MainUI(QtWidgets.QMainWindow):
             color: rgb(255, 255, 255);
             border: 1px solid rgb(115, 103, 240);}
         ''')
+        btn.setMinimumSize(104, 36)
 
         btn.clicked.connect(self.cUi.show)
 
@@ -1573,7 +1607,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Displaying the table if combobox current index is equal to 0.
         if self.mUi.mainwindow_comboBox_display_style.currentIndex() == 0:
             # Removing all widgets from layout.
-            for i in reversed(range(self.lay.count())):
+            for i in range(self.lay.count()):
                 self.lay.itemAt(i).widget().setParent(None)
 
             self.lay.addWidget(self.ttUi.tableW)
@@ -1581,7 +1615,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Displaying the diagram/chart if combobox current index is equal to 1.
         elif self.mUi.mainwindow_comboBox_display_style.currentIndex() == 1:
             # Removing all widgets from layout.
-            for i in reversed(range(self.lay.count())):
+            for i in range(self.lay.count()):
                 self.lay.itemAt(i).widget().setParent(None)
 
             series = QPieSeries()
@@ -1621,7 +1655,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Displaying the graph if combobox current index is equal to 2.
         elif self.mUi.mainwindow_comboBox_display_style.currentIndex() == 2:
             # Removing all widgets from layout.
-            for i in reversed(range(self.lay.count())):
+            for i in range(self.lay.count()):
                 self.lay.itemAt(i).widget().setParent(None)
 
             # print(f'Categories: {self.diff_categories}')

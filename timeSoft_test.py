@@ -1,3 +1,4 @@
+import os
 import re
 import sys
 import string
@@ -11,6 +12,10 @@ import psycopg2.extras
 import pyqtgraph as pg
 from uuid import uuid4
 import datetime
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
 
 from pandas import read_csv
 from matplotlib import pyplot as plt
@@ -424,6 +429,9 @@ class MainUI(QtWidgets.QMainWindow):
 
     def sorting_data_csv(self):
         if self.idx < len(self.diff_categories):
+            # Removing files.
+            # os.remove(f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv')
+            # Creating new files.
             with open(
                 f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'w', newline='') as file:
                 writer = csv.writer(file)
@@ -432,7 +440,6 @@ class MainUI(QtWidgets.QMainWindow):
                     if item['category'] == self.diff_categories[self.idx]:
                         # print(item)
                         writer.writerow([item['date'], item['duration']])
-            print('---')
             self.idx += 1
             self.sorting_data_csv()
         else:
@@ -531,19 +538,51 @@ class MainUI(QtWidgets.QMainWindow):
             # writer.writerow([3, "Guido van Rossum", "Python Programming"])
 
     def forecast(self):
-        self.idx = 0  # Setting index to 0.
+        self.idx = 0  # Setting index for sorting data to 0.
         self.sorting_data_csv()
+        
+        # applying forecasting.
+        self.idx = 0
+        while self.idx < len(self.diff_categories):
+            with open(f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv','r') as file: 
+                d = file.readlines()
+                lastRow = d[-1][:7] 
+                year = lastRow[:4]
+                month = lastRow[5:7]
+                if month == '12':
+                    year = str(int(year)+1)
+                    month = '01'
+                elif month == '10' or month == '11':
+                    month = str(int(month)+1)
+                else:
+                    month = f'0{str(int(month)+1)}'
+
+            data = pd.read_csv(f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv')
+            with open(
+                f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'a') as file:
+                # get last month in csv file.
+                data['x'] = data.index
+                lm = smf.ols(formula='Duration ~ x', data=data).fit()
+                y = pd.DataFrame(dict(x=[len(data)]))
+                writer = csv.writer(file)
+                writer.writerow([f'{year}-{month}', round(lm.predict(y.x).get(0))])
+                # print(round(lm.predict(y.x).get(0)))
+            self.idx += 1
+
 
         # load data.
         index = 0
         pathes = []
 
         for i in range(len(self.diff_categories)):
+            data = pd.read_csv(f'./csv_data/{self.user_n_name}_{self.diff_categories[i]}_data.csv')
             path = f'./csv_data/{self.user_n_name}_{self.diff_categories[index]}_data.csv'
             pathes.append(path)
             # plot the time series.
             df = read_csv(pathes[i])
-            df.plot(subplots=True)
+            df = pd.DataFrame(data, columns=['Month', 'Duration'])
+            df.plot(x ='Month', y='Duration', kind = 'line', color="blue", alpha=0.3)
+            plt.title(f'{self.diff_categories[index]}')
             # df.plot(subplots=True, legend = True)
             index += 1
         plt.show()

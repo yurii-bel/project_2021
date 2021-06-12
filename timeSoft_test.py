@@ -78,7 +78,8 @@ class InputCheck:
 
         # Список с кодами корректных символов
         self.correct_vals = list(string.ascii_lowercase)
-        self.correct_vals_with_num = self.correct_vals + ['_'] + [str(x) for x in range(0, 10)]
+        self.correct_vals_with_num = self.correct_vals + \
+            ['_'] + [str(x) for x in range(0, 10)]
 
         # TODO: избавиться от only_in_quotes
         self.only_in_quotes_char = ['!', ',', ':']
@@ -221,7 +222,7 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
 
         yes = msg.addButton(buttons[0], msg.AcceptRole)
         no = msg.addButton(buttons[1], msg.RejectRole)
-        
+
         msg.exec()
 
         if msg.clickedButton() is yes:
@@ -314,7 +315,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi = uic.loadUi('design\\add_event_d.ui')  # Add actions ui.
         self.eUi = uic.loadUi('design\\edit_event_d.ui')  # Edit actions ui.
         self.cUi = uic.loadUi('design\\category_delete.ui')  # Edit actions ui.
-        self.rUi = uic.loadUi('design\\register_d.ui')  # Registration window ui.
+        # Registration window ui.
+        self.rUi = uic.loadUi('design\\register_d.ui')
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
         self.ttUi = uic.loadUi('design\\table.ui')  # Table ui.
@@ -352,7 +354,7 @@ class MainUI(QtWidgets.QMainWindow):
             row.setFixedHeight(768)
             row.setFixedWidth(1280)
             row.setWindowIcon(icon)
-        
+
         for row in self.small_uis:
             row.setFixedHeight(640)
             row.setFixedWidth(360)
@@ -375,23 +377,32 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.mainwindow_dateEdit_po.setMaximumDate(
             QtCore.QDate(QtCore.QDate.currentDate()))
 
-        self.mUi.mainwindow_btn_daily.clicked.connect(self.view_table_sort_by_day)
-        self.mUi.mainwindow_btn_weekly.clicked.connect(self.view_table_sort_by_week)
-        self.mUi.mainwindow_btn_monthly.clicked.connect(self.view_table_sort_by_month)
-        self.mUi.mainwindow_btn_annually.clicked.connect(self.view_table_sort_by_year)
-        self.mUi.mainwindow_dateEdit_s.dateChanged.connect(self.view_table_custom_sort)
-        self.mUi.mainwindow_dateEdit_po.dateChanged.connect(self.view_table_custom_sort)
-        self.mUi.mainwindow_filter_clear.clicked.connect(self.view_table_clear_filter)
+        self.mUi.mainwindow_btn_daily.clicked.connect(
+            self.view_table_sort_by_day)
+        self.mUi.mainwindow_btn_weekly.clicked.connect(
+            self.view_table_sort_by_week)
+        self.mUi.mainwindow_btn_monthly.clicked.connect(
+            self.view_table_sort_by_month)
+        self.mUi.mainwindow_btn_annually.clicked.connect(
+            self.view_table_sort_by_year)
+        self.mUi.mainwindow_dateEdit_s.dateChanged.connect(
+            self.view_table_custom_sort)
+        self.mUi.mainwindow_dateEdit_po.dateChanged.connect(
+            self.view_table_custom_sort)
+        self.mUi.mainwindow_btn_all.clicked.connect(
+            self.view_table_clear_filter)
         # Combobox.
         self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(
             self.graph_plot)
         # Menubar Main UI.
-        self.mUi.mainwindow_act_make_prediction.triggered.connect(self.forecast)
+        self.mUi.mainwindow_act_make_prediction.triggered.connect(
+            self.forecast)
         self.mUi.mainwindow_act_settings.triggered.connect(self.sUi.show)
         self.mUi.mainwindow_act_exit.triggered.connect(self.mUi.close)
-        
-        self.mUi.mainwindow_act_add_event.triggered.connect(self.show_add_action)
-        #? self.mUi.mainwindow_act_edit_event.triggered.connect(self.get_current_row_tableview)
+
+        self.mUi.mainwindow_act_add_event.triggered.connect(
+            self.show_add_action)
+        # ? self.mUi.mainwindow_act_edit_event.triggered.connect(self.get_current_row_tableview)
 
         self.mUi.mainwindow_act_about_program.triggered.connect(self.abUi.show)
         # Theme of main window.
@@ -432,7 +443,8 @@ class MainUI(QtWidgets.QMainWindow):
         # Settings UI.
         self.sUi.settings_btn_export.clicked.connect(self.settings_export)
         self.sUi.settings_btn_import.clicked.connect(self.settings_import)
-        self.sUi.settings_btn_apply.clicked.connect(self.settings_change_user_data)
+        self.sUi.settings_btn_apply.clicked.connect(
+            self.settings_change_user_data)
         self.sUi.settings_btn_undo.clicked.connect(self.sUi.close)
         self.sUi.settings_btn_telegram.clicked.connect(self.settings_telegram)
 
@@ -464,7 +476,7 @@ class MainUI(QtWidgets.QMainWindow):
             # os.remove(f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv')
             # Creating new files.
             with open(
-                f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'w', newline='') as file:
+                    f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'w', newline='') as file:
                 writer = csv.writer(file)
                 writer.writerow(['Month', 'Duration'])
                 for item in self.duration_by_dates_and_categories:
@@ -483,7 +495,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.timedb.get_logged_user_data(item='get_user_p_id')
         self.sUi.settings_lineedit_email.setText(
             self.timedb.get_logged_user_data(item='get_user_email'))
-        
+
         if not self.timedb.get_logged_user_data(
                 item='get_user_telegram') == '0' and not self.timedb.get_logged_user_data(
                 item='get_user_telegram') == 'None':
@@ -571,13 +583,13 @@ class MainUI(QtWidgets.QMainWindow):
     def forecast(self):
         self.idx = 0  # Setting index for sorting data to 0.
         self.sorting_data_csv()
-        
+
         # applying forecasting.
         self.idx = 0
         while self.idx < len(self.diff_categories):
-            with open(f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv','r') as file: 
+            with open(f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'r') as file:
                 d = file.readlines()
-                lastRow = d[-1][:7] 
+                lastRow = d[-1][:7]
                 year = lastRow[:4]
                 month = lastRow[5:7]
                 if month == '12':
@@ -588,36 +600,39 @@ class MainUI(QtWidgets.QMainWindow):
                 else:
                     month = f'0{str(int(month)+1)}'
 
-            data = pd.read_csv(f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv')
+            data = pd.read_csv(
+                f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv')
             with open(
-                f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'a') as file:
+                    f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'a') as file:
                 # get last month in csv file.
                 data['x'] = data.index
                 lm = smf.ols(formula='Duration ~ x', data=data).fit()
                 y = pd.DataFrame(dict(x=[len(data)]))
                 writer = csv.writer(file)
-                writer.writerow([f'{year}-{month}', round(lm.predict(y.x).get(0))])
+                writer.writerow(
+                    [f'{year}-{month}', round(lm.predict(y.x).get(0))])
                 # print(round(lm.predict(y.x).get(0)))
             self.idx += 1
-
 
         # load data.
         index = 0
         pathes = []
 
         for i in range(len(self.diff_categories)):
-            data = pd.read_csv(f'./csv_data/{self.user_n_name}_{self.diff_categories[i]}_data.csv')
+            data = pd.read_csv(
+                f'./csv_data/{self.user_n_name}_{self.diff_categories[i]}_data.csv')
             path = f'./csv_data/{self.user_n_name}_{self.diff_categories[index]}_data.csv'
             pathes.append(path)
             # plot the time series.
             df = read_csv(pathes[i])
             df = pd.DataFrame(data, columns=['Month', 'Duration'])
-            df.plot(x ='Month', y='Duration', kind = 'line', color="blue", alpha=0.3)
+            df.plot(x='Month', y='Duration',
+                    kind='line', color="blue", alpha=0.3)
             plt.title(f'{self.diff_categories[index]}')
             # df.plot(subplots=True, legend = True)
             index += 1
         plt.show()
-    
+
     # TODO: ADD STYLES.
     def change_theme(self):
         if self.change_theme_status == 0:
@@ -868,7 +883,7 @@ class MainUI(QtWidgets.QMainWindow):
             return
 
         self.timedb.login_user(login, password)
-        
+
         if self.timedb.correct_login_info == False:
             self.input_check().simple_diag('Неверный логин или пароль!')
 
@@ -952,7 +967,8 @@ class MainUI(QtWidgets.QMainWindow):
             self.user_n_name = login
             self.post_initUI()
 
-            base_categs = timo.get_logged_user_data(item='get_user_activity_list')
+            base_categs = timo.get_logged_user_data(
+                item='get_user_activity_list')
             for row in base_categs:
                 self.timedb.set_logged_user_data(
                     item='set_default_categs_and_activities', add_params=[row[1], row[0]])
@@ -983,7 +999,7 @@ class MainUI(QtWidgets.QMainWindow):
         Current method displays clicked column and row of a choosen cell 
         in a TableView widget.
         '''
-        #selected cell value.
+        # selected cell value.
         self.act_id = str(item.sibling(item.row(), 0).data())
         self.act_date = str(item.sibling(item.row(), 1).data())
         self.cat_name = str(item.sibling(item.row(), 2).data())
@@ -993,8 +1009,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.act_comment = str(item.sibling(item.row(), 5).data())
 
         if self.actl_name[-1] == '*':
-           self.actl_name = self.actl_name.removesuffix('*')
-        
+            self.actl_name = self.actl_name.removesuffix('*')
+
         self.show_edit_action(
             self.actl_name, self.act_time, self.act_date, self.cat_name, self.act_comment)
 
@@ -1142,9 +1158,9 @@ class MainUI(QtWidgets.QMainWindow):
         # Writing all changes to db and closing 'Add Event' win.
         self.timedb.set_logged_user_data(
             item='edit_event', add_params=[
-                self.cat_name, self.actl_name, self.act_time, self.act_date,\
-                    self.act_comment, self.act_id], edit_params=[
-                        category, title, int_duration, str_date, comment])
+                self.cat_name, self.actl_name, self.act_time, self.act_date,
+                self.act_comment, self.act_id], edit_params=[
+                category, title, int_duration, str_date, comment])
 
         self.update_users_categs()
         self.update_view_table()
@@ -1364,8 +1380,8 @@ class MainUI(QtWidgets.QMainWindow):
             webbrowser.open_new_tab(
                 'https://web.telegram.org/#/im?p=@fexcin_bot')
 
-
     # TABLE VIEWING BLOCK. uses DbLogic class.
+
     def view_table(self):
         rows = self.timedb.get_logged_user_data(
             item='get_user_activities_table')
@@ -1377,7 +1393,7 @@ class MainUI(QtWidgets.QMainWindow):
                 row3 = "{} ч. {} мин.".format(*divmod(int(row[3]), 60))
             else:
                 row3 = f'{row[3]} мин.'
-            
+
             if not row[5] == None and not row[5] == '' and not row[5] == '(NULL)':
                 row[2] = f'{row[2]}*'
 
@@ -1387,11 +1403,11 @@ class MainUI(QtWidgets.QMainWindow):
             self.ttUi.tableW.setItem(
                 x, 1, QtWidgets.QTableWidgetItem(row[4]))
             self.ttUi.tableW.setItem(
-                x, 2,QtWidgets.QTableWidgetItem(row[1]))
+                x, 2, QtWidgets.QTableWidgetItem(row[1]))
             self.ttUi.tableW.setItem(
                 x, 3, QtWidgets.QTableWidgetItem(row[2]))
             self.ttUi.tableW.setItem(
-                # 'row3' is valid. 
+                # 'row3' is valid.
                 x, 4, QtWidgets.QTableWidgetItem(row3))
             self.ttUi.tableW.setItem(
                 x, 5, QtWidgets.QTableWidgetItem(row[5]))
@@ -1405,14 +1421,14 @@ class MainUI(QtWidgets.QMainWindow):
         # self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
         for i in reversed(range(self.lay.count())):
             self.lay.itemAt(i).widget().setParent(None)
-        
+
         if date == None and custom_date == None:
             rows = self.timedb.get_logged_user_data(
                 item='get_user_activities_table')
         elif not date == None and custom_date == None:
             rows = self.timedb.set_logged_user_data(
                 item='set_user_activities_table', add_params=[date])
-        elif not date == None and not custom_date == None:            
+        elif not date == None and not custom_date == None:
             rows = self.timedb.set_logged_user_data(
                 item='set_user_activities_table', add_params=[
                     custom_date, date])
@@ -1425,7 +1441,7 @@ class MainUI(QtWidgets.QMainWindow):
                 row3 = "{} ч. {} мин.".format(*divmod(int(row[3]), 60))
             else:
                 row3 = f'{row[3]} мин.'
-            
+
             if not row[5] == None and not row[5] == '' and not row[5] == '(NULL)':
                 row[2] = f'{row[2]}*'
 
@@ -1435,7 +1451,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.ttUi.tableW.setItem(
                 x, 1, QtWidgets.QTableWidgetItem(row[4]))
             self.ttUi.tableW.setItem(
-                x, 2,QtWidgets.QTableWidgetItem(row[1]))
+                x, 2, QtWidgets.QTableWidgetItem(row[1]))
             self.ttUi.tableW.setItem(
                 x, 3, QtWidgets.QTableWidgetItem(row[2]))
             self.ttUi.tableW.setItem(
@@ -1449,7 +1465,7 @@ class MainUI(QtWidgets.QMainWindow):
 
     def view_table_sort_by_day(self):
         self.update_view_table(self.today.strftime('%Y-%m-%d'))
-    
+
     def view_table_sort_by_week(self):
         new = self.today.replace(day=self.today.day - 7)
         self.update_view_table(
@@ -1459,12 +1475,12 @@ class MainUI(QtWidgets.QMainWindow):
         new = self.today.replace(month=self.today.month - 1)
         self.update_view_table(
             date=self.today.strftime('%Y-%m-%d'), custom_date=new.strftime('%Y-%m-%d'))
-    
+
     def view_table_sort_by_year(self):
         new = self.today.replace(year=self.today.year - 1)
         self.update_view_table(
             date=self.today.strftime('%Y-%m-%d'), custom_date=new.strftime('%Y-%m-%d'))
-    
+
     def view_table_custom_sort(self):
         date_from = self.mUi.mainwindow_dateEdit_s.date().toString('yyyy-MM-dd')
         date_to = self.mUi.mainwindow_dateEdit_po.date().toString('yyyy-MM-dd')
@@ -1520,7 +1536,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.categ_lay.addWidget(lbl, 0, 0, alignment=Qt.AlignLeft)
         self.categ_lay.addWidget(btn, 0, 1, alignment=Qt.AlignRight)
         self.categ_lay.addWidget(view_all, 1, 0, alignment=Qt.AlignLeft)
-        
+
         i = 2
         categs = self.timedb.get_logged_user_data(item='get_user_categories')
 
@@ -1529,11 +1545,13 @@ class MainUI(QtWidgets.QMainWindow):
                 item='get_category_overall_time', add_params=[row])
 
             if overall_time == 'None':
-                    pass
+                pass
             elif int(overall_time) > 3600:
-                overall_time = "{} д. {} м.".format(*divmod(int(overall_time), 3600))
+                overall_time = "{} д. {} м.".format(
+                    *divmod(int(overall_time), 3600))
             elif int(overall_time) > 60:
-                overall_time = "{} ч. {} м.".format(*divmod(int(overall_time), 60))
+                overall_time = "{} ч. {} м.".format(
+                    *divmod(int(overall_time), 60))
             else:
                 overall_time = f'{overall_time} м.'
 
@@ -1545,7 +1563,7 @@ class MainUI(QtWidgets.QMainWindow):
                 margin-top: 7px;
                 margin-left: 5px;}
             ''')
-            
+
             lbl_time = QtWidgets.QLabel(f'{overall_time}')
             lbl_time.setStyleSheet('''
             QLabel {
@@ -1558,7 +1576,8 @@ class MainUI(QtWidgets.QMainWindow):
             if lbl_time.text() == 'None':
                 pass
             else:
-                self.categ_lay.addWidget(lbl_time, i, 1, alignment=Qt.AlignRight)
+                self.categ_lay.addWidget(
+                    lbl_time, i, 1, alignment=Qt.AlignRight)
             i += 1
 
     def graph_plot(self):
@@ -1695,12 +1714,11 @@ class MainUI(QtWidgets.QMainWindow):
 
     def help(self):
         webbrowser.open_new_tab(
-                    'https://doc.qt.io/qtforpython/#documentation')
+            'https://doc.qt.io/qtforpython/#documentation')
         webbrowser.open_new_tab(
-                    'http://timesoft.pp.ua/')
+            'http://timesoft.pp.ua/')
         webbrowser.open_new_tab(
-                    'https://docs.python.org/3/')
-        
+            'https://docs.python.org/3/')
 
 
 # ----------------------------------------------------------END-----timeSoft.py
@@ -1715,10 +1733,10 @@ class DbLogic:
 
     def __init__(self):
         self.connection = db.connect(
-            database=self.config.get('PostgreSql', 'database'),\
-                user=self.config.get('PostgreSql', 'user'),\
-                    password=self.config.get('PostgreSql', 'password'),\
-                        host=self.config.get('PostgreSql', 'host'))
+            database=self.config.get('PostgreSql', 'database'),
+            user=self.config.get('PostgreSql', 'user'),
+            password=self.config.get('PostgreSql', 'password'),
+            host=self.config.get('PostgreSql', 'host'))
 
         self.cursor = self.connection.cursor()
         self.cursor2 = self.connection.cursor(
@@ -1897,7 +1915,7 @@ class DbLogic:
             return str(self.cursor.fetchall())[3:-4]
 
     def set_logged_user_data(
-        self, user_login=None, item=None, add_params=None, edit_params=None):
+            self, user_login=None, item=None, add_params=None, edit_params=None):
         # params[0] = cat_name
         # params[1] = actl_name
         # params[2] = act_time
@@ -1909,27 +1927,27 @@ class DbLogic:
             self.user_id = self.get_logged_user_data(
                 user_login=user_login, item='set_working_user')
             return self.user_id
-        
+
         elif item == 'get_act_time':
             self.cursor.execute(
                 f'SELECT act_time FROM "ACTIVITY" WHERE\
                     act_id = \'{add_params[0]}\' and user_id = \'{self.user_id}\'')
             return str(self.cursor.fetchall())[2:-3]
-        
+
         elif item == 'set_default_categs_and_activities':
             self.cursor.execute(
                 f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES\
-                    (%s,%s) ON CONFLICT DO NOTHING', 
-                        (self.user_id, add_params[0]))
+                    (%s,%s) ON CONFLICT DO NOTHING',
+                (self.user_id, add_params[0]))
 
             self.connection.commit()
 
             self.cursor.execute(
                 f'INSERT INTO "ACTIVITY_LIST" (\
                     user_id, actl_name, cat_name) VALUES\
-                        (%s,%s,%s) ON CONFLICT DO NOTHING', 
-                    (self.user_id, add_params[1], add_params[0]))
-            
+                        (%s,%s,%s) ON CONFLICT DO NOTHING',
+                (self.user_id, add_params[1], add_params[0]))
+
             self.connection.commit()
 
         # Adding event as itself.
@@ -1937,8 +1955,8 @@ class DbLogic:
             # Updating CATEGORY table, if there are no matching data.
             self.cursor.execute(
                 f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES\
-                    (%s,%s) ON CONFLICT DO NOTHING', 
-                        (self.user_id, add_params[0]))
+                    (%s,%s) ON CONFLICT DO NOTHING',
+                (self.user_id, add_params[0]))
 
             self.connection.commit()
 
@@ -1946,16 +1964,16 @@ class DbLogic:
             self.cursor.execute(
                 f'INSERT INTO "ACTIVITY_LIST" (\
                     user_id, actl_name, cat_name) VALUES\
-                        (%s,%s,%s) ON CONFLICT DO NOTHING', 
-                    (self.user_id, add_params[1], add_params[0]))
+                        (%s,%s,%s) ON CONFLICT DO NOTHING',
+                (self.user_id, add_params[1], add_params[0]))
 
             self.connection.commit()
 
             self.cursor2.execute('INSERT INTO "ACTIVITY" (user_id, actl_name,\
                         act_time, act_date, cat_name, act_comment)\
                             VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING',
-                                (self.user_id, add_params[1], add_params[2],
-                                    add_params[3], add_params[0], add_params[4]))
+                                 (self.user_id, add_params[1], add_params[2],
+                                  add_params[3], add_params[0], add_params[4]))
 
             self.connection.commit()
 
@@ -1964,8 +1982,8 @@ class DbLogic:
             # Updating CATEGORY table, if there are no matching data.
             self.cursor.execute(
                 f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES\
-                    (%s,%s) ON CONFLICT DO NOTHING', 
-                        (self.user_id, edit_params[0]))
+                    (%s,%s) ON CONFLICT DO NOTHING',
+                (self.user_id, edit_params[0]))
 
             self.connection.commit()
 
@@ -1973,8 +1991,8 @@ class DbLogic:
             self.cursor.execute(
                 f'INSERT INTO "ACTIVITY_LIST" (\
                     user_id, actl_name, cat_name) VALUES\
-                        (%s,%s,%s) ON CONFLICT DO NOTHING', 
-                    (self.user_id, edit_params[1], edit_params[0]))
+                        (%s,%s,%s) ON CONFLICT DO NOTHING',
+                (self.user_id, edit_params[1], edit_params[0]))
 
             self.connection.commit()
 
@@ -2007,7 +2025,7 @@ class DbLogic:
                             user_id = \'{self.user_id}\' and\
                                 actl_name = \'{add_params[1]}\'\
                                     and cat_name = \'{add_params[0]}\'')
-                
+
                     self.connection.commit()
 
         # Changing old user password to new.

@@ -2107,46 +2107,4 @@ if __name__ == '__main__':
     # dbl = DbLogic()
     # dbl.get_logged_user_data(user_login='Timofey', item='set_working_user')
 
-    # print(dbl.get_logged_user_data(item='get_user_categories'))
-    # print(dbl.get_logged_user_data(item='get_act_id', params=['Кушал1', '60', '2021-05-26', 'Еда', '1']))
-    # print(dbl.get_logged_user_data(item='get_actl_id', params=['12', 'Kofe 3']))
-    # print(dbl.get_logged_user_data(item='get_user_activities'))
-    # print(dbl.get_logged_user_data(item='get_user_activities_test'))
-    # print(dbl.get_logged_user_data(item='get_user_p_id'))
-    # print(dbl.get_logged_user_data(item='get_user_email'))
-    # print(dbl.get_logged_user_data(item='get_user_password'))
-    # print(dbl.get_logged_user_data(item='get_user_telegram'))
-
     # dbl.set_logged_user_data(user_login='Timofey', item='set_working_user')
-
-    # if not dbl.set_logged_user_data(item='check_event_data', add_params=['Еда', 'Кушал', 60, '2021-05-26', '1']) == True:
-    # dbl.set_logged_user_data(item='add_event', add_params=['12Еда12321', 'Кушал56', '60', '2021-05-26', '.'])
-    # if not dbl.set_logged_user_data('test', 'check_event_data', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ']) == True:
-    # dbl.set_logged_user_data('test', 'edit_event', ['Еда1', 'Кушал2', '60', '2021-05-26', '1', '905'], \
-    #     ['Еда1', 'Кушал3', 60, '2021-05-26', '1'])
-
-    # dbl.set_logged_user_data('test', 'del_event', ['Спорт', 'Бег', 300, '2021-05-27', 'ВАУ'])
-    # print(dbl.get_logged_user_data(item='get_user_activities'))
-    # print(dbl.set_logged_user_data(item='del_event', add_params=['cxz', '1', '12548']))
-    # print(dbl.set_logged_user_data(
-    #     item='check_action_data', 
-    #     add_params=['Категория1', 'Активность1']))
-    # print(dbl.set_logged_user_data(item='change_password', edit_params=['qwerty123', 'test@test.test']))
-    # print(dbl.set_logged_user_data(item='check_action_delete_data'))
-    # print(dbl.set_logged_user_data(item='del_event', add_params=['Еда123', 'Кушал56', '927']))
-    # print(dbl.set_logged_user_data(item='get_act_time', add_params=['941']))
-    # print(dbl.set_logged_user_data(item='del_user_categ', add_params=[]))
-    # print(dbl.get_logged_user_data(item='get_user_activity_list'))
-    # print(dbl.set_logged_user_data(
-    #     item='set_user_activities_table', add_params=['2021-06-09']))
-    # print(dbl.get_logged_user_data(item='get_user_activities'))
-    # print(dbl.set_logged_user_data(
-    #     item='set_user_activities_table', add_params=['2021-06-03', '2021-06-10']))
-    # print(dbl.set_logged_user_data(item='get_category_overall_time', add_params=['Отдых']))
-
-    # today = datetime.datetime.now()
-    # print(today.replace(
-    #     month=today.month - 1, day=today.day - 30).strftime('%Y-%m-%d'))
-    
-
-    

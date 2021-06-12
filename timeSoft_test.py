@@ -5,6 +5,7 @@ import configparser
 import datetime
 import csv
 import webbrowser
+from numpy import add
 import psycopg2 as db
 import psycopg2.extras
 import pyqtgraph as pg
@@ -294,6 +295,8 @@ class MainUI(QtWidgets.QMainWindow):
         # Widget for viewing various data.
         self.wUi = self.mUi.mainwindow_widget_view
 
+        self.ccUi = self.mUi.mainwindow_widget_category
+
         # Various settings for different UI elements, such as connecting
         # buttons to slots, setting menubars and status bar.
         self.pre_initUI()
@@ -327,7 +330,6 @@ class MainUI(QtWidgets.QMainWindow):
             self.show_add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.sUi.show)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
-        self.mUi.mainwindow_btn_category_delete.clicked.connect(self.cUi.show)
         # Sorting by date buttons and dateEdit element.
         self.mUi.mainwindow_dateEdit_s.setDate(
             QtCore.QDate(QtCore.QDate.currentDate()))
@@ -411,6 +413,9 @@ class MainUI(QtWidgets.QMainWindow):
         # Layout creation and appending widget for viewing various data to it.
         self.lay = QtWidgets.QHBoxLayout()
         self.wUi.setLayout(self.lay)
+
+        self.categ_lay = QtWidgets.QGridLayout()
+        self.ccUi.setLayout(self.categ_lay)
 
         # Variable of correctness login status for bot.
         self.correct_login = False
@@ -800,9 +805,10 @@ class MainUI(QtWidgets.QMainWindow):
         elif self.timedb.correct_login_info == True:
             self.user_n_name = login
             self.post_initUI()
+            self.view_table()  # Viewing table.
+            self.init_view_categ()
             self.lUi.close()
             self.mUi.show()
-            self.view_table()  # Viewing table.
             self.correct_login = True
             self.create_forecast_data()  # Forcast data creation
 
@@ -881,10 +887,10 @@ class MainUI(QtWidgets.QMainWindow):
                 self.timedb.set_logged_user_data(
                     item='set_default_categs_and_activities', add_params=[row[1], row[0]])
             self.update_users_categs()
-            self.rUi.close()
-
-            self.mUi.show()
             self.view_table()  # Viewing table.
+            self.init_view_categ()
+            self.rUi.close()
+            self.mUi.show()
             self.correct_login = True
             self.create_forecast_data()  # Forcast data creation
 
@@ -1395,6 +1401,92 @@ class MainUI(QtWidgets.QMainWindow):
 
     def view_table_clear_filter(self):
         self.update_view_table()
+
+    def init_view_categ(self):
+        self.categ_lay.setRowStretch(111, 1)
+
+        lbl = QtWidgets.QLabel('КАТЕГОРИИ')
+        lbl.setStyleSheet('''
+        QLabel {
+            font-family: "Roboto", Light;
+            font-size: 12pt;
+            margin-top: 7px;
+            margin-left: 10px;}
+        ''')
+
+        btn = QtWidgets.QPushButton('—')
+        btn.setStyleSheet('''
+        QPushButton {
+            font-family: "Roboto", Light;
+            font-size: 14pt;
+            background-color: rgba(0, 0, 0, 0);
+            color: rgb(255, 255, 255);
+            border: 2px solid rgb(115, 103, 240);
+            border-radius: 5px;
+            width: 104px;
+            height: 36px;
+            margin-top: 3px;
+        }
+        QPushButton:hover {
+            background-color: rgb(115, 103, 240);
+            color: rgb(255, 255, 255);
+            border: 1px solid rgb(115, 103, 240);}
+        ''')
+
+        btn.clicked.connect(self.cUi.show)
+
+        view_all = QtWidgets.QCheckBox('Посмотреть все')
+        view_all.setStyleSheet('''
+            QCheckBox {
+                font-family: "Roboto", Light;
+                font-size: 12pt;
+                margin-top: 7px;
+                margin-left: 5px;}
+            ''')
+
+        self.categ_lay.addWidget(lbl, 0, 0, alignment=Qt.AlignLeft)
+        self.categ_lay.addWidget(btn, 0, 1, alignment=Qt.AlignRight)
+        self.categ_lay.addWidget(view_all, 1, 0, alignment=Qt.AlignLeft)
+        
+        i = 2
+        categs = self.timedb.get_logged_user_data(item='get_user_categories')
+
+        for row in categs:
+            overall_time = self.timedb.set_logged_user_data(
+                item='get_category_overall_time', add_params=[row])
+
+            if overall_time == 'None':
+                    pass
+            elif int(overall_time) > 3600:
+                overall_time = "{} д. {} м.".format(*divmod(int(overall_time), 3600))
+            elif int(overall_time) > 60:
+                overall_time = "{} ч. {} м.".format(*divmod(int(overall_time), 60))
+            else:
+                overall_time = f'{overall_time} м.'
+
+            checkbox = QtWidgets.QCheckBox(row)
+            checkbox.setStyleSheet('''
+            QCheckBox {
+                font-family: "Roboto", Light;
+                font-size: 12pt;
+                margin-top: 7px;
+                margin-left: 5px;}
+            ''')
+            
+            lbl_time = QtWidgets.QLabel(f'{overall_time}')
+            lbl_time.setStyleSheet('''
+            QLabel {
+                font-family: "Roboto", Light;
+                font-size: 12pt;
+                margin-top: 7px;}
+            ''')
+
+            self.categ_lay.addWidget(checkbox, i, 0, alignment=Qt.AlignLeft)
+            if lbl_time.text() == 'None':
+                pass
+            else:
+                self.categ_lay.addWidget(lbl_time, i, 1, alignment=Qt.AlignRight)
+            i += 1
 
     def graph_plot(self):
         # removing all widgets.
@@ -1909,6 +2001,16 @@ class DbLogic:
                     user_activities.append(row)
                 return user_activities
 
+        elif item == 'get_category_overall_time':
+            if add_params[0] == 'all':
+                pass
+            else:
+                self.cursor2.execute(
+                    f'SELECT SUM(act_time) FROM "ACTIVITY" WHERE\
+                        user_id = \'{self.user_id}\' and cat_name = \'{add_params[0]}\'')
+                overall_time_for_category = str(self.cursor2.fetchall())[2:-2]
+                return overall_time_for_category
+
     def update_user_activities(self, user):
         self.connection.autocommit = True
         user_n_id = self.get_user_n_id(user)
@@ -1928,7 +2030,6 @@ class DbLogic:
         self.table_rows_num = len(self.activity_name)
 
     def load_user_activities(self):
-
         # working with ACTIVITY table.
         self.activity_creation_date = []
         self.activity_category = []
@@ -2002,6 +2103,7 @@ if __name__ == '__main__':
     # print(dbl.get_logged_user_data(item='get_user_activities'))
     # print(dbl.set_logged_user_data(
     #     item='set_user_activities_table', add_params=['2021-06-03', '2021-06-10']))
+    # print(dbl.set_logged_user_data(item='get_category_overall_time', add_params=['Отдых']))
 
     # today = datetime.datetime.now()
     # print(today.replace(

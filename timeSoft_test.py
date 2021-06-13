@@ -437,6 +437,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.eUi.edit_event_btn_exit.clicked.connect(self.eUi.close)
 
         # Category deleting UI.
+        self.cUi.category_delete_btn_exit.clicked.connect(self.cUi.close)
         self.cUi.category_delete_btn_cancel.clicked.connect(self.cUi.close)
         self.cUi.category_delete_btn_delete.clicked.connect(self.del_categ)
 

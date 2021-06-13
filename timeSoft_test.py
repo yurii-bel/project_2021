@@ -604,19 +604,13 @@ class MainUI(QtWidgets.QMainWindow):
     # TODO: ADD STYLES.
     def change_theme(self):
         if self.change_theme_status == 0:
-<<<<<<< HEAD
             # setting white theme.
-=======
-            print('white theme')
-
->>>>>>> 4062e0924c66f32b9003275cb0c20afcfce2c9ca
             self.mUi.setStyleSheet("""
             background-color: #F8F8F8;
             """)
             self.change_theme_status = 1
 
         else:
-<<<<<<< HEAD
             # setting dark theme.
 
             self.mUi.setStyleSheet("""background-color: #161D31;""")
@@ -702,9 +696,6 @@ class MainUI(QtWidgets.QMainWindow):
                 """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
             self.mUi.mainwindow_menuHelp.setStyleSheet(
                 """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
-=======
-            print('dark theme')
->>>>>>> 4062e0924c66f32b9003275cb0c20afcfce2c9ca
 
             self.mUi.setStyleSheet(
                 """background-color: #161D31;"""

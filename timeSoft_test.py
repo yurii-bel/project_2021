@@ -87,8 +87,8 @@ class InputCheck:
 
     def check_email(self):
         """
-        This method makes various checks for correct email. 
-        This method does various checks for email. 
+        This method makes various checks for correct email.
+        This method does various checks for email.
         If the email passes verification, it returns True(bool) only.
         If not passes, it returns list that contains two values:
         False(bool) and error message(str).
@@ -421,6 +421,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.lUi.login_btn_login.clicked.connect(self.login)
         self.lUi.login_btn_create_account.clicked.connect(
             self.show_registration)
+        self.lUi.login_btn_theme.clicked.connect(self.change_theme)
+        self.change_theme_status = 0  # 0 is a sign of dark theme.
 
         # Register UI.
         self.rUi.register_btn_login.clicked.connect(self.registration)
@@ -640,228 +642,19 @@ class MainUI(QtWidgets.QMainWindow):
     # TODO: ADD STYLES.
     def change_theme(self):
         if self.change_theme_status == 0:
-            # print('white theme')
+            print('white theme')
 
-            # self.mUi.mainwindow.setStyleSheet("""style""")
             self.mUi.setStyleSheet("""
             background-color: #F8F8F8;
             """)
-            self.mUi.mainwindow_widget_category.setStyleSheet("""
-            QWidget { \nbackground-color: rgb(255, 255, 255);\nborder-top-left-radius: 5px;\nborder-bottom-left-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_checkBox_entertainment.setStyleSheet("""
-            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_checkBox_family.setStyleSheet("""
-            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_checkBox_health.setStyleSheet("""
-            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_checkBox_relaxation.setStyleSheet("""
-            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_checkBox_see_all.setStyleSheet("""
-            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_checkBox_work.setStyleSheet("""
-            QCheckBox {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_checkBoxlbl_dinamic.setStyleSheet("""
-            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_lbl_time_all.setStyleSheet("""
-            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_lbl_time_dinamic.setStyleSheet("""
-            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_lbl_time_entertainment.setStyleSheet("""
-            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_lbl_time_family.setStyleSheet("""
-            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_lbl_time_health.setStyleSheet("""
-            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_lbl_time_relaxation.setStyleSheet("""
-            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_lbl_time_work.setStyleSheet("""
-            QLabel {\ncolor: #5E5873;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\ncolor: #5E5873;\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_textlbl_category.setStyleSheet("""
-            color: #B9B9C3;\nborder: 2px solid rgba(0, 0, 0, 0);\nmargin-top: 2px;
-            """)
-            self.mUi.mainwindow_widget_navigation.setStyleSheet("""
-            QWidget { \nbackground-color: #FFFFFF;\nborder-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_btn_annually.setStyleSheet("""
-            QPushButton {\n	color: #7367F0;\n	border: 2px solid rgb(95, 85, 200);\n	border-top-left-radius: 0px;\n	border-top-right-radius: 5px;\n	border-bottom-right-radius: 5px;\n	border-bottom-left-radius: 0px;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgba(104, 93, 216, 0.2); \n	color: #7367F0;\n	border: 2px solid rgb(121, 109, 255);\n	border-top-left-radius: 0px;\n	border-top-right-radius: 5px;\n	border-bottom-right-radius: 5px;\n	border-bottom-left-radius: 0px;\n}
-            """)
-            self.mUi.mainwindow_btn_daily.setStyleSheet("""
-            QPushButton {\n	color: #7367F0;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-top-left-radius: 5px;\n	border-top-right-radius: 0px;\n	border-bottom-right-radius: 0px;\n	border-bottom-left-radius: 5px;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgba(104, 93, 216, 0.2); \n	color: #7367F0;\n	border: 2px solid rgb(121, 109, 255);\n	border-top-left-radius: 5px;\n	border-top-right-radius: 0px;\n	border-bottom-right-radius: 0px;\n	border-bottom-left-radius: 5px;\n}
-            """)
-            self.mUi.mainwindow_btn_monthly.setStyleSheet("""
-            QPushButton {\n	color: #7367F0;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-radius: 0;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgba(104, 93, 216, 0.2); \n	color: #7367F0;\n	border: 2px solid rgb(121, 109, 255);\n	border-radius: 0;\n}
-            """)
-            self.mUi.mainwindow_btn_nav_add_act.setStyleSheet("""
-            QPushButton {\n	background-color: rgb(115, 103, 240);\n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(115, 103, 240);\n	border-radius: 5px;\n	padding-left: 12px;\n	padding-right: 12px;\n	padding-top: 5px;\n	padding-bottom: 5px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);\n	color: rgb(94, 88, 115);\n	border: 2px solid rgb(115, 103, 240);\n}
-            """)
-            self.mUi.mainwindow_btn_weekly.setStyleSheet("""
-            QPushButton {\n	color: #7367F0;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-radius: 0;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgba(104, 93, 216, 0.2); \n	color: #7367F0;\n	border: 2px solid rgb(121, 109, 255);\n	border-radius: 0;\n}
-            """)
-            self.mUi.mainwindow_dateEdit_po.setStyleSheet("""
-            /* QDateEdit {\n	background-color: rgb(255, 255, 255);\n	border-radius: 5px;\n	color: #5E5873;\n}\nQDateEdit:hover {\n	background-color: rgb(248, 248, 248); \n	color: #5E5873;\n}\n*/\nQDateEdit {\n	background-color: rgb(248, 248, 248);\n	border-radius: 5px;\n	color: #5E5873;\n}\nQDateEdit:hover {\n	background-color: rgb(230, 230, 230);\n	color: #5E5873;\n}
-            """)
-            self.mUi.mainwindow_dateEdit_s.setStyleSheet("""
-            QDateEdit {\n	background-color: rgb(248, 248, 248);\n	border-radius: 5px;\n	color: #5E5873;\n}\nQDateEdit:hover {\n	background-color: rgb(230, 230, 230);\n	color: #5E5873;\n}
-            """)
-            self.mUi.mainwindow_lbl_icon_clendar.setStyleSheet("""
-            margin-left: 30px;\ncolor: #D0D2D6;\npadding-top: 4px;\npadding-bottom: 4px;
-            """)
-            self.mUi.mainwindow_textlbl_po.setStyleSheet("""
-            padding-left: 5px;\npadding-right: 5px;\ncolor: #6E6B7B;
-            """)
-            self.mUi.mainwindow_textlbl_s.setStyleSheet("""
-            padding-left: 5px;\npadding-right: 5px;\ncolor: #6E6B7B;
-            """)
-            self.mUi.mainwindow_widget_view.setStyleSheet("""
-            background-color: #283046;\nbackground-image: url(design/img/background-image_d.png);\ncolor: rgb(110, 107, 123);\nborder-top-right-radius: 5px;\nborder-bottom-right-radius: 5px;\n
-            """)
-            self.mUi.mainwindow_widget_view_spacer.setStyleSheet("""
-            border-right: 1px solid #EBE9F1;\nbackground-color: #FFFFFF;
-            """)
-            self.mUi.mainwindow_widget_logo.setStyleSheet("""
-            background-color: rgb(255, 255, 255);
-            """)
-            self.mUi.mainwindow_lbl_logo_title.setStyleSheet("""
-            color: #7367F0;
-            """)
-            self.mUi.mainwindow_widget_menu.setStyleSheet("""
-            background-color: rgb(255, 255, 255);
-            """)
-            self.mUi.mainwindow_btn_exit.setStyleSheet("""
-            QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: #5E5873;\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: #7367F0;\n}
-            """)
-            self.mUi.mainwindow_btn_forecast.setStyleSheet("""
-            QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: #5E5873;\n	text-align: left;\n	padding-right: 10px;\n	margin-top: 27px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: #7367F0;\n}
-            """)
-            self.mUi.mainwindow_btn_settings.setStyleSheet("""
-            QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: #5E5873;\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: #7367F0;\n}
-            """)
-            self.mUi.mainwindow_btn_theme.setStyleSheet("""
-            QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: #5E5873;\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: #7367F0;\n}
-            """)
-            self.mUi.mainwindow_comboBox_display_style.setStyleSheet("""
-            QComboBox {\nbackground-color: rgb(248, 248, 248);\ncolor: rgb(94, 88, 115);\nborder: 2px solid rgba(0, 0, 0, 0);\nborder-radius: 5px;\npadding-left: 10px;\npadding-right: 10px;\n}\n\nQComboBox:hover {\nbackground-color: rgb(230, 230, 230);\ncolor: rgb(94, 88, 115);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}\n\nQComboBox QAbstractItemView {\nbackground-color: rgb(230, 230, 230);\nborder: 2px solid #7666F8;\ncolor: rgb(94, 88, 115);\nselection-background-color: rgb(94, 80, 238);\nselection-color: rgb(0, 0, 0);\n}
-            """)
-            self.mUi.mainwindow_textlbl_display_style.setStyleSheet("""
-            color: rgb(94, 88, 115);\nmargin-top: 20px;
-            """)
-            self.mUi.mainwindow_menubar.setStyleSheet("""
-            QMenuBar {\n	color: rgb(205, 205, 205);	\n	background-color: rgba(0, 0, 0, 130);\n}\nQMenuBar::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenuBar::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
-            """)
-            self.mUi.mainwindow_menuFile.setStyleSheet("""
-            QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
-            """)
-            self.mUi.mainwindow_menuEdit.setStyleSheet("""
-            QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
-            """)
-            self.mUi.mainwindow_menuHelp.setStyleSheet("""
-            QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}
-            """)
-
             self.change_theme_status = 1
 
         else:
-            # print('dark theme')
+            print('dark theme')
 
-            self.mUi.setStyleSheet("""background-color: #161D31;""")
-            self.mUi.mainwindow_widget_category.setStyleSheet(
-                """QWidget { \nbackground-color: #283046;\nborder-top-left-radius: 5px;\nborder-bottom-left-radius: 5px;\n}""")
-            self.mUi.mainwindow_checkBox_entertainment.setStyleSheet(
-                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_checkBox_family.setStyleSheet(
-                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_checkBox_health.setStyleSheet(
-                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_checkBox_relaxation.setStyleSheet(
-                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_checkBox_see_all.setStyleSheet(
-                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_checkBox_work.setStyleSheet(
-                """QCheckBox {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQCheckBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_checkBoxlbl_dinamic.setStyleSheet(
-                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_lbl_time_all.setStyleSheet(
-                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_lbl_time_dinamic.setStyleSheet(
-                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_lbl_time_entertainment.setStyleSheet(
-                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_lbl_time_family.setStyleSheet(
-                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_lbl_time_health.setStyleSheet(
-                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_lbl_time_relaxation.setStyleSheet(
-                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_lbl_time_work.setStyleSheet(
-                """QLabel {\ncolor: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0) ;\n}\n\nQLabel:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_textlbl_category.setStyleSheet(
-                """color: #B4B7BD;\nborder: 2px solid rgba(0, 0, 0, 0);\nmargin-top: 2px;""")
-            self.mUi.mainwindow_widget_navigation.setStyleSheet(
-                """QWidget { \nbackground-color: #283046;\nborder-radius: 5px;\n}""")
-            self.mUi.mainwindow_btn_annually.setStyleSheet("""QPushButton {\n	background-color: #283046;\n	color: #FFFFFF;\n	border: 2px solid rgb(95, 85, 200);\n	border-top-left-radius: 0px;\n	border-top-right-radius: 5px;\n	border-bottom-right-radius: 5px;\n	border-bottom-left-radius: 0px;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(121, 109, 255);\n	border-top-left-radius: 0px;\n	border-top-right-radius: 5px;\n	border-bottom-right-radius: 5px;\n	border-bottom-left-radius: 0px;\n}""")
-            self.mUi.mainwindow_btn_daily.setStyleSheet("""QPushButton {\n	background-color: #283046;\n	color: #FFFFFF;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-top-left-radius: 5px;\n	border-top-right-radius: 0px;\n	border-bottom-right-radius: 0px;\n	border-bottom-left-radius: 5px;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(121, 109, 255);\n	border-top-left-radius: 5px;\n	border-top-right-radius: 0px;\n	border-bottom-right-radius: 0px;\n	border-bottom-left-radius: 5px;\n}""")
-            self.mUi.mainwindow_btn_monthly.setStyleSheet(
-                """QPushButton {\n	background-color: #283046;\n	color: #FFFFFF;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-radius: 0;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(121, 109, 255);\n	border-radius: 0;\n}""")
-            self.mUi.mainwindow_btn_nav_add_act.setStyleSheet(
-                """QPushButton {\n	background-color: rgb(115, 103, 240);\n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(115, 103, 240);\n	border-radius: 5px;\n	padding-left: 12px;\n	padding-right: 12px;\n	padding-top: 5px;\n	padding-bottom: 5px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);\n	color: rgb(115, 103, 240);\n	border: 2px solid rgb(115, 103, 240);\n}""")
-            self.mUi.mainwindow_btn_weekly.setStyleSheet(
-                """QPushButton {\n	background-color: #283046;\n	color: #FFFFFF;\n	border: 2px solid rgb(95, 85, 200);\n	border-right: 0px;\n	border-radius: 0;\n	padding-left: 20px;\n	padding-right: 20px;\n}\nQPushButton:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n	border: 2px solid rgb(121, 109, 255);\n	border-radius: 0;\n}""")
-            self.mUi.mainwindow_dateEdit_po.setStyleSheet(
-                """QDateEdit {\n	background-color: #283046;\n	border-radius: 5px;\n	color: rgb(255, 255, 255);\n}\nQDateEdit:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n}""")
-            self.mUi.mainwindow_dateEdit_s.setStyleSheet(
-                """QDateEdit {\n	background-color: #283046;\n	border-radius: 5px;\n	color: rgb(255, 255, 255);\n}\nQDateEdit:hover {\n	background-color: rgb(40, 48, 70); \n	color: rgb(255, 255, 255);\n}""")
-            self.mUi.mainwindow_lbl_icon_clendar.setStyleSheet(
-                """margin-left: 30px;\ncolor: #D0D2D6;\npadding-top: 4px;\npadding-bottom: 4px;""")
-            self.mUi.mainwindow_textlbl_po.setStyleSheet(
-                """padding-left: 5px;\npadding-right: 5px;\ncolor: #D0D2D6;""")
-            self.mUi.mainwindow_textlbl_s.setStyleSheet(
-                """padding-left: 5px;\npadding-right: 5px;\ncolor: #D0D2D6;""")
-            self.mUi.mainwindow_widget_view.setStyleSheet(
-                """background-color: #283046;\nbackground-image: url(design/img/background-image_d.png);\nborder-top-right-radius: 5px;\nborder-bottom-right-radius: 5px;\n""")
-            self.mUi.mainwindow_widget_view_spacer.setStyleSheet(
-                """border-right: 1px solid #3B4253;\nbackground-color: #283046;""")
-            self.mUi.mainwindow_widget_logo.setStyleSheet(
-                """background-color: #283046;""")
-            self.mUi.mainwindow_lbl_logo_title.setStyleSheet(
-                """color: #7367F0;""")
-            self.mUi.mainwindow_widget_menu.setStyleSheet(
-                """background-color: #283046;""")
-            self.mUi.mainwindow_btn_exit.setStyleSheet(
-                """QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: rgb(208, 210, 214);\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: rgb(95, 85, 200);\n}""")
-            self.mUi.mainwindow_btn_forecast.setStyleSheet(
-                """QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: rgb(208, 210, 214);\n	text-align: left;\n	padding-right: 10px;\n	margin-top: 27px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: rgb(95, 85, 200);\n}""")
-            self.mUi.mainwindow_btn_settings.setStyleSheet(
-                """QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: rgb(208, 210, 214);\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: rgb(95, 85, 200);\n}""")
-            self.mUi.mainwindow_btn_theme.setStyleSheet(
-                """QPushButton {\n	background-color: rgba(0, 0, 0, 0);	\n	color: rgb(208, 210, 214);\n	text-align: left;\n	padding-right: 10px;\n}\nQPushButton:hover {\n	background-color: rgba(0, 0, 0, 0);  \n	color: rgb(95, 85, 200);\n}""")
-            self.mUi.mainwindow_comboBox_display_style.setStyleSheet(
-                """QComboBox {\nbackground-color: rgb(22, 29, 49);\ncolor: rgb(208, 210, 214);\nborder: 2px solid rgba(0, 0, 0, 0);\nborder-radius: 5px;\npadding-left: 10px;\npadding-right: 10px;\n}\n\nQComboBox:hover {\nbackground-color: rgb(40, 48, 70);\ncolor: rgb(185, 185, 195);\nborder: 2px solid #7666F8;\nborder-radius: 5px;\n}\n\nQComboBox QAbstractItemView {\nbackground-color: rgb(22, 29, 49);\nborder: 2px solid #7666F8;\ncolor: rgb(203, 203, 203);\nselection-background-color: rgb(94, 80, 238);\nselection-color: rgb(0, 0, 0);\n}""")
-            self.mUi.mainwindow_textlbl_display_style.setStyleSheet(
-                """color: #D0D2D6;\nmargin-top: 20px;""")
-            self.mUi.mainwindow_menubar.setStyleSheet(
-                """stQMenuBar {\n	color: rgb(205, 205, 205);	\n	background-color: rgba(0, 0, 0, 130);\n}\nQMenuBar::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenuBar::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}le""")
-            self.mUi.mainwindow_menuFile.setStyleSheet(
-                """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
-            self.mUi.mainwindow_menuEdit.setStyleSheet(
-                """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
-            self.mUi.mainwindow_menuHelp.setStyleSheet(
-                """QMenu {\n	background-color: rgb(20, 24, 34);\n	color: rgb(205, 205, 205);\n}\nQMenu::item:selected { \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n} \nQMenu::item:pressed {  \n	background-color: rgb(200, 200, 200);\n	color: rgb(0, 0, 0);\n}""")
-
+            self.mUi.setStyleSheet(
+                """background-color: #161D31;"""
+            )
             self.change_theme_status = 0
 
     # AUTHORIZATION BLOCK.
@@ -1000,7 +793,7 @@ class MainUI(QtWidgets.QMainWindow):
     # FOR TABLE AND EDIT_EVENT.
     def get_current_row_tableview(self, item):
         '''
-        Current method displays clicked column and row of a choosen cell 
+        Current method displays clicked column and row of a choosen cell
         in a TableView widget.
         '''
         # selected cell value.

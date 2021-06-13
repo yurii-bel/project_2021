@@ -427,6 +427,8 @@ class MainUI(QtWidgets.QMainWindow):
         # Register UI.
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
+        self.rUi.register_btn_theme.clicked.connect(self.change_theme)
+        self.change_theme_status = 0  # 0 is a sign of dark theme.
 
         # Add event UI.
         self.aUi.add_event_btn_add.clicked.connect(self.add_action)

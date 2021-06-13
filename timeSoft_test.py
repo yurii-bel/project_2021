@@ -361,7 +361,7 @@ class MainUI(QtWidgets.QMainWindow):
             row.setWindowIcon(icon)
 
         # Connecting buttons to slots.
-
+        
         # Main UI.
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(
             self.show_add_action)
@@ -491,7 +491,6 @@ class MainUI(QtWidgets.QMainWindow):
             self.sorting_data_csv()
         else:
             print('all data sorted by month and category successfully!')
-        # For various checks.
 
     def post_initUI(self):
         self.user_id = self.timedb.get_logged_user_data(
@@ -514,7 +513,6 @@ class MainUI(QtWidgets.QMainWindow):
 
         for row in rows:
             self.dates.append(row[3][0:-3])
-            # self.dates.append(row[3][0:-3])
         self.diff_dates = list(
             (set([x for x in self.dates if self.dates.count(x) > 1])))
 
@@ -544,45 +542,9 @@ class MainUI(QtWidgets.QMainWindow):
                     if i == self.final_date[z] and j == self.final_category[z]:
                         self.sum_of_durations += self.final_duration[z]
                 self.case = {'date': i, 'category': j,
-                             'duration': self.sum_of_durations}
+                            'duration': self.sum_of_durations}
                 self.duration_by_dates_and_categories.append(self.case)
-                # self.case.clear()
                 self.sum_of_durations = 0
-
-        # print(self.duration_by_dates_and_categories)
-
-        # Looping through dicts in list.
-        # self.categories_range = range(len(self.diff_categories))
-
-        # categories_range = range(len(self.diff_categories))
-        # dates_len = len(self.diff_dates)
-        # idx = 0
-        # for item in self.duration_by_dates_and_categories:
-        #     for i in categories_range:
-        #         if item['category'] == self.diff_categories[i] and item['date'] == self.diff_dates[idx] and idx <= dates_len:
-        #             print(item)
-        # idx+=1
-
-        # print(f'\n{self.final_date}\n{self.final_category}\n{self.final_duration}')
-        # print(self.dates, self.diff_categories, self.diff_duration)
-        # for i in diff_categ
-
-        # with open(f'./csv_data/{self.user_n_name}_data.csv', 'w', newline='') as file:
-        #     writer = csv.writer(file)
-        #     writer.writerow(['Month', 'Category', 'Duration'])
-
-            # for i in
-        # self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
-
-        # print(self.dates, self.diff_categories, self.diff_duration)
-
-        # with open(f'{self.user_n_name}_data.csv', 'w', newline='') as file:
-        #     writer = csv.writer(file)
-        #     writer.writerow(['Month', 'Category', 'Duration'])
-            # for i in
-            # writer.writerow([1, "Potato", "Linux Kernel"])
-            # writer.writerow([2, "Tim Berners-Lee", "World Wide Web"])
-            # writer.writerow([3, "Guido van Rossum", "Python Programming"])
 
     def forecast(self):
         self.idx = 0  # Setting index for sorting data to 0.
@@ -615,7 +577,6 @@ class MainUI(QtWidgets.QMainWindow):
                 writer = csv.writer(file)
                 writer.writerow(
                     [f'{year}-{month}', round(lm.predict(y.x).get(0))])
-                # print(round(lm.predict(y.x).get(0)))
             self.idx += 1
 
         # load data.
@@ -633,16 +594,13 @@ class MainUI(QtWidgets.QMainWindow):
             df.plot(x='Month', y='Duration',
                     kind='line', color="blue", alpha=0.3)
             plt.title(f'{self.diff_categories[index]}')
-            # df.plot(subplots=True, legend = True)
             index += 1
         plt.show()
 
     # TODO: ADD STYLES.
     def change_theme(self):
         if self.change_theme_status == 0:
-            # print('white theme')
-
-            # self.mUi.mainwindow.setStyleSheet("""style""")
+            # setting white theme.
             self.mUi.setStyleSheet("""
             background-color: #F8F8F8;
             """)
@@ -776,7 +734,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.change_theme_status = 1
 
         else:
-            # print('dark theme')
+            # setting dark theme.
 
             self.mUi.setStyleSheet("""background-color: #161D31;""")
             self.mUi.mainwindow_widget_category.setStyleSheet(
@@ -1089,7 +1047,7 @@ class MainUI(QtWidgets.QMainWindow):
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
     def show_edit_action(self, actl_name=str, act_time=str, act_date=None,
-                         cat_name=str, act_comment=None):
+                        cat_name=str, act_comment=None):
 
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
         self.eUi.edit_event_dateEdit.setMaximumDate(

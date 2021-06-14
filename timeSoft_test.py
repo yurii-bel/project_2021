@@ -298,6 +298,22 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
             pass
         return True
 
+    def secondsToText(self, secs, inp_type=None):
+        days = secs//86400
+        hours = (secs - days*86400)//3600
+        minutes = (secs - days*86400 - hours*3600)//60
+        if inp_type == 'categs':
+            result = ("{} д. ".format(days) if days else "") + \
+            ("{} ч. ".format(hours) if hours else "") + \
+            ("{} м. ".format(minutes) if minutes else "")
+            return result
+        elif inp_type == None:
+            result = ("{} д. ".format(days) if days else "") + \
+            ("{} ч. ".format(hours) if hours else "") + \
+            ("{} мин. ".format(minutes) if minutes else "")
+            return result
+
+
 # ----------------------------------------------------------START-----timeSoft
 # class AlignDelegate(QtWidgets.QStyledItemDelegate):
 #     '''
@@ -488,10 +504,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.wUi.setLayout(self.lay)
 
         # Scroll area settings.
-        # self.scroll_ccUi.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scroll_ccUi.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll_ccUi.setFrameShape(self.scroll_ccUi.NoFrame)
-        # # self.scroll_ccUi.setWidgetResizable(True)
 
         # Variable of correctness login status.
         self.correct_login = False
@@ -621,7 +634,6 @@ class MainUI(QtWidgets.QMainWindow):
         plt.show()
 
     # TODO: ADD STYLES.
-
     def change_theme(self):
 
         bgcolor_d = '#161D31'
@@ -2182,8 +2194,6 @@ class MainUI(QtWidgets.QMainWindow):
 
             self.change_theme_status = 0
 
-    # AUTHORIZATION BLOCK.
-
     def show_login(self):
         '''
         Current method shows user interface login window.
@@ -2214,13 +2224,12 @@ class MainUI(QtWidgets.QMainWindow):
             self.user_n_name = login
             self.post_initUI()
             self.view_table()  # Viewing table.
-            self.init_view_categ()
+            self.view_categ()
             self.lUi.close()
             self.mUi.show()
             self.correct_login = True
             self.create_forecast_data()  # Forecast data creation
 
-    # REGISTRATION BLOCK.
     def show_registration(self):
         '''
         Current method shows user interface registration window.
@@ -2297,7 +2306,7 @@ class MainUI(QtWidgets.QMainWindow):
                     item='set_default_categs_and_activities', add_params=[row[1], row[0]])
             self.update_users_categs()
             self.view_table()  # Viewing table.
-            self.init_view_categ()
+            self.view_categ()
             self.rUi.close()
             self.mUi.show()
             self.correct_login = True
@@ -2316,7 +2325,6 @@ class MainUI(QtWidgets.QMainWindow):
             self.cUi.category_delete_comboBox_category.insertItem(i, categ)
             i += 1
 
-    # FOR TABLE AND EDIT_EVENT.
     def get_current_row_tableview(self, item):
         '''
         Current method displays clicked column and row of a choosen cell
@@ -2404,9 +2412,9 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.update_users_categs()
         self.update_view_table()
+        self.update_view_categ()
         self.aUi.close()
 
-    # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
     def show_edit_action(self, actl_name=str, act_time=str, act_date=None,
                         cat_name=str, act_comment=None):
 
@@ -2487,6 +2495,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.update_users_categs()
         self.update_view_table()
+        self.update_view_categ()
         self.eUi.close()
 
     def delete_action(self):
@@ -2495,6 +2504,7 @@ class MainUI(QtWidgets.QMainWindow):
                 self.cat_name, self.actl_name, self.act_id])
         self.update_users_categs()
         self.update_view_table()
+        self.update_view_categ()
         self.eUi.close()
 
     def del_categ(self):
@@ -2513,6 +2523,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.update_users_categs()
         self.update_view_table()
+        self.update_view_categ()
         self.cUi.close()
 
     def settings_export(self):
@@ -2703,8 +2714,6 @@ class MainUI(QtWidgets.QMainWindow):
             webbrowser.open_new_tab(
                 'https://web.telegram.org/#/im?p=@fexcin_bot')
 
-    # TABLE VIEWING BLOCK. uses DbLogic class.
-
     def view_table(self):
         rows = self.timedb.get_logged_user_data(
             item='get_user_activities_table')
@@ -2712,10 +2721,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         x = 0
         for row in rows:
-            if int(row[3]) > 60:
-                row3 = "{} ч. {} мин.".format(*divmod(int(row[3]), 60))
-            else:
-                row3 = f'{row[3]} мин.'
+            row3 = self.input_check().secondsToText(int(row[3])*60)
 
             if not row[5] == None and not row[5] == '' and not row[5] == '(NULL)':
                 row[2] = f'{row[2]}*'
@@ -2739,7 +2745,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.ttUi.tableW.resizeColumnsToContents()
         self.lay.addWidget(self.ttUi.tableW)
 
-    def update_view_table(self, date=None, custom_date=None):
+    def update_view_table(self, date=None, custom_date=None, category=None):
         # self.lay.removeWidget(self.tUi)
         # self.tUi.tableW.setParent(None) # Removing tUi widget from wUi.
         for i in reversed(range(self.lay.count())):
@@ -2750,20 +2756,22 @@ class MainUI(QtWidgets.QMainWindow):
                 item='get_user_activities_table')
         elif not date == None and custom_date == None:
             rows = self.timedb.set_logged_user_data(
-                item='set_user_activities_table', add_params=[date])
+                item='set_user_activities_table',
+                add_params=['single_date'], edit_params=[date])
         elif not date == None and not custom_date == None:
             rows = self.timedb.set_logged_user_data(
-                item='set_user_activities_table', add_params=[
-                    custom_date, date])
+                item='set_user_activities_table',
+                add_params=['custom_date'], edit_params=[custom_date, date])
+        if date == None and custom_date == None and not category == None:
+            rows = self.timedb.set_logged_user_data(
+                item='set_user_activities_table',
+                add_params=['cat_name'], edit_params=[category])
 
         self.ttUi.tableW.setRowCount(len(rows))
 
         x = 0
         for row in rows:
-            if int(row[3]) > 60:
-                row3 = "{} ч. {} мин.".format(*divmod(int(row[3]), 60))
-            else:
-                row3 = f'{row[3]} мин.'
+            row3 = self.input_check().secondsToText(int(row[3])*60)
 
             if not row[5] == None and not row[5] == '' and not row[5] == '(NULL)':
                 row[2] = f'{row[2]}*'
@@ -2812,7 +2820,7 @@ class MainUI(QtWidgets.QMainWindow):
     def view_table_clear_filter(self):
         self.update_view_table()
 
-    def init_view_categ(self):
+    def view_categ(self):
         # Layout creation for viewing various data in it.
         self.categ_lay = QtWidgets.QGridLayout()
         self.categ_lay.setRowStretch(100, 1)
@@ -2849,20 +2857,28 @@ class MainUI(QtWidgets.QMainWindow):
 
         btn.clicked.connect(self.cUi.show)
 
-        view_all = QtWidgets.QCheckBox('Посмотреть все')
-        view_all.setStyleSheet('''
-            QCheckBox {
+        self.categ_lay.addWidget(lbl, 0, 0, alignment=Qt.AlignLeft)
+        self.categ_lay.addWidget(btn, 0, 1, alignment=Qt.AlignRight)
+
+        self.view_all = QtWidgets.QRadioButton(
+            'Посмотреть все', clicked=self.view_table_sort_by_category)
+        self.view_all.setStyleSheet('''
+            QRadioButton {
                 font-family: "Roboto", Light;
                 font-size: 12pt;
                 margin-top: 7px;
                 margin-left: 5px;}
             ''')
-        view_all.setChecked(True)
+        self.view_all.setChecked(True)
+        self.view_all.setObjectName('Посмотреть все')
         
         all_overall_time = self.timedb.set_logged_user_data(
             item='get_category_overall_time', add_params=['all'])
 
-        lbl_time = QtWidgets.QLabel(f'{all_overall_time}')
+        all_categs_time = self.input_check().secondsToText(
+                    int(all_overall_time)*60, 'categs')
+
+        lbl_time = QtWidgets.QLabel(f'{all_categs_time}')
         lbl_time.setStyleSheet('''
         QLabel {
             font-family: "Roboto", Light;
@@ -2870,9 +2886,7 @@ class MainUI(QtWidgets.QMainWindow):
             margin-top: 7px;}
         ''')
 
-        self.categ_lay.addWidget(lbl, 0, 0, alignment=Qt.AlignLeft)
-        self.categ_lay.addWidget(btn, 0, 1, alignment=Qt.AlignRight)
-        self.categ_lay.addWidget(view_all, 1, 0, alignment=Qt.AlignLeft)
+        self.categ_lay.addWidget(self.view_all, 1, 0, alignment=Qt.AlignLeft)
         self.categ_lay.addWidget(lbl_time, 1, 1, alignment=Qt.AlignRight)
 
         i = 2
@@ -2884,23 +2898,20 @@ class MainUI(QtWidgets.QMainWindow):
 
             if overall_time == 'None':
                 pass
-            elif int(overall_time) > 1400:
-                overall_time = "{} д. {} м.".format(
-                    *divmod(int(overall_time), 1400))
-            elif int(overall_time) > 60:
-                overall_time = "{} ч. {} м.".format(
-                    *divmod(int(overall_time), 60))
             else:
-                overall_time = f'{overall_time} м.'
+                overall_time = self.input_check().secondsToText(
+                    int(overall_time)*60, 'categs')
 
-            checkbox = QtWidgets.QCheckBox(row)
-            checkbox.setStyleSheet('''
-            QCheckBox {
+            self.radiobutton = QtWidgets.QRadioButton(
+                row, clicked=self.view_table_sort_by_category)
+            self.radiobutton.setStyleSheet('''
+            QRadioButton {
                 font-family: "Roboto", Light;
                 font-size: 12pt;
                 margin-top: 7px;
                 margin-left: 5px;}
             ''')
+            self.radiobutton.setObjectName(row)
 
             lbl_time = QtWidgets.QLabel(f'{overall_time}')
             lbl_time.setStyleSheet('''
@@ -2910,15 +2921,33 @@ class MainUI(QtWidgets.QMainWindow):
                 margin-top: 7px;}
             ''')
 
-            self.categ_lay.addWidget(checkbox, i, 0, alignment=Qt.AlignLeft)
+            self.categ_lay.addWidget(self.radiobutton, i, 0, alignment=Qt.AlignLeft)
             if lbl_time.text() == 'None':
                 pass
             else:
                 self.categ_lay.addWidget(
                     lbl_time, i, 1, alignment=Qt.AlignRight)
+
             i += 1
 
         self.ccUi.setLayout(self.categ_lay)
+
+
+    def update_view_categ(self):
+        return
+        # self.ccUi.setParent(None)
+        self.categ_lay.addWidget(self.ccUi)
+        # for i in reversed(range(self.categ_lay.count())):
+        #     self.categ_lay.itemAt(i).widget().setParent(None)
+
+    def view_table_sort_by_category(self):
+        sender = self.radiobutton.sender()
+        name = sender.objectName()
+
+        if self.view_all.isChecked() == True:
+            self.update_view_table()
+        else:
+            self.update_view_table(category=name)
 
     def graph_plot(self):
         # removing all widgets.
@@ -3410,11 +3439,11 @@ class DbLogic:
             self.connection.commit()
 
         elif item == 'set_user_activities_table':
-            if len(add_params) == 1:
+            if add_params[0] == 'single_date':
                 self.cursor2.execute(
                     f'SELECT act_id, cat_name, actl_name, act_time, act_date, act_comment\
                         FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\' and\
-                            act_date = \'{add_params[0]}\'')
+                            act_date = \'{edit_params[0]}\'')
                 user_activities = []
                 for row in self.cursor2.fetchall():
                     # Setting date in str fromat.
@@ -3426,11 +3455,27 @@ class DbLogic:
                     user_activities.append(row)
                 return user_activities
 
-            elif len(add_params) == 2:
+            elif add_params[0] == 'custom_date':
                 self.cursor2.execute(
                     f'SELECT act_id, cat_name, actl_name, act_time, act_date, act_comment\
                         FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\' and\
-                            act_date BETWEEN \'{add_params[0]}\' and \'{add_params[1]}\'')
+                            act_date BETWEEN \'{edit_params[0]}\' and \'{edit_params[1]}\'')
+                user_activities = []
+                for row in self.cursor2.fetchall():
+                    # Setting date in str fromat.
+                    date_ = row[4].strftime('%Y-%m-%d')
+                    row[4] = date_
+                    # Setting duration in str fromat.
+                    duration = str(row[3])
+                    row[3] = duration
+                    user_activities.append(row)
+                return user_activities
+
+            elif add_params[0] == 'cat_name':
+                self.cursor2.execute(
+                    f'SELECT act_id, cat_name, actl_name, act_time, act_date, act_comment\
+                        FROM "ACTIVITY" WHERE user_id = \'{self.user_id}\' and\
+                            cat_name = \'{edit_params[0]}\'')
                 user_activities = []
                 for row in self.cursor2.fetchall():
                     # Setting date in str fromat.
@@ -3455,6 +3500,15 @@ class DbLogic:
                         user_id = \'{self.user_id}\' and cat_name = \'{add_params[0]}\'')
                 overall_time_for_category = str(self.cursor2.fetchall())[2:-2]
                 return overall_time_for_category
+
+        # elif item == 'sort_category_block':
+        #     if add_params[0] == 'all':
+        #         self.cursor2.execute(
+        #             f'SELECT category FROM "ACTIVITY" WHERE\
+        #                 user_id = \'{self.user_id}\'')
+        #         overall_time_for_category = str(self.cursor2.fetchall())[2:-2]
+        #         return overall_time_for_category
+
 
 # ----------------------------------------------------------END----dblogic.py
 

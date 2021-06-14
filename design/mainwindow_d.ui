@@ -741,7 +741,6 @@
      <addaction name="mainwindow_act_dark"/>
     </widget>
     <addaction name="mainwindow_act_add_event"/>
-    <addaction name="mainwindow_act_edit_event"/>
     <addaction name="mainwindow_dropdown_menu_theme"/>
    </widget>
    <widget class="QMenu" name="mainwindow_menuHelp">

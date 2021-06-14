@@ -32,27 +32,20 @@ TODO BUGS
 
 Тема (change_theme)
 Кнопка телеги (settings_telegram)
-Менюбар - редактировать выбранное событие: скрыть или вывести соответсвующее сообщение(mainwindow_act_edit_event.triggered)
-
 
 TODO
 
-!докстринги + комменты + пепы(понедельник дидлйон)
+!докстринги + комменты + пепы(до вторника)
 
-Категории
-	Рандомные цвета у категорий, сортировка по ним
+Убрать подчеркивание почты в настройках.
+Привязать сегодняшнюю даты на главном экране как стандартную "по".
+Автокомплит в добавлении\редактировании активностей.
 
-Автокомплит в добавлении\редактировании активностей
-
-QComboBox - в ListView разобаться со цветом текста
 
 Перед импортом задать вопрос - перезаписать или добавить?
 подключённый телеграм юзера (окошко с предупреждением). !
 
 сделать комбобокс для названия кативностей + авктокомлит после введения для категории
-
-Убрать подчеркивание почты в настройках.
-Привязать сегодняшнюю даты на главном экране как стандартную "по".
 
 """
 
@@ -436,7 +429,6 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.mUi.mainwindow_act_add_event.triggered.connect(
             self.show_add_action)
-        # ? self.mUi.mainwindow_act_edit_event.triggered.connect(self.get_current_row_tableview)
 
         self.mUi.mainwindow_act_about_program.triggered.connect(self.abUi.show)
         # Theme of main window.
@@ -2345,7 +2337,6 @@ class MainUI(QtWidgets.QMainWindow):
         self.show_edit_action(
             self.actl_name, self.act_time, self.act_date, self.cat_name, self.act_comment)
 
-    # EDIT ACTION BLOCK. uses ActionsUI class, method add_event().
     def show_add_action(self):
         self.aUi.add_event_dateEdit.setCalendarPopup(True)
         self.aUi.add_event_dateEdit.setDate(
@@ -2412,7 +2403,6 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.update_users_categs()
         self.update_view_table()
-        self.update_view_categ()
         self.aUi.close()
 
     def show_edit_action(self, actl_name=str, act_time=str, act_date=None,
@@ -2495,7 +2485,6 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.update_users_categs()
         self.update_view_table()
-        self.update_view_categ()
         self.eUi.close()
 
     def delete_action(self):
@@ -2504,7 +2493,6 @@ class MainUI(QtWidgets.QMainWindow):
                 self.cat_name, self.actl_name, self.act_id])
         self.update_users_categs()
         self.update_view_table()
-        self.update_view_categ()
         self.eUi.close()
 
     def del_categ(self):
@@ -2875,10 +2863,13 @@ class MainUI(QtWidgets.QMainWindow):
         all_overall_time = self.timedb.set_logged_user_data(
             item='get_category_overall_time', add_params=['all'])
 
-        all_categs_time = self.input_check().secondsToText(
-            int(all_overall_time)*60, 'categs')
+        if all_overall_time == 'None':
+            pass
+        else:
+            all_overall_time = self.input_check().secondsToText(
+                int(all_overall_time)*60, 'categs')
 
-        lbl_time = QtWidgets.QLabel(f'{all_categs_time}')
+        lbl_time = QtWidgets.QLabel(f'{all_overall_time}')
         lbl_time.setStyleSheet("""
         QLabel {
             font-family: "Roboto", Light;
@@ -2934,9 +2925,6 @@ class MainUI(QtWidgets.QMainWindow):
         self.ccUi.setLayout(self.categ_lay)
 
     def update_view_categ(self):
-        # return
-        # self.ccUi.setParent(None)
-        # self.categ_lay.addWidget(self.ccUi)
         for i in range(self.categ_lay.count()):
             self.categ_lay.itemAt(i).widget().deleteLater()
 
@@ -2990,10 +2978,13 @@ class MainUI(QtWidgets.QMainWindow):
         all_overall_time = self.timedb.set_logged_user_data(
             item='get_category_overall_time', add_params=['all'])
 
-        all_categs_time = self.input_check().secondsToText(
-            int(all_overall_time)*60, 'categs')
+        if all_overall_time == 'None':
+            pass
+        else:
+            all_overall_time = self.input_check().secondsToText(
+                int(all_overall_time)*60, 'categs')
 
-        lbl_time = QtWidgets.QLabel(f'{all_categs_time}')
+        lbl_time = QtWidgets.QLabel(f'{all_overall_time}')
         lbl_time.setStyleSheet("""
         QLabel {
             font-family: "Roboto", Light;

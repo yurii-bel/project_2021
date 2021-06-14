@@ -2403,6 +2403,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.update_users_categs()
         self.update_view_table()
+        self.update_view_categ()
         self.aUi.close()
 
     def show_edit_action(self, actl_name=str, act_time=str, act_date=None,
@@ -2485,6 +2486,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.update_users_categs()
         self.update_view_table()
+        self.update_view_categ()
         self.eUi.close()
 
     def delete_action(self):

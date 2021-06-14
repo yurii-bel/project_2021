@@ -635,16 +635,6 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="mainwindow_widget_category" native="true">
-    <property name="geometry">
-     <rect>
-      <x>259</x>
-      <y>103</y>
-      <width>281</width>
-      <height>621</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QWidget" name="mainwindow_widget_view" native="true">
     <property name="geometry">
      <rect>
@@ -671,6 +661,29 @@
      </rect>
     </property>
    </widget>
+   <widget class="QScrollArea" name="scrollArea">
+    <property name="geometry">
+     <rect>
+      <x>259</x>
+      <y>103</y>
+      <width>291</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="mainwindow_widget_category">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>289</width>
+       <height>619</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="mainwindow_menubar">
    <property name="geometry">
@@ -678,7 +691,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">

@@ -6,26 +6,24 @@ import configparser
 import datetime
 import csv
 import webbrowser
-from numpy import add
+
 import psycopg2 as db
 import psycopg2.extras
 import pyqtgraph as pg
 from uuid import uuid4
 import datetime
 import pandas as pd
-import numpy as np
-import statsmodels.api as sm
+
 import statsmodels.formula.api as smf
 
 from pandas import read_csv
 from matplotlib import pyplot as plt
-from psycopg2 import Error
-from pyqtgraph import PlotWidget
+
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
-from PyQt5.QtGui import QBrush, QIcon, QPainter, QPen
+from PyQt5.QtGui import QIcon, QPainter, QPen
 from PyQt5.QtCore import Qt
-from pyqtgraph.graphicsItems.ButtonItem import ButtonItem
+
 
 sys.path.append(".")
 
@@ -60,18 +58,14 @@ QComboBox - в ListView разобаться со цветом текста
 
 
 class InputCheck:
-    """
-    This class implements base checking system for various input data.
-    """
+    '''
+    The InputCheck class implements base checking system for various input data.
+
+    Attributes:
+        input_text (str):The string which can be checked using various methods.
+    '''
 
     def __init__(self, input_text):
-        """
-        Parameters:
-            input_text (str):The string which can be checked using various methods.
-
-        Returns:
-            None
-        """
         self.text = input_text
 
         self.correct_rus_vals = []
@@ -79,7 +73,7 @@ class InputCheck:
         for i in range(1040, 1104):
             self.correct_rus_vals.append(chr(i))
 
-        # Список с кодами корректных символов
+        # List contains codes of correct symbols.
         self.correct_vals = list(string.ascii_lowercase)
         self.correct_vals_with_num = self.correct_vals + \
             ['_'] + [str(x) for x in range(0, 10)]
@@ -91,11 +85,9 @@ class InputCheck:
     def check_email(self):
         """
         This method makes various checks for correct email.
-        This method does various checks for email.
         If the email passes verification, it returns True(bool) only.
         If not passes, it returns list that contains two values:
         False(bool) and error message(str).
-
 
         Returns:
             True | [False | err_msg]
@@ -156,6 +148,7 @@ class InputCheck:
         return True
 
     def check_date(self):
+        # checking date and its format.
         if not re.match(r"^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20)\d\d$", self.text):
             try:
                 if datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
@@ -204,6 +197,13 @@ class InputCheck:
 
 
 class InputCheckWithDiags(QtWidgets.QMessageBox):
+    '''
+    The InputCheckWithDiags displays error messages using InputCheck class. 
+
+    Attributes:
+        input_text (str): Storing text to be checked.
+    '''
+
     def __init__(self, input_text=None):
         super().__init__()
         self.input_text = input_text
@@ -308,6 +308,20 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
 
 
 class MainUI(QtWidgets.QMainWindow):
+    '''
+    The MainUI class contains the following functional:
+    - UI processing
+    - Data forecasting
+    - Comparison of the entered information with data from db.
+    - User registration and login
+    - Events handling (adding, editing, deleting) 
+    - User settings
+    - Theme changing
+    - Plotting graphs, diagrams and table
+    - Sorting data in the table (by time: day, week, month, etc)
+    - Logout
+    '''
+
     def __init__(self):
         super().__init__()
         # Creating database instance.
@@ -484,7 +498,6 @@ class MainUI(QtWidgets.QMainWindow):
     def sorting_data_csv(self):
         if self.idx < len(self.diff_categories):
             # Removing files.
-            # os.remove(f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv')
             # Creating new files.
             with open(
                     f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'w', newline='') as file:
@@ -498,7 +511,6 @@ class MainUI(QtWidgets.QMainWindow):
             self.sorting_data_csv()
         else:
             print('all data sorted by month and category successfully!')
-        # For various checks.
 
     def post_initUI(self):
         self.user_id = self.timedb.get_logged_user_data(
@@ -521,7 +533,6 @@ class MainUI(QtWidgets.QMainWindow):
 
         for row in rows:
             self.dates.append(row[3][0:-3])
-            # self.dates.append(row[3][0:-3])
         self.diff_dates = list(
             (set([x for x in self.dates if self.dates.count(x) > 1])))
 
@@ -553,43 +564,7 @@ class MainUI(QtWidgets.QMainWindow):
                 self.case = {'date': i, 'category': j,
                              'duration': self.sum_of_durations}
                 self.duration_by_dates_and_categories.append(self.case)
-                # self.case.clear()
                 self.sum_of_durations = 0
-
-        # print(self.duration_by_dates_and_categories)
-
-        # Looping through dicts in list.
-        # self.categories_range = range(len(self.diff_categories))
-
-        # categories_range = range(len(self.diff_categories))
-        # dates_len = len(self.diff_dates)
-        # idx = 0
-        # for item in self.duration_by_dates_and_categories:
-        #     for i in categories_range:
-        #         if item['category'] == self.diff_categories[i] and item['date'] == self.diff_dates[idx] and idx <= dates_len:
-        #             print(item)
-        # idx+=1
-
-        # print(f'\n{self.final_date}\n{self.final_category}\n{self.final_duration}')
-        # print(self.dates, self.diff_categories, self.diff_duration)
-        # for i in diff_categ
-
-        # with open(f'./csv_data/{self.user_n_name}_data.csv', 'w', newline='') as file:
-        #     writer = csv.writer(file)
-        #     writer.writerow(['Month', 'Category', 'Duration'])
-
-            # for i in
-        # self.diff_categories = list((set([x for x in self.categories if self.categories.count(x) > 1])))
-
-        # print(self.dates, self.diff_categories, self.diff_duration)
-
-        # with open(f'{self.user_n_name}_data.csv', 'w', newline='') as file:
-        #     writer = csv.writer(file)
-        #     writer.writerow(['Month', 'Category', 'Duration'])
-            # for i in
-            # writer.writerow([1, "Potato", "Linux Kernel"])
-            # writer.writerow([2, "Tim Berners-Lee", "World Wide Web"])
-            # writer.writerow([3, "Guido van Rossum", "Python Programming"])
 
     def forecast(self):
         self.idx = 0  # Setting index for sorting data to 0.
@@ -622,7 +597,6 @@ class MainUI(QtWidgets.QMainWindow):
                 writer = csv.writer(file)
                 writer.writerow(
                     [f'{year}-{month}', round(lm.predict(y.x).get(0))])
-                # print(round(lm.predict(y.x).get(0)))
             self.idx += 1
 
         # load data.
@@ -640,7 +614,6 @@ class MainUI(QtWidgets.QMainWindow):
             df.plot(x='Month', y='Duration',
                     kind='line', color="blue", alpha=0.3)
             plt.title(f'{self.diff_categories[index]}')
-            # df.plot(subplots=True, legend = True)
             index += 1
         plt.show()
 
@@ -3074,6 +3047,16 @@ class MainUI(QtWidgets.QMainWindow):
 
 
 class DbLogic:
+    '''
+    The DbLogic class impelements configuration and connection to the 
+    PostgreSql database. 
+
+    There are 4 methods in total:
+    - user registration
+    - user login 
+    - getting data from logged user 
+    - setting data for logged user 
+    '''
 
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8-sig')
@@ -3448,52 +3431,6 @@ class DbLogic:
                         user_id = \'{self.user_id}\' and cat_name = \'{add_params[0]}\'')
                 overall_time_for_category = str(self.cursor2.fetchall())[2:-2]
                 return overall_time_for_category
-
-    def update_user_activities(self, user):
-        self.connection.autocommit = True
-        user_n_id = self.get_user_n_id(user)
-        user_id = self.get_user_id(user_n_id)
-
-        self.cursor.execute(
-            f'SELECT act_id, actl_name, act_time, act_date, cat_name,\
-                act_comment from "ACTIVITY" WHERE user_id = \'{user_id}\'')
-        user_activities_table_rows = self.cursor.fetchall()
-        for row in user_activities_table_rows:
-            self.activity_creation_date.append(str(row[3]))  # act_date
-            self.activity_category.append(str(row[4]))  # cat_name
-            self.activity_name.append(str(row[1]))  # actl_name
-            self.activity_duration.append(str(row[2]))  # act_time
-            self.activity_comment.append(str(row[5]))  # act_comment
-
-        self.table_rows_num = len(self.activity_name)
-
-    def load_user_activities(self):
-        # working with ACTIVITY table.
-        self.activity_creation_date = []
-        self.activity_category = []
-        self.activity_name = []
-        self.activity_duration = []
-        self.activity_comment = []
-        # The number of rows in current TableView widget.
-        self.table_rows_num = 0
-
-        self.connection.autocommit = True
-        self.cursor.execute(
-            f'SELECT act_id, user_id, actl_name, act_time, act_date, cat_name,\
-                act_comment from "ACTIVITY"')
-        user_activities_table_rows = self.cursor.fetchall()
-        # print(f':::: {user_activities_table_rows}')
-        for row in user_activities_table_rows:
-            if row[1] == self.current_user_id:
-                # print(f'row[1]: {row[1]} | self.current_user_id: {self.current_user_id:}')
-                # print(f'act id: {row[0]}| id: {row[1]}| activity: {row[2]}' )
-                self.activity_creation_date.append(str(row[4]))  # act_date
-                self.activity_category.append(str(row[5]))  # cat_name
-                self.activity_name.append(str(row[2]))  # actl_name
-                self.activity_duration.append(str(row[3]))  # act_time
-                self.activity_comment.append(str(row[6]))  # act_comment
-
-        self.table_rows_num = len(self.activity_name)
 
 # ----------------------------------------------------------END----dblogic.py
 

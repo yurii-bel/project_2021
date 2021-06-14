@@ -34,7 +34,7 @@ cursor = connection.cursor()
 general_commands = [
     '/start',
     '/login',
-    '/display'
+    '/display',
     '/add'
 ]
 specific_commands = [
@@ -176,8 +176,8 @@ def check_password(message):
 
 def display_events(message, sort_callback='date_sort', close=False):
     if message.text not in commands and not message.text.startswith('/open_'):
-        global change
         global sorting
+        global change
         pre_check(message)
         if not (change and sorting):
             sorting = message.text
@@ -187,29 +187,29 @@ def display_events(message, sort_callback='date_sort', close=False):
         elif sort_callback == 'cat_sort':
             sort_column = 'cat_name ASC'
             sort_type = 'датам'
-        else:
+        else:  
             return None
-        if sorting.isnumeric():
+        if sorting.isdigit():
             n_days_ago_date = (datetime.now() - timedelta(days=int(sorting))).strftime('%Y-%m-%d')
             cursor.execute(f"SELECT * FROM \"ACTIVITY\" WHERE user_id = '{user_id}' AND act_date >= "
                            f"'{n_days_ago_date}'::date ORDER BY {sort_column} LIMIT 40")
-            activities_type = ' за последние {} дней'.format(sorting)
+            activities_type = 'за последние {} дней'.format(sorting)
         elif len(sorting.split(', ')) == 2:
-            date_1, date_2 = datetime.strptime(sorting.split(', '), '%Y-%m-%d')
+            date_1, date_2 = sorting.split(', ')
             cursor.execute(f"SELECT * FROM \"ACTIVITY\" WHERE user_id = '{user_id}' AND act_date >= "
                            f"'{date_1}'::date AND act_date <= '{date_2}'::date ORDER BY {sort_column} LIMIT 40")
-            activities_type = ' с {0} по {1}'.format(sorting.split(', ')[0], sorting.split(', ')[1])
+            activities_type = 'с {0} по {1}'.format(date_1, date_2)
         else:
             bot.send_message(message.from_user.id, 'Ошибка.\nНеверный формат.')
             return None
         try:
             data = cursor.fetchall()
-            if data:
-                data_list = [' '.join(['> ' + y[4].strftime('%d.%m.%Y'), str(y[2]), '({})'.format(str(y[5])), str(y[3]),
-                                       'мин. /open_' + str(y[0])]) for y in data]
-                data = '\n'.join(data_list)
-                text = 'Это ваши активности{}:\n\n'.format(activities_type) + data
-                if len(data_list) > 5:
+            if data[0]:
+                data_string = [' '.join(['> ' + y[4].strftime('%d.%m.%Y'), str(y[2]), '({})'.format(str(y[5])), str(y[3]),
+                                         'мин. /open_' + str(y[0])]) for y in data]
+                data_formatted = '\n'.join(data_string)
+                text = 'Это ваши активности {}:\n\n'.format(activities_type) + data_formatted
+                if len(data_string) > 5:
                     keyboard = types.InlineKeyboardMarkup()
                     button = types.InlineKeyboardButton("Сортировать по " + sort_type, callback_data=sort_callback)
                     markup = keyboard.add(button)

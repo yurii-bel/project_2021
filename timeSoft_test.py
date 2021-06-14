@@ -1,24 +1,25 @@
-import os
-import re
+# python modules.
 import sys
+import re
 import string
 import configparser
 import datetime
 import csv
 import webbrowser
+import datetime
+from uuid import uuid4
+from numpy import add
 
+# non-standart libs (those in requirements).
 import psycopg2 as db
 import psycopg2.extras
 import pyqtgraph as pg
-from uuid import uuid4
-import datetime
 import pandas as pd
-
-import statsmodels.formula.api as smf
-
 from pandas import read_csv
 from matplotlib import pyplot as plt
+import statsmodels.formula.api as smf
 
+# GUI.
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QIcon, QPainter, QPen
@@ -328,12 +329,11 @@ class MainUI(QtWidgets.QMainWindow):
         self.timedb = DbLogic()
 
         # Loading UI interfaces.
-        self.mUi = uic.loadUi('design\\MainWindow_d.ui')  # Main window ui.
+        self.mUi = uic.loadUi('design\\mainwindow_d.ui')  # Main window ui.
         self.aUi = uic.loadUi('design\\add_event_d.ui')  # Add actions ui.
         self.eUi = uic.loadUi('design\\edit_event_d.ui')  # Edit actions ui.
         self.cUi = uic.loadUi('design\\category_delete.ui')  # Category del ui.
-        # Registration window ui.
-        self.rUi = uic.loadUi('design\\register_d.ui')
+        self.rUi = uic.loadUi('design\\register_d.ui')  # Registration window ui.
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
         self.ttUi = uic.loadUi('design\\table.ui')  # Table ui.
@@ -350,6 +350,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Widget for viewing user categories.
         self.ccUi = self.mUi.mainwindow_widget_category
+        self.scroll_ccUi = self.mUi.scrollArea
 
         # Various settings for different UI elements, such as connecting
         # buttons to slots and setting menubars.
@@ -486,9 +487,11 @@ class MainUI(QtWidgets.QMainWindow):
         self.lay = QtWidgets.QHBoxLayout()
         self.wUi.setLayout(self.lay)
 
-        # Layout creation and appending widget for viewing various data to it.
-        self.categ_lay = QtWidgets.QGridLayout()
-        self.ccUi.setLayout(self.categ_lay)
+        # Scroll area settings.
+        # self.scroll_ccUi.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll_ccUi.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll_ccUi.setFrameShape(self.scroll_ccUi.NoFrame)
+        # # self.scroll_ccUi.setWidgetResizable(True)
 
         # Variable of correctness login status.
         self.correct_login = False
@@ -2405,7 +2408,7 @@ class MainUI(QtWidgets.QMainWindow):
 
     # EDIT ACTION BLOCK. uses ActionsUI class, method show_edit_event().
     def show_edit_action(self, actl_name=str, act_time=str, act_date=None,
-                         cat_name=str, act_comment=None):
+                        cat_name=str, act_comment=None):
 
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
         self.eUi.edit_event_dateEdit.setMaximumDate(
@@ -2810,7 +2813,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.update_view_table()
 
     def init_view_categ(self):
-        self.categ_lay.setRowStretch(111, 1)
+        # Layout creation for viewing various data in it.
+        self.categ_lay = QtWidgets.QGridLayout()
+        self.categ_lay.setRowStretch(100, 1)
 
         lbl = QtWidgets.QLabel('КАТЕГОРИИ')
         lbl.setStyleSheet('''
@@ -2820,9 +2825,9 @@ class MainUI(QtWidgets.QMainWindow):
             margin-top: 7px;
             margin-left: 10px;}
         ''')
-        # lbl.setMinimumSize(104, 36)
+        lbl.setGeometry(1, 7, 159, 23)
 
-        btn = QtWidgets.QPushButton('-')
+        btn = QtWidgets.QPushButton('—')
         btn.setStyleSheet('''
         QPushButton {
             font-family: "Roboto", Light;
@@ -2831,8 +2836,8 @@ class MainUI(QtWidgets.QMainWindow):
             color: rgb(255, 255, 255);
             border: 2px solid rgb(115, 103, 240);
             border-radius: 5px;
-            width: 104px;
-            height: 36px;
+            width: 100px;
+            height: 30px;
             margin-top: 3px;
         }
         QPushButton:hover {
@@ -2840,7 +2845,7 @@ class MainUI(QtWidgets.QMainWindow):
             color: rgb(255, 255, 255);
             border: 1px solid rgb(115, 103, 240);}
         ''')
-        btn.setMinimumSize(104, 36)
+        btn.setGeometry(166, 1, 100, 30)
 
         btn.clicked.connect(self.cUi.show)
 
@@ -2852,10 +2857,23 @@ class MainUI(QtWidgets.QMainWindow):
                 margin-top: 7px;
                 margin-left: 5px;}
             ''')
+        view_all.setChecked(True)
+        
+        all_overall_time = self.timedb.set_logged_user_data(
+            item='get_category_overall_time', add_params=['all'])
+
+        lbl_time = QtWidgets.QLabel(f'{all_overall_time}')
+        lbl_time.setStyleSheet('''
+        QLabel {
+            font-family: "Roboto", Light;
+            font-size: 12pt;
+            margin-top: 7px;}
+        ''')
 
         self.categ_lay.addWidget(lbl, 0, 0, alignment=Qt.AlignLeft)
         self.categ_lay.addWidget(btn, 0, 1, alignment=Qt.AlignRight)
         self.categ_lay.addWidget(view_all, 1, 0, alignment=Qt.AlignLeft)
+        self.categ_lay.addWidget(lbl_time, 1, 1, alignment=Qt.AlignRight)
 
         i = 2
         categs = self.timedb.get_logged_user_data(item='get_user_categories')
@@ -2866,9 +2884,9 @@ class MainUI(QtWidgets.QMainWindow):
 
             if overall_time == 'None':
                 pass
-            elif int(overall_time) > 3600:
+            elif int(overall_time) > 1400:
                 overall_time = "{} д. {} м.".format(
-                    *divmod(int(overall_time), 3600))
+                    *divmod(int(overall_time), 1400))
             elif int(overall_time) > 60:
                 overall_time = "{} ч. {} м.".format(
                     *divmod(int(overall_time), 60))
@@ -2899,6 +2917,8 @@ class MainUI(QtWidgets.QMainWindow):
                 self.categ_lay.addWidget(
                     lbl_time, i, 1, alignment=Qt.AlignRight)
             i += 1
+
+        self.ccUi.setLayout(self.categ_lay)
 
     def graph_plot(self):
         # removing all widgets.
@@ -3424,7 +3444,11 @@ class DbLogic:
 
         elif item == 'get_category_overall_time':
             if add_params[0] == 'all':
-                pass
+                self.cursor2.execute(
+                    f'SELECT SUM(act_time) FROM "ACTIVITY" WHERE\
+                        user_id = \'{self.user_id}\'')
+                overall_time_for_category = str(self.cursor2.fetchall())[2:-2]
+                return overall_time_for_category
             else:
                 self.cursor2.execute(
                     f'SELECT SUM(act_time) FROM "ACTIVITY" WHERE\
@@ -3443,4 +3467,4 @@ if __name__ == '__main__':
     # dbl = DbLogic()
     # dbl.get_logged_user_data(user_login='Timofey', item='set_working_user')
 
-    # dbl.set_logged_user_data(user_login='Timofey', item='set_working_user')
+    # dbl.set_logged_user_data(user_login='Sif', item='set_working_user')

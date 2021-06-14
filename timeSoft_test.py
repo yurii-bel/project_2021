@@ -2932,13 +2932,117 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.ccUi.setLayout(self.categ_lay)
 
-
     def update_view_categ(self):
-        return
+        # return
         # self.ccUi.setParent(None)
-        self.categ_lay.addWidget(self.ccUi)
-        # for i in reversed(range(self.categ_lay.count())):
-        #     self.categ_lay.itemAt(i).widget().setParent(None)
+        # self.categ_lay.addWidget(self.ccUi)
+        for i in range(self.categ_lay.count()):
+            self.categ_lay.itemAt(i).widget().deleteLater()
+
+        lbl = QtWidgets.QLabel('КАТЕГОРИИ')
+        lbl.setStyleSheet('''
+        QLabel {
+            font-family: "Roboto", Light;
+            font-size: 12pt;
+            margin-top: 7px;
+            margin-left: 10px;}
+        ''')
+        lbl.setGeometry(1, 7, 159, 23)
+
+        btn = QtWidgets.QPushButton('—')
+        btn.setStyleSheet('''
+        QPushButton {
+            font-family: "Roboto", Light;
+            font-size: 14pt;
+            background-color: rgba(0, 0, 0, 0);
+            color: rgb(255, 255, 255);
+            border: 2px solid rgb(115, 103, 240);
+            border-radius: 5px;
+            width: 100px;
+            height: 30px;
+            margin-top: 3px;
+        }
+        QPushButton:hover {
+            background-color: rgb(115, 103, 240);
+            color: rgb(255, 255, 255);
+            border: 1px solid rgb(115, 103, 240);}
+        ''')
+        btn.setGeometry(166, 1, 100, 30)
+
+        btn.clicked.connect(self.cUi.show)
+
+        self.categ_lay.addWidget(lbl, 0, 0, alignment=Qt.AlignLeft)
+        self.categ_lay.addWidget(btn, 0, 1, alignment=Qt.AlignRight)
+
+        self.view_all = QtWidgets.QRadioButton(
+            'Посмотреть все', clicked=self.view_table_sort_by_category)
+        self.view_all.setStyleSheet('''
+            QRadioButton {
+                font-family: "Roboto", Light;
+                font-size: 12pt;
+                margin-top: 7px;
+                margin-left: 5px;}
+            ''')
+        self.view_all.setChecked(True)
+        self.view_all.setObjectName('Посмотреть все')
+        
+        all_overall_time = self.timedb.set_logged_user_data(
+            item='get_category_overall_time', add_params=['all'])
+
+        all_categs_time = self.input_check().secondsToText(
+                    int(all_overall_time)*60, 'categs')
+
+        lbl_time = QtWidgets.QLabel(f'{all_categs_time}')
+        lbl_time.setStyleSheet('''
+        QLabel {
+            font-family: "Roboto", Light;
+            font-size: 12pt;
+            margin-top: 7px;}
+        ''')
+
+        self.categ_lay.addWidget(self.view_all, 1, 0, alignment=Qt.AlignLeft)
+        self.categ_lay.addWidget(lbl_time, 1, 1, alignment=Qt.AlignRight)
+
+        i = 2
+        categs = self.timedb.get_logged_user_data(item='get_user_categories')
+
+        for row in categs:
+            overall_time = self.timedb.set_logged_user_data(
+                item='get_category_overall_time', add_params=[row])
+
+            if overall_time == 'None':
+                pass
+            else:
+                overall_time = self.input_check().secondsToText(
+                    int(overall_time)*60, 'categs')
+
+            self.radiobutton = QtWidgets.QRadioButton(
+                row, clicked=self.view_table_sort_by_category)
+            self.radiobutton.setStyleSheet('''
+            QRadioButton {
+                font-family: "Roboto", Light;
+                font-size: 12pt;
+                margin-top: 7px;
+                margin-left: 5px;}
+            ''')
+            self.radiobutton.setObjectName(row)
+
+            lbl_time = QtWidgets.QLabel(f'{overall_time}')
+            lbl_time.setStyleSheet('''
+            QLabel {
+                font-family: "Roboto", Light;
+                font-size: 12pt;
+                margin-top: 7px;}
+            ''')
+
+            self.categ_lay.addWidget(self.radiobutton, i, 0, alignment=Qt.AlignLeft)
+            if lbl_time.text() == 'None':
+                pass
+            else:
+                self.categ_lay.addWidget(
+                    lbl_time, i, 1, alignment=Qt.AlignRight)
+
+            i += 1
 
     def view_table_sort_by_category(self):
         sender = self.radiobutton.sender()

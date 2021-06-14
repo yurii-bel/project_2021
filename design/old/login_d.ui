@@ -19,6 +19,9 @@
   <property name="windowTitle">
    <string>TimeSoft login</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(22, 29, 49);</string>
+  </property>
   <widget class="QLabel" name="login_imglbl_img">
    <property name="geometry">
     <rect>
@@ -53,6 +56,9 @@
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(40, 48, 70);</string>
+   </property>
    <widget class="QPushButton" name="login_btn_login">
     <property name="geometry">
      <rect>
@@ -70,6 +76,19 @@
       <italic>false</italic>
       <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+background-color: #7367F0;
+border-radius: 5px;
+border: 2px solid #7367F0;
+color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(255, 255, 255);
+  border: 2px solid rgb(95, 85, 200);
+}</string>
     </property>
     <property name="text">
      <string>Войти</string>
@@ -99,6 +118,9 @@
       <bold>false</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(208, 210, 214); </string>
+    </property>
     <property name="text">
      <string>Добро пожаловать в TimeSoft!</string>
     </property>
@@ -121,6 +143,9 @@
     <property name="focusPolicy">
      <enum>Qt::StrongFocus</enum>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(110, 107, 123);</string>
+    </property>
     <property name="text">
      <string>Новичок на нашей платформе?</string>
     </property>
@@ -139,9 +164,13 @@
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(208, 210, 214); 
+</string>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Пожалуйста, войдите в свою учетную запись &lt;/p&gt;&lt;p&gt;и начните приключение&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -165,6 +194,9 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(180, 183, 189);</string>
+    </property>
     <property name="text">
      <string>Пароль</string>
     </property>
@@ -183,6 +215,9 @@
       <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(180, 183, 189);</string>
     </property>
     <property name="text">
      <string>Логин</string>
@@ -203,6 +238,16 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    color: rgb(115, 103, 240);
+    background-color: rgba(0,0,0,0);
+}
+
+QPushButton:hover {
+	color: rgb(180, 183, 189);
+}</string>
+    </property>
     <property name="text">
      <string>Зарегистрировать аккаунт</string>
     </property>
@@ -216,8 +261,19 @@
       <height>38</height>
      </rect>
     </property>
-    <property name="maxLength">
-     <number>60</number>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit { 
+background: #283046;
+font: 14pt &quot;Roboto&quot;;
+color: rgb(103, 109, 125);
+border: 1px solid #404656;
+border-radius: 5px;
+padding-left: 15px;
+}
+
+QLineEdit:hover {
+border: 1px solid rgb(95, 85, 200);
+}</string>
     </property>
     <property name="echoMode">
      <enum>QLineEdit::Password</enum>
@@ -247,8 +303,19 @@
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
     </property>
-    <property name="maxLength">
-     <number>60</number>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit { 
+background: #283046;
+font: 12pt &quot;Roboto&quot;;
+color: rgb(103, 109, 125);
+border: 1px solid #404656;
+border-radius: 5px;
+padding-left: 15px;
+}
+
+QLineEdit:hover {
+border: 1px solid rgb(95, 85, 200);
+}</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -300,6 +367,9 @@
      <weight>75</weight>
      <bold>true</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #7367F0;</string>
    </property>
    <property name="text">
     <string>TimeSoft</string>

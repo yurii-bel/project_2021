@@ -37,6 +37,42 @@
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QTableWidget { 	
+	background-color: rgba(0, 0, 0, 0);
+	gridline-color: #3B4253;
+	color: #B4B7BD;
+}
+QTableView QTableCornerButton::section {
+	background-color: rgba(0, 0, 0, 255);
+}
+QTableView QHeaderView::section {
+    padding-left: auto;
+    padding-right: auto;
+}
+QHeaderView::section {
+	background-color: rgb(40, 48, 70);
+    color: #B4B7BD;
+	border: 2px solid rgba(0, 0, 0, 0);
+}
+QHeaderView::section:checked {
+    background-color: rgb(115, 103, 240);
+	color: rgb(255, 255, 255);
+}
+QHeaderView::section:selected {
+	background-color: rgb(0, 85, 0);
+    color: #B4B7BD;
+	border: 2px solid rgba(0, 0, 0, 0);
+}
+QTableWidget::item {
+	color: #B4B7BD;
+}
+QTableWidget::item:selected {
+	background-color: rgb(115, 103, 240);
+	color: rgb(255, 255, 255);
+}
+</string>
+   </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
    </property>
@@ -46,11 +82,11 @@
    <attribute name="horizontalHeaderCascadingSectionResizes">
     <bool>true</bool>
    </attribute>
-   <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>110</number>
-   </attribute>
    <attribute name="horizontalHeaderMinimumSectionSize">
     <number>20</number>
+   </attribute>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>110</number>
    </attribute>
    <attribute name="verticalHeaderMinimumSectionSize">
     <number>23</number>

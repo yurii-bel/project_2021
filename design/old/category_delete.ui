@@ -22,17 +22,14 @@
     <height>640</height>
    </size>
   </property>
-  <property name="font">
-   <font>
-    <family>Roboto Light</family>
-    <pointsize>12</pointsize>
-   </font>
-  </property>
   <property name="windowTitle">
    <string>Удалить категорию</string>
   </property>
   <property name="windowOpacity">
    <double>1.000000000000000</double>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgba(34,39,51,0.137);</string>
   </property>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
@@ -81,6 +78,9 @@
           <width>360</width>
           <height>45</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(22, 29, 49);</string>
         </property>
         <widget class="QLabel" name="category_delete_textlbl_title">
          <property name="geometry">
@@ -158,6 +158,9 @@ color: rgb(234, 84, 85);
           <height>9999</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(40, 48, 70);</string>
+        </property>
         <widget class="QWidget" name="verticalLayoutWidget_2">
          <property name="geometry">
           <rect>
@@ -194,6 +197,10 @@ color: rgb(234, 84, 85);
               <pointsize>12</pointsize>
              </font>
             </property>
+            <property name="styleSheet">
+             <string notr="true">margin-top:10px;
+color: rgb(185, 185, 195);</string>
+            </property>
             <property name="text">
              <string>Категория</string>
             </property>
@@ -217,10 +224,28 @@ color: rgb(234, 84, 85);
              <font>
               <family>Roboto-Light</family>
               <pointsize>12</pointsize>
-              <weight>50</weight>
+              <weight>3</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QComboBox {
+font: 25 12pt &quot;Roboto-Light&quot;;
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+color: white;
+}
+QComboBox:hover {
+	background-color: rgb(40, 48, 70); 
+	border: 1px solid rgb(95, 85, 200);
+}
+QComboBox::QListView{
+background-color: rgb(22, 29, 49);
+border: 2px solid #7666F8;
+selection-background-color: white;
+}</string>
             </property>
             <property name="editable">
              <bool>false</bool>
@@ -246,7 +271,7 @@ color: rgb(234, 84, 85);
              <number>40</number>
             </property>
             <item>
-             <widget class="QPushButton" name="category_delete_btn_cancel">
+             <widget class="QPushButton" name="category_delete_btn_delete">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -256,13 +281,32 @@ color: rgb(234, 84, 85);
                 <pointsize>14</pointsize>
                </font>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+background-color: #7367F0;
+border-radius: 5px;
+border: 2px solid #7367F0;
+color: rgb(255, 255, 255);
+padding-top: 10 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 10 px;
+text-align: center;
+margin-right: 8px;
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(115, 103, 240);
+  border: 2px solid rgb(95, 85, 200);
+}</string>
+              </property>
               <property name="text">
-               <string>Отмена</string>
+               <string>Удалить</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="category_delete_btn_delete">
+             <widget class="QPushButton" name="category_delete_btn_cancel">
               <property name="font">
                <font>
                 <family>Roboto</family>
@@ -272,8 +316,28 @@ color: rgb(234, 84, 85);
                 <bold>false</bold>
                </font>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+background-color: rgb(40, 48, 70); 
+border-radius: 5px;
+border: 2px solid rgb(234, 84, 85);
+color: rgb(234, 84, 85);
+padding-top: 10 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 10 px;
+text-align: center;
+margin-left: 8px;
+
+}
+QPushButton:hover {
+background-color: rgb(234, 84, 85);
+color: rgb(255, 255, 255);
+border: 2px solid rgb(234, 84, 85);
+}</string>
+              </property>
               <property name="text">
-               <string>Удалить</string>
+               <string>Отменить</string>
               </property>
              </widget>
             </item>

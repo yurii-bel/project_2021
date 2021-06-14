@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>add_event_widget_window</class>
- <widget class="QWidget" name="add_event_widget_window">
+ <class>edit_event_widget_window</class>
+ <widget class="QWidget" name="edit_event_widget_window">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -12,7 +12,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>360</width>
+    <width>364</width>
     <height>640</height>
    </rect>
   </property>
@@ -22,17 +22,14 @@
     <height>640</height>
    </size>
   </property>
-  <property name="font">
-   <font>
-    <family>Roboto Light</family>
-    <pointsize>12</pointsize>
-   </font>
-  </property>
   <property name="windowTitle">
-   <string>Добавить событие</string>
+   <string>Редактировать событие</string>
   </property>
   <property name="windowOpacity">
    <double>1.000000000000000</double>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgba(34,39,51,0.137);</string>
   </property>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
@@ -40,10 +37,10 @@
      <x>0</x>
      <y>0</y>
      <width>364</width>
-     <height>641</height>
+     <height>1081</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="add_event_horizontalLayout_main">
+   <layout class="QHBoxLayout" name="edit_event_horizontalLayout_main">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -51,7 +48,7 @@
      <enum>QLayout::SetMaximumSize</enum>
     </property>
     <item>
-     <spacer name="add_event_horizontalSpacer_main">
+     <spacer name="edit_event_horizontalSpacer_main">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -67,7 +64,7 @@
      </spacer>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="add_event_verticalLayout_menu">
+     <layout class="QVBoxLayout" name="edit_event_verticalLayout_menu">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -75,14 +72,17 @@
        <enum>QLayout::SetMaximumSize</enum>
       </property>
       <item>
-       <widget class="QWidget" name="add_event_widget_title_btn" native="true">
+       <widget class="QWidget" name="edit_event_widget_edit_btn" native="true">
         <property name="maximumSize">
          <size>
           <width>360</width>
           <height>45</height>
          </size>
         </property>
-        <widget class="QLabel" name="add_event_textlbl_title">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(22, 29, 49);</string>
+        </property>
+        <widget class="QLabel" name="edit_event_textlbl_title">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -103,11 +103,14 @@
            <pointsize>14</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(208, 210, 214);</string>
+         </property>
          <property name="text">
-          <string>Добавить событие</string>
+          <string>Редактировать событие</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="add_event_btn_exit">
+        <widget class="QPushButton" name="edit_event_btn_exit">
          <property name="geometry">
           <rect>
            <x>324</x>
@@ -122,6 +125,16 @@
            <pointsize>14</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+color: rgb(208, 210, 214);
+background-color:rgba(0,0,0,0);
+}
+QPushButton:hover {
+color: rgb(234, 84, 85);
+}
+</string>
+         </property>
          <property name="text">
           <string>✖</string>
          </property>
@@ -129,7 +142,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="add_event_widget_form" native="true">
+       <widget class="QWidget" name="edit_event_widget_form" native="true">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -145,6 +158,9 @@
           <height>9999</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(40, 48, 70);</string>
+        </property>
         <widget class="QWidget" name="verticalLayoutWidget_2">
          <property name="geometry">
           <rect>
@@ -154,7 +170,7 @@
            <height>1021</height>
           </rect>
          </property>
-         <layout class="QVBoxLayout" name="add_event_verticalLayout_shape_alignment">
+         <layout class="QVBoxLayout" name="edit_event_verticalLayout_shape_alignment">
           <property name="spacing">
            <number>4</number>
           </property>
@@ -168,7 +184,7 @@
            <number>20</number>
           </property>
           <item>
-           <widget class="QLabel" name="add_event_textlbl_name">
+           <widget class="QLabel" name="edit_event_textlbl_name">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -180,6 +196,9 @@
               <family>Roboto Light</family>
               <pointsize>12</pointsize>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(185, 185, 195);</string>
             </property>
             <property name="text">
              <string>Название</string>
@@ -187,7 +206,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="add_event_lineEdit_name">
+           <widget class="QLineEdit" name="edit_event_lineEdit_name">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -205,6 +224,18 @@
               <family>Roboto Light</family>
               <pointsize>12</pointsize>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLineEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+color: rgb(255, 255, 255);
+}
+QLineEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	border: 1px solid rgb(95, 85, 200);
+}</string>
             </property>
             <property name="placeholderText">
              <string>Спал</string>
@@ -212,7 +243,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="add_event_textlbl_category">
+           <widget class="QLabel" name="edit_event_textlbl_category">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -225,13 +256,17 @@
               <pointsize>12</pointsize>
              </font>
             </property>
+            <property name="styleSheet">
+             <string notr="true">margin-top:10px;
+color: rgb(185, 185, 195);</string>
+            </property>
             <property name="text">
              <string>Категория</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="add_event_comboBox_category">
+           <widget class="QComboBox" name="edit_event_comboBox_category">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -246,15 +281,28 @@
             </property>
             <property name="font">
              <font>
-              <family>Roboto-Light</family>
+              <family>Roboto Light</family>
               <pointsize>12</pointsize>
-              <weight>50</weight>
-              <italic>false</italic>
-              <bold>false</bold>
              </font>
             </property>
-            <property name="editable">
-             <bool>true</bool>
+            <property name="styleSheet">
+             <string notr="true">QComboBox {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+color: rgb(255, 255, 255);
+}
+QComboBox:hover {
+	background-color: rgb(40, 48, 70); 
+	border: 1px solid rgb(95, 85, 200);
+}
+QComboBox QAbstractItemView {
+background-color: rgb(22, 29, 49);
+border: 2px solid #7666F8;
+color: rgb(203, 203, 203);
+selection-background-color: rgb(94, 80, 238);
+selection-color: rgb(0, 0, 0);
+}</string>
             </property>
             <item>
              <property name="text">
@@ -264,7 +312,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="add_event_textlbl_time">
+           <widget class="QLabel" name="edit_event_textlbl_time">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -276,6 +324,10 @@
               <family>Roboto Light</family>
               <pointsize>12</pointsize>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">margin-top:10px;
+color: rgb(185, 185, 195);</string>
             </property>
             <property name="text">
              <string>Потрачено времени в минутах</string>
@@ -283,7 +335,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="add_event_lineEdit_time">
+           <widget class="QLineEdit" name="edit_event_lineEdit_time">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -301,6 +353,21 @@
               <family>Roboto Light</family>
               <pointsize>12</pointsize>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLineEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+color: rgb(255, 255, 255);
+}
+QLineEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	border: 1px solid rgb(95, 85, 200);
+}</string>
+            </property>
+            <property name="text">
+             <string/>
             </property>
             <property name="placeholderText">
              <string>65</string>
@@ -308,7 +375,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="add_event_textlbl_date">
+           <widget class="QLabel" name="edit_event_textlbl_date">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -321,13 +388,17 @@
               <pointsize>12</pointsize>
              </font>
             </property>
+            <property name="styleSheet">
+             <string notr="true">margin-top:10px;
+color: rgb(185, 185, 195);</string>
+            </property>
             <property name="text">
              <string>Дата</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QDateEdit" name="add_event_dateEdit">
+           <widget class="QDateEdit" name="edit_event_dateEdit">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -345,6 +416,18 @@
               <family>Roboto Light</family>
               <pointsize>12</pointsize>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QDateEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+color: rgb(255, 255, 255);
+}
+QDateEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	border: 1px solid rgb(95, 85, 200);
+}</string>
             </property>
             <property name="correctionMode">
              <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
@@ -379,7 +462,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="add_event_textlbl_comment">
+           <widget class="QLabel" name="edit_event_textlbl_comment">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -392,13 +475,17 @@
               <pointsize>12</pointsize>
              </font>
             </property>
+            <property name="styleSheet">
+             <string notr="true">margin-top:10px;
+color: rgb(185, 185, 195);</string>
+            </property>
             <property name="text">
              <string>Комментарий</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="add_event_plaintextedit_comment">
+           <widget class="QPlainTextEdit" name="edit_event_plaintextedit_comment">
             <property name="maximumSize">
              <size>
               <width>316</width>
@@ -411,13 +498,25 @@
               <pointsize>12</pointsize>
              </font>
             </property>
+            <property name="styleSheet">
+             <string notr="true">QPlainTextEdit {
+background-color: #283046;
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+color: rgb(255, 255, 255);
+}
+QPlainTextEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	border: 1px solid rgb(95, 85, 200);
+}</string>
+            </property>
             <property name="placeholderText">
              <string>Видел шикарный сон.</string>
             </property>
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="add_event_horizontalLayout_btns">
+           <layout class="QHBoxLayout" name="edit_event_horizontalLayout_btns">
             <property name="spacing">
              <number>0</number>
             </property>
@@ -425,7 +524,7 @@
              <number>40</number>
             </property>
             <item>
-             <widget class="QPushButton" name="add_event_btn_add">
+             <widget class="QPushButton" name="edit_event_btn_save">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -435,13 +534,33 @@
                 <pointsize>14</pointsize>
                </font>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+background-color: #7367F0;
+border-radius: 5px;
+border: 2px solid #7367F0;
+color: rgb(255, 255, 255);
+padding-top: 10 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 10 px;
+text-align: center;
+letter-spacing: 0.4px;
+margin-right: 8px;
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(115, 103, 240);
+  border: 2px solid rgb(95, 85, 200);
+}</string>
+              </property>
               <property name="text">
-               <string>Добавить</string>
+               <string>Сохранить</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="add_event_btn_cancel">
+             <widget class="QPushButton" name="edit_event_btn_del">
               <property name="font">
                <font>
                 <family>Roboto</family>
@@ -451,13 +570,34 @@
                 <bold>false</bold>
                </font>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+background-color: rgb(40, 48, 70); 
+border-radius: 5px;
+border: 2px solid rgb(234, 84, 85);
+color: rgb(234, 84, 85);
+padding-top: 10 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 10 px;
+text-align: center;
+letter-spacing: 0.4px;
+margin-left: 8px;
+
+}
+QPushButton:hover {
+background-color: rgb(234, 84, 85);
+color: rgb(255, 255, 255);
+border: 2px solid rgb(234, 84, 85);
+}</string>
+              </property>
               <property name="text">
-               <string>Отмена</string>
+               <string>Удалить</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="add_event_horizontalSpacer_btns">
+             <spacer name="edit_event_horizontalSpacer_btns">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -472,7 +612,7 @@
            </layout>
           </item>
           <item>
-           <spacer name="add_event_verticalSpacer_btns">
+           <spacer name="edit_event_verticalSpacer_btns">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>

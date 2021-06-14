@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>login_dialog</class>
- <widget class="QDialog" name="login_dialog">
+ <class>register_main_window</class>
+ <widget class="QDialog" name="register_main_window">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -10,16 +10,13 @@
     <height>768</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
-   <string>TimeSoft login</string>
+   <string>TimeSoft register</string>
   </property>
-  <widget class="QLabel" name="login_imglbl_img">
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(22, 29, 49);</string>
+  </property>
+  <widget class="QLabel" name="register_imglbl_img">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -32,13 +29,13 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>img/login-dark 1.svg</pixmap>
+    <pixmap>img/register-dark 1.svg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QWidget" name="login_widget" native="true">
+  <widget class="QWidget" name="register_widget" native="true">
    <property name="geometry">
     <rect>
      <x>800</x>
@@ -49,11 +46,13 @@
    </property>
    <property name="font">
     <font>
-     <family>Roboto Light</family>
-     <pointsize>12</pointsize>
+     <family>MS Serif</family>
     </font>
    </property>
-   <widget class="QPushButton" name="login_btn_login">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(40, 48, 70);</string>
+   </property>
+   <widget class="QPushButton" name="register_btn_login">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -71,8 +70,21 @@
       <bold>false</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+background-color: #7367F0;
+border-radius: 5px;
+border: 2px solid #7367F0;
+color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(255, 255, 255);
+  border: 2px solid rgb(95, 85, 200);
+}</string>
+    </property>
     <property name="text">
-     <string>Войти</string>
+     <string>Зарегистрироваться</string>
     </property>
     <property name="checkable">
      <bool>false</bool>
@@ -81,11 +93,11 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="login_text_title">
+   <widget class="QLabel" name="register_txtlbl_title">
     <property name="geometry">
      <rect>
       <x>71</x>
-      <y>200</y>
+      <y>143</y>
       <width>350</width>
       <height>30</height>
      </rect>
@@ -99,11 +111,14 @@
       <bold>false</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(208, 210, 214); </string>
+    </property>
     <property name="text">
-     <string>Добро пожаловать в TimeSoft!</string>
+     <string>Да начнеться приключение!</string>
     </property>
    </widget>
-   <widget class="QLabel" name="login_text_account">
+   <widget class="QLabel" name="register_txtlbl_reg">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -121,40 +136,50 @@
     <property name="focusPolicy">
      <enum>Qt::StrongFocus</enum>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(110, 107, 123);</string>
+    </property>
     <property name="text">
-     <string>Новичок на нашей платформе?</string>
+     <string>Уже есть аккаунт?</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="login_text_paragrah_log">
+   <widget class="QLabel" name="register_txtlbl_pragrah_log">
     <property name="geometry">
      <rect>
-      <x>72</x>
-      <y>242</y>
+      <x>71</x>
+      <y>173</y>
       <width>342</width>
       <height>52</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Roboto Light</family>
+      <family>Roboto-Light</family>
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(208, 210, 214); 
+</string>
+    </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Пожалуйста, войдите в свою учетную запись &lt;/p&gt;&lt;p&gt;и начните приключение&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>Сделайте управление вашим временем простым и увлекательным!</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
     </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
    </widget>
-   <widget class="QLabel" name="login_text_password">
+   <widget class="QLabel" name="register_txtlbl_password">
     <property name="geometry">
      <rect>
       <x>71</x>
-      <y>393</y>
+      <y>391</y>
       <width>342</width>
       <height>18</height>
      </rect>
@@ -165,11 +190,14 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(180, 183, 189);</string>
+    </property>
     <property name="text">
      <string>Пароль</string>
     </property>
    </widget>
-   <widget class="QLabel" name="login_text_email">
+   <widget class="QLabel" name="register_txtlbl_email">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -184,11 +212,14 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(180, 183, 189);</string>
+    </property>
     <property name="text">
-     <string>Логин</string>
+     <string>Почта</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="login_btn_create_account">
+   <widget class="QPushButton" name="register_btn_create">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -203,11 +234,21 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    color: rgb(115, 103, 240);
+    background-color: rgba(0,0,0,0);
+}
+
+QPushButton:hover {
+	color: rgb(180, 183, 189);
+}</string>
+    </property>
     <property name="text">
-     <string>Зарегистрировать аккаунт</string>
+     <string>Войти</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="login_lineedit_password">
+   <widget class="QLineEdit" name="register_lineEdit_password">
     <property name="geometry">
      <rect>
       <x>71</x>
@@ -216,8 +257,19 @@
       <height>38</height>
      </rect>
     </property>
-    <property name="maxLength">
-     <number>60</number>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit { 
+background: #283046;
+font: 14pt &quot;Roboto&quot;;
+color: rgb(103, 109, 125);
+border: 1px solid #404656;
+border-radius: 5px;
+padding-left: 15px;
+}
+
+QLineEdit:hover {
+border: 1px solid rgb(95, 85, 200);
+}</string>
     </property>
     <property name="echoMode">
      <enum>QLineEdit::Password</enum>
@@ -226,11 +278,11 @@
      <string>⚉⚉⚉⚉⚉⚉⚉⚉</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="login_lineedit_email">
+   <widget class="QLineEdit" name="register_lineEdit_email">
     <property name="geometry">
      <rect>
       <x>71</x>
-      <y>340</y>
+      <y>339</y>
       <width>342</width>
       <height>38</height>
      </rect>
@@ -247,8 +299,61 @@
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
     </property>
-    <property name="maxLength">
-     <number>60</number>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit { 
+background: #283046;
+font: 12pt &quot;Roboto&quot;;
+color: rgb(103, 109, 125);
+border: 1px solid #404656;
+border-radius: 5px;
+padding-left: 15px;
+}
+
+QLineEdit:hover {
+border: 1px solid rgb(95, 85, 200);
+}</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>my@email.com</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="register_lineEdit_name">
+    <property name="geometry">
+     <rect>
+      <x>71</x>
+      <y>264</y>
+      <width>342</width>
+      <height>38</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto</family>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit { 
+background: #283046;
+font: 12pt &quot;Roboto&quot;;
+color: rgb(103, 109, 125);
+border: 1px solid #404656;
+border-radius: 5px;
+padding-left: 15px;
+}
+
+QLineEdit:hover {
+border: 1px solid rgb(95, 85, 200);
+}</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -257,7 +362,54 @@
      <string>Ева</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="login_btn_theme">
+   <widget class="QLabel" name="register_txtlbl_name">
+    <property name="geometry">
+     <rect>
+      <x>71</x>
+      <y>244</y>
+      <width>342</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto-Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(180, 183, 189);</string>
+    </property>
+    <property name="text">
+     <string>Логин</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="register_checkbox_agree">
+    <property name="geometry">
+     <rect>
+      <x>71</x>
+      <y>466</y>
+      <width>342</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto-Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #B4B7BD;</string>
+    </property>
+    <property name="text">
+     <string>Я согласен с условиями использования</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="register_btn_theme">
     <property name="geometry">
      <rect>
       <x>380</x>
@@ -284,7 +436,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="login_text_logo">
+  <widget class="QLabel" name="register_txtlbl_logo">
    <property name="geometry">
     <rect>
      <x>92</x>
@@ -301,11 +453,14 @@
      <bold>true</bold>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: #7367F0;</string>
+   </property>
    <property name="text">
     <string>TimeSoft</string>
    </property>
   </widget>
-  <widget class="QLabel" name="login_imglbl_logo">
+  <widget class="QLabel" name="register_imglbl_logo">
    <property name="geometry">
     <rect>
      <x>44</x>

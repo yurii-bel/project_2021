@@ -8,7 +8,6 @@ import csv
 import webbrowser
 import datetime
 from uuid import uuid4
-from numpy import add
 
 # non-standart libs (those in requirements).
 import psycopg2 as db
@@ -52,12 +51,12 @@ TODO
 
 
 class InputCheck:
-    '''
+    """
     The InputCheck class implements base checking system for various input data.
 
     Attributes:
         input_text (str):The string which can be checked using various methods.
-    '''
+    """
 
     def __init__(self, input_text):
         self.text = input_text
@@ -191,12 +190,12 @@ class InputCheck:
 
 
 class InputCheckWithDiags(QtWidgets.QMessageBox):
-    '''
-    The InputCheckWithDiags displays error messages using InputCheck class. 
+    """
+    The InputCheckWithDiags displays error messages using InputCheck class.
 
     Attributes:
         input_text (str): Storing text to be checked.
-    '''
+    """
 
     def __init__(self, input_text=None):
         super().__init__()
@@ -297,40 +296,40 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         minutes = (secs - days*86400 - hours*3600)//60
         if inp_type == 'categs':
             result = ("{} д. ".format(days) if days else "") + \
-            ("{} ч. ".format(hours) if hours else "") + \
-            ("{} м. ".format(minutes) if minutes else "")
+                ("{} ч. ".format(hours) if hours else "") + \
+                ("{} м. ".format(minutes) if minutes else "")
             return result
         elif inp_type == None:
             result = ("{} д. ".format(days) if days else "") + \
-            ("{} ч. ".format(hours) if hours else "") + \
-            ("{} мин. ".format(minutes) if minutes else "")
+                ("{} ч. ".format(hours) if hours else "") + \
+                ("{} мин. ".format(minutes) if minutes else "")
             return result
 
 
 # ----------------------------------------------------------START-----timeSoft
 # class AlignDelegate(QtWidgets.QStyledItemDelegate):
-#     '''
+#     """
 #     This class implements center positioning for icons in TableView widget
-#     '''
+#     """
 #     def initStyleOption(self, option, index):
 #         super().initStyleOption(option, index)
 #         option.decorationSize = option.rect.size()
 
 
 class MainUI(QtWidgets.QMainWindow):
-    '''
+    """
     The MainUI class contains the following functional:
     - UI processing
     - Data forecasting
     - Comparison of the entered information with data from db.
     - User registration and login
-    - Events handling (adding, editing, deleting) 
+    - Events handling (adding, editing, deleting)
     - User settings
     - Theme changing
     - Plotting graphs, diagrams and table
     - Sorting data in the table (by time: day, week, month, etc)
     - Logout
-    '''
+    """
 
     def __init__(self):
         super().__init__()
@@ -342,7 +341,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi = uic.loadUi('design\\add_event_d.ui')  # Add actions ui.
         self.eUi = uic.loadUi('design\\edit_event_d.ui')  # Edit actions ui.
         self.cUi = uic.loadUi('design\\category_delete.ui')  # Category del ui.
-        self.rUi = uic.loadUi('design\\register_d.ui')  # Registration window ui.
+        # Registration window ui.
+        self.rUi = uic.loadUi('design\\register_d.ui')
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
         self.ttUi = uic.loadUi('design\\table.ui')  # Table ui.
@@ -665,7 +665,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border: 2px solid #7367F0;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: rgb(255, 255, 255);'
                 f'border: 2px solid rgb(95, 85, 200);'
@@ -679,7 +679,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'padding-left: 15px;'
                 """}
-                QLineEdit:hover {"""
+                QLineEdit: hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -691,7 +691,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'padding-left: 15px;'
                 """}
-                QLineEdit:hover {"""
+                QLineEdit: hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -737,7 +737,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border: 2px solid #7367F0;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: rgb(255, 255, 255);'
                 f'border: 2px solid rgb(95, 85, 200);'
@@ -754,7 +754,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'padding-left: 15px;'
                 """}
-                QLineEdit:hover {"""
+                QLineEdit: hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -766,7 +766,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'padding-left: 15px;'
                 """}
-                QLineEdit:hover {"""
+                QLineEdit: hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -778,7 +778,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'padding-left: 15px;'
                 """}
-                QLineEdit:hover {"""
+                QLineEdit: hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -831,7 +831,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: #283046;'
                 f'color: #FFFFFF;'
                 f'border: 2px solid #796DFF;'
@@ -995,7 +995,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color: {color_theme_d};'
                 """}"""
@@ -1008,7 +1008,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-right: 10px;'
                 f'margin-top: 27px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color: {color_theme_d};'
                 """}"""
@@ -1020,7 +1020,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color: {color_theme_d};'
                 """}"""
@@ -1032,7 +1032,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color: {color_theme_d};'
                 """}"""
@@ -1046,7 +1046,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 10px;'
                 f'padding-right: 10px;'
                 """}
-                QComboBox:hover {"""
+                QComboBox: hover {"""
                 f'background-color: #283046;'
                 f'color: #B9B9C3;'
                 f'border: 2px solid  #7666F8;'
@@ -1069,11 +1069,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color: #CBCBCB;'
                 f'background-color: rgba(0, 0, 0, 130);'
                 """}
-                QMenuBar::item:selected {"""
+                QMenuBar:: item: selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenuBar::item:pressed {"""
+                QMenuBar:: item: pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -1083,11 +1083,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu::item:selected {"""
+                QMenu:: item: selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu::item:pressed {"""
+                QMenu:: item: pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -1097,11 +1097,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu::item:selected {"""
+                QMenu:: item: selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu::item:pressed {"""
+                QMenu:: item: pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -1111,11 +1111,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu::item:selected {"""
+                QMenu:: item: selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu::item:pressed {"""
+                QMenu:: item: pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -1128,31 +1128,31 @@ class MainUI(QtWidgets.QMainWindow):
                 f'gridline-color: #3B4253;'
                 f'color: #B4B7BD;'
                 """}
-                QTableView QTableCornerButton::section {"""
+                QTableView QTableCornerButton:: section {"""
                 f'background-color: rgba(0, 0, 0, 255);'
                 """}
-                QTableView QHeaderView::section {"""
+                QTableView QHeaderView:: section {"""
                 f'padding-left: auto;'
                 f'padding-right: auto;'
                 """}
-                QHeaderView::section {"""
+                QHeaderView:: section {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: #B4B7BD;'
                 f'border: 2px solid rgba(0, 0, 0, 0);'
                 """}
-                QHeaderView::section:checked {"""
+                QHeaderView:: section: checked {"""
                 f'background-color: rgb(115, 103, 240);'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QHeaderView::section:selected {"""
+                QHeaderView:: section: selected {"""
                 f'background-color: rgb(0, 85, 0);'
                 f'color: #B4B7BD;'
                 f'border: 2px solid rgba(0, 0, 0, 0);'
                 """}
-                QTableWidget::item {"""
+                QTableWidget:: item {"""
                 f'color: #B4B7BD;'
                 """}
-                QTableWidget::item:selected {"""
+                QTableWidget:: item: selected {"""
                 f'background-color: rgb(115, 103, 240);'
                 f'color: rgb(255, 255, 255);'
                 """}"""
@@ -1859,7 +1859,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(104, 93, 216, 0.2);'
                 f'color:  #7367F0;'
                 f'border: 2px solid #796DFF;'
@@ -1878,7 +1878,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(104, 93, 216, 0.2);'
                 f'color:  #7367F0;'
                 f'border: 2px solid #796DFF;'
@@ -1897,7 +1897,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(104, 93, 216, 0.2);'
                 f'color:  #7367F0;'
                 f'border: 2px solid #796DFF;'
@@ -1916,7 +1916,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(104, 93, 216, 0.2);'
                 f'color:  #7367F0;'
                 f'border: 2px solid #796DFF;'
@@ -1949,7 +1949,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(104, 93, 216, 0.2);'
                 f'color:  #7367F0;'
                 f'border: 2px solid #796DFF;'
@@ -1962,7 +1962,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color:  #5E5873;'
                 """}
-                QDateEdit:hover {"""
+                QDateEdit: hover {"""
                 f'background-color: #E6E6E6;'
                 f'color:  #5E5873;'
                 """}"""
@@ -1973,7 +1973,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color:  #5E5873;'
                 """}
-                QDateEdit:hover {"""
+                QDateEdit: hover {"""
                 f'background-color: #E6E6E6;'
                 f'color:  #5E5873;'
                 """}"""
@@ -2022,7 +2022,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color:  #7367F0;'
                 """}"""
@@ -2035,7 +2035,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-right: 10px;'
                 f'margin-top: 27px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color:  #7367F0;'
                 """}"""
@@ -2047,7 +2047,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color:  #7367F0;'
                 """}"""
@@ -2059,7 +2059,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton:hover {"""
+                QPushButton: hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color:  #7367F0;'
                 """}"""
@@ -2073,7 +2073,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 10px;'
                 f'padding-right: 10px;'
                 """}
-                QComboBox:hover {"""
+                QComboBox: hover {"""
                 f'background-color: #E6E6E6;'
                 f'color: #5E5873;'
                 f'border: 2px solid  #7666F8;'
@@ -2096,11 +2096,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color: #CBCBCB;'
                 f'background-color: rgba(0, 0, 0, 130);'
                 """}
-                QMenuBar::item:selected {"""
+                QMenuBar:: item: selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenuBar::item:pressed {"""
+                QMenuBar:: item: pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -2110,11 +2110,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu::item:selected {"""
+                QMenu:: item: selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu::item:pressed {"""
+                QMenu:: item: pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -2124,11 +2124,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu::item:selected {"""
+                QMenu:: item: selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu::item:pressed {"""
+                QMenu:: item: pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -2138,11 +2138,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu::item:selected {"""
+                QMenu:: item: selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu::item:pressed {"""
+                QMenu:: item: pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -2187,9 +2187,9 @@ class MainUI(QtWidgets.QMainWindow):
             self.change_theme_status = 0
 
     def show_login(self):
-        '''
+        """
         Current method shows user interface login window.
-        '''
+        """
         self.rUi.close()
         self.lUi.show()
 
@@ -2223,9 +2223,9 @@ class MainUI(QtWidgets.QMainWindow):
             self.create_forecast_data()  # Forecast data creation
 
     def show_registration(self):
-        '''
+        """
         Current method shows user interface registration window.
-        '''
+        """
         self.lUi.close()
         self.rUi.show()
 
@@ -2318,10 +2318,10 @@ class MainUI(QtWidgets.QMainWindow):
             i += 1
 
     def get_current_row_tableview(self, item):
-        '''
+        """
         Current method displays clicked column and row of a choosen cell
         in a TableView widget.
-        '''
+        """
         # selected cell value.
         self.act_id = str(item.sibling(item.row(), 0).data())
         self.act_date = str(item.sibling(item.row(), 1).data())
@@ -2407,7 +2407,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.aUi.close()
 
     def show_edit_action(self, actl_name=str, act_time=str, act_date=None,
-                        cat_name=str, act_comment=None):
+                         cat_name=str, act_comment=None):
 
         self.eUi.edit_event_dateEdit.setCalendarPopup(True)
         self.eUi.edit_event_dateEdit.setMaximumDate(
@@ -2816,17 +2816,17 @@ class MainUI(QtWidgets.QMainWindow):
         self.categ_lay.setRowStretch(100, 1)
 
         lbl = QtWidgets.QLabel('КАТЕГОРИИ')
-        lbl.setStyleSheet('''
+        lbl.setStyleSheet("""
         QLabel {
             font-family: "Roboto", Light;
             font-size: 12pt;
             margin-top: 7px;
             margin-left: 10px;}
-        ''')
+        """)
         lbl.setGeometry(1, 7, 159, 23)
 
         btn = QtWidgets.QPushButton('—')
-        btn.setStyleSheet('''
+        btn.setStyleSheet("""
         QPushButton {
             font-family: "Roboto", Light;
             font-size: 14pt;
@@ -2842,7 +2842,7 @@ class MainUI(QtWidgets.QMainWindow):
             background-color: rgb(115, 103, 240);
             color: rgb(255, 255, 255);
             border: 1px solid rgb(115, 103, 240);}
-        ''')
+        """)
         btn.setGeometry(166, 1, 100, 30)
 
         btn.clicked.connect(self.cUi.show)
@@ -2852,32 +2852,32 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.view_all = QtWidgets.QRadioButton(
             'Посмотреть все', clicked=self.view_table_sort_by_category)
-        self.view_all.setStyleSheet('''
+        self.view_all.setStyleSheet("""
             QRadioButton {
                 font-family: "Roboto", Light;
                 font-size: 12pt;
                 margin-top: 7px;
                 margin-left: 5px;}
-            ''')
+            """)
         self.view_all.setChecked(True)
         self.view_all.setObjectName('Посмотреть все')
-        
+
         all_overall_time = self.timedb.set_logged_user_data(
             item='get_category_overall_time', add_params=['all'])
 
         if all_overall_time == 'None':
-                pass
+            pass
         else:
             all_overall_time = self.input_check().secondsToText(
-                        int(all_overall_time)*60, 'categs')
+                int(all_overall_time)*60, 'categs')
 
         lbl_time = QtWidgets.QLabel(f'{all_overall_time}')
-        lbl_time.setStyleSheet('''
+        lbl_time.setStyleSheet("""
         QLabel {
             font-family: "Roboto", Light;
             font-size: 12pt;
             margin-top: 7px;}
-        ''')
+        """)
 
         self.categ_lay.addWidget(self.view_all, 1, 0, alignment=Qt.AlignLeft)
         self.categ_lay.addWidget(lbl_time, 1, 1, alignment=Qt.AlignRight)
@@ -2897,24 +2897,25 @@ class MainUI(QtWidgets.QMainWindow):
 
             self.radiobutton = QtWidgets.QRadioButton(
                 row, clicked=self.view_table_sort_by_category)
-            self.radiobutton.setStyleSheet('''
+            self.radiobutton.setStyleSheet("""
             QRadioButton {
                 font-family: "Roboto", Light;
                 font-size: 12pt;
                 margin-top: 7px;
                 margin-left: 5px;}
-            ''')
+            """)
             self.radiobutton.setObjectName(row)
 
             lbl_time = QtWidgets.QLabel(f'{overall_time}')
-            lbl_time.setStyleSheet('''
+            lbl_time.setStyleSheet("""
             QLabel {
                 font-family: "Roboto", Light;
                 font-size: 12pt;
                 margin-top: 7px;}
-            ''')
+            """)
 
-            self.categ_lay.addWidget(self.radiobutton, i, 0, alignment=Qt.AlignLeft)
+            self.categ_lay.addWidget(
+                self.radiobutton, i, 0, alignment=Qt.AlignLeft)
             if lbl_time.text() == 'None':
                 pass
             else:
@@ -2930,17 +2931,17 @@ class MainUI(QtWidgets.QMainWindow):
             self.categ_lay.itemAt(i).widget().deleteLater()
 
         lbl = QtWidgets.QLabel('КАТЕГОРИИ')
-        lbl.setStyleSheet('''
+        lbl.setStyleSheet("""
         QLabel {
             font-family: "Roboto", Light;
             font-size: 12pt;
             margin-top: 7px;
             margin-left: 10px;}
-        ''')
+        """)
         lbl.setGeometry(1, 7, 159, 23)
 
         btn = QtWidgets.QPushButton('—')
-        btn.setStyleSheet('''
+        btn.setStyleSheet("""
         QPushButton {
             font-family: "Roboto", Light;
             font-size: 14pt;
@@ -2956,7 +2957,7 @@ class MainUI(QtWidgets.QMainWindow):
             background-color: rgb(115, 103, 240);
             color: rgb(255, 255, 255);
             border: 1px solid rgb(115, 103, 240);}
-        ''')
+        """)
         btn.setGeometry(166, 1, 100, 30)
 
         btn.clicked.connect(self.cUi.show)
@@ -2966,32 +2967,32 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.view_all = QtWidgets.QRadioButton(
             'Посмотреть все', clicked=self.view_table_sort_by_category)
-        self.view_all.setStyleSheet('''
+        self.view_all.setStyleSheet("""
             QRadioButton {
                 font-family: "Roboto", Light;
                 font-size: 12pt;
                 margin-top: 7px;
                 margin-left: 5px;}
-            ''')
+            """)
         self.view_all.setChecked(True)
         self.view_all.setObjectName('Посмотреть все')
-        
+
         all_overall_time = self.timedb.set_logged_user_data(
             item='get_category_overall_time', add_params=['all'])
 
         if all_overall_time == 'None':
-                pass
+            pass
         else:
             all_overall_time = self.input_check().secondsToText(
-                        int(all_overall_time)*60, 'categs')
+                int(all_overall_time)*60, 'categs')
 
         lbl_time = QtWidgets.QLabel(f'{all_overall_time}')
-        lbl_time.setStyleSheet('''
+        lbl_time.setStyleSheet("""
         QLabel {
             font-family: "Roboto", Light;
             font-size: 12pt;
             margin-top: 7px;}
-        ''')
+        """)
 
         self.categ_lay.addWidget(self.view_all, 1, 0, alignment=Qt.AlignLeft)
         self.categ_lay.addWidget(lbl_time, 1, 1, alignment=Qt.AlignRight)
@@ -3011,24 +3012,25 @@ class MainUI(QtWidgets.QMainWindow):
 
             self.radiobutton = QtWidgets.QRadioButton(
                 row, clicked=self.view_table_sort_by_category)
-            self.radiobutton.setStyleSheet('''
+            self.radiobutton.setStyleSheet("""
             QRadioButton {
                 font-family: "Roboto", Light;
                 font-size: 12pt;
                 margin-top: 7px;
                 margin-left: 5px;}
-            ''')
+            """)
             self.radiobutton.setObjectName(row)
 
             lbl_time = QtWidgets.QLabel(f'{overall_time}')
-            lbl_time.setStyleSheet('''
+            lbl_time.setStyleSheet("""
             QLabel {
                 font-family: "Roboto", Light;
                 font-size: 12pt;
                 margin-top: 7px;}
-            ''')
+            """)
 
-            self.categ_lay.addWidget(self.radiobutton, i, 0, alignment=Qt.AlignLeft)
+            self.categ_lay.addWidget(
+                self.radiobutton, i, 0, alignment=Qt.AlignLeft)
             if lbl_time.text() == 'None':
                 pass
             else:
@@ -3193,7 +3195,7 @@ class MainUI(QtWidgets.QMainWindow):
 
 
 class DbLogic:
-    '''
+    """
     The DbLogic class impelements configuration and connection to the 
     PostgreSql database. 
 
@@ -3202,7 +3204,7 @@ class DbLogic:
     - user login 
     - getting data from logged user 
     - setting data for logged user 
-    '''
+    """
 
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8-sig')

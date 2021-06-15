@@ -22,7 +22,7 @@ import statsmodels.formula.api as smf
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QIcon, QPainter, QPen
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QDate, Qt
 
 
 sys.path.append(".")
@@ -31,18 +31,13 @@ sys.path.append(".")
 TODO BUGS
 
 Тема (change_theme)
-Кнопка телеги (settings_telegram)
 
 TODO
-
 !докстринги + комменты + пепы(до вторника).
-!None при создании нового пользователя.
-!Убрать подчеркивание почты в настройках.
-!Привязать сегодняшнюю дату - 7 дней на главном экране как стандартную "с".
-!Базовая сортировка от сегодняшней даты.
+!Сортировка по категориям выше приоритетом
 !Перед импортом задать вопрос - перезаписать или добавить?
 !подключённый телеграм юзера (окошко с предупреждением).
-!Автокомплит в добавлении\редактировании активностей.
+Автокомплит в добавлении\редактировании активностей.
 
 сделать комбобокс для названия кативностей + авктокомлит после введения для категории
 """
@@ -304,16 +299,6 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
             return result
 
 
-# ----------------------------------------------------------START-----timeSoft
-# class AlignDelegate(QtWidgets.QStyledItemDelegate):
-#     """
-#     This class implements center positioning for icons in TableView widget
-#     """
-#     def initStyleOption(self, option, index):
-#         super().initStyleOption(option, index)
-#         option.decorationSize = option.rect.size()
-
-
 class MainUI(QtWidgets.QMainWindow):
     """
     The MainUI class contains the following functional:
@@ -359,6 +344,10 @@ class MainUI(QtWidgets.QMainWindow):
         self.ccUi = self.mUi.mainwindow_widget_category
         self.scroll_ccUi = self.mUi.scrollArea
 
+        # Current date in different formats (datetime and QDate)
+        self.today = datetime.datetime.now()
+        self.qtoday = QtCore.QDate.currentDate()
+
         # Various settings for different UI elements, such as connecting
         # buttons to slots and setting menubars.
         self.pre_initUI()
@@ -369,8 +358,6 @@ class MainUI(QtWidgets.QMainWindow):
         # self.ttUi.tableW.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         # When starting a program, first login UI appears.
         self.show_login()
-
-        self.today = datetime.datetime.now()
 
     def pre_initUI(self):
         icon = QtGui.QIcon('design\\img\\main\\favicon.png')
@@ -393,14 +380,10 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.mainwindow_btn_settings.clicked.connect(self.sUi.show)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
         # Sorting by date buttons and dateEdit element.
-        self.mUi.mainwindow_dateEdit_s.setDate(
-            QtCore.QDate(QtCore.QDate.currentDate()))
-        self.mUi.mainwindow_dateEdit_s.setMaximumDate(
-            QtCore.QDate(QtCore.QDate.currentDate()))
-        self.mUi.mainwindow_dateEdit_po.setDate(
-            QtCore.QDate(QtCore.QDate.currentDate()))
-        self.mUi.mainwindow_dateEdit_po.setMaximumDate(
-            QtCore.QDate(QtCore.QDate.currentDate()))
+        self.mUi.mainwindow_dateEdit_s.setDate(self.qtoday.addDays(-7))
+        self.mUi.mainwindow_dateEdit_s.setMaximumDate(self.qtoday)
+        self.mUi.mainwindow_dateEdit_po.setDate(self.qtoday)
+        self.mUi.mainwindow_dateEdit_po.setMaximumDate(self.qtoday)
 
         self.mUi.mainwindow_btn_daily.clicked.connect(
             self.view_table_sort_by_day)
@@ -495,6 +478,9 @@ class MainUI(QtWidgets.QMainWindow):
 
         # Scroll area settings.
         self.scroll_ccUi.setFrameShape(self.scroll_ccUi.NoFrame)
+
+        # TableW settings.
+        self.ttUi.tableW.setFrameStyle(self.ttUi.tableW.NoFrame)
 
         # Variable of correctness login status.
         self.correct_login = False
@@ -1645,7 +1631,6 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color:  #676D7D;'
                 f'background:  #283046;'
                 f'border-radius: 5px;'
-                f'text-decoration: underline;'
                 f'font-size: 13pt;')
             self.sUi.settings_lineedit_email_new.setStyleSheet(
                 """QLineEdit {"""
@@ -2710,6 +2695,7 @@ class MainUI(QtWidgets.QMainWindow):
             item='get_user_activities_table')
         self.ttUi.tableW.setRowCount(len(rows))
 
+        self.ttUi.tableW.setSortingEnabled(False)
         x = 0
         for row in rows:
             row3 = self.input_check().secondsToText(int(row[3])*60)
@@ -2733,6 +2719,8 @@ class MainUI(QtWidgets.QMainWindow):
                 x, 5, QtWidgets.QTableWidgetItem(row[5]))
             x += 1
 
+        self.ttUi.tableW.setSortingEnabled(True)
+        self.ttUi.tableW.sortItems(1, Qt.DescendingOrder)
         self.ttUi.tableW.resizeColumnsToContents()
         self.lay.addWidget(self.ttUi.tableW)
 
@@ -2760,6 +2748,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.ttUi.tableW.setRowCount(len(rows))
 
+        self.ttUi.tableW.setSortingEnabled(False)
         x = 0
         for row in rows:
             row3 = self.input_check().secondsToText(int(row[3])*60)
@@ -2782,6 +2771,8 @@ class MainUI(QtWidgets.QMainWindow):
                 x, 5, QtWidgets.QTableWidgetItem(row[5]))
             x += 1
 
+        self.ttUi.tableW.setSortingEnabled(True)
+        self.ttUi.tableW.sortItems(1, Qt.DescendingOrder)
         self.ttUi.tableW.resizeColumnsToContents()
         self.lay.addWidget(self.ttUi.tableW)
 
@@ -2867,7 +2858,7 @@ class MainUI(QtWidgets.QMainWindow):
             item='get_category_overall_time', add_params=['all'])
 
         if all_overall_time == 'None':
-            pass
+            all_overall_time = ''
         else:
             all_overall_time = self.input_check().secondsToText(
                 int(all_overall_time)*60, 'categs')
@@ -2891,7 +2882,7 @@ class MainUI(QtWidgets.QMainWindow):
                 item='get_category_overall_time', add_params=[row])
 
             if overall_time == 'None':
-                pass
+                all_overall_time = ''
             else:
                 overall_time = self.input_check().secondsToText(
                     int(overall_time)*60, 'categs')
@@ -2982,7 +2973,7 @@ class MainUI(QtWidgets.QMainWindow):
             item='get_category_overall_time', add_params=['all'])
 
         if all_overall_time == 'None':
-            pass
+            all_overall_time = ''
         else:
             all_overall_time = self.input_check().secondsToText(
                 int(all_overall_time)*60, 'categs')

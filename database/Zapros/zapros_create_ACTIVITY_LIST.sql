@@ -1,4 +1,5 @@
-INSERT INTO "ACTIVITY_LIST" (USER_ID, ACTL_name, CAT_name) VALUES ('1', 'Выгуливал собаку', 'Быт'),
+INSERT INTO "ACTIVITY_LIST" (USER_ID, ACTL_name, CAT_name) VALUES 
+('1', 'Выгуливал собаку', 'Быт'),
 ('1', 'Выкидывал мусор', 'Быт'),
 ('1', 'Вытерал пыль', 'Быт'),
 ('1', 'Готовил бутерброды', 'Быт'),

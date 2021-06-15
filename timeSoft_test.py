@@ -652,7 +652,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color: rgb(115, 103, 240);'
                 f'background-color: rgba(0, 0, 0, 0);'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'color: rgb(180, 183, 189);'
                 """}"""
             )
@@ -663,7 +663,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border: 2px solid #7367F0;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: rgb(255, 255, 255);'
                 f'border: 2px solid rgb(95, 85, 200);'
@@ -677,7 +677,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'padding-left: 15px;'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -689,7 +689,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'padding-left: 15px;'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -724,7 +724,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color: rgb(115, 103, 240);'
                 f'background-color: rgba(0, 0, 0, 0);'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'color: rgb(180, 183, 189);'
                 """}"""
             )
@@ -735,7 +735,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border: 2px solid #7367F0;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: rgb(255, 255, 255);'
                 f'border: 2px solid rgb(95, 85, 200);'
@@ -752,7 +752,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'padding-left: 15px;'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -764,7 +764,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'padding-left: 15px;'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -776,7 +776,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'padding-left: 15px;'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -825,11 +825,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-top-left-radius: 0;'
                 f'border-top-right-radius: 5px;'
                 f'border-bottom-right-radius: 5px;'
-                f'border-bottom-left-radius: 0px;'
+                f'border-bottom-left-radius: 0;'
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: #283046;'
                 f'color: #FFFFFF;'
                 f'border: 2px solid #796DFF;'
@@ -841,7 +841,7 @@ class MainUI(QtWidgets.QMainWindow):
             )
             self.mUi.mainwindow_btn_annually.setStyleSheet(
                 """QPushButton {"""
-                f'background-color:  {bgcolor_fon_d};'
+                f'background-color: {bgcolor_fon_d};'
                 f'color: {color_white};'
                 f'border: 2px solid {color_theme_d};'
                 f'border-right: 0;'
@@ -849,7 +849,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: #283046;'
                 f'color: #FFFFFF;'
                 f'border: 2px solid #796DFF;'
@@ -858,7 +858,7 @@ class MainUI(QtWidgets.QMainWindow):
             )
             self.mUi.mainwindow_btn_daily.setStyleSheet(
                 """QPushButton {"""
-                f'background-color:  {bgcolor_fon_d};'
+                f'background-color: {bgcolor_fon_d};'
                 f'color: {color_white};'
                 f'border: 2px solid {color_theme_d};'
                 f'border-right: 0;'
@@ -869,7 +869,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: #283046;'
                 f'color: #FFFFFF;'
                 f'border: 2px solid #796DFF;'
@@ -881,7 +881,7 @@ class MainUI(QtWidgets.QMainWindow):
             )
             self.mUi.mainwindow_btn_monthly.setStyleSheet(
                 """QPushButton {"""
-                f'background-color:  {bgcolor_fon_d};'
+                f'background-color: {bgcolor_fon_d};'
                 f'color: {color_white};'
                 f'border: 2px solid {color_theme_d};'
                 f'border-right: 0;'
@@ -889,7 +889,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: #283046;'
                 f'color: #FFFFFF;'
                 f'border: 2px solid #796DFF;'
@@ -907,7 +907,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-top: 5px;'
                 f'padding-bottom: 5px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color: #7367F0;'
                 f'border: 2px solid #7367F0;'
@@ -915,7 +915,7 @@ class MainUI(QtWidgets.QMainWindow):
             )
             self.mUi.mainwindow_btn_weekly.setStyleSheet(
                 """QPushButton {"""
-                f'background-color:  {bgcolor_fon_d};'
+                f'background-color: {bgcolor_fon_d};'
                 f'color: {color_white};'
                 f'border: 2px solid {color_theme_d};'
                 f'border-right: 0;'
@@ -923,7 +923,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: #283046;'
                 f'color: #FFFFFF;'
                 f'border: 2px solid #796DFF;'
@@ -932,23 +932,23 @@ class MainUI(QtWidgets.QMainWindow):
             )
             self.mUi.mainwindow_dateEdit_po.setStyleSheet(
                 """QDateEdit {"""
-                f'background-color:  {bgcolor_fon_d};'
+                f'background-color: {bgcolor_fon_d};'
                 f'border-radius: 5px;'
                 f'color: #FFFFFF;'
                 f'margin-right: 5px;'
                 """}
-                QDateEdit: hover {"""
+                QDateEdit::hover {"""
                 f'background-color: #283046;'
                 f'color: #FFFFFF;'
                 """}"""
             )
             self.mUi.mainwindow_dateEdit_s.setStyleSheet(
                 """QDateEdit {"""
-                f'background-color:  {bgcolor_fon_d};'
+                f'background-color: {bgcolor_fon_d};'
                 f'border-radius: 5px;'
                 f'color: #FFFFFF;'
                 """}
-                QDateEdit: hover {"""
+                QDateEdit::hover {"""
                 f'background-color: #283046;'
                 f'color: #FFFFFF;'
                 """}"""
@@ -970,21 +970,21 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color:  #D0D2D6;'
             )
             self.mUi.mainwindow_widget_view.setStyleSheet(
-                f'background-color:  {bgcolor_fon_d};'
+                f'background-color: {bgcolor_fon_d};'
                 f'background-image: url(design/img/background-image_d.png);'
             )
             self.mUi.mainwindow_widget_view_spacer.setStyleSheet(
                 f'border-right: 1px solid  #3B4253;'
-                f'background-color:  {bgcolor_fon_d};'
+                f'background-color: {bgcolor_fon_d};'
             )
             self.mUi.mainwindow_widget_logo.setStyleSheet(
-                f'background-color:  {bgcolor_fon_d};'
+                f'background-color: {bgcolor_fon_d};'
             )
             self.mUi.mainwindow_lbl_logo_title.setStyleSheet(
                 f'color:  #7367F0;'
             )
             self.mUi.mainwindow_widget_menu.setStyleSheet(
-                f'background-color:  {bgcolor_fon_d};'
+                f'background-color: {bgcolor_fon_d};'
             )
             self.mUi.mainwindow_btn_exit.setStyleSheet(
                 """QPushButton {"""
@@ -993,7 +993,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color: {color_theme_d};'
                 """}"""
@@ -1006,7 +1006,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-right: 10px;'
                 f'margin-top: 27px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color: {color_theme_d};'
                 """}"""
@@ -1018,7 +1018,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color: {color_theme_d};'
                 """}"""
@@ -1030,7 +1030,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color: {color_theme_d};'
                 """}"""
@@ -1044,7 +1044,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 10px;'
                 f'padding-right: 10px;'
                 """}
-                QComboBox: hover {"""
+                QComboBox::hover {"""
                 f'background-color: #283046;'
                 f'color: #B9B9C3;'
                 f'border: 2px solid  #7666F8;'
@@ -1067,11 +1067,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color: #CBCBCB;'
                 f'background-color: rgba(0, 0, 0, 130);'
                 """}
-                QMenuBar:: item: selected {"""
+                QMenuBar::item:selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenuBar:: item: pressed {"""
+                QMenuBar::item:pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -1081,11 +1081,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu:: item: selected {"""
+                QMenu::item:selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu:: item: pressed {"""
+                QMenu::item:pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -1095,11 +1095,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu:: item: selected {"""
+                QMenu::item:selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu:: item: pressed {"""
+                QMenu::item:pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -1109,11 +1109,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu:: item: selected {"""
+                QMenu::item:selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu:: item: pressed {"""
+                QMenu::item:pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -1126,31 +1126,31 @@ class MainUI(QtWidgets.QMainWindow):
                 f'gridline-color: #3B4253;'
                 f'color: #B4B7BD;'
                 """}
-                QTableView QTableCornerButton:: section {"""
+                QTableView QTableCornerButton::section {"""
                 f'background-color: rgba(0, 0, 0, 255);'
                 """}
-                QTableView QHeaderView:: section {"""
+                QTableView QHeaderView::section {"""
                 f'padding-left: auto;'
                 f'padding-right: auto;'
                 """}
-                QHeaderView:: section {"""
+                QHeaderView::section {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: #B4B7BD;'
                 f'border: 2px solid rgba(0, 0, 0, 0);'
                 """}
-                QHeaderView:: section: checked {"""
+                QHeaderView::section:checked {"""
                 f'background-color: rgb(115, 103, 240);'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QHeaderView:: section: selected {"""
+                QHeaderView::section:selected {"""
                 f'background-color: rgb(0, 85, 0);'
                 f'color: #B4B7BD;'
                 f'border: 2px solid rgba(0, 0, 0, 0);'
                 """}
-                QTableWidget:: item {"""
+                QTableWidget::item {"""
                 f'color: #B4B7BD;'
                 """}
-                QTableWidget:: item: selected {"""
+                QTableWidget::item:selected {"""
                 f'background-color: rgb(115, 103, 240);'
                 f'color: rgb(255, 255, 255);'
                 """}"""
@@ -1176,7 +1176,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: center;'
                 f'margin-right: 8px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: rgb(115, 103, 240);'
                 f'border: 2px solid rgb(95, 85, 200);'
@@ -1195,7 +1195,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: center;'
                 f'margin-left: 8px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(234, 84, 85);'
                 f'color: rgb(255, 255, 255);'
                 f'border: 2px solid rgb(234, 84, 85);'
@@ -1203,12 +1203,13 @@ class MainUI(QtWidgets.QMainWindow):
             )
             self.aUi.add_event_comboBox_category.setStyleSheet(
                 """QComboBox {"""
+                f'font: 12pt;'
                 f'background-color:  #283046;'
                 f'border: 1px solid rgb(122, 122, 122);'
                 f'border-radius: 5px;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QComboBox: hover {"""
+                QComboBox::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}
@@ -1227,7 +1228,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QDateEdit: hover {"""
+                QDateEdit::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
@@ -1239,7 +1240,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
@@ -1251,7 +1252,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
@@ -1263,7 +1264,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QPlainTextEdit: hover {"""
+                QPlainTextEdit::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
@@ -1295,7 +1296,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color: rgb(208, 210, 214);'
                 f'background-color: rgba(0, 0, 0, 0);'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'color: rgb(234, 84, 85);'
                 """}"""
             )
@@ -1323,7 +1324,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: center;'
                 f'margin-right: 8px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: rgb(115, 103, 240);'
                 f'border: 2px solid rgb(95, 85, 200);'
@@ -1342,7 +1343,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: center;'
                 f'margin-left: 8px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(234, 84, 85);'
                 f'color: rgb(255, 255, 255);'
                 f'border: 2px solid rgb(234, 84, 85);'
@@ -1350,12 +1351,13 @@ class MainUI(QtWidgets.QMainWindow):
             )
             self.eUi.edit_event_comboBox_category.setStyleSheet(
                 """QComboBox {"""
+                f'font: 12pt;'
                 f'background-color:  #283046;'
                 f'border: 1px solid rgb(122, 122, 122);'
                 f'border-radius: 5px;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QComboBox: hover {"""
+                QComboBox::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}
@@ -1374,7 +1376,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QDateEdit: hover {"""
+                QDateEdit::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
@@ -1386,7 +1388,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
@@ -1398,7 +1400,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
@@ -1410,7 +1412,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QPlainTextEdit: hover {"""
+                QPlainTextEdit::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
@@ -1442,7 +1444,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color: rgb(208, 210, 214);'
                 f'background-color: rgba(0, 0, 0, 0);'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'color: rgb(234, 84, 85);'
                 """}"""
             )
@@ -1470,7 +1472,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: center;'
                 f'margin-right: 8px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: rgb(115, 103, 240);'
                 f'border: 2px solid rgb(95, 85, 200);'
@@ -1489,7 +1491,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: center;'
                 f'margin-left: 8px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(234, 84, 85);'
                 f'color: rgb(255, 255, 255);'
                 f'border: 2px solid rgb(234, 84, 85);'
@@ -1497,12 +1499,13 @@ class MainUI(QtWidgets.QMainWindow):
             )
             self.cUi.category_delete_comboBox_category.setStyleSheet(
                 """QComboBox {"""
+                f'font: 12pt;'
                 f'background-color:  #283046;'
                 f'border: 1px solid rgb(122, 122, 122);'
                 f'border-radius: 5px;'
                 f'color: rgb(255, 255, 255);'
                 """}
-                QComboBox: hover {"""
+                QComboBox::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}
@@ -1526,7 +1529,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color: rgb(208, 210, 214);'
                 f'background-color: rgba(0, 0, 0, 0);'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'color: rgb(234, 84, 85);'
                 """}"""
             )
@@ -1552,7 +1555,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: center;'
                 f'margin-right: 5px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: rgb(115, 103, 240);'
                 f'border: 2px solid rgb(95, 85, 200);'
@@ -1571,7 +1574,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: center;'
                 f'margin-left: 5px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(234, 84, 85);'
                 f'color: rgb(255, 255, 255);'
                 f'border: 2px solid rgb(234, 84, 85);'
@@ -1589,7 +1592,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-bottom: 5 px;'
                 f'margin-right: 10px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: rgb(115, 103, 240);'
                 f'border: 1px solid rgb(95, 85, 200);'
@@ -1607,7 +1610,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-bottom: 5 px;'
                 f'margin-right: 10px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: rgb(115, 103, 240);'
                 f'border: 1px solid rgb(95, 85, 200);'
@@ -1622,7 +1625,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 10px;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgb(40, 48, 70);'
                 f'color: rgb(255, 255, 255);'
                 f'border: 1px solid rgb(95, 85, 200);'
@@ -1651,7 +1654,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border: 1px solid  #404656;'
                 f'border-radius: 5px;'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -1662,7 +1665,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border: 1px solid  #404656;'
                 f'border-radius: 5px;'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -1673,7 +1676,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border: 1px solid  #404656;'
                 f'border-radius: 5px;'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -1684,7 +1687,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border: 1px solid  #404656;'
                 f'border-radius: 5px;'
                 """}
-                QLineEdit: hover {"""
+                QLineEdit::hover {"""
                 f'border: 1px solid rgb(95, 85, 200);'
                 """}"""
             )
@@ -1717,11 +1720,11 @@ class MainUI(QtWidgets.QMainWindow):
             )
             self.abUi.about_us_btn_exit.setStyleSheet(
                 """QPushButton {"""
-                f'color: rgb(234, 84, 85);'
+                f'color: {about_us_text_color};'
                 f'background-color: rgba(0, 0, 0, 0);'
                 """}
-                QPushButton: hover {"""
-                f'color: {about_us_text_color};'
+                QPushButton::hover {"""
+                f'color: rgb(234, 84, 85);'
                 """}"""
             )
             self.abUi.about_us_imglabel_alex.setStyleSheet(
@@ -1850,33 +1853,33 @@ class MainUI(QtWidgets.QMainWindow):
                 """QPushButton {"""
                 f'color:  #7367F0;'
                 f'border: 2px solid {color_theme_d};'
-                f'border-top-left-radius: 0px;'
+                f'border-top-left-radius: 0;'
                 f'border-top-right-radius: 5px;'
                 f'border-bottom-right-radius: 5px;'
-                f'border-bottom-left-radius: 0px;'
+                f'border-bottom-left-radius: 0;'
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(104, 93, 216, 0.2);'
                 f'color:  #7367F0;'
                 f'border: 2px solid #796DFF;'
-                f'border-top-left-radius: 0px;'
+                f'border-top-left-radius: 0;'
                 f'border-top-right-radius: 5px;'
                 f'border-bottom-right-radius: 5px;'
-                f'border-bottom-left-radius: 0px;'
+                f'border-bottom-left-radius: 0;'
                 """}"""
             )
             self.mUi.mainwindow_btn_annually.setStyleSheet(
                 """QPushButton {"""
                 f'color:  #7367F0;'
                 f'border: 2px solid {color_theme_d};'
-                f'border-right: 0px;'
+                f'border-right: 0;'
                 f'border-radius: 0;'
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(104, 93, 216, 0.2);'
                 f'color:  #7367F0;'
                 f'border: 2px solid #796DFF;'
@@ -1887,21 +1890,21 @@ class MainUI(QtWidgets.QMainWindow):
                 """QPushButton {"""
                 f'color:  #7367F0;'
                 f'border: 2px solid {color_theme_d};'
-                f'border-right: 0px;'
+                f'border-right: 0;'
                 f'border-top-left-radius: 5px;'
-                f'border-top-right-radius: 0px;'
-                f'border-bottom-right-radius: 0px;'
+                f'border-top-right-radius: 0;'
+                f'border-bottom-right-radius: 0;'
                 f'border-bottom-left-radius: 5px;'
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(104, 93, 216, 0.2);'
                 f'color:  #7367F0;'
                 f'border: 2px solid #796DFF;'
                 f'border-top-left-radius: 5px;'
-                f'border-top-right-radius: 0px;'
-                f'border-bottom-right-radius: 0px;'
+                f'border-top-right-radius: 0;'
+                f'border-bottom-right-radius: 0;'
                 f'border-bottom-left-radius: 5px;'
                 """}"""
             )
@@ -1909,12 +1912,12 @@ class MainUI(QtWidgets.QMainWindow):
                 """QPushButton {"""
                 f'color:  #7367F0;'
                 f'border: 2px solid {color_theme_d};'
-                f'border-right: 0px;'
+                f'border-right: 0;'
                 f'border-radius: 0;'
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(104, 93, 216, 0.2);'
                 f'color:  #7367F0;'
                 f'border: 2px solid #796DFF;'
@@ -1932,7 +1935,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-top: 5px;'
                 f'padding-bottom: 5px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color: #5E5873;'
                 f'border: 2px solid #7367F0;'
@@ -1942,12 +1945,12 @@ class MainUI(QtWidgets.QMainWindow):
                 """QPushButton {"""
                 f'color:  #7367F0;'
                 f'border: 2px solid {color_theme_d};'
-                f'border-right: 0px;'
+                f'border-right: 0;'
                 f'border-radius: 0;'
                 f'padding-left: 20px;'
                 f'padding-right: 20px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(104, 93, 216, 0.2);'
                 f'color:  #7367F0;'
                 f'border: 2px solid #796DFF;'
@@ -1960,7 +1963,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color:  #5E5873;'
                 """}
-                QDateEdit: hover {"""
+                QDateEdit::hover {"""
                 f'background-color: #E6E6E6;'
                 f'color:  #5E5873;'
                 """}"""
@@ -1971,7 +1974,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'border-radius: 5px;'
                 f'color:  #5E5873;'
                 """}
-                QDateEdit: hover {"""
+                QDateEdit::hover {"""
                 f'background-color: #E6E6E6;'
                 f'color:  #5E5873;'
                 """}"""
@@ -2020,7 +2023,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color:  #7367F0;'
                 """}"""
@@ -2033,7 +2036,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-right: 10px;'
                 f'margin-top: 27px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color:  #7367F0;'
                 """}"""
@@ -2045,7 +2048,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color:  #7367F0;'
                 """}"""
@@ -2057,7 +2060,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'text-align: left;'
                 f'padding-right: 10px;'
                 """}
-                QPushButton: hover {"""
+                QPushButton::hover {"""
                 f'background-color: rgba(0, 0, 0, 0);'
                 f'color:  #7367F0;'
                 """}"""
@@ -2071,7 +2074,7 @@ class MainUI(QtWidgets.QMainWindow):
                 f'padding-left: 10px;'
                 f'padding-right: 10px;'
                 """}
-                QComboBox: hover {"""
+                QComboBox::hover {"""
                 f'background-color: #E6E6E6;'
                 f'color: #5E5873;'
                 f'border: 2px solid  #7666F8;'
@@ -2094,11 +2097,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color: #CBCBCB;'
                 f'background-color: rgba(0, 0, 0, 130);'
                 """}
-                QMenuBar:: item: selected {"""
+                QMenuBar::item:selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenuBar:: item: pressed {"""
+                QMenuBar::item:pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -2108,11 +2111,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu:: item: selected {"""
+                QMenu::item:selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu:: item: pressed {"""
+                QMenu::item:pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -2122,11 +2125,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu:: item: selected {"""
+                QMenu::item:selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu:: item: pressed {"""
+                QMenu::item:pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""
@@ -2136,11 +2139,11 @@ class MainUI(QtWidgets.QMainWindow):
                 f'background-color: #141822;'
                 f'color: #CBCBCB;'
                 """}
-                QMenu:: item: selected {"""
+                QMenu::item:selected {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}
-                QMenu:: item: pressed {"""
+                QMenu::item:pressed {"""
                 f'background-color: #C8C8C8;'
                 f'color: #000000;'
                 """}"""

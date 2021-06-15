@@ -159,7 +159,7 @@ def check_password(message):
                 if user_id:
                     user_id = user_id[0][0]
             else:
-                unsuccessful_msg = bot.send_message(message.from_user.id, 'Неверный пароль, повторите попытку..')
+                unsuccessful_msg = bot.send_message(message.from_user.id, 'Неверный пароль, повторите попытку.')
                 bot.register_next_step_handler(unsuccessful_msg, check_password)
     else:
         if message.text == '/start':
@@ -339,7 +339,7 @@ def add_event(message):
             cat_name_check_len = InputCheck(cat_name).check_len()
             cat_name_check_incorrect_vals = InputCheck(cat_name).check_incorrect_vals()
             if len(args) == 5:
-                act_comment = "'{}'".format(args[4])
+                act_comment = args[4]
                 act_comment_check_comment_len = InputCheck(act_comment).check_comment_len()
                 act_comment_check_incorrect_vals = InputCheck(act_comment).check_incorrect_vals()
             else:

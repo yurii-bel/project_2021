@@ -216,6 +216,11 @@
       <height>38</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
     <property name="maxLength">
      <number>60</number>
     </property>

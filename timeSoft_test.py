@@ -25,7 +25,7 @@ import statsmodels.formula.api as smf
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QIcon, QPainter, QPen
-from PyQt5.QtCore import QDate, Qt
+from PyQt5.QtCore import Qt
 
 
 sys.path.append(".")
@@ -36,15 +36,14 @@ TODO BUGS
 Тема (change_theme)
 
 TODO
+!Кнопка телеграм.
+!Перед импортом задать вопрос - перезаписать или добавить?
+!Автокомплит в добавлении\редактировании активностей.
 !докстринги + комменты + пепы(до вторника).
 
-!Перед импортом задать вопрос - перезаписать или добавить?
-!подключённый телеграм юзера (окошко с предупреждением).
-!Отдельная функция для сортировки.
+Отдельная функция для сортировки.
 Сортировка по категориям выше приоритетом
 Кнопки сверху должны делить дату.
-Автокомплит в добавлении\редактировании активностей.
-
 сделать комбобокс для названия кативностей + авктокомлит после введения для категории
 """
 
@@ -2517,37 +2516,37 @@ class MainUI(QtWidgets.QMainWindow):
         self.update_view_categ()
         self.cUi.close()
 
+    # TODO:
+    #!Фикс обеих функций - ничего не работает :с
     def settings_export(self):
         data = self.timedb.get_logged_user_data(item='get_user_activities')
-        try:
-            settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(
-                self, 'Save file', '/', 'CSV file (*.csv)')
-            if settingsSave[0]:
-                with open(settingsSave[0], 'w+', newline='') as f:
-                    writer = csv.writer(f)
-                    for d in data:
-                        writer.writerow(d)
-
-        except Exception:
-            self.input_check().simple_diag('Экспорт не удался.')
-        if ok:
-            self.input_check().simple_diag('Экспорт успешно завершён!')
+        # try:
+        settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(
+            self, 'Save file', '/', 'CSV file (*.csv)')
+        if settingsSave[0]:
+            with open(settingsSave[0], 'w+', newline='') as f:
+                writer = csv.writer(f)
+                for d in data:
+                    writer.writerow(d)
+        #     if ok:
+        #         self.input_check().simple_diag('Экспорт успешно завершён!')
+        # except Exception:
+        #     self.input_check().simple_diag('Экспорт не удался.')
 
     def settings_import(self):
-        try:
-            settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(
-                self, 'Open file', '/', 'CSV file (*.csv)')
-            if settingsLoad[0]:
-                with open(settingsLoad[0], 'r+') as f:
-                    reader = csv.reader(f, delimiter=',')
-                    for row in reader:
-                        self.timedb.set_logged_user_data(
-                            item='add_event', add_params=row)
-
-        except Exception:
-            self.input_check().simple_diag('Импорт не удался.')
-        if ok:
-            self.input_check().simple_diag('Импорт успешно завершён!')
+        # try:
+        settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(
+            self, 'Open file', '/', 'CSV file (*.csv)')
+        if settingsLoad[0]:
+            with open(settingsLoad[0], 'r+') as f:
+                reader = csv.reader(f, delimiter=',')
+                for row in reader:
+                    self.timedb.set_logged_user_data(
+                        item='add_event', add_params=row)
+            # if ok:
+            #     self.input_check().simple_diag('Импорт успешно завершён!')
+        # except Exception:
+        #     self.input_check().simple_diag('Импорт не удался.')
 
     def settings_change_user_data(self):
         self.timedb.get_logged_user_data(item='get_user_p_id')

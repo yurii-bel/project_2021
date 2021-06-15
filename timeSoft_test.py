@@ -293,15 +293,6 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
             pass
         return True
 
-# ----------------------------------------------------------START-----timeSoft
-# class AlignDelegate(QtWidgets.QStyledItemDelegate):
-#     '''
-#     This class implements center positioning for icons in TableView widget
-#     '''
-#     def initStyleOption(self, option, index):
-#         super().initStyleOption(option, index)
-#         option.decorationSize = option.rect.size()
-
 
 class MainUI(QtWidgets.QMainWindow):
     '''
@@ -492,6 +483,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.input_check = InputCheckWithDiags
 
     def sorting_data_csv(self):
+        # This method sorting data by month and category.
         if self.idx < len(self.diff_categories):
             # Removing files.
             # Creating new files.
@@ -501,12 +493,11 @@ class MainUI(QtWidgets.QMainWindow):
                 writer.writerow(['Month', 'Duration'])
                 for item in self.duration_by_dates_and_categories:
                     if item['category'] == self.diff_categories[self.idx]:
-                        # print(item)
                         writer.writerow([item['date'], item['duration']])
             self.idx += 1
             self.sorting_data_csv()
         else:
-            print('all data sorted by month and category successfully!')
+            pass
 
     def post_initUI(self):
         self.user_id = self.timedb.get_logged_user_data(
@@ -523,6 +514,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.update_users_categs()
 
     def create_forecast_data(self):
+        # This method creates data which can then be forcasted.
         self.graph_plot()
         rows = self.timedb.get_logged_user_data(item='get_user_activities')
         self.dates = []
@@ -563,10 +555,11 @@ class MainUI(QtWidgets.QMainWindow):
                 self.sum_of_durations = 0
 
     def forecast(self):
+        # This method create forcasted values and plots graphical representaion.
         self.idx = 0  # Setting index for sorting data to 0.
         self.sorting_data_csv()
 
-        # applying forecasting.
+        # Applying forecasting.
         self.idx = 0
         while self.idx < len(self.diff_categories):
             with open(f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'r') as file:
@@ -595,7 +588,7 @@ class MainUI(QtWidgets.QMainWindow):
                     [f'{year}-{month}', round(lm.predict(y.x).get(0))])
             self.idx += 1
 
-        # load data.
+        # Reading csv files and plotting graphs according to them.
         index = 0
         pathes = []
 

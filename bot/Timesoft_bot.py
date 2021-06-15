@@ -30,6 +30,7 @@ user_n_id = None
 user_p_password = None
 user_p_id = None
 user_id = None
+cat_name = None
 
 # Welcome.
 @bot.message_handler(commands=['start'])
@@ -88,7 +89,8 @@ def password_of_user(message):
     if message.text == user_p_password:
         cursor.execute(f"UPDATE \"USER_NAME\" SET user_n_telegram = '{message.from_user.id}' WHERE user_n_id = '{user_n_id}'" )
         connection.commit()
-        bot.send_message(message.chat.id,'Вы авторизированы успешно!')
+        bot.send_message(message.chat.id,'Вы авторизированы успешно!, для добавления\
+                        новой активности или же изменения текущей find_activity  :')
     else:
         user_n_name = None
         user_n_id = None
@@ -96,6 +98,27 @@ def password_of_user(message):
         user_p_id = None
         user_p_password = None
         bot.send_message(message.chat.id,'Указан неверный пароль')
+        bot.register_next_step_handler(message, add_activity)
+
+# Funktion add activity
+bot.message_handler(content_types=['text'])
+def add_activity(message):
+    global user_id
+    global cat_name
+    if message.text == 'find_activity':
+        bot.send_message(message.chat.id,'Добавте  свою, или же введите существующую категорию :')
+        cursor.execute(f"SELECT cat_name FROM \"CATEGORY\" WHERE user_id = {user_id} ")
+        cat_name = cursor.fetchall()
+        if cat_name:
+            cat_name[0][0]
+            print(cat_name)
+
+
+
+    
+
+
+
     
 if __name__ == '__main__':
     while True:

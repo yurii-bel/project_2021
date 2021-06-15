@@ -1,15 +1,11 @@
+import os
 import telebot
 import psycopg2
-
-import os
-
-from psycopg2 import DatabaseError
-
 import configparser
 
+from psycopg2 import DatabaseError
 from datetime import datetime, timedelta
 from telebot import types
-
 from timeSoft_test import InputCheck
 
 
@@ -48,28 +44,7 @@ specific_commands = [
 ]
 commands = general_commands + specific_commands
 
-user_n_name = None
-user_n_id = None
-user_p_password = None
-user_p_id = None
-user_id = None
-act_id = None
-modifier = None
-sorting = None
-change = False
-
-
-def pre_check(message):
-    global user_n_id
-    global user_id
-    cursor.execute(f"SELECT user_n_id FROM \"USER_NAME\" WHERE user_n_telegram = '{message.from_user.id}'")
-    user_n_id = cursor.fetchall()
-    if user_n_id:
-        user_n_id = user_n_id[0][0]
-        cursor.execute(f"SELECT user_id FROM \"USER\" WHERE user_n_id = '{user_n_id}'")
-        user_id = cursor.fetchall()
-        if user_id:
-            user_id = user_id[0][0]
+users_data = {}
 
 
 @bot.message_handler(commands=['start'])
@@ -79,400 +54,405 @@ def start_command(message):
 
 @bot.message_handler(commands=['login'])
 def login_command(message):
-    name_msg = bot.send_message(message.from_user.id, "Введи своё имя.")
-    bot.register_next_step_handler(name_msg, check_name)
+    login_message = bot.send_message(message.chat.id, "Введи своё имя.")
+    bot.register_next_step_handler(login_message, check_login)
 
 
 @bot.message_handler(commands=['display'])
 def display_command(message):
-    global change
-    change = message.from_user.id
-    if not change:
-        change = True
-    request_message = bot.send_message(message.from_user.id, 'Выбери за сколько дней или между какими датами отобразить '
-                                                             'события \\(раздели запятой\\), например *7* или '
-                                                             '*01\\.01\\.2020*, *01\\.01\\.2021*\\.', parse_mode='MarkdownV2')
-    bot.register_next_step_handler(request_message, display_events)
+    # Check whether user is logged in
+    if 'logged_in_' + str(message.from_user.id) in users_data:
+        display_msg = bot.send_message(message.chat.id, 'Выбери за сколько дней или между какими датами отобразить '
+                                                        'события \\(раздели запятой\\), например *7* или '
+                                                        '*01\\.01\\.2020*, *01\\.01\\.2021*\\.',
+                                       parse_mode='MarkdownV2')
+        bot.register_next_step_handler(display_msg, display_events)
+    else:
+        bot.send_message(message.chat.id, 'Ввойди в аккаунт для пользования этой функцией.')
 
 
 @bot.message_handler(commands=['add'])
 def add_command(message):
-    date = datetime.now().strftime('%d\\.%m\\.%Y')
-    name_msg = bot.send_message(message.from_user.id, f"Введи название, время, дату "
-                                                      f"\\(для применения сегодняшней даты \\[*{date}*\\] используй '\\-'\\), "
-                                                      f"категорию и комментарий \\(необязательно\\) "
-                                                      f"события\\.\n\n__Например:__\n"
-                                                      f"_Готовился к экзамену, 125, 06\\.06\\.2021, Учёба_\n"
-                                                      f"_Смотрел фильм, 37, 07\\.06\\.2021, Отдых, 10\\/10_\n"
-                                                      f"_Ходил на концерт, 190, \\-, Развлечения_",
-                                parse_mode='MarkdownV2')
-    bot.register_next_step_handler(name_msg, add_event)
-
-
-def check_name(message):
-    if message.text not in commands and not message.text.startswith('/open_'):
-        global user_n_id
-        global user_p_id
-        cursor.execute(f"SELECT user_n_id FROM \"USER_NAME\" WHERE user_n_name = '{message.text}'")
-        user_n_id = cursor.fetchall()
-        if user_n_id:
-            user_n_id = user_n_id[0][0]
-            cursor.execute(f"SELECT user_p_id FROM \"USER\" WHERE user_n_id = '{user_n_id}'")
-            user_p_id = cursor.fetchall()
-            if user_p_id:
-                user_p_id = user_p_id[0][0]
-            name_found_message = bot.send_message(message.from_user.id, 'Пользователь найден. Введи пароль.')
-            bot.register_next_step_handler(name_found_message, check_password)
-        else:
-            bot.send_message(message.from_user.id, 'Зарегистрируйтесь в приложении для получения обновлений.')
+    # Check whether user is logged in
+    if 'logged_in_' + str(message.from_user.id) in users_data:
+        # Get current date in a certain format
+        date = datetime.now().strftime('%d\\.%m\\.%Y')
+        add_msg = bot.send_message(message.chat.id, f'Введи название, время, дату '
+                                                    f'\\(для применения сегодняшней даты \\[*{date}*\\]'
+                                                    f'используй \'\\-\'\\), категорию и комментарий \\(необязательно\\) '
+                                                    f'события\\.\n\n__Например:__\n'
+                                                    f'_Готовился к экзамену, 125, 06\\.06\\.2021, Учёба_\n'
+                                                    f'_Смотрел фильм, 37, 07\\.06\\.2021, Отдых, 10\\/10_\n'
+                                                    f'_Ходил на концерт, 190, \\-, Развлечения_',
+                                   parse_mode='MarkdownV2')
+        bot.register_next_step_handler(add_msg, add_event)
     else:
-        if message.text == '/start':
-            start_command(message)
-        elif message.text == '/login':
-            login_command(message)
-        elif message.text == '/display':
-            display_command(message)
-        elif message.text == '/add':
-            add_command(message)
-        else:
-            return None
+        bot.send_message(message.chat.id, 'Ввойди в аккаунт для пользования этой функцией.')
+
+
+def check_login(message):
+    # Fetch user_n_id with text entered by the user
+    cursor.execute(f'SELECT user_n_id FROM "USER_NAME" WHERE user_n_name = \'{message.text}\'')
+    data = cursor.fetchall()
+    if data:
+        user_n_id = data[0][0]
+        # Save user_n_id to the global dict
+        users_data['user_n_id_' + str(message.from_user.id)] = user_n_id
+        # Got login
+        password_msg = bot.send_message(message.chat.id, 'Введи пароль.')
+        bot.register_next_step_handler(password_msg, check_password)
+    else:
+        # User doesn't exist, tell the user to register
+        bot.send_message(message.chat.id, 'Не удалось найти пользователя. '
+                                          'Повтори попытку или зарегистрируйся в приложении.')
 
 
 def check_password(message):
-    if message.text not in commands and not message.text.startswith('/open_'):
-        global user_id
-        global user_p_id
-        global user_n_id
-        global user_p_password
-        cursor.execute(f"SELECT user_p_password FROM \"USER_PRIVATE\" WHERE user_p_id = '{user_p_id}'")
-        user_p_password = cursor.fetchall()
-        if user_p_password:
-            user_p_password = user_p_password[0][0]
+    # Get user_n_id saved to the global dict
+    try:
+        user_n_id = users_data['user_n_id_' + str(message.from_user.id)]
+    except KeyError:
+        return bot.send_message(message.chat.id, 'Произошла ошибка.')
+    # Fetch user_p_id with user_n_id we got from the check_login
+    cursor.execute(f'SELECT user_p_id, user_id FROM "USER" WHERE user_n_id = \'{user_n_id}\'')
+    data = cursor.fetchall()
+    if data:
+        user_p_id = data[0][0]
+        user_id = data[0][1]
+        # Save user_id to the global dict
+        users_data['user_id_' + str(message.from_user.id)] = user_id
+        # Fetch user_p_password with user_p_id we got from the last step
+        cursor.execute(f'SELECT user_p_password FROM "USER_PRIVATE" WHERE user_p_id = \'{user_p_id}\'')
+        data = cursor.fetchall()
+        if data:
+            user_p_password = data[0][0]
+            # Check entered password
             if message.text == user_p_password:
-                cursor.execute(f"UPDATE \"USER_NAME\" SET user_n_telegram = '{message.from_user.id}' "
-                               f"WHERE user_n_id = '{user_n_id}'")
+                # Save logged state to the global dict
+                users_data['logged_in_' + str(message.from_user.id)] = True
+                cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = \'{message.from_user.id}\''
+                               f'WHERE user_n_id = \'{user_n_id}\'')
                 connection.commit()
-                bot.send_message(message.from_user.id, 'Успешно.\nДля отображения событий испоьзуй комманду /display\n'
-                                                       'Для добавления нового события используй комманду /add')
-                cursor.execute(f"SELECT user_id FROM \"USER\" WHERE user_n_id = '{user_n_id}'")
-                user_id = cursor.fetchall()
-                if user_id:
-                    user_id = user_id[0][0]
+                bot.send_message(message.chat.id, 'Успешно.\nДля отображения событий испоьзуй комманду /display\n'
+                                                  'Для добавления нового события используй комманду /add')
+            elif message.text not in commands:
+                incorrect_password_message = bot.send_message(message.chat.id, 'Неверный пароль. Повтори попытку.')
+                # Reenter the same function if password is incorrect
+                bot.register_next_step_handler(incorrect_password_message, check_password)
             else:
-                unsuccessful_msg = bot.send_message(message.from_user.id, 'Неверный пароль, повторите попытку.')
-                bot.register_next_step_handler(unsuccessful_msg, check_password)
-    else:
-        if message.text == '/start':
-            start_command(message)
-        elif message.text == '/login':
-            login_command(message)
-        elif message.text == '/display':
-            display_command(message)
-        elif message.text == '/add':
-            add_command(message)
-        else:
-            return None
-
-
-def display_events(message, sort_callback='date_sort', close=False):
-    if message.text not in commands and not message.text.startswith('/open_'):
-        global sorting
-        global change
-        pre_check(message)
-        if not (change and sorting):
-            sorting = message.text
-        if sort_callback == 'date_sort':
-            sort_column = 'act_date ASC'
-            sort_type = 'категориям'
-        elif sort_callback == 'cat_sort':
-            sort_column = 'cat_name ASC'
-            sort_type = 'датам'
-        else:  
-            return None
-        if sorting.isdigit():
-            n_days_ago_date = (datetime.now() - timedelta(days=int(sorting))).strftime('%Y-%m-%d')
-            cursor.execute(f"SELECT * FROM \"ACTIVITY\" WHERE user_id = '{user_id}' AND act_date >= "
-                           f"'{n_days_ago_date}'::date ORDER BY {sort_column} LIMIT 40")
-            activities_type = 'за последние {} дней'.format(sorting)
-        elif len(sorting.split(', ')) == 2:
-            date_1, date_2 = sorting.split(', ')
-            cursor.execute(f"SELECT * FROM \"ACTIVITY\" WHERE user_id = '{user_id}' AND act_date >= "
-                           f"'{date_1}'::date AND act_date <= '{date_2}'::date ORDER BY {sort_column} LIMIT 40")
-            activities_type = 'с {0} по {1}'.format(date_1, date_2)
-        else:
-            bot.send_message(message.from_user.id, 'Ошибка.\nНеверный формат.')
-            return None
-        try:
-            data = cursor.fetchall()
-            if data[0]:
-                data_string = [' '.join(['> ' + y[4].strftime('%d.%m.%Y'), str(y[2]), '({})'.format(str(y[5])), str(y[3]),
-                                         'мин. /open_' + str(y[0])]) for y in data]
-                data_formatted = '\n'.join(data_string)
-                text = 'Это ваши активности {}:\n\n'.format(activities_type) + data_formatted
-                if len(data_string) > 5:
-                    keyboard = types.InlineKeyboardMarkup()
-                    button = types.InlineKeyboardButton("Сортировать по " + sort_type, callback_data=sort_callback)
-                    markup = keyboard.add(button)
+                if message.text == '/start':
+                    start_command(message)
+                elif message.text == '/login':
+                    login_command(message)
+                elif message.text == '/display':
+                    display_command(message)
+                elif message.text.startswith('/open_') and len(message.text) > 6:
+                    pass
+                elif message.text == '/add':
+                    add_command(message)
                 else:
-                    markup = None
-            else:
-                text = 'Активности отсутствуют.'
-                markup = None
-        except (Exception, DatabaseError):
-            text = 'Активности отсутствуют.'
-            markup = None
-        if close:
-            bot.send_message(message.from_user.id, text, reply_markup=markup)
+                    return
+
         else:
-            if change:
-                bot.send_message(message.from_user.id, text, reply_markup=markup)
-            else:
-                bot.edit_message_text(chat_id=message.message.chat.id,
-                                      message_id=message.message.message_id,
-                                      text=text)
-                bot.edit_message_reply_markup(chat_id=message.message.chat.id,
-                                              message_id=message.message.message_id,
-                                              reply_markup=markup)
-        change = False
+            # If couldn't get user_p_password
+            bot.send_message(message.chat.id, 'Произошла ошибка.')
     else:
-        if message.text == '/start':
-            start_command(message)
-        elif message.text == '/login':
-            login_command(message)
-        elif message.text == '/display':
-            display_command(message)
-        elif message.text == '/add':
-            add_command(message)
-        else:
-            return None
+        # If couldn't get user_p_id
+        bot.send_message(message.chat.id, 'Произошла ошибка.')
 
 
-def process_command(message):
-    if message.text not in commands and not message.text.startswith('/open_'):
-        global modifier
-        global act_id
-        global user_id
-        pre_check(message)
-        if modifier == 'actl_name':
-            cursor.execute(f"SELECT cat_name FROM \"ACTIVITY\" WHERE act_id = '{act_id}'")
-            cat_name = cursor.fetchall()
-            if cat_name:
-                cat_name = cat_name[0][0]
-                actl_name_check_len = InputCheck(message.text).check_len()
-                actl_name_check_incorrect_vals = InputCheck(message.text).check_incorrect_vals()
-                entry = [actl_name_check_len, actl_name_check_incorrect_vals]
-                failed = '\n'.join([x[1] for x in entry if type(x) == list])
-                if failed:
-                    bot.send_message(message.from_user.id, 'Ошибка.\n' + failed)
-                    return None
-                else:
-                    cursor.execute(f"INSERT INTO \"ACTIVITY_LIST\" (user_id, actl_name, cat_name) VALUES "
-                                   f"({user_id}, '{message.text}', '{cat_name}') ON CONFLICT DO NOTHING")
-        elif modifier == 'cat_name':
-            cat_name_check_len = InputCheck(message.text).check_len()
-            cat_name_check_incorrect_vals = InputCheck(message.text).check_incorrect_vals()
-            entry = [cat_name_check_len, cat_name_check_incorrect_vals]
-            failed = '\n'.join([x[1] for x in entry if type(x) == list])
-            if failed:
-                bot.send_message(message.from_user.id, 'Ошибка.\n' + failed)
-                return None
-            else:
-                cursor.execute(f"INSERT INTO \"CATEGORY\" (cat_name, user_id) VALUES ('{message.text}', {user_id})"
-                               f"ON CONFLICT DO NOTHING")
-                cursor.execute(f"SELECT actl_name FROM \"ACTIVITY\" WHERE act_id = '{act_id}'")
-                actl_name = cursor.fetchall()
-                if actl_name:
-                    actl_name = actl_name[0][0]
-                    cursor.execute(f"INSERT INTO \"ACTIVITY_LIST\" (user_id, actl_name, cat_name) VALUES "
-                                   f"({user_id}, '{actl_name}', '{message.text}') ON CONFLICT DO NOTHING")
-        if modifier == 'act_date':
-            entry = InputCheck(message.text).check_date()
-            failed = entry[1] if type(entry) == list else ''
-            if failed:
-                bot.send_message(message.from_user.id, 'Ошибка.\n' + failed)
-                return None
-            else:
-                value = datetime.combine(datetime.strptime(message.text, '%d.%m.%Y'), datetime.min.time()).strftime('%Y-%m-%d')
-        else:
-            if modifier == 'act_time':
-                act_time_check_number_only = InputCheck(message.text).number_only()
-                act_time_check_value = InputCheck(message.text).check_time_value()
-                entry = [act_time_check_number_only, act_time_check_value]
-            elif modifier == 'act_comment':
-                act_comment_check_comment_len = InputCheck(message.text).check_comment_len()
-                act_comment_check_incorrect_vals = InputCheck(message.text).check_incorrect_vals()
-                entry = [act_comment_check_comment_len, act_comment_check_incorrect_vals]
-            else:
-                entry = ['', '']
-            failed = '\n'.join([x[1] for x in entry if type(x) == list])
-            if failed:
-                bot.send_message(message.from_user.id, 'Ошибка.\n' + failed)
-                return None
-            value = message.text
-        cursor.execute(f"UPDATE \"ACTIVITY\" SET {modifier} = '{value}' WHERE act_id = {act_id}")
-        connection.commit()
-        edit_events(message)
+def display_events(message, sort_callback='date_sort', edit=False):
+    # Define sorting vars needed for activities sorting and sorting button name
+    if sort_callback == 'cat_sort':
+        sort_column = 'cat_name ASC'
+        sort_type = 'датам'
+        sort_index = 2
+    else:
+        sort_column = 'act_date ASC'
+        sort_type = 'категориям'
+        sort_index = 3
+    # Define sorting button
+    keyboard = types.InlineKeyboardMarkup()
+    button = types.InlineKeyboardButton("Сортировать по " + sort_type, callback_data=sort_callback)
+    # Handle sorting button click
+    if edit:
+        message = message.message
+        text = message.text.split('\n')[2:]
+        text = [x.split(' ') for x in text]
+        text = text.sort(key=lambda x: x[sort_index])
+        text = ' '.join(text)
+        markup = keyboard.add(button)
+        bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text=text)
+        bot.edit_message_reply_markup(chat_id=message.chat.id, message_id=message.message_id, reply_markup=markup)
         return
+    # Get user_id saved to the global dict
+    try:
+        user_id = users_data['user_id_' + str(message.from_user.id)]
+    except KeyError:
+        return bot.send_message(message.chat.id, 'Произошла ошибка.')
+    txt = message.text
+    # Check if text entered by the user can be converted to int type and doesn't exceed 5 digits
+    if txt.isdigit():
+        if int(txt) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
+            return bot.send_message(message.chat.id, 'Введённое количество дней указывает на дату ранее 1900 года.')
+        # Get the date that was n days ago
+        specific_date = (datetime.now() - timedelta(days=int(txt))).strftime('%Y-%m-%d')
+        cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\' AND act_date >= '
+                       f'\'{specific_date}\'::date ORDER BY {sort_column} LIMIT 50')
+        activities_type = f'за последние {txt} дней'
+    elif len(txt.split(', ')) == 2:
+        dates = txt.split(', ')
+        date_1, date_2 = dates
+        checks = [
+            InputCheck(date_1).check_date(),
+            InputCheck(date_2).check_date()
+        ]
+        failed = []
+        for x in checks:
+            if type(x) == list:
+                failed.append(x[1])
+        if failed:
+            failed = ' '.join(list(set(failed)))
+            return bot.send_message(message.chat.id, 'Произошла ошибка. ' + failed)
+        cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\' AND act_date >= '
+                       f'\'{date_1}\'::date AND act_date <= \'{date_2}\'::date ORDER BY {sort_column} LIMIT 50')
+        activities_type = 'с {0} по {1}'.format(date_1, date_2)
     else:
-        choose_command(message)
-
-
-def add_event(message):
-    if message.text not in commands and not message.text.startswith('/open_'):
-        global user_id
-        pre_check(message)
-        args = message.text.split(', ')
-        if 4 <= len(args) <= 5:
-            actl_name = args[0]
-            actl_name_check_len = InputCheck(actl_name).check_len()
-            actl_name_check_incorrect_vals = InputCheck(actl_name).check_incorrect_vals()
-            act_time = args[1]
-            act_time_check_number_only = InputCheck(act_time).number_only()
-            act_time_check_value = InputCheck(act_time).check_time_value()
-            act_date = args[2]
-            if act_date != '-':
-                act_date_check = InputCheck(act_date).check_date()
-            else:
-                act_date = datetime.now().strftime('%Y-%m-%d')
-                act_date_check = ''
-            cat_name = args[3]
-            cat_name_check_len = InputCheck(cat_name).check_len()
-            cat_name_check_incorrect_vals = InputCheck(cat_name).check_incorrect_vals()
-            if len(args) == 5:
-                act_comment = args[4]
-                act_comment_check_comment_len = InputCheck(act_comment).check_comment_len()
-                act_comment_check_incorrect_vals = InputCheck(act_comment).check_incorrect_vals()
-            else:
-                act_comment = '(NULL)'
-                act_comment_check_comment_len = ''
-                act_comment_check_incorrect_vals = ''
-            entry = [actl_name_check_len, actl_name_check_incorrect_vals, act_time_check_number_only,
-                     act_time_check_value, act_date_check, cat_name_check_len, cat_name_check_incorrect_vals,
-                     act_comment_check_comment_len, act_comment_check_incorrect_vals]
-            failed = '\n'.join([x[1] for x in entry if type(x) == list])
-            if not failed:
-                try:
-                    cursor.execute(f"INSERT INTO \"CATEGORY\" (user_id, cat_name) VALUES ({user_id}, '{cat_name}') "
-                                   f"ON CONFLICT DO NOTHING")
-                    cursor.execute(f"INSERT INTO \"ACTIVITY_LIST\" (user_id, actl_name, cat_name) VALUES "
-                                   f"({user_id}, '{actl_name}', '{cat_name}') ON CONFLICT DO NOTHING")
-                    cursor.execute(f"INSERT INTO \"ACTIVITY\" (user_id, actl_name, act_time, act_date, cat_name, act_comment) "
-                                   f"VALUES ({user_id}, '{actl_name}', '{act_time}', '{act_date}'::date, '{cat_name}', "
-                                   f"'{act_comment}') ON CONFLICT DO NOTHING")
-                    connection.commit()
-                    bot.send_message(message.from_user.id, 'Событие было успешно добавлено.')
-                except (Exception, DatabaseError):
-                    bot.send_message(message.from_user.id, 'Произошла ошибка.')
-            else:
-                bot.send_message(message.from_user.id, 'Ошибка.\n' + failed)
-        else:
-            bot.send_message(message.from_user.id, 'Произошла ошибка. Не все поля были заполнены.')
+        return bot.send_message(message.chat.id, 'Произошла ошибка. Неверный формат.')
+    data = cursor.fetchall()
+    if data[0]:
+        # Make data readable
+        activities_list = []
+        for y in data:
+            pointer = '> '
+            date = y[4].strftime('%d.%m.%Y')
+            name = str(y[2])
+            category = str(y[3])
+            time = f'({str(y[5])})' + ' мин.'
+            link = '/open_' + str(y[0])
+            vals = ' '.join([pointer, date, name, category, time, link])
+            activities_list.append(vals)
+        activities = '\n'.join(activities_list)
+        text = f'Это ваши активности {activities_type}:\n\n' + activities
+        # Add sorting button if the number of activities exceeds 5
+        if len(activities_list) > 5:
+            markup = keyboard.add(button)
     else:
-        if message.text == '/start':
-            start_command(message)
-        elif message.text == '/login':
-            login_command(message)
-        elif message.text == '/display':
-            display_command(message)
-        elif message.text == '/add':
-            add_command(message)
-        else:
-            return None
+        text = 'Активности отсутствуют.'
+        markup = None
+    bot.send_message(message.chat.id, text, reply_markup=markup)
 
 
 @bot.message_handler(func=lambda message: message.text and message.text.startswith('/open_'))
 def edit_events(message):
-    global act_id
-    act_id = message.text[6:]
-    cursor.execute(f"SELECT act_id FROM \"ACTIVITY\"")
-    act_ids = cursor.fetchall()
-    act_ids = [str(x[0]) for x in act_ids]
-    if act_id not in act_ids:
-        bot.send_message(message.from_user.id, 'События \'{}\' не существует.'.format(str(act_id)))
-        display_events(message)
-        return None
-    data = cursor.fetchall()
-    if len(act_id) > 9:
-        bot.send_message('')
-    cursor.execute(f"SELECT act_date, actl_name, cat_name, act_time, act_comment FROM \"ACTIVITY\" WHERE act_id = {act_id}")
-    data = cursor.fetchall()
-    if data:
-        act_date, actl_name, cat_name, act_time, act_comment = data[0]
+    # Check whether user is logged in
+    if 'logged_in_' + str(message.from_user.id) in users_data:
+        act_id = message.text[6:]
+        # Check whether event is available for the user
+        try:
+            user_id = users_data['user_id_' + str(message.from_user.id)]
+            cursor.execute(f'SELECT act_id FROM "ACTIVITY" where userid = {user_id}')
+            act_ids = cursor.fetchall()
+            act_ids = [str(x[0]) for x in act_ids]
+            if act_id not in act_ids:
+                return bot.send_message(message.chat.id, 'События не доступно.')
+        except (KeyError, DatabaseError):
+            return bot.send_message(message.chat.id, 'Произошла ошибка.')
+        # Save act_id to the global dict
+        users_data['act_id_' + str(message.from_user.id)] = act_id
+        # Fetch event's data
+        cursor.execute(f'SELECT act_date, actl_name, cat_name, act_time, act_comment '
+                       f'FROM "ACTIVITY" WHERE act_id = {act_id}')
+        data = cursor.fetchall()
+        if data:
+            act_date, actl_name, cat_name, act_time, act_comment = data[0]
+        else:
+            return bot.send_message(message.chat.id, 'Произошла ошибка.')
+        # Format data
+        act_date = datetime.combine(act_date, datetime.min.time()).strftime('%d.%m.%Y')
+        act_comment = act_comment if act_comment else '—'
+        actl_name, cat_name, act_time, act_comment = [str(x) for x in [actl_name, cat_name, act_time, act_comment]]
+        options = 'Дата: ' + act_date + ' /edit_date\n' + \
+                  'Название: ' + actl_name + '/edit_event\n' + \
+                  'Категория: ' + cat_name + ' /edit_category\n' + \
+                  'Время: ' + act_time + ' /edit_time\n' + \
+                  'Комментарий: ' + act_comment + ' /edit_comment\n' + \
+                  'Удалить событие /delete_event\n' + \
+                  'Выйти из режима просмотра /exit_event'
+        bot.send_message(message.chat.id, f'Событие {act_id}!\n\n' + options)
     else:
-        bot.send_message(message.from_user.id, 'Произошла ошибка. Используй комманду /login, что бы ввойти в свой аккаунт.')
-        return None
-    act_date = datetime.combine(act_date, datetime.min.time()).strftime('%d.%m.%Y')
-    act_comment = act_comment if act_comment else '—'
-    actl_name, cat_name, act_time, act_comment = str(actl_name), str(cat_name), str(act_time), str(act_comment)
-    options = 'Дата: ' + act_date + ' /edit_date\n' + \
-              'Название: ' + actl_name + '/edit_event\n' + \
-              'Категория: ' + cat_name + ' /edit_category\n' + \
-              'Время: ' + act_time + ' /edit_time\n' + \
-              'Комментарий: ' + act_comment + ' /edit_comment\n' + \
-              'Удалить событие /delete_event\n' + \
-              'Выйти из режима просмотра /exit_event'
-    bot.send_message(message.from_user.id, 'Внимание! Режим просмотра активности!\n\n' + options)
+        bot.send_message(message.chat.id, 'Ввойди в аккаунт для пользования этой функцией.')
 
 
 @bot.message_handler(func=lambda message: message.text and message.text in specific_commands)
-def choose_command(message):
-    global modifier
-    global change
-    global act_id
-    try:
-        if not act_id:
-            bot.send_message(message.from_user.id, 'Произошла ошибка, используй комманду /login, что бы ввойти в свой аккаунт')
-            return None
+def choose_action(message):
+    # Check whether user is logged in
+    if 'logged_in_' + str(message.from_user.id) in users_data:
+        # Handle specific commands clicks
         if message.text == '/edit_date':
-            event_message = bot.send_message(message.from_user.id, 'Введи дату.')
-            modifier = 'act_date'
+            event_message = bot.send_message(message.chat.id, 'Введи дату.')
+            users_data['modifier_' + str(message.from_user.id)] = 'act_date'
         elif message.text == '/edit_event':
-            event_message = bot.send_message(message.from_user.id, 'Введи название.')
-            modifier = 'actl_name'
+            event_message = bot.send_message(message.chat.id, 'Введи название.')
+            users_data['modifier_' + str(message.from_user.id)] = 'actl_name'
         elif message.text == '/edit_category':
-            event_message = bot.send_message(message.from_user.id, 'Введи категорию.')
-            modifier = 'cat_name'
+            event_message = bot.send_message(message.chat.id, 'Введи категорию.')
+            users_data['modifier_' + str(message.from_user.id)] = 'cat_name'
         elif message.text == '/edit_time':
-            event_message = bot.send_message(message.from_user.id, 'Введи время.')
-            modifier = 'act_time'
+            event_message = bot.send_message(message.chat.id, 'Введи время.')
+            users_data['modifier_' + str(message.from_user.id)] = 'act_time'
         elif message.text == '/edit_comment':
-            event_message = bot.send_message(message.from_user.id, 'Введи комментарий.')
-            modifier = 'act_comment'
+            event_message = bot.send_message(message.chat.id, 'Введи комментарий.')
+            users_data['modifier_' + str(message.from_user.id)] = 'act_comment'
         elif message.text == '/delete_event':
-            if act_id:
-                cursor.execute(f"DELETE FROM \"ACTIVITY\" WHERE act_id = {act_id}")
-            else:
-                bot.send_message(message.from_user.id, 'Произошла ошибка, используй комманду /login, что бы ввойти в свой аккаунт')
-                return None
-            display_events(message, close=True)
-            change = False
-            return None
-        elif message.text == '/exit_event':
-            display_events(message, close=True)
-            change = False
-            return None
+            # Try and delete the event
+            try:
+                # Get act_id saved to the global dict
+                try:
+                    act_id = users_data['act_id_' + str(message.from_user.id)]
+                except KeyError:
+                    return bot.send_message(message.chat.id, 'Произошла ошибка.')
+                cursor.execute(f'DELETE FROM "ACTIVITY" WHERE act_id = {act_id}')
+                connection.commit()
+            except DatabaseError:
+                bot.send_message(message.chat.id, 'Произошла ошибка.')
+            return display_events(message)
         else:
-            return None
-        bot.register_next_step_handler(event_message, process_command)
-    except (Exception, DatabaseError):
-        display_events(message, close=True)
-        change = False
-        return None
+            return display_events(message)
+        bot.register_next_step_handler(event_message, process_action)
+    else:
+        bot.send_message(message.chat.id, 'Ввойди в аккаунт для пользования этой функцией.')
+
+
+def process_action(message):
+    # Get user_id, modifier, act_id saved to the global dict
+    try:
+        user_id = users_data['user_id_' + str(message.from_user.id)]
+        modifier = users_data['modifier_' + str(message.from_user.id)]
+        act_id = users_data['act_id_' + str(message.from_user.id)]
+    except KeyError:
+        return bot.send_message(message.chat.id, 'Произошла ошибка.')
+    # Handle checks for different modifiers
+    if modifier == 'act_date':
+        checks = [
+            InputCheck(message.text).check_date()
+        ]
+    elif modifier == 'actl_name':
+        checks = [
+            InputCheck(message.text).check_len(),
+            InputCheck(message.text).check_incorrect_vals()
+        ]
+    elif modifier == 'cat_name':
+        checks = [
+            InputCheck(message.text).check_len(),
+            InputCheck(message.text).check_incorrect_vals()
+        ]
+    elif modifier == 'act_time':
+        checks = [
+            InputCheck(message.text).number_only(),
+            InputCheck(message.text).check_time_value()
+        ]
+    else:
+        checks = [
+            InputCheck(message.text).check_comment_len(),
+            InputCheck(message.text).check_incorrect_vals()
+        ]
+    # Check whether any of them fail
+    failed = []
+    for x in checks:
+        if type(x) == list:
+            failed.append(x[1])
+    if failed:
+        failed = ' '.join(list(set(failed)))
+        return bot.send_message(message.from_user.id, 'Произошла ошибка. ' + failed)
+    # Fill in missing required columns
+    if modifier == 'actl_name':
+        cursor.execute(f'SELECT cat_name FROM "ACTIVITY" WHERE act_id = {act_id}')
+        cat_name = cursor.fetchall()
+        if cat_name:
+            cat_name = cat_name[0][0]
+        cursor.execute(f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name) VALUES '
+                       f'({user_id}, \'{message.text}\', \'{cat_name}\') ON CONFLICT DO NOTHING')
+    elif modifier == 'cat_name':
+        cursor.execute(f'INSERT INTO "CATEGORY" (cat_name, user_id) VALUES '
+                       f'(\'{message.text}\', {user_id}) ON CONFLICT DO NOTHING')
+        cursor.execute(f'SELECT actl_name FROM "ACTIVITY" WHERE act_id = {act_id}')
+        actl_name = cursor.fetchall()
+        if actl_name:
+            actl_name = actl_name[0][0]
+            cursor.execute(f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name) VALUES '
+                           f'({user_id}, \'{actl_name}\', \'{message.text}\') ON CONFLICT DO NOTHING')
+    # Format entered date
+    if modifier == 'act_date':
+        value = datetime.strptime(message.text, '%d.%m.%Y').strftime('%Y-%m-%d')
+    else:
+        value = message.text
+    # Update database with new info
+    cursor.execute(f'UPDATE "ACTIVITY" SET {modifier} = \'{value}\' WHERE act_id = {act_id}')
+    connection.commit()
+    return edit_events(message)
 
 
 @bot.callback_query_handler(func=lambda callback: callback.data in ['date_sort', 'cat_sort'])
 def callback_listener(callback):
-    if callback.message:
-        if callback.data == 'cat_sort':
-            display_events(callback)
-            bot.answer_callback_query(callback.id)
-        elif callback.data == 'date_sort':
-            display_events(callback, 'cat_sort')
-            bot.answer_callback_query(callback.id)
-        else:
-            return None
+    # Handle sorting button click
+    if callback.data == 'cat_sort':
+        display_events(callback, edit=True)
+        bot.answer_callback_query(callback.id)
+    elif callback.data == 'date_sort':
+        display_events(callback, 'cat_sort', True)
+        bot.answer_callback_query(callback.id)
     else:
         return None
+
+
+def add_event(message):
+    args = message.text.split(', ')
+    if len(args) in range(4, 6):
+        # Separate data to vars
+        actl_name = args[0]
+        act_time = args[1]
+        act_date = datetime.now().strftime('%Y-%m-%d') if args[2] == '-' else args[2]
+        cat_name = args[3]
+        act_comment = args[4] if len(args) == 5 else '(NULL)'
+        # Check every entered field
+        checks = [
+            InputCheck(actl_name).check_len(),
+            InputCheck(actl_name).check_incorrect_vals(),
+            InputCheck(act_time).number_only(),
+            InputCheck(act_time).check_time_value(),
+            InputCheck(act_date).check_date(),
+            InputCheck(cat_name).check_len(),
+            InputCheck(cat_name).check_incorrect_vals(),
+            InputCheck(act_comment).check_comment_len() if len(args) == 5 else '',
+            InputCheck(act_comment).check_incorrect_vals() if len(args) == 5 else ''
+        ]
+        # Get error messages
+        failed = []
+        for x in checks:
+            if type(x) == list:
+                failed.append(x[1])
+        if not failed:
+            # Get user_id saved to the global dict
+            try:
+                user_id = users_data['user_id_' + str(message.from_user.id)]
+            except KeyError:
+                return bot.send_message(message.chat.id, 'Произошла ошибка.')
+            # Insert the event into the database
+            cursor.execute(f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES ({user_id}, \'{cat_name}\') '
+                           f'ON CONFLICT DO NOTHING')
+            cursor.execute(f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name) VALUES '
+                           f'({user_id}, \'{actl_name}\', \'{cat_name}\') ON CONFLICT DO NOTHING')
+            cursor.execute(f'INSERT INTO "ACTIVITY" (user_id, actl_name, act_time, act_date, cat_name, act_comment) '
+                           f'VALUES ({user_id}, \'{actl_name}\', \'{act_time}\', \'{act_date}\'::date, \'{cat_name}\', '
+                           f'\'{act_comment}\') ON CONFLICT DO NOTHING')
+            connection.commit()
+            bot.send_message(message.chat.id, 'Событие было успешно добавлено.')
+        else:
+            failed = ' '.join(list(set(failed)))
+            bot.send_message(message.chat.id, 'Произошла ошибка.' + failed)
+    else:
+        bot.send_message(message.chat.id, 'Произошла ошибка. Не все поля были заполнены.')
 
 
 if __name__ == '__main__':

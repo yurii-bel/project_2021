@@ -299,18 +299,6 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
             return result
 
 
-<<<<<<< HEAD
-# ----------------------------------------------------------START-----timeSoft
-# class AlignDelegate(QtWidgets.QStyledItemDelegate):
-#     """
-#     This class implements center positioning for icons in TableView widget
-#     """
-#     def initStyleOption(self, option, index):
-#         super().initStyleOption(option, index)
-#         option.decorationSize = option.rect.size()
-
-=======
->>>>>>> 6bb52648ab28063c7666684a397798376513f86f
 
 class MainUI(QtWidgets.QMainWindow):
     """

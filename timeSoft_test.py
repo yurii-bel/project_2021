@@ -29,7 +29,6 @@ sys.path.append(".")
 
 """
 TODO BUGS
-
 Тема (change_theme)
 
 TODO
@@ -2691,10 +2690,12 @@ class MainUI(QtWidgets.QMainWindow):
             elif msg == False:
                 webbrowser.open_new_tab(
                     'https://web.telegram.org/#/im?p=@fexcin_bot')
+            return
         elif self.timedb.get_logged_user_data(
                 item='get_user_telegram') == '(NULL)':
                 webbrowser.open_new_tab(
                     'https://web.telegram.org/#/im?p=@fexcin_bot')
+                return
 
     def view_table(self):
         rows = self.timedb.get_logged_user_data(
@@ -3524,7 +3525,7 @@ class DbLogic:
         elif item == 'del_telegram':
             self.cursor2.execute(
                 f'UPDATE "USER_NAME" SET user_n_telegram = \'(NULL)\'\
-                    WHERE user_n_id = {self.user_n_id}')
+                    WHERE user_n_id = {self.user_n_id} ON CONFLICT DO NOTHING')
             
             self.connection.commit()
 

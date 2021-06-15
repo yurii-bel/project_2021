@@ -6,7 +6,6 @@ import configparser
 import datetime
 import csv
 import webbrowser
-import datetime
 from uuid import uuid4
 
 # non-standart libs (those in requirements).
@@ -37,9 +36,11 @@ TODO
 !Сортировка по категориям выше приоритетом
 !Перед импортом задать вопрос - перезаписать или добавить?
 !подключённый телеграм юзера (окошко с предупреждением).
+! Не работает check_time_value
 Автокомплит в добавлении\редактировании активностей.
 
 сделать комбобокс для названия кативностей + авктокомлит после введения для категории
+Избавиться от only_in_quotes.
 """
 
 
@@ -55,6 +56,7 @@ class InputCheck:
         self.text = input_text
 
         self.correct_rus_vals = []
+        # TODO: Добавить еще 1030, 1031, 1111, 1100
         # Appending correct_rus_vals with lower and upper case russian symbols.
         for i in range(1040, 1104):
             self.correct_rus_vals.append(chr(i))
@@ -156,7 +158,7 @@ class InputCheck:
         return True
 
     def check_time_value(self):
-        if not (0 < int(self.text) <= 1440):
+        if not (0 < int(self.text) or int(self.text) <= 1440):
             return [False, 'Введено ошибочное количество потраченных минут.']
         return True
 

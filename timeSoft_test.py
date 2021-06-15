@@ -8,6 +8,8 @@ import csv
 import webbrowser
 import datetime
 from uuid import uuid4
+import numpy as np
+from numpy.core.function_base import linspace
 
 # non-standart libs (those in requirements).
 import psycopg2 as db
@@ -16,6 +18,7 @@ import pyqtgraph as pg
 import pandas as pd
 from pandas import read_csv
 from matplotlib import pyplot as plt
+from matplotlib.pyplot import figure
 import statsmodels.formula.api as smf
 
 # GUI.
@@ -596,6 +599,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Reading csv files and plotting graphs according to them.
         index = 0
         pathes = []
+        plt.figure(figsize=(13,7))
 
         for i in range(len(self.diff_categories)):
             data = pd.read_csv(
@@ -603,11 +607,17 @@ class MainUI(QtWidgets.QMainWindow):
             path = f'./csv_data/{self.user_n_name}_{self.diff_categories[index]}_data.csv'
             pathes.append(path)
             # plot the time series.
+
             df = read_csv(pathes[i])
             df = pd.DataFrame(data, columns=['Month', 'Duration'])
-            df.plot(x='Month', y='Duration',
-                    kind='line', color="blue", alpha=0.3)
-            plt.title(f'{self.diff_categories[index]}')
+
+            # x_list = df['Month'].to_string(index=False).replace('\n',' ').split()
+            # y_list = df['Duration'].to_string(index=False).replace('\n',' ').split()
+            
+            plt.plot(df['Month'], df['Duration'])
+
+            plt.legend(self.diff_categories)
+
             index += 1
         plt.show()
 

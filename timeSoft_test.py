@@ -302,7 +302,6 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
             return result
 
 
-
 class MainUI(QtWidgets.QMainWindow):
     """
     The MainUI class contains the following functional:

@@ -55,10 +55,6 @@ INSERT INTO "ACTIVITY_LIST" (USER_ID, ACTL_name, CAT_name) VALUES
 INSERT INTO "ACTIVITY" (USER_ID, ACTL_name, ACT_time, ACT_date, CAT_name, ACT_comment) VALUES 
 ('1', 'Сон', '120', '2021.05.17', 'Отдых', (NULL)),
 ('1', 'Бег', '30', '2021.5.10', 'Спорт', 'Тестовая запись'),
-('2', 'Сон', '50', '9.5.2021', 'Отдых', 'Тестовая запись')
-
-INSERT INTO "ACTIVITY" (USER_ID, ACTL_name, ACT_time, ACT_date, CAT_name, ACT_comment) VALUES 
-('1', 'Сон', '120', '2021.05.17', 'Отдых', (NULL)),
 ('4', 'Смотрел Ютуб', '153', '2021.04.05', 'Отдых', 'Мультик «Навсикая из долины ветров»')
 
 --------------

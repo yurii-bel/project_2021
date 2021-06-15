@@ -493,7 +493,6 @@ class MainUI(QtWidgets.QMainWindow):
     def sorting_data_csv(self):
         # This method sorting data by month and category.
         if self.idx < len(self.diff_categories):
-            # Removing files.
             # Creating new files.
             with open(
                     f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'w', newline='') as file:

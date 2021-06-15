@@ -10,6 +10,12 @@
     <height>768</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Roboto Light</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>TimeSoft</string>
   </property>
@@ -691,7 +697,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="font">
@@ -735,7 +741,6 @@
      <addaction name="mainwindow_act_dark"/>
     </widget>
     <addaction name="mainwindow_act_add_event"/>
-    <addaction name="mainwindow_act_edit_event"/>
     <addaction name="mainwindow_dropdown_menu_theme"/>
    </widget>
    <widget class="QMenu" name="mainwindow_menuHelp">

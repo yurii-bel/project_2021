@@ -1,0 +1,1141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>mainwindow</class>
+ <widget class="QMainWindow" name="mainwindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TimeSoft</string>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #161D31;</string>
+  </property>
+  <widget class="QWidget" name="mainwindow_centralwidget">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>232</width>
+      <height>751</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="mainwindow_verticalLayout_logo_and_menu">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QWidget" name="mainwindow_widget_logo" native="true">
+       <property name="maximumSize">
+        <size>
+         <width>230</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #283046;</string>
+       </property>
+       <widget class="QWidget" name="layoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>18</x>
+          <y>18</y>
+          <width>191</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_logo">
+         <item>
+          <widget class="QLabel" name="mainwindow_lbl_logo_img">
+           <property name="maximumSize">
+            <size>
+             <width>44</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>img/main/Logo.svg</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="mainwindow_lbl_logo_title">
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>20</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: #7367F0;</string>
+           </property>
+           <property name="text">
+            <string>TimeSoft</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QWidget" name="mainwindow_widget_menu" native="true">
+       <property name="maximumSize">
+        <size>
+         <width>230</width>
+         <height>930</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #283046;</string>
+       </property>
+       <widget class="QWidget" name="layoutWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>11</x>
+          <y>0</y>
+          <width>221</width>
+          <height>631</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="mainwindow_verticalLayout_menu">
+         <property name="spacing">
+          <number>18</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="mainwindow_btn_forecast">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>230</width>
+             <height>57</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>12</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="contextMenuPolicy">
+            <enum>Qt::NoContextMenu</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+	background-color: rgba(0, 0, 0, 0);	
+	color: rgb(208, 210, 214);
+	text-align: left;
+	padding-right: 10px;
+	margin-top: 27px;
+}
+QPushButton:hover {
+	background-color: rgba(0, 0, 0, 0);  
+	color: rgb(95, 85, 200);
+}</string>
+           </property>
+           <property name="text">
+            <string> Прогноз</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>img/icons/clock.png</normaloff>img/icons/clock.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>18</width>
+             <height>18</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="mainwindow_btn_theme">
+           <property name="maximumSize">
+            <size>
+             <width>230</width>
+             <height>37</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>12</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+	background-color: rgba(0, 0, 0, 0);	
+	color: rgb(208, 210, 214);
+	text-align: left;
+	padding-right: 10px;
+}
+QPushButton:hover {
+	background-color: rgba(0, 0, 0, 0);  
+	color: rgb(95, 85, 200);
+}</string>
+           </property>
+           <property name="text">
+            <string> Тема</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>img/icons/sun.png</normaloff>img/icons/sun.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="mainwindow_btn_settings">
+           <property name="maximumSize">
+            <size>
+             <width>230</width>
+             <height>37</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>12</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+	background-color: rgba(0, 0, 0, 0);	
+	color: rgb(208, 210, 214);
+	text-align: left;
+	padding-right: 10px;
+}
+QPushButton:hover {
+	background-color: rgba(0, 0, 0, 0);  
+	color: rgb(95, 85, 200);
+}</string>
+           </property>
+           <property name="text">
+            <string> Настройки</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>img/icons/settings.png</normaloff>img/icons/settings.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="mainwindow_btn_exit">
+           <property name="maximumSize">
+            <size>
+             <width>230</width>
+             <height>37</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto</family>
+             <pointsize>12</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+	background-color: rgba(0, 0, 0, 0);	
+	color: rgb(208, 210, 214);
+	text-align: left;
+	padding-right: 10px;
+}
+QPushButton:hover {
+	background-color: rgba(0, 0, 0, 0);  
+	color: rgb(95, 85, 200);
+}</string>
+           </property>
+           <property name="text">
+            <string> Выход</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>img/icons/power.png</normaloff>img/icons/power.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="mainwindow_textlbl_display_style">
+           <property name="maximumSize">
+            <size>
+             <width>230</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto-Thin</family>
+             <pointsize>12</pointsize>
+             <italic>false</italic>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: #D0D2D6;
+margin-top: 20px;</string>
+           </property>
+           <property name="text">
+            <string>СТИЛЬ ОТОБРАЖЕНИЯ</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="mainwindow_comboBox_display_style">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>42</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>210</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Roboto Light</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QComboBox {
+background-color: rgb(22, 29, 49);
+color: rgb(208, 210, 214);
+border: 2px solid rgba(0, 0, 0, 0);
+border-radius: 5px;
+padding-left: 10px;
+padding-right: 10px;
+}
+
+QComboBox:hover {
+background-color: rgb(40, 48, 70);
+color: rgb(185, 185, 195);
+border: 2px solid #7666F8;
+border-radius: 5px;
+}
+
+QComboBox QAbstractItemView {
+background-color: rgb(22, 29, 49);
+border: 2px solid #7666F8;
+color: rgb(203, 203, 203);
+selection-background-color: rgb(94, 80, 238);
+selection-color: rgb(0, 0, 0);
+}</string>
+           </property>
+           <property name="currentText">
+            <string>Таблица</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Таблица</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>img/icons/table(white).svg</normaloff>img/icons/table(white).svg</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Диаграмма</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>img/icons/activity.png</normaloff>img/icons/activity.png</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>График</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>img/icons/grahic.png</normaloff>img/icons/grahic.png</iconset>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <spacer name="mainwindow_verticalSpacer_menu">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>170</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="mainwindow_widget_navigation" native="true">
+    <property name="geometry">
+     <rect>
+      <x>259</x>
+      <y>13</y>
+      <width>1001</width>
+      <height>62</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget { 
+background-color: #283046;
+border-radius: 5px;
+}</string>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>23</x>
+       <y>15</y>
+       <width>976</width>
+       <height>38</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="mainwindow_horizontalLayout_navigation" stretch="0,0,0,0,0,0,0,0,0,0,0,0">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="mainwindow_btn_nav_add_act">
+        <property name="font">
+         <font>
+          <family>Roboto Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+	background-color: rgb(115, 103, 240);
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(115, 103, 240);
+	border-radius: 5px;
+	padding-left: 12px;
+	padding-right: 12px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+QPushButton:hover {
+	background-color: rgba(0, 0, 0, 0);
+	color: rgb(115, 103, 240);
+	border: 2px solid rgb(115, 103, 240);
+}</string>
+        </property>
+        <property name="text">
+         <string>Добавить активность</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>27</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="mainwindow_horizontalSpacer_navigation">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="mainwindow_btn_daily">
+        <property name="maximumSize">
+         <size>
+          <width>102</width>
+          <height>37</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+	background-color: #283046;
+	color: #FFFFFF;
+	border: 2px solid rgb(95, 85, 200);
+	border-right: 0px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(121, 109, 255);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 5px;
+}</string>
+        </property>
+        <property name="text">
+         <string>День</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="mainwindow_btn_weekly">
+        <property name="maximumSize">
+         <size>
+          <width>102</width>
+          <height>37</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+	background-color: #283046;
+	color: #FFFFFF;
+	border: 2px solid rgb(95, 85, 200);
+	border-right: 0px;
+	border-radius: 0;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(121, 109, 255);
+	border-radius: 0;
+}</string>
+        </property>
+        <property name="text">
+         <string>Неделя</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="mainwindow_btn_monthly">
+        <property name="maximumSize">
+         <size>
+          <width>102</width>
+          <height>37</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+	background-color: #283046;
+	color: #FFFFFF;
+	border: 2px solid rgb(95, 85, 200);
+	border-right: 0px;
+	border-radius: 0;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(121, 109, 255);
+	border-radius: 0;
+}</string>
+        </property>
+        <property name="text">
+         <string>Месяц</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="mainwindow_btn_annually">
+        <property name="maximumSize">
+         <size>
+          <width>102</width>
+          <height>37</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+	background-color: #283046;
+	color: #FFFFFF;
+	border: 2px solid rgb(95, 85, 200);
+	border-right: 0px;
+	border-radius: 0;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(121, 109, 255);
+	border-radius: 0;
+}</string>
+        </property>
+        <property name="text">
+         <string>Год</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="mainwindow_btn_all">
+        <property name="maximumSize">
+         <size>
+          <width>102</width>
+          <height>37</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+	background-color: #283046;
+	color: #FFFFFF;
+	border: 2px solid rgb(95, 85, 200);
+	border-top-left-radius: 0px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 0px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+QPushButton:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(121, 109, 255);
+	border-top-left-radius: 0px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 0px;
+}</string>
+        </property>
+        <property name="text">
+         <string>Все</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="mainwindow_lbl_icon_clendar">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>36</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto</family>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">margin-left: 20px;
+color: #D0D2D6;
+padding-top: 4px;
+padding-bottom: 4px;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>img/icons/calendar.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="mainwindow_textlbl_s">
+        <property name="font">
+         <font>
+          <family>Roboto Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">padding-left: 5px;
+padding-right: 5px;
+color: #D0D2D6;</string>
+        </property>
+        <property name="text">
+         <string>c</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDateEdit" name="mainwindow_dateEdit_s">
+        <property name="font">
+         <font>
+          <family>Roboto Light</family>
+          <pointsize>14</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QDateEdit {
+	background-color: #283046;
+	border-radius: 5px;
+	color: rgb(255, 255, 255);
+}
+QDateEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+}</string>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="mainwindow_textlbl_po">
+        <property name="font">
+         <font>
+          <family>Roboto Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">padding-left: 5px;
+padding-right: 5px;
+color: #D0D2D6;</string>
+        </property>
+        <property name="text">
+         <string>по</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDateEdit" name="mainwindow_dateEdit_po">
+        <property name="font">
+         <font>
+          <family>Roboto Light</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QDateEdit {
+	background-color: #283046;
+	border-radius: 5px;
+	color: rgb(255, 255, 255);
+	margin-right: 5px;
+}
+QDateEdit:hover {
+	background-color: rgb(40, 48, 70); 
+	color: rgb(255, 255, 255);
+}</string>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="mainwindow_widget_category" native="true">
+    <property name="geometry">
+     <rect>
+      <x>259</x>
+      <y>103</y>
+      <width>281</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget { 
+color: #B4B7BD;
+background-color: #283046;
+border-top-left-radius: 5px;
+border-bottom-left-radius: 5px;
+}</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="mainwindow_widget_view" native="true">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>103</y>
+      <width>710</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Roboto Light</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #283046;
+background-image: url(design/img/background-image_d.png);
+</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="mainwindow_widget_view_spacer" native="true">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>103</y>
+      <width>10</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-right: 1px solid #3B4253;
+background-color: #283046;</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="mainwindow_menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1280</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar {
+	color: rgb(205, 205, 205);	
+	background-color: rgba(0, 0, 0, 130);
+}
+QMenuBar::item:selected { 
+	background-color: rgb(200, 200, 200);
+	color: rgb(0, 0, 0);
+} 
+QMenuBar::item:pressed {  
+	background-color: rgb(200, 200, 200);
+	color: rgb(0, 0, 0);
+}</string>
+   </property>
+   <widget class="QMenu" name="mainwindow_menuFile">
+    <property name="font">
+     <font>
+      <family>Roboto</family>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QMenu {
+	background-color: rgb(20, 24, 34);
+	color: rgb(205, 205, 205);
+}
+QMenu::item:selected { 
+	background-color: rgb(200, 200, 200);
+	color: rgb(0, 0, 0);
+} 
+QMenu::item:pressed {  
+	background-color: rgb(200, 200, 200);
+	color: rgb(0, 0, 0);
+}</string>
+    </property>
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="mainwindow_act_make_prediction"/>
+    <addaction name="mainwindow_act_settings"/>
+    <addaction name="separator"/>
+    <addaction name="mainwindow_act_exit"/>
+   </widget>
+   <widget class="QMenu" name="mainwindow_menuEdit">
+    <property name="font">
+     <font>
+      <family>Roboto</family>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QMenu {
+	background-color: rgb(20, 24, 34);
+	color: rgb(205, 205, 205);
+}
+QMenu::item:selected { 
+	background-color: rgb(200, 200, 200);
+	color: rgb(0, 0, 0);
+} 
+QMenu::item:pressed {  
+	background-color: rgb(200, 200, 200);
+	color: rgb(0, 0, 0);
+}</string>
+    </property>
+    <property name="title">
+     <string>Правка</string>
+    </property>
+    <widget class="QMenu" name="mainwindow_dropdown_menu_theme">
+     <property name="font">
+      <font>
+       <family>Roboto</family>
+      </font>
+     </property>
+     <property name="title">
+      <string>Тема</string>
+     </property>
+     <addaction name="mainwindow_act_light"/>
+     <addaction name="mainwindow_act_dark"/>
+    </widget>
+    <addaction name="mainwindow_act_add_event"/>
+    <addaction name="mainwindow_act_edit_event"/>
+    <addaction name="mainwindow_dropdown_menu_theme"/>
+   </widget>
+   <widget class="QMenu" name="mainwindow_menuHelp">
+    <property name="font">
+     <font>
+      <family>Roboto</family>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QMenu {
+	background-color: rgb(20, 24, 34);
+	color: rgb(205, 205, 205);
+}
+QMenu::item:selected { 
+	background-color: rgb(200, 200, 200);
+	color: rgb(0, 0, 0);
+} 
+QMenu::item:pressed {  
+	background-color: rgb(200, 200, 200);
+	color: rgb(0, 0, 0);
+}</string>
+    </property>
+    <property name="title">
+     <string>Справка</string>
+    </property>
+    <addaction name="mainwindow_act_help"/>
+    <addaction name="mainwindow_act_about_program"/>
+   </widget>
+   <addaction name="mainwindow_menuFile"/>
+   <addaction name="mainwindow_menuEdit"/>
+   <addaction name="mainwindow_menuHelp"/>
+  </widget>
+  <action name="mainwindow_act_edit_event">
+   <property name="text">
+    <string>Редактировать выбранное событие</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+  </action>
+  <action name="mainwindow_act_add_event">
+   <property name="text">
+    <string>Добавить событие</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+  </action>
+  <action name="mainwindow_act_help">
+   <property name="text">
+    <string>Справка</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+  </action>
+  <action name="mainwindow_act_about_program">
+   <property name="text">
+    <string>О программе</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+  </action>
+  <action name="mainwindow_act_settings">
+   <property name="text">
+    <string>Настройки</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+  </action>
+  <action name="mainwindow_act_exit">
+   <property name="text">
+    <string>Выход</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+  </action>
+  <action name="mainwindow_act_make_prediction">
+   <property name="text">
+    <string>Сделать прогноз</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="mainwindow_act_diagram">
+   <property name="text">
+    <string>Диаграмма</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+  </action>
+  <action name="mainwindow_act_graph">
+   <property name="text">
+    <string>График</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+  </action>
+  <action name="mainwindow_act_table">
+   <property name="text">
+    <string>Табличная</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+  </action>
+  <action name="mainwindow_act_light">
+   <property name="text">
+    <string>Светлая</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+  </action>
+  <action name="mainwindow_act_dark">
+   <property name="text">
+    <string>Темная</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+    </font>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

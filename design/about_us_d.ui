@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>About us</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: rgb(22, 29, 49);</string>
-  </property>
   <widget class="QLabel" name="about_us_textlabel_about_program">
    <property name="geometry">
     <rect>
@@ -30,9 +27,6 @@
      <family>Roboto</family>
      <pointsize>14</pointsize>
     </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
    </property>
    <property name="text">
     <string>О программе TimeSoft</string>
@@ -56,9 +50,6 @@
      <pointsize>12</pointsize>
     </font>
    </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
-   </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Супер дизайнер - Колесников Евгений&lt;/p&gt;&lt;p&gt;Кодер логики - Ластивка Тимофей&lt;/p&gt;&lt;p&gt;Кодер логики - Тырон Владислав&lt;/p&gt;&lt;p&gt;Кодер телеграм бота - Печкур Александр&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
@@ -81,12 +72,6 @@
      <bold>false</bold>
     </font>
    </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: #D0D2D6;</string>
-   </property>
    <property name="text">
     <string>Design by Evgeny K. Copyright © 2021 TimeSoft All rights reserved.</string>
    </property>
@@ -103,13 +88,6 @@
      <height>220</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-background-image: url(design/img/team/team_01.jpg);
-border: 2px solid rgba(255, 0, 0, 255);
-border-radius: 50px;
-}</string>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -122,13 +100,6 @@ border-radius: 50px;
      <width>220</width>
      <height>220</height>
     </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-background-image: url(design/img/team/team_02.jpg);
-border: 2px solid rgba(255, 0, 0, 255);
-border-radius: 50px;
-}</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -143,13 +114,6 @@ border-radius: 50px;
      <height>220</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-background-image: url(design/img/team/team_03.jpg);
-border: 2px solid rgba(255, 0, 0, 255);
-border-radius: 50px;
-}</string>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -162,13 +126,6 @@ border-radius: 50px;
      <width>220</width>
      <height>220</height>
     </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-background-image: url(design/img/team/team_06.jpg);
-border: 2px solid rgba(255, 0, 0, 255);
-border-radius: 50px;
-}</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -183,13 +140,6 @@ border-radius: 50px;
      <height>220</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-background-image: url(design/img/team/team_07.jpg);
-border: 2px solid rgba(255, 0, 0, 255);
-border-radius: 50px;
-}</string>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -202,13 +152,6 @@ border-radius: 50px;
      <width>220</width>
      <height>220</height>
     </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-background-image: url(design/img/team/team_08.jpg);
-border: 2px solid rgba(255, 0, 0, 255);
-border-radius: 50px;
-}</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -223,13 +166,6 @@ border-radius: 50px;
      <height>220</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-background-image: url(design/img/team/team_05.jpg);
-border: 2px solid rgba(255, 0, 0, 255);
-border-radius: 50px;
-}</string>
-   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -242,13 +178,6 @@ border-radius: 50px;
      <width>220</width>
      <height>220</height>
     </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-background-image: url(design/img/team/team_04.jpg);
-border: 2px solid rgba(255, 0, 0, 255);
-border-radius: 50px;
-}</string>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -268,9 +197,6 @@ border-radius: 50px;
      <family>Roboto-Light</family>
      <pointsize>12</pointsize>
     </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
    </property>
    <property name="text">
     <string>Ластивка Тимофей</string>
@@ -294,9 +220,6 @@ border-radius: 50px;
      <pointsize>12</pointsize>
     </font>
    </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
-   </property>
    <property name="text">
     <string>Симоновский Евгений</string>
    </property>
@@ -318,9 +241,6 @@ border-radius: 50px;
      <family>Roboto-Light</family>
      <pointsize>12</pointsize>
     </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
    </property>
    <property name="text">
     <string>Колесников Евгений</string>
@@ -344,9 +264,6 @@ border-radius: 50px;
      <pointsize>12</pointsize>
     </font>
    </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
-   </property>
    <property name="text">
     <string>Тырон Владислав</string>
    </property>
@@ -368,9 +285,6 @@ border-radius: 50px;
      <family>Roboto-Light</family>
      <pointsize>12</pointsize>
     </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
    </property>
    <property name="text">
     <string>Тимчук Олег</string>
@@ -394,9 +308,6 @@ border-radius: 50px;
      <pointsize>12</pointsize>
     </font>
    </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
-   </property>
    <property name="text">
     <string>Вергун Дмитрий</string>
    </property>
@@ -418,9 +329,6 @@ border-radius: 50px;
      <family>Roboto-Light</family>
      <pointsize>12</pointsize>
     </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
    </property>
    <property name="text">
     <string>Белявцев Юрий</string>
@@ -444,9 +352,6 @@ border-radius: 50px;
      <pointsize>12</pointsize>
     </font>
    </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
-   </property>
    <property name="text">
     <string>Печкур Александр</string>
    </property>
@@ -469,9 +374,6 @@ border-radius: 50px;
      <pointsize>12</pointsize>
     </font>
    </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
-   </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Руководитель - Тимчук Олег&lt;/p&gt;&lt;p&gt;СЕО - Симоновский Евгений&lt;/p&gt;&lt;p&gt;Тим-лидер кодеров - Белявцев Юрий&lt;/p&gt;&lt;p&gt;Спец по базам данных - Вергун Дмитрий&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
@@ -491,16 +393,6 @@ border-radius: 50px;
      <pointsize>14</pointsize>
     </font>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton {
-color: rgb(208, 210, 214);
-background-color:rgba(0,0,0,0);
-}
-QPushButton:hover {
-color: rgb(234, 84, 85);
-}
-</string>
-   </property>
    <property name="text">
     <string>✖</string>
    </property>
@@ -519,9 +411,6 @@ color: rgb(234, 84, 85);
      <family>Roboto-Light</family>
      <pointsize>12</pointsize>
     </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(208, 210, 214);</string>
    </property>
    <property name="text">
     <string>v.2021.05.28</string>

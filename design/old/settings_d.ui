@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>settings_form</class>
+ <widget class="QWidget" name="settings_form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Settings</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(40, 48, 70);</string>
+  </property>
+  <widget class="QLineEdit" name="settings_lineedit_oldpass">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>270</y>
+     <width>384</width>
+     <height>38</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit { 
+color: #676D7D;
+background: #283046;
+border: 1px solid #404656;
+border-radius: 5px;
+}
+
+QLineEdit:hover {
+border: 1px solid rgb(95, 85, 200);
+}</string>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
+   <property name="placeholderText">
+    <string>⚉⚉⚉⚉⚉⚉⚉⚉</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="settings_btn_telegram">
+   <property name="geometry">
+    <rect>
+     <x>58</x>
+     <y>530</y>
+     <width>111</width>
+     <height>38</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	background-color: rgb(40, 48, 70);
+	border: 1px solid rgb(122, 122, 122);
+	border-radius: 5px;
+	color: rgb(180, 183, 189);
+	padding-left: 10px;
+	padding-right: 10px;
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(255, 255, 255);
+  border: 1px solid rgb(95, 85, 200);
+}</string>
+   </property>
+   <property name="text">
+    <string>Telegram</string>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>img/icons/telegram.png</normaloff>img/icons/telegram.png</iconset>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_text_oldpass">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>250</y>
+     <width>384</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Текущий пароль</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_text_newpass">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>330</y>
+     <width>384</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Новый пароль</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_text_edit_info">
+   <property name="geometry">
+    <rect>
+     <x>58</x>
+     <y>30</y>
+     <width>384</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #FFFFFF;
+</string>
+   </property>
+   <property name="text">
+    <string>Изменить информацию</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="settings_lineedit_newpass">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>350</y>
+     <width>384</width>
+     <height>38</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit { 
+color: #676D7D;
+background: #283046;
+border: 1px solid #404656;
+border-radius: 5px;
+}
+
+QLineEdit:hover {
+border: 1px solid rgb(95, 85, 200);
+}</string>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
+   <property name="placeholderText">
+    <string>⚉⚉⚉⚉⚉⚉⚉⚉</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_text_repnewpass">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>410</y>
+     <width>384</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Повторите новый пароль</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="settings_lineedit_repnewpass">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>430</y>
+     <width>384</width>
+     <height>38</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit { 
+color: #676D7D;
+background: #283046;
+border: 1px solid #404656;
+border-radius: 5px;
+}
+
+QLineEdit:hover {
+border: 1px solid rgb(95, 85, 200);
+}</string>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
+   <property name="placeholderText">
+    <string>⚉⚉⚉⚉⚉⚉⚉⚉</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_text_internet">
+   <property name="geometry">
+    <rect>
+     <x>58</x>
+     <y>508</y>
+     <width>384</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto Light</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Привязать соц. сети</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_text_email">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>100</y>
+     <width>384</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto Light</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Почта</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_imglbl_img">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>110</y>
+     <width>600</width>
+     <height>456</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>img/comingsoon-dark 1.svg</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>640</y>
+     <width>381</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="settings_horizontalLayout_btns_apply_cancel">
+    <item>
+     <widget class="QPushButton" name="settings_btn_apply">
+      <property name="font">
+       <font>
+        <family>Roboto</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: #7367F0;
+border-radius: 5px;
+border: 2px solid #7367F0;
+color: rgb(255, 255, 255);
+padding-top: 10 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 10 px;
+text-align: center;
+margin-right: 5px;
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(115, 103, 240);
+  border: 2px solid rgb(95, 85, 200);
+}</string>
+      </property>
+      <property name="text">
+       <string>Применить</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="settings_btn_undo">
+      <property name="font">
+       <font>
+        <family>Roboto</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgb(40, 48, 70); 
+border-radius: 5px;
+border: 2px solid rgb(234, 84, 85);
+color: rgb(234, 84, 85);
+padding-top: 10 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 10 px;
+text-align: center;
+margin-left: 5px;
+}
+QPushButton:hover {
+background-color: rgb(234, 84, 85);
+color: rgb(255, 255, 255);
+border: 2px solid rgb(234, 84, 85);
+}</string>
+      </property>
+      <property name="text">
+       <string>Отменить</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="settings_imglbl_telegram_verify">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>530</y>
+     <width>38</width>
+     <height>38</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto Light</family>
+     <pointsize>18</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(40, 199, 111);</string>
+   </property>
+   <property name="text">
+    <string>🗸</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_imglbl_telegram_noverify">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>530</y>
+     <width>38</width>
+     <height>38</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto Light</family>
+     <pointsize>14</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(234, 84, 85);</string>
+   </property>
+   <property name="text">
+    <string>✕</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>57</x>
+     <y>580</y>
+     <width>251</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="settings_horizontalLayout_btns_imp_exp">
+    <item>
+     <widget class="QPushButton" name="settings_btn_import">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>38</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Roboto</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgb(40, 48, 70);
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+color: rgb(180, 183, 189);
+padding-top: 5 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 5 px;
+margin-right: 10px;
+}
+QPushButton:hover {
+  background-color: rgb(40, 48, 70); 
+  color: rgb(115, 103, 240);
+  border: 1px solid rgb(95, 85, 200);
+}</string>
+      </property>
+      <property name="text">
+       <string>Импорт</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="settings_btn_export">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>38</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Roboto</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgb(40, 48, 70);
+border: 1px solid rgb(122, 122, 122);
+border-radius: 5px;
+color: rgb(180, 183, 189);
+padding-top: 5 px; 
+padding-right: 23 px;
+padding-left: 23 px;
+padding-bottom: 5 px;
+margin-right: 10px;
+}
+QPushButton:hover {
+background-color: rgb(40, 48, 70); 
+color: rgb(115, 103, 240);
+border: 1px solid rgb(95, 85, 200);
+}</string>
+      </property>
+      <property name="text">
+       <string>Экспорт</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="settings_text_email_2">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>170</y>
+     <width>384</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto Light</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(180, 183, 189);</string>
+   </property>
+   <property name="text">
+    <string>Новая почта</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="settings_lineedit_email_new">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>190</y>
+     <width>384</width>
+     <height>38</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Roboto</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit { 
+color: #676D7D;
+background: #283046;
+border: 1px solid #404656;
+border-radius: 5px;
+}
+
+QLineEdit:hover {
+border: 1px solid rgb(95, 85, 200);
+}</string>
+   </property>
+   <property name="placeholderText">
+    <string>my@email.com</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_lineedit_email">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>130</y>
+     <width>381</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel { 
+color: #676D7D;
+background: #283046;
+border-radius: 5px;
+text-decoration: underline;
+font-size: 13pt;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="settings_lbl_error">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>476</y>
+     <width>381</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+font-size: 10pt;
+color: #7367F0;
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>settings_imglbl_telegram_verify</zorder>
+  <zorder>settings_imglbl_telegram_noverify</zorder>
+  <zorder>settings_lineedit_oldpass</zorder>
+  <zorder>settings_btn_telegram</zorder>
+  <zorder>settings_text_oldpass</zorder>
+  <zorder>settings_text_newpass</zorder>
+  <zorder>settings_text_edit_info</zorder>
+  <zorder>settings_lineedit_newpass</zorder>
+  <zorder>settings_text_repnewpass</zorder>
+  <zorder>settings_lineedit_repnewpass</zorder>
+  <zorder>settings_text_internet</zorder>
+  <zorder>settings_text_email</zorder>
+  <zorder>settings_imglbl_img</zorder>
+  <zorder>horizontalLayoutWidget</zorder>
+  <zorder>horizontalLayoutWidget_2</zorder>
+  <zorder>settings_text_email_2</zorder>
+  <zorder>settings_lineedit_email_new</zorder>
+  <zorder>settings_lineedit_email</zorder>
+  <zorder>settings_lbl_error</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

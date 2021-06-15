@@ -213,6 +213,11 @@
       <height>38</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
     <property name="echoMode">
      <enum>QLineEdit::Password</enum>
     </property>

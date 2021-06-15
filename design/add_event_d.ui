@@ -22,14 +22,17 @@
     <height>640</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Roboto Light</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Добавить событие</string>
   </property>
   <property name="windowOpacity">
    <double>1.000000000000000</double>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">background-color:rgba(34,39,51,0.137);</string>
   </property>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
@@ -79,9 +82,6 @@
           <height>45</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(22, 29, 49);</string>
-        </property>
         <widget class="QLabel" name="add_event_textlbl_title">
          <property name="geometry">
           <rect>
@@ -103,9 +103,6 @@
            <pointsize>14</pointsize>
           </font>
          </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(208, 210, 214);</string>
-         </property>
          <property name="text">
           <string>Добавить событие</string>
          </property>
@@ -124,16 +121,6 @@
            <family>Roboto</family>
            <pointsize>14</pointsize>
           </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-color: rgb(208, 210, 214);
-background-color:rgba(0,0,0,0);
-}
-QPushButton:hover {
-color: rgb(234, 84, 85);
-}
-</string>
          </property>
          <property name="text">
           <string>✖</string>
@@ -157,9 +144,6 @@ color: rgb(234, 84, 85);
           <width>360</width>
           <height>9999</height>
          </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(40, 48, 70);</string>
         </property>
         <widget class="QWidget" name="verticalLayoutWidget_2">
          <property name="geometry">
@@ -197,9 +181,6 @@ color: rgb(234, 84, 85);
               <pointsize>12</pointsize>
              </font>
             </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(185, 185, 195);</string>
-            </property>
             <property name="text">
              <string>Название</string>
             </property>
@@ -225,18 +206,6 @@ color: rgb(234, 84, 85);
               <pointsize>12</pointsize>
              </font>
             </property>
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
-border-radius: 5px;
-color: rgb(255, 255, 255);
-}
-QLineEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	border: 1px solid rgb(95, 85, 200);
-}</string>
-            </property>
             <property name="placeholderText">
              <string>Спал</string>
             </property>
@@ -255,10 +224,6 @@ QLineEdit:hover {
               <family>Roboto Light</family>
               <pointsize>12</pointsize>
              </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">margin-top:10px;
-color: rgb(185, 185, 195);</string>
             </property>
             <property name="text">
              <string>Категория</string>
@@ -283,30 +248,10 @@ color: rgb(185, 185, 195);</string>
              <font>
               <family>Roboto-Light</family>
               <pointsize>12</pointsize>
-              <weight>3</weight>
+              <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QComboBox {
-font: 25 12pt &quot;Roboto-Light&quot;;
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
-border-radius: 5px;
-color: rgb(255, 255, 255);
-}
-QComboBox:hover {
-	background-color: rgb(40, 48, 70); 
-	border: 1px solid rgb(95, 85, 200);
-}
-QComboBox QAbstractItemView {
-background-color: rgb(22, 29, 49);
-border: 2px solid #7666F8;
-color: rgb(203, 203, 203);
-selection-background-color: rgb(94, 80, 238);
-selection-color: rgb(0, 0, 0);
-}</string>
             </property>
             <property name="editable">
              <bool>true</bool>
@@ -331,10 +276,6 @@ selection-color: rgb(0, 0, 0);
               <family>Roboto Light</family>
               <pointsize>12</pointsize>
              </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">margin-top:10px;
-color: rgb(185, 185, 195);</string>
             </property>
             <property name="text">
              <string>Потрачено времени в минутах</string>
@@ -361,18 +302,6 @@ color: rgb(185, 185, 195);</string>
               <pointsize>12</pointsize>
              </font>
             </property>
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
-border-radius: 5px;
-color: rgb(255, 255, 255);
-}
-QLineEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	border: 1px solid rgb(95, 85, 200);
-}</string>
-            </property>
             <property name="placeholderText">
              <string>65</string>
             </property>
@@ -391,10 +320,6 @@ QLineEdit:hover {
               <family>Roboto Light</family>
               <pointsize>12</pointsize>
              </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">margin-top:10px;
-color: rgb(185, 185, 195);</string>
             </property>
             <property name="text">
              <string>Дата</string>
@@ -420,18 +345,6 @@ color: rgb(185, 185, 195);</string>
               <family>Roboto Light</family>
               <pointsize>12</pointsize>
              </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QDateEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
-border-radius: 5px;
-color: rgb(255, 255, 255);
-}
-QDateEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	border: 1px solid rgb(95, 85, 200);
-}</string>
             </property>
             <property name="correctionMode">
              <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
@@ -479,10 +392,6 @@ QDateEdit:hover {
               <pointsize>12</pointsize>
              </font>
             </property>
-            <property name="styleSheet">
-             <string notr="true">margin-top:10px;
-color: rgb(185, 185, 195);</string>
-            </property>
             <property name="text">
              <string>Комментарий</string>
             </property>
@@ -501,18 +410,6 @@ color: rgb(185, 185, 195);</string>
               <family>Roboto-Light</family>
               <pointsize>12</pointsize>
              </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPlainTextEdit {
-background-color: #283046;
-border: 1px solid rgb(122, 122, 122);
-border-radius: 5px;
-color: rgb(255, 255, 255);
-}
-QPlainTextEdit:hover {
-	background-color: rgb(40, 48, 70); 
-	border: 1px solid rgb(95, 85, 200);
-}</string>
             </property>
             <property name="placeholderText">
              <string>Видел шикарный сон.</string>
@@ -538,25 +435,6 @@ QPlainTextEdit:hover {
                 <pointsize>14</pointsize>
                </font>
               </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
-background-color: #7367F0;
-border-radius: 5px;
-border: 2px solid #7367F0;
-color: rgb(255, 255, 255);
-padding-top: 10 px; 
-padding-right: 23 px;
-padding-left: 23 px;
-padding-bottom: 10 px;
-text-align: center;
-margin-right: 8px;
-}
-QPushButton:hover {
-  background-color: rgb(40, 48, 70); 
-  color: rgb(115, 103, 240);
-  border: 2px solid rgb(95, 85, 200);
-}</string>
-              </property>
               <property name="text">
                <string>Добавить</string>
               </property>
@@ -572,26 +450,6 @@ QPushButton:hover {
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
-background-color: rgb(40, 48, 70); 
-border-radius: 5px;
-border: 2px solid rgb(234, 84, 85);
-color: rgb(234, 84, 85);
-padding-top: 10 px; 
-padding-right: 23 px;
-padding-left: 23 px;
-padding-bottom: 10 px;
-text-align: center;
-margin-left: 8px;
-
-}
-QPushButton:hover {
-background-color: rgb(234, 84, 85);
-color: rgb(255, 255, 255);
-border: 2px solid rgb(234, 84, 85);
-}</string>
               </property>
               <property name="text">
                <string>Отмена</string>

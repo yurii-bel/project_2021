@@ -8,6 +8,8 @@ import csv
 import webbrowser
 import datetime
 from uuid import uuid4
+import numpy as np
+from numpy.core.function_base import linspace
 
 # non-standart libs (those in requirements).
 import psycopg2 as db
@@ -16,6 +18,7 @@ import pyqtgraph as pg
 import pandas as pd
 from pandas import read_csv
 from matplotlib import pyplot as plt
+from matplotlib.pyplot import figure
 import statsmodels.formula.api as smf
 
 # GUI.
@@ -29,21 +32,17 @@ sys.path.append(".")
 
 """
 TODO BUGS
-
 Тема (change_theme)
-Кнопка телеги (settings_telegram)
 
 TODO
-
-!докстринги + комменты + пепы(до вторника).
-!None при создании нового пользователя.
-!Убрать подчеркивание почты в настройках.
-!Привязать сегодняшнюю дату - 7 дней на главном экране как стандартную "с".
-!Базовая сортировка от сегодняшней даты.
+!Кнопка телеграм.
 !Перед импортом задать вопрос - перезаписать или добавить?
-!подключённый телеграм юзера (окошко с предупреждением).
 !Автокомплит в добавлении\редактировании активностей.
+!докстринги + комменты + пепы(до вторника).
 
+Отдельная функция для сортировки.
+Сортировка по категориям выше приоритетом
+Кнопки сверху должны делить дату.
 сделать комбобокс для названия кативностей + авктокомлит после введения для категории
 """
 
@@ -210,7 +209,8 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
 
     def extended_diag(self, err_txt, buttons):
         msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setWindowIcon(QIcon('design\\img\\main\\favicon.png'))
         msg.setWindowTitle('Внимание!')
         msg.setText(err_txt)
 
@@ -288,8 +288,6 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
             pass
         return True
 
-<<<<<<< HEAD
-=======
     def secondsToText(self, secs, inp_type=None):
         days = secs//86400
         hours = (secs - days*86400)//3600
@@ -305,17 +303,6 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
                 ("{} мин. ".format(minutes) if minutes else "")
             return result
 
-
-# ----------------------------------------------------------START-----timeSoft
-# class AlignDelegate(QtWidgets.QStyledItemDelegate):
-#     """
-#     This class implements center positioning for icons in TableView widget
-#     """
-#     def initStyleOption(self, option, index):
-#         super().initStyleOption(option, index)
-#         option.decorationSize = option.rect.size()
-
->>>>>>> 584c0b1fcd350322d66cdba9ed39a9ed05949366
 
 class MainUI(QtWidgets.QMainWindow):
     """
@@ -362,6 +349,10 @@ class MainUI(QtWidgets.QMainWindow):
         self.ccUi = self.mUi.mainwindow_widget_category
         self.scroll_ccUi = self.mUi.scrollArea
 
+        # Current date in different formats (datetime and QDate)
+        self.today = datetime.datetime.now()
+        self.qtoday = QtCore.QDate.currentDate()
+
         # Various settings for different UI elements, such as connecting
         # buttons to slots and setting menubars.
         self.pre_initUI()
@@ -372,8 +363,6 @@ class MainUI(QtWidgets.QMainWindow):
         # self.ttUi.tableW.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         # When starting a program, first login UI appears.
         self.show_login()
-
-        self.today = datetime.datetime.now()
 
     def pre_initUI(self):
         icon = QtGui.QIcon('design\\img\\main\\favicon.png')
@@ -396,14 +385,10 @@ class MainUI(QtWidgets.QMainWindow):
         self.mUi.mainwindow_btn_settings.clicked.connect(self.sUi.show)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
         # Sorting by date buttons and dateEdit element.
-        self.mUi.mainwindow_dateEdit_s.setDate(
-            QtCore.QDate(QtCore.QDate.currentDate()))
-        self.mUi.mainwindow_dateEdit_s.setMaximumDate(
-            QtCore.QDate(QtCore.QDate.currentDate()))
-        self.mUi.mainwindow_dateEdit_po.setDate(
-            QtCore.QDate(QtCore.QDate.currentDate()))
-        self.mUi.mainwindow_dateEdit_po.setMaximumDate(
-            QtCore.QDate(QtCore.QDate.currentDate()))
+        self.mUi.mainwindow_dateEdit_s.setDate(self.qtoday.addDays(-7))
+        self.mUi.mainwindow_dateEdit_s.setMaximumDate(self.qtoday)
+        self.mUi.mainwindow_dateEdit_po.setDate(self.qtoday)
+        self.mUi.mainwindow_dateEdit_po.setMaximumDate(self.qtoday)
 
         self.mUi.mainwindow_btn_daily.clicked.connect(
             self.view_table_sort_by_day)
@@ -499,6 +484,9 @@ class MainUI(QtWidgets.QMainWindow):
         # Scroll area settings.
         self.scroll_ccUi.setFrameShape(self.scroll_ccUi.NoFrame)
 
+        # TableW settings.
+        self.ttUi.tableW.setFrameStyle(self.ttUi.tableW.NoFrame)
+
         # Variable of correctness login status.
         self.correct_login = False
 
@@ -507,7 +495,6 @@ class MainUI(QtWidgets.QMainWindow):
     def sorting_data_csv(self):
         # This method sorting data by month and category.
         if self.idx < len(self.diff_categories):
-            # Removing files.
             # Creating new files.
             with open(
                     f'./csv_data/{self.user_n_name}_{self.diff_categories[self.idx]}_data.csv', 'w', newline='') as file:
@@ -529,8 +516,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.timedb.get_logged_user_data(item='get_user_email'))
 
         if not self.timedb.get_logged_user_data(
-                item='get_user_telegram') == '0' and not self.timedb.get_logged_user_data(
-                item='get_user_telegram') == 'None':
+            item='get_user_telegram') == '(NULL)':
             self.sUi.settings_imglbl_telegram_noverify.setHidden(True)
 
         self.update_users_categs()
@@ -613,6 +599,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Reading csv files and plotting graphs according to them.
         index = 0
         pathes = []
+        plt.figure(figsize=(13,7))
 
         for i in range(len(self.diff_categories)):
             data = pd.read_csv(
@@ -620,11 +607,17 @@ class MainUI(QtWidgets.QMainWindow):
             path = f'./csv_data/{self.user_n_name}_{self.diff_categories[index]}_data.csv'
             pathes.append(path)
             # plot the time series.
+
             df = read_csv(pathes[i])
             df = pd.DataFrame(data, columns=['Month', 'Duration'])
-            df.plot(x='Month', y='Duration',
-                    kind='line', color="blue", alpha=0.3)
-            plt.title(f'{self.diff_categories[index]}')
+
+            # x_list = df['Month'].to_string(index=False).replace('\n',' ').split()
+            # y_list = df['Duration'].to_string(index=False).replace('\n',' ').split()
+            
+            plt.plot(df['Month'], df['Duration'])
+
+            plt.legend(self.diff_categories)
+
             index += 1
         plt.show()
 
@@ -1650,7 +1643,6 @@ class MainUI(QtWidgets.QMainWindow):
                 f'color:  #676D7D;'
                 f'background:  #283046;'
                 f'border-radius: 5px;'
-                f'text-decoration: underline;'
                 f'font-size: 13pt;')
             self.sUi.settings_lineedit_email_new.setStyleSheet(
                 """QLineEdit {"""
@@ -2501,6 +2493,7 @@ class MainUI(QtWidgets.QMainWindow):
                 self.cat_name, self.actl_name, self.act_id])
         self.update_users_categs()
         self.update_view_table()
+        self.update_view_categ()
         self.eUi.close()
 
     def del_categ(self):
@@ -2522,37 +2515,37 @@ class MainUI(QtWidgets.QMainWindow):
         self.update_view_categ()
         self.cUi.close()
 
+    # TODO:
+    #!Фикс обеих функций - ничего не работает :с
     def settings_export(self):
         data = self.timedb.get_logged_user_data(item='get_user_activities')
-        try:
-            settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(
-                self, 'Save file', '/', 'CSV file (*.csv)')
-            if settingsSave[0]:
-                with open(settingsSave[0], 'w+', newline='') as f:
-                    writer = csv.writer(f)
-                    for d in data:
-                        writer.writerow(d)
-
-        except Exception:
-            self.input_check().simple_diag('Экспорт не удался.')
-        if ok:
-            self.input_check().simple_diag('Экспорт успешно завершён!')
+        # try:
+        settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(
+            self, 'Save file', '/', 'CSV file (*.csv)')
+        if settingsSave[0]:
+            with open(settingsSave[0], 'w+', newline='') as f:
+                writer = csv.writer(f)
+                for d in data:
+                    writer.writerow(d)
+        #     if ok:
+        #         self.input_check().simple_diag('Экспорт успешно завершён!')
+        # except Exception:
+        #     self.input_check().simple_diag('Экспорт не удался.')
 
     def settings_import(self):
-        try:
-            settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(
-                self, 'Open file', '/', 'CSV file (*.csv)')
-            if settingsLoad[0]:
-                with open(settingsLoad[0], 'r+') as f:
-                    reader = csv.reader(f, delimiter=',')
-                    for row in reader:
-                        self.timedb.set_logged_user_data(
-                            item='add_event', add_params=row)
-
-        except Exception:
-            self.input_check().simple_diag('Импорт не удался.')
-        if ok:
-            self.input_check().simple_diag('Импорт успешно завершён!')
+        # try:
+        settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(
+            self, 'Open file', '/', 'CSV file (*.csv)')
+        if settingsLoad[0]:
+            with open(settingsLoad[0], 'r+') as f:
+                reader = csv.reader(f, delimiter=',')
+                for row in reader:
+                    self.timedb.set_logged_user_data(
+                        item='add_event', add_params=row)
+            # if ok:
+            #     self.input_check().simple_diag('Импорт успешно завершён!')
+        # except Exception:
+        #     self.input_check().simple_diag('Импорт не удался.')
 
     def settings_change_user_data(self):
         self.timedb.get_logged_user_data(item='get_user_p_id')
@@ -2695,26 +2688,31 @@ class MainUI(QtWidgets.QMainWindow):
 
     def settings_telegram(self):
         if not self.timedb.get_logged_user_data(
-            item='get_user_telegram') == '0' and not self.timedb.get_logged_user_data(
-                item='get_user_telegram') == 'None':
-            msg = self.input_check(
-                buttons=['Отвязать телеграм', 'Открыть бота']).simple_diag(
-                    'Пожалуйста, выберите действие:')
-            if msg == 5:
+            item='get_user_telegram') == '(NULL)':
+            msg = self.input_check().extended_diag(
+                err_txt='Пожалуйста, выберите действие:', buttons=[
+                    'Отвязать телеграм', 'Открыть бота'])
+
+            if msg == True:
                 self.timedb.set_logged_user_data(item='del_telegram')
                 self.input_check().simple_diag('Телеграм успешно отвязан!')
-            elif msg == 6:
+                self.sUi.settings_imglbl_telegram_noverify.setHidden(False)
+            elif msg == False:
                 webbrowser.open_new_tab(
                     'https://web.telegram.org/#/im?p=@fexcin_bot')
-        else:
-            webbrowser.open_new_tab(
-                'https://web.telegram.org/#/im?p=@fexcin_bot')
+            return
+        elif self.timedb.get_logged_user_data(
+                item='get_user_telegram') == '(NULL)':
+                webbrowser.open_new_tab(
+                    'https://web.telegram.org/#/im?p=@fexcin_bot')
+                return
 
     def view_table(self):
         rows = self.timedb.get_logged_user_data(
             item='get_user_activities_table')
         self.ttUi.tableW.setRowCount(len(rows))
 
+        self.ttUi.tableW.setSortingEnabled(False)
         x = 0
         for row in rows:
             row3 = self.input_check().secondsToText(int(row[3])*60)
@@ -2738,6 +2736,8 @@ class MainUI(QtWidgets.QMainWindow):
                 x, 5, QtWidgets.QTableWidgetItem(row[5]))
             x += 1
 
+        self.ttUi.tableW.setSortingEnabled(True)
+        self.ttUi.tableW.sortItems(1, Qt.DescendingOrder)
         self.ttUi.tableW.resizeColumnsToContents()
         self.lay.addWidget(self.ttUi.tableW)
 
@@ -2765,6 +2765,7 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.ttUi.tableW.setRowCount(len(rows))
 
+        self.ttUi.tableW.setSortingEnabled(False)
         x = 0
         for row in rows:
             row3 = self.input_check().secondsToText(int(row[3])*60)
@@ -2787,6 +2788,8 @@ class MainUI(QtWidgets.QMainWindow):
                 x, 5, QtWidgets.QTableWidgetItem(row[5]))
             x += 1
 
+        self.ttUi.tableW.setSortingEnabled(True)
+        self.ttUi.tableW.sortItems(1, Qt.DescendingOrder)
         self.ttUi.tableW.resizeColumnsToContents()
         self.lay.addWidget(self.ttUi.tableW)
 
@@ -2872,7 +2875,7 @@ class MainUI(QtWidgets.QMainWindow):
             item='get_category_overall_time', add_params=['all'])
 
         if all_overall_time == 'None':
-            pass
+            all_overall_time = ''
         else:
             all_overall_time = self.input_check().secondsToText(
                 int(all_overall_time)*60, 'categs')
@@ -2896,7 +2899,7 @@ class MainUI(QtWidgets.QMainWindow):
                 item='get_category_overall_time', add_params=[row])
 
             if overall_time == 'None':
-                pass
+                all_overall_time = ''
             else:
                 overall_time = self.input_check().secondsToText(
                     int(overall_time)*60, 'categs')
@@ -2987,7 +2990,7 @@ class MainUI(QtWidgets.QMainWindow):
             item='get_category_overall_time', add_params=['all'])
 
         if all_overall_time == 'None':
-            pass
+            all_overall_time = ''
         else:
             all_overall_time = self.input_check().secondsToText(
                 int(all_overall_time)*60, 'categs')
@@ -3074,7 +3077,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.duration.append(int(row[2]))
 
         self.diff_categories = list(
-            (set([x for x in self.categories if self.categories.count(x) > 1])))
+            (set([x for x in self.categories if self.categories.count(x) >= 1])))
 
         for i in range(len(self.diff_categories)):
             self.diff_duration.append(0)
@@ -3529,11 +3532,11 @@ class DbLogic:
             self.connection.commit()
 
         # Deleting telegram reference.
-        elif item == 'del_tegeram':
+        elif item == 'del_telegram':
             self.cursor2.execute(
-                f'UPDATE "USER_NAME" SET user_n_telegram = 0\
-                    WHERE user_n_id = \'{self.user_n_id}\'')
-
+                f'UPDATE "USER_NAME" SET user_n_telegram = \'(NULL)\'\
+                    WHERE user_n_id = {self.user_n_id} ON CONFLICT DO NOTHING')
+            
             self.connection.commit()
 
         elif item == 'del_user_categ':
@@ -3606,17 +3609,6 @@ class DbLogic:
                 overall_time_for_category = str(self.cursor2.fetchall())[2:-2]
                 return overall_time_for_category
 
-        # elif item == 'sort_category_block':
-        #     if add_params[0] == 'all':
-        #         self.cursor2.execute(
-        #             f'SELECT category FROM "ACTIVITY" WHERE\
-        #                 user_id = \'{self.user_id}\'')
-        #         overall_time_for_category = str(self.cursor2.fetchall())[2:-2]
-        #         return overall_time_for_category
-
-
-# ----------------------------------------------------------END----dblogic.py
-
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
@@ -3624,6 +3616,6 @@ if __name__ == '__main__':
     sys.exit(app.exec())
 
     # dbl = DbLogic()
-    # dbl.get_logged_user_data(user_login='Timofey', item='set_working_user')
+    # dbl.get_logged_user_data(user_login='Ева', item='set_working_user')
 
-    # dbl.set_logged_user_data(user_login='Sif', item='set_working_user')
+    # dbl.set_logged_user_data(user_login='Ева', item='set_working_user')

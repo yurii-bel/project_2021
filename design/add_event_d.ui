@@ -354,16 +354,23 @@
               <hour>0</hour>
               <minute>0</minute>
               <second>0</second>
-              <year>1952</year>
-              <month>9</month>
-              <day>14</day>
+              <year>1900</year>
+              <month>1</month>
+              <day>1</day>
              </datetime>
             </property>
             <property name="maximumDate">
              <date>
-              <year>2100</year>
+              <year>2099</year>
               <month>12</month>
               <day>31</day>
+             </date>
+            </property>
+            <property name="minimumDate">
+             <date>
+              <year>1900</year>
+              <month>1</month>
+              <day>1</day>
              </date>
             </property>
             <property name="calendarPopup">

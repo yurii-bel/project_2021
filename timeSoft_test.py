@@ -34,9 +34,12 @@ TODO BUGS
 
 TODO
 !докстринги + комменты + пепы(до вторника).
-!Сортировка по категориям выше приоритетом
+
 !Перед импортом задать вопрос - перезаписать или добавить?
 !подключённый телеграм юзера (окошко с предупреждением).
+!Отдельная функция для сортировки.
+Сортировка по категориям выше приоритетом
+Кнопки сверху должны делить дату.
 Автокомплит в добавлении\редактировании активностей.
 
 сделать комбобокс для названия кативностей + авктокомлит после введения для категории
@@ -205,7 +208,8 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
 
     def extended_diag(self, err_txt, buttons):
         msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setWindowIcon(QIcon('design\\img\\main\\favicon.png'))
         msg.setWindowTitle('Внимание!')
         msg.setText(err_txt)
 
@@ -297,7 +301,6 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
                 ("{} ч. ".format(hours) if hours else "") + \
                 ("{} мин. ".format(minutes) if minutes else "")
             return result
-
 
 
 class MainUI(QtWidgets.QMainWindow):
@@ -512,8 +515,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.timedb.get_logged_user_data(item='get_user_email'))
 
         if not self.timedb.get_logged_user_data(
-                item='get_user_telegram') == '0' and not self.timedb.get_logged_user_data(
-                item='get_user_telegram') == 'None':
+            item='get_user_telegram') == '(NULL)':
             self.sUi.settings_imglbl_telegram_noverify.setHidden(True)
 
         self.update_users_categs()
@@ -2678,20 +2680,22 @@ class MainUI(QtWidgets.QMainWindow):
 
     def settings_telegram(self):
         if not self.timedb.get_logged_user_data(
-            item='get_user_telegram') == '0' and not self.timedb.get_logged_user_data(
-                item='get_user_telegram') == 'None':
-            msg = self.input_check(
-                buttons=['Отвязать телеграм', 'Открыть бота']).simple_diag(
-                    'Пожалуйста, выберите действие:')
-            if msg == 5:
+            item='get_user_telegram') == '(NULL)':
+            msg = self.input_check().extended_diag(
+                err_txt='Пожалуйста, выберите действие:', buttons=[
+                    'Отвязать телеграм', 'Открыть бота'])
+
+            if msg == True:
                 self.timedb.set_logged_user_data(item='del_telegram')
                 self.input_check().simple_diag('Телеграм успешно отвязан!')
-            elif msg == 6:
+                self.sUi.settings_imglbl_telegram_noverify.setHidden(False)
+            elif msg == False:
                 webbrowser.open_new_tab(
                     'https://web.telegram.org/#/im?p=@fexcin_bot')
-        else:
-            webbrowser.open_new_tab(
-                'https://web.telegram.org/#/im?p=@fexcin_bot')
+        elif self.timedb.get_logged_user_data(
+                item='get_user_telegram') == '(NULL)':
+                webbrowser.open_new_tab(
+                    'https://web.telegram.org/#/im?p=@fexcin_bot')
 
     def view_table(self):
         rows = self.timedb.get_logged_user_data(
@@ -3518,11 +3522,11 @@ class DbLogic:
             self.connection.commit()
 
         # Deleting telegram reference.
-        elif item == 'del_tegeram':
+        elif item == 'del_telegram':
             self.cursor2.execute(
-                f'UPDATE "USER_NAME" SET user_n_telegram = 0\
-                    WHERE user_n_id = \'{self.user_n_id}\'')
-
+                f'UPDATE "USER_NAME" SET user_n_telegram = \'(NULL)\'\
+                    WHERE user_n_id = {self.user_n_id}')
+            
             self.connection.commit()
 
         elif item == 'del_user_categ':
@@ -3595,17 +3599,6 @@ class DbLogic:
                 overall_time_for_category = str(self.cursor2.fetchall())[2:-2]
                 return overall_time_for_category
 
-        # elif item == 'sort_category_block':
-        #     if add_params[0] == 'all':
-        #         self.cursor2.execute(
-        #             f'SELECT category FROM "ACTIVITY" WHERE\
-        #                 user_id = \'{self.user_id}\'')
-        #         overall_time_for_category = str(self.cursor2.fetchall())[2:-2]
-        #         return overall_time_for_category
-
-
-# ----------------------------------------------------------END----dblogic.py
-
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
@@ -3613,6 +3606,6 @@ if __name__ == '__main__':
     sys.exit(app.exec())
 
     # dbl = DbLogic()
-    # dbl.get_logged_user_data(user_login='Timofey', item='set_working_user')
+    # dbl.get_logged_user_data(user_login='Ева', item='set_working_user')
 
-    # dbl.set_logged_user_data(user_login='Sif', item='set_working_user')
+    # dbl.set_logged_user_data(user_login='Ева', item='set_working_user')

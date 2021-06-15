@@ -1,4 +1,5 @@
-INSERT INTO "USER_NAME" (USER_N_ID, USER_N_name, USER_N_Telegram) VALUES ('996MdkMfxhWRZTD8G0F3', 'Sif', (NULL)),
+INSERT INTO "USER_NAME" (USER_N_ID, USER_N_name, USER_N_Telegram) VALUES 
+('996MdkMfxhWRZTD8G0F3', 'Sif', (NULL)),
 ('sfY4P2il6J1lApuyirOe', 'Timo', (NULL)),
 ('YK3xSwFVdmQthAgrQdGu', 'Владимир', (NULL)),
 ('yMWK3dVFj0YAyZVJGOOF', 'Ева', (NULL)),

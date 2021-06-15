@@ -1,4 +1,5 @@
-INSERT INTO "USER_PRIVATE" (USER_P_ID, USER_P_email, USER_P_password) VALUES ('udP1PlxlVqsWO0N99aVA', 'Sif@gmail.ua', 'qwerty'),
+INSERT INTO "USER_PRIVATE" (USER_P_ID, USER_P_email, USER_P_password) VALUES 
+('udP1PlxlVqsWO0N99aVA', 'Sif@gmail.ua', 'qwerty'),
 ('LvtHg47aQvIen1S4dwD7', 'Timo@gmail.ua', 'qwerty'),
 ('2srR1PqW3u6Ix5Sbi7TD', 'Vladimir@gmail.ua', 'Rvo3VBGF'),
 ('fIzeCxGi0DLQiHPz69Ir', 'Eva@gmail.ua', 'qwerty2'),

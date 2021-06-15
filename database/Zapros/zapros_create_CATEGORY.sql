@@ -1,4 +1,5 @@
-INSERT INTO "CATEGORY" (USER_ID, CAT_name) VALUES ('1', 'Быт'),
+INSERT INTO "CATEGORY" (USER_ID, CAT_name) VALUES 
+('1', 'Быт'),
 ('1', 'Обучение'),
 ('1', 'Отдых'),
 ('1', 'Помощь другим'),

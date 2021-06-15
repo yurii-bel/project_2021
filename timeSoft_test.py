@@ -288,8 +288,6 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
             pass
         return True
 
-<<<<<<< HEAD
-=======
     def secondsToText(self, secs, inp_type=None):
         days = secs//86400
         hours = (secs - days*86400)//3600
@@ -315,7 +313,6 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
 #         super().initStyleOption(option, index)
 #         option.decorationSize = option.rect.size()
 
->>>>>>> 584c0b1fcd350322d66cdba9ed39a9ed05949366
 
 class MainUI(QtWidgets.QMainWindow):
     """
@@ -3074,7 +3071,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.duration.append(int(row[2]))
 
         self.diff_categories = list(
-            (set([x for x in self.categories if self.categories.count(x) > 1])))
+            (set([x for x in self.categories if self.categories.count(x) >= 1])))
 
         for i in range(len(self.diff_categories)):
             self.diff_duration.append(0)

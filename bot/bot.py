@@ -214,7 +214,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
         txt = message.text
     # Check if text entered by the user can be converted to int type and doesn't exceed 5 digits
     checks = [
-        InputCheck(x).check_date() for x in len(txt.split(', '))
+        InputCheck(txt).check_date()
     ]
     failed = []
     for x in checks:
@@ -487,11 +487,11 @@ def add_event(message):
             InputCheck(actl_name).check_incorrect_vals(),
             InputCheck(act_time).number_only(),
             InputCheck(act_time).check_time_value(),
-            InputCheck(act_date).check_date(),
+            InputCheck(act_date).check_date() if args[2] != '-' else True,
             InputCheck(cat_name).check_len(),
             InputCheck(cat_name).check_incorrect_vals(),
-            InputCheck(act_comment).check_comment_len() if len(args) == 5 else '',
-            InputCheck(act_comment).check_incorrect_vals() if len(args) == 5 else ''
+            InputCheck(act_comment).check_comment_len() if len(args) == 5 else True,
+            InputCheck(act_comment).check_incorrect_vals() if len(args) == 5 else True
         ]
         # Get error messages
         failed = []

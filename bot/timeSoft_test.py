@@ -1,7 +1,8 @@
-# python modules.
 import re
 import string
+
 from datetime import datetime
+
 
 class InputCheck:
     """
@@ -15,6 +16,7 @@ class InputCheck:
         self.text = input_text
 
         self.correct_rus_vals = []
+        # TODO: Добавить еще 1030, 1031, 1111, 1100
         # Appending correct_rus_vals with lower and upper case russian symbols.
         for i in range(1040, 1104):
             self.correct_rus_vals.append(chr(i))
@@ -95,7 +97,7 @@ class InputCheck:
 
     def check_date(self):
         # checking date and its format.
-        if self.text.isdigit() and len(self.text.split(', ')) == 1:
+        if self.text.isdigit():
             if int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
                 return [False, 'Введённое количество дней указывает на дату ранее 1900 года.']
         elif len(self.text.split(', ')) in range(1, 3):
@@ -108,40 +110,4 @@ class InputCheck:
                     except Exception:
                         return [False, 'Неверный формат даты.']
                     return [False, 'Неверный формат даты.']
-        return True
-
-    def check_len(self):
-        if len(self.text) > 60:
-            return [False, 'Длиннее 60 символов.']
-        return True
-
-    def check_comment_len(self):
-        if len(self.text) > 500:
-            return [False, 'Длиннее 500 символов.']
-        return True
-
-    def check_time_value(self):
-        if not (0 < int(self.text) <= 1440):
-            return [False, 'Введено ошибочное количество потраченных минут.']
-        return True
-
-    def check_incorrect_vals(self):
-        for i in self.text:
-            if i in self.incorrect_vals:
-                return [False, f'Недопустимый символ ({i}).']
-        return True
-
-    def check_spaces_tabs(self):
-        n = len(self.text)
-        if self.text in [' ' * n, '\t' * n, '\n' * n]:
-            return [False, 'Пробел, табуляция или перенос строки.']
-        return True
-
-    def number_only(self):
-        self.incorrect_vals.extend(self.only_in_quotes_char)
-        self.correct_vals.extend(['.', ';', '"'])
-        self.correct_vals.extend(self.correct_rus_vals)
-        for i in self.text:
-            if i in self.correct_vals or i in self.incorrect_vals:
-                return [False, 'Разрешено вводить только количество минут.']
         return True

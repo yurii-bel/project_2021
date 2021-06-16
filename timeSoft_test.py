@@ -663,9 +663,6 @@ class MainUI(QtWidgets.QMainWindow):
             df = read_csv(pathes[i])
             df = pd.DataFrame(data, columns=['Month', 'Duration'])
 
-            # x_list = df['Month'].to_string(index=False).replace('\n',' ').split()
-            # y_list = df['Duration'].to_string(index=False).replace('\n',' ').split()
-
             plt.plot(df['Month'], df['Duration'])
 
             plt.legend(self.diff_categories)

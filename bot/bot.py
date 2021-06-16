@@ -2,6 +2,7 @@ import os
 import telebot
 import psycopg2
 import configparser
+import pickle
 
 from psycopg2 import DatabaseError
 from datetime import datetime, timedelta
@@ -94,7 +95,7 @@ def add_command(message):
 
 
 def check_login(message):
-    # Solve functions overlapping 
+    # Solve functions overlapping
     if message.text == '/start':
         return start_command(message)
     elif message.text == '/login':
@@ -122,7 +123,7 @@ def check_login(message):
 
 
 def check_password(message):
-    # Solve functions overlapping 
+    # Solve functions overlapping
     if message.text == '/start':
         return start_command(message)
     elif message.text == '/login':
@@ -175,7 +176,7 @@ def check_password(message):
 
 
 def display_events(message, sort_callback='date_sort', edit=False, refresh=False):
-    # Solve functions overlapping 
+    # Solve functions overlapping
     if message.text == '/start':
         return start_command(message)
     elif message.text == '/login':
@@ -234,6 +235,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
         users_data['user_entry_' + str(message.from_user.id)] = txt
         cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\' AND act_date = \'{txt}\'::date '
                        f'ORDER BY {sort_column} LIMIT 50')
+        activities_type = f'за {txt}'
     elif len(txt.split(', ')) == 2:
         users_data['user_entry_' + str(message.from_user.id)] = txt
         date_1, date_2 = txt.split(', ')
@@ -272,7 +274,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
     if edit:
         # Accessing message attribute of CallbackQuery
         message = message.message
-        # Edit message with resorting events opositely and replacing the button to the opposite one
+        # Edit message with resorting events oppositely and replacing the button to the opposite one
         bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text=text)
         bot.edit_message_reply_markup(chat_id=message.chat.id, message_id=message.message_id, reply_markup=markup)
         return
@@ -359,11 +361,8 @@ def choose_action(message):
                 connection.commit()
             except DatabaseError:
                 bot.send_message(message.chat.id, 'Произошла ошибка.')
-            # remove_act_id(message)
-            # TODO: kakogo hera 
             return display_events(message, refresh=True)
         else:
-            # remove_act_id(message)
             return display_events(message, refresh=True)
         bot.register_next_step_handler(event_message, process_action)
     else:
@@ -371,7 +370,7 @@ def choose_action(message):
 
 
 def process_action(message):
-    # Solve functions overlapping 
+    # Solve functions overlapping
     if message.text == '/start':
         return start_command(message)
     elif message.text == '/login':
@@ -462,7 +461,7 @@ def callback_listener(callback):
 
 
 def add_event(message):
-    # Solve functions overlapping 
+    # Solve functions overlapping
     if message.text == '/start':
         return start_command(message)
     elif message.text == '/login':
@@ -527,15 +526,6 @@ def remove_act_id(message):
         users_data.pop('act_id_' + str(message.from_user.id))
     except KeyError:
         pass
-
-
-@bot.message_handler(commands=['qwe'])
-def reveal(message):
-    try:
-        users_data['act_id_' + str(message.from_user.id)]
-        print('yes')
-    except KeyError:
-        print('no')
 
 
 if __name__ == '__main__':

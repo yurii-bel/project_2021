@@ -111,3 +111,39 @@ class InputCheck:
                         return [False, 'Неверный формат даты.']
                     return [False, 'Неверный формат даты.']
         return True
+
+    def check_len(self):
+        if len(self.text) > 60:
+            return [False, 'Длиннее 60 символов.']
+        return True
+
+    def check_comment_len(self):
+        if len(self.text) > 500:
+            return [False, 'Длиннее 500 символов.']
+        return True
+
+    def check_time_value(self):
+        if not (0 < int(self.text) <= 1440):
+            return [False, 'Введено ошибочное количество потраченных минут.']
+        return True
+
+    def check_incorrect_vals(self):
+        for i in self.text:
+            if i in self.incorrect_vals:
+                return [False, f'Недопустимый символ ({i}).']
+        return True
+
+    def check_spaces_tabs(self):
+        n = len(self.text)
+        if self.text in [' ' * n, '\t' * n, '\n' * n]:
+            return [False, 'Пробел, табуляция или перенос строки.']
+        return True
+
+    def number_only(self):
+        self.incorrect_vals.extend(self.only_in_quotes_char)
+        self.correct_vals.extend(['.', ';', '"'])
+        self.correct_vals.extend(self.correct_rus_vals)
+        for i in self.text:
+            if i in self.correct_vals or i in self.incorrect_vals:
+                return [False, 'Разрешено вводить только количество минут.']
+        return True

@@ -2,7 +2,6 @@ import os
 import telebot
 import psycopg2
 import configparser
-import pickle
 
 from psycopg2 import DatabaseError
 from datetime import datetime, timedelta
@@ -65,8 +64,8 @@ def display_command(message):
     remove_act_id(message)
     # Check whether user is logged in
     if 'logged_in_' + str(message.from_user.id) in users_data:
-        display_msg = bot.send_message(message.chat.id, 'Выбери за сколько дней или между какими датами отобразить '
-                                                        'события \\(раздели запятой\\), например *7* или '
+        display_msg = bot.send_message(message.chat.id, 'Выбери за сколько дней, за какую дату или между какими датами отобразить '
+                                                        'события \\(раздели запятой\\), например *7*, *01\\.01\\.2021* или '
                                                         '*01\\.01\\.2020*, *01\\.01\\.2021*\\.',
                                        parse_mode='MarkdownV2')
         bot.register_next_step_handler(display_msg, display_events)
@@ -176,17 +175,18 @@ def check_password(message):
 
 
 def display_events(message, sort_callback='date_sort', edit=False, refresh=False):
-    # Solve functions overlapping
-    if message.text == '/start':
-        return start_command(message)
-    elif message.text == '/login':
-        return login_command(message)
-    elif message.text == '/display':
-        return display_command(message)
-    elif message.text.startswith('/open_') and len(message.text) > 6:
-        return edit_events(message)
-    elif message.text == '/add':
-        return add_command(message)
+    if not (edit or refresh):
+        # Solve functions overlapping
+        if message.text == '/start':
+            return start_command(message)
+        elif message.text == '/login':
+            return login_command(message)
+        elif message.text == '/display':
+            return display_command(message)
+        elif message.text.startswith('/open_') and len(message.text) > 6:
+            return edit_events(message)
+        elif message.text == '/add':
+            return add_command(message)
     # Define sorting vars needed for activities sorting and sorting button name
     if sort_callback == 'cat_sort':
         sort_column = 'cat_name ASC'
@@ -516,8 +516,10 @@ def add_event(message):
         else:
             failed = ' '.join(list(set(failed)))
             bot.send_message(message.chat.id, 'Произошла ошибка.' + failed)
+    elif len(args) > 5:
+        bot.send_message(message.chat.id, 'Произошла ошибка. Слишком много запятых.')
     else:
-        bot.send_message(message.chat.id, 'Произошла ошибка. Не все поля были заполнены.')
+        bot.send_message(message.chat.id, 'Произошла ошибка. Недостаточное полей было заполнено.')
 
 
 def remove_act_id(message):

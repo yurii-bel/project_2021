@@ -663,9 +663,6 @@ class MainUI(QtWidgets.QMainWindow):
             df = read_csv(pathes[i])
             df = pd.DataFrame(data, columns=['Month', 'Duration'])
 
-            # x_list = df['Month'].to_string(index=False).replace('\n',' ').split()
-            # y_list = df['Duration'].to_string(index=False).replace('\n',' ').split()
-
             plt.plot(df['Month'], df['Duration'])
 
             plt.legend(self.diff_categories)
@@ -3666,8 +3663,3 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     win = MainUI()
     sys.exit(app.exec())
-
-    # dbl = DbLogic()
-    # dbl.get_logged_user_data(user_login='Ева', item='set_working_user')
-
-    # dbl.set_logged_user_data(user_login='Ева', item='set_working_user')

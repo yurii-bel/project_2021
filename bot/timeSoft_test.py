@@ -7,7 +7,6 @@ from datetime import datetime
 class InputCheck:
     """
     The InputCheck class implements base checking system for various input data.
-
     Attributes:
         input_text (str):The string which can be checked using various methods.
     """
@@ -36,7 +35,6 @@ class InputCheck:
         If the email passes verification, it returns True(bool) only.
         If not passes, it returns list that contains two values:
         False(bool) and error message(str).
-
         Returns:
             True | [False | err_msg]
         """
@@ -123,8 +121,11 @@ class InputCheck:
         return True
 
     def check_time_value(self):
-        if not (0 < int(self.text) <= 1440):
-            return [False, 'Введено ошибочное количество потраченных минут.']
+        if not self.text.isdigit():
+            return [False, 'Укажите количество минут числом.']
+        else:
+            if not (0 < int(self.text) <= 1440):
+                return [False, 'Введено ошибочное количество потраченных минут.']
         return True
 
     def check_incorrect_vals(self):

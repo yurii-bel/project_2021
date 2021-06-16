@@ -4,7 +4,6 @@ import string
 import configparser
 import csv
 import webbrowser
-import numpy as np
 
 from datetime import datetime
 from uuid import uuid4
@@ -13,6 +12,7 @@ from numpy.core.function_base import linspace
 import psycopg2 as db
 import psycopg2.extras
 import pyqtgraph as pg
+import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
 

@@ -4,7 +4,7 @@ import psycopg2
 import configparser
 
 from psycopg2 import DatabaseError
-from datetime import datetime, timedelta
+from datetime import datetime
 from telebot import types
 from timeSoft_test import InputCheck
 
@@ -17,7 +17,10 @@ except KeyError:
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8-sig')
     BOT_TOKEN = config.get('Bot', 'bot_token_sasha')
-    connection = psycopg2.connect(config.get('PostgreSql', 'DATABASE_URL'))
+    connection = psycopg2.connect(database=config.get('PostgreSql', 'database'),
+                                  user=config.get('PostgreSql', 'user'),
+                                  password=config.get('PostgreSql', 'password'),
+                                  host=config.get('PostgreSql', 'host'))
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
@@ -61,9 +64,14 @@ def display_command(message):
     remove_act_id(message)
     # Check whether user is logged in
     if 'logged_in_' + str(message.from_user.id) in users_data:
-        display_msg = bot.send_message(message.chat.id, 'Выбери за сколько дней, за какую дату или между какими датами отобразить '
-                                                        'события \\(раздели запятой\\), например *7*, *01\\.01\\.2021* или '
-                                                        '*01\\.01\\.2020*, *01\\.01\\.2021*\\.',
+        # Get current date in a certain format
+        date = datetime.now().strftime('%d\\.%m\\.%Y')
+        display_msg = bot.send_message(message.chat.id, f'Какие даты отобразить?\n\n'
+                                                        f'*Пример:*\n'
+                                                        f'*\\-* — все события за сегодня \\(*{date}*\\)\\.\n'
+                                                        f'*7* — за последние 7 дней\\.\n'
+                                                        f'*16\\.06\\.2021* — конкретную дату\\.\n'
+                                                        f'*01\\.01\\.2020, 01\\.01\\.2021* — все события между датами\\.',
                                        parse_mode='MarkdownV2')
         bot.register_next_step_handler(display_msg, display_events)
     else:
@@ -77,13 +85,16 @@ def add_command(message):
     if 'logged_in_' + str(message.from_user.id) in users_data:
         # Get current date in a certain format
         date = datetime.now().strftime('%d\\.%m\\.%Y')
-        add_msg = bot.send_message(message.chat.id, f'Введи название, время, дату '
-                                                    f'\\(для применения сегодняшней даты \\[*{date}*\\]'
-                                                    f'используй \'\\-\'\\), категорию и комментарий \\(необязательно\\) '
-                                                    f'события\\.\n\n__Например:__\n'
-                                                    f'_Готовился к экзамену, 125, 06\\.06\\.2021, Учёба_\n'
-                                                    f'_Смотрел фильм, 37, 07\\.06\\.2021, Отдых, 10\\/10_\n'
-                                                    f'_Ходил на концерт, 190, \\-, Развлечения_',
+        add_msg = bot.send_message(message.chat.id, f'Добавляем новое событие\\.\n\n'
+                                                    f'*Необходимо ввести:*\n'
+                                                    f'Название события, затраченное время, дату события, категорию, комментарий \\'
+                                                    f'(необязательно\\)\\.\n\nОбратите внимание, для ввода даты можно использовать '
+                                                    f'следующие варианты ввода:\n*\\-* — показать все события за сегодня (*{date}*)\\.\n'
+                                                    f'*16\\.06\\.2021* — показать конкретную дату\\.\n\n'
+                                                    f'*Например*:\n'
+                                                    f'Гулял, 42, 06\\.06\\.2021, Отдых, В парке\n'
+                                                    f'Смотрел фильм, 153, \\-, Отдых, Король лев\n'
+                                                    f'Готовил еду, 45, \\-, Быт\n',
                                    parse_mode='MarkdownV2')
         bot.register_next_step_handler(add_msg, add_event)
     else:
@@ -157,12 +168,10 @@ def check_password(message):
                 connection.commit()
                 bot.send_message(message.chat.id, 'Успешно.\nДля отображения событий испоьзуй комманду /display\n'
                                                   'Для добавления нового события используй комманду /add')
-            elif message.text not in commands:
+            else:
                 incorrect_password_message = bot.send_message(message.chat.id, 'Неверный пароль. Повтори попытку.')
                 # Reenter the same function if password is incorrect
                 bot.register_next_step_handler(incorrect_password_message, check_password)
-            else:
-                return
         else:
             # If couldn't get user_p_password
             bot.send_message(message.chat.id, 'Произошла ошибка.')
@@ -186,10 +195,10 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
             return add_command(message)
     # Define sorting vars needed for activities sorting and sorting button name
     if sort_callback == 'cat_sort':
-        sort_column = 'cat_name ASC'
+        sort_column = 'cat_name'
         sort_type = 'датам'
     else:
-        sort_column = 'act_date ASC'
+        sort_column = 'act_date'
         sort_type = 'категориям'
     # Get user_id saved to the global dict
     try:
@@ -212,7 +221,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
         txt = message.text
     # Check if text entered by the user can be converted to int type and doesn't exceed 5 digits
     checks = [
-        InputCheck(txt).check_date()
+        InputCheck(txt).check_date() if txt != '-' else True,
     ]
     failed = []
     for x in checks:
@@ -223,26 +232,33 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
         return bot.send_message(message.chat.id, 'Произошла ошибка. ' + failed)
     if txt.isdigit():
         users_data['user_entry_' + str(message.from_user.id)] = txt
-        # Get the date that was n days ago
-        specific_date = (datetime.now() - timedelta(days=int(txt))).strftime('%Y-%m-%d')
         cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\' AND act_date >= '
-                       f'\'{specific_date}\'::date ORDER BY {sort_column} LIMIT 50')
+                       f'(NOW()::date - \'{txt} days\'::interval) ORDER BY {sort_column} LIMIT 50')
         activities_type = f'за последние {txt} дней'
     elif len(txt.split(', ')) == 1:
+        if txt == '-':
+            date = datetime.now()
+            txt = date.strftime('%d.%m.%Y')
+        else:
+            date = datetime.strptime(txt, '%d.%m.%Y').strftime('%Y-%m-%d')
         users_data['user_entry_' + str(message.from_user.id)] = txt
-        cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\' AND act_date = \'{txt}\'::date '
+        cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\' AND act_date = \'{date}\'::date '
                        f'ORDER BY {sort_column} LIMIT 50')
         activities_type = f'за {txt}'
     elif len(txt.split(', ')) == 2:
         users_data['user_entry_' + str(message.from_user.id)] = txt
         date_1, date_2 = txt.split(', ')
-        cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\' AND act_date >= '
-                       f'\'{date_1}\'::date AND act_date <= \'{date_2}\'::date ORDER BY {sort_column} LIMIT 50')
+        date_1_formatted, date_2_formatted = [datetime.strptime(x, '%d.%m.%Y') for x in [date_1, date_2]]
+        date_1_sorted, date_2_sorted = sorted([date_1_formatted, date_2_formatted])
+        date_1_cleared, date_2_cleared = [x.strftime('%Y-%m-%d') for x in [date_1_sorted, date_2_sorted]]
+        sort_column += ' ASC' if date_1_formatted == date_1_sorted else ' DESC'
+        cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\' AND act_date BETWEEN '
+                       f'\'{date_1_cleared}\'::date AND \'{date_2_cleared}\'::date ORDER BY {sort_column} LIMIT 50')
         activities_type = 'с {0} по {1}'.format(date_1, date_2)
     else:
         return bot.send_message(message.chat.id, 'Произошла ошибка. Неверный формат.')
     data = cursor.fetchall()
-    if data[0]:
+    if data:
         # Make data readable
         activities_list = []
         for y in data:
@@ -281,7 +297,6 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
 
 @bot.message_handler(func=lambda message: message.text.startswith('/open_'))
 def edit_events(message):
-    remove_act_id(message)
     # Check whether user is logged in
     if 'logged_in_' + str(message.from_user.id) in users_data:
         # If can't reach act_id, function is being called first time
@@ -358,8 +373,10 @@ def choose_action(message):
                 connection.commit()
             except DatabaseError:
                 bot.send_message(message.chat.id, 'Произошла ошибка.')
+            remove_act_id(message)
             return display_events(message, refresh=True)
         else:
+            remove_act_id(message)
             return display_events(message, refresh=True)
         bot.register_next_step_handler(event_message, process_action)
     else:
@@ -516,7 +533,7 @@ def add_event(message):
     elif len(args) > 5:
         bot.send_message(message.chat.id, 'Произошла ошибка. Слишком много запятых.')
     else:
-        bot.send_message(message.chat.id, 'Произошла ошибка. Недостаточное полей было заполнено.')
+        bot.send_message(message.chat.id, 'Произошла ошибка. Недостаточно полей было заполнено.')
 
 
 def remove_act_id(message):

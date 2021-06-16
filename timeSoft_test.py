@@ -1,25 +1,24 @@
-# python modules.
 import sys
 import re
 import string
 import configparser
-import datetime
 import csv
 import webbrowser
-import datetime
-from uuid import uuid4
 import numpy as np
+
+from datetime import datetime
+from uuid import uuid4
 from numpy.core.function_base import linspace
 
-# non-standart libs (those in requirements).
 import psycopg2 as db
 import psycopg2.extras
 import pyqtgraph as pg
 import pandas as pd
+import statsmodels.formula.api as smf
+
 from pandas import read_csv
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import figure
-import statsmodels.formula.api as smf
 
 # GUI.
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
@@ -139,14 +138,19 @@ class InputCheck:
 
     def check_date(self):
         # checking date and its format.
-        if not re.match(r"^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20)\d\d$", self.text):
-            try:
-                if datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
-                    return [False, 'Дата должна не может быть больше сегодняшней ({0}).'.format(
-                        datetime.now().strftime('%d.%m.%Y'))]
-                return [False, 'Неверный формат даты.']
-            except Exception:
-                return [False, 'Неверный формат даты.']
+        if self.text.isdigit() and len(self.text.split(', ')) == 1:
+            if int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
+                return [False, 'Введённое количество дней указывает на дату ранее 1900 года.']
+        elif len(self.text.split(', ')) in range(1, 3):
+            for x in self.text.split(', '):
+                if not re.match(r"^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20)\d\d$", x):
+                    try:
+                        if datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
+                            return [False, 'Дата должна не может быть больше сегодняшней ({0}).'.format(
+                                datetime.now().strftime('%d.%m.%Y'))]
+                    except Exception:
+                        return [False, 'Неверный формат даты.']
+                    return [False, 'Неверный формат даты.']
         return True
 
     def check_len(self):
@@ -350,7 +354,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.scroll_ccUi = self.mUi.scrollArea
 
         # Current date in different formats (datetime and QDate)
-        self.today = datetime.datetime.now()
+        self.today = datetime.now()
         self.qtoday = QtCore.QDate.currentDate()
 
         # Various settings for different UI elements, such as connecting
@@ -533,7 +537,7 @@ class MainUI(QtWidgets.QMainWindow):
             (set([x for x in self.dates if self.dates.count(x) > 1])))
 
         self.sorted_diff_dates = sorted(
-            self.diff_dates, key=lambda x: datetime.datetime.strptime(x, '%Y-%m'))
+            self.diff_dates, key=lambda x: datetime.strptime(x, '%Y-%m'))
 
         self.final_date = []
         self.final_category = []
@@ -2411,7 +2415,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.eUi.edit_event_dateEdit.setMaximumDate(
             QtCore.QDate(QtCore.QDate.currentDate()))
 
-        date_ = datetime.datetime.strptime(act_date, '%Y-%m-%d')
+        date_ = datetime.strptime(act_date, '%Y-%m-%d')
         for d in [date_.timetuple()]:
             year = int(d[0])
             month = int(d[1])

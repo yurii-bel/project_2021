@@ -1,45 +1,39 @@
+# python modules.
 import re
 import string
-import datetime
-
 from datetime import datetime
-
 
 class InputCheck:
     """
-    This class implements base checking system for various input data.
+    The InputCheck class implements base checking system for various input data.
+
+    Attributes:
+        input_text (str):The string which can be checked using various methods.
     """
 
     def __init__(self, input_text):
-        """
-        Parameters:
-            input_text (str):The string which can be checked using various methods.
-
-        Returns:
-            None
-        """
         self.text = input_text
 
         self.correct_rus_vals = []
+        # Appending correct_rus_vals with lower and upper case russian symbols.
         for i in range(1040, 1104):
             self.correct_rus_vals.append(chr(i))
 
-        # Список с кодами корректных символов
+        # List contains codes of correct symbols.
         self.correct_vals = list(string.ascii_lowercase)
-        self.correct_vals_with_num = self.correct_vals + ['_'] + [str(x) for x in range(0, 10)]
+        self.correct_vals_with_num = self.correct_vals + \
+            ['_'] + [str(x) for x in range(0, 10)]
 
-        # Проверить необходимость использования
+        # TODO: избавиться от only_in_quotes
         self.only_in_quotes_char = ['!', ',', ':']
         self.incorrect_vals = ['"', '\'', '/', '\\', ',', '--', ';']
 
     def check_email(self):
         """
         This method makes various checks for correct email.
-        This method does various checks for email.
         If the email passes verification, it returns True(bool) only.
         If not passes, it returns list that contains two values:
         False(bool) and error message(str).
-
 
         Returns:
             True | [False | err_msg]
@@ -100,14 +94,20 @@ class InputCheck:
         return True
 
     def check_date(self):
-        if not re.match(r"^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20)\d\d$", self.text):
-            try:
-                if datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
-                    return [False, 'Дата должна не может быть больше сегодняшней ({0}).'.format(
-                        datetime.now().strftime('%d.%m.%Y'))]
-                return [False, 'Неверный формат даты.']
-            except Exception:
-                return [False, 'Неверный формат даты.']
+        # checking date and its format.
+        if self.text.isdigit() and len(self.text.split(', ')) == 1:
+            if int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
+                return [False, 'Введённое количество дней указывает на дату ранее 1900 года.']
+        elif len(self.text.split(', ')) in range(1, 3):
+            for x in self.text.split(', '):
+                if not re.match(r"^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20)\d\d$", x):
+                    try:
+                        if datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
+                            return [False, 'Дата должна не может быть больше сегодняшней ({0}).'.format(
+                                datetime.now().strftime('%d.%m.%Y'))]
+                    except Exception:
+                        return [False, 'Неверный формат даты.']
+                    return [False, 'Неверный формат даты.']
         return True
 
     def check_len(self):
@@ -121,7 +121,7 @@ class InputCheck:
         return True
 
     def check_time_value(self):
-        if not (0 < int(self.text) < 1440):
+        if not (0 < int(self.text) <= 1440):
             return [False, 'Введено ошибочное количество потраченных минут.']
         return True
 
@@ -132,9 +132,9 @@ class InputCheck:
         return True
 
     def check_spaces_tabs(self):
-        tabs_spaces = [' ', '    ']
-        if self.text in tabs_spaces:
-            return [False, 'Табуляция или пробел.']
+        n = len(self.text)
+        if self.text in [' ' * n, '\t' * n, '\n' * n]:
+            return [False, 'Пробел, табуляция или перенос строки.']
         return True
 
     def number_only(self):

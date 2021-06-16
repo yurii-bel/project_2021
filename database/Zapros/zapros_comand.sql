@@ -17,7 +17,7 @@ CREATE TABLE "ACTIVITY"(                       -- Создаем таблицу.
 	ACT_comment TEXT NULL,                     -- Создаем текстовый столбец.
 	FOREIGN KEY (USER_ID, ACTL_name, CAT_name) 
 	REFERENCES "ACTIVITY_LIST" (USER_ID, ACTL_name, CAT_name) 
-	ON DELETE CASCADE ON UPDATE CASCADE -- Указываем на связь с другой талблицей.
+	ON DELETE CASCADE ON UPDATE CASCADE        -- Указываем на связь с другой талблицей.
 );
 
 --------------------------------
@@ -26,7 +26,8 @@ CREATE TABLE "ACTIVITY"(                       -- Создаем таблицу.
 
 -- Добавляем данные в таблицу USER.
 INSERT INTO "USER" (USER_N_ID, USER_P_ID) VALUES 
-('N1', 'P1'), ('N2', 'P2'), ('N3', 'P3'), ('N4', 'P4'), ('N5', 'P5')
+('N1', 'P1'), 
+('N2', 'P2')
 
 -- Добавляем данные в таблицу USER_NAME.
 INSERT INTO "USER_NAME" (USER_N_ID, USER_N_name, USER_N_Telegram) VALUES 
@@ -41,21 +42,25 @@ INSERT INTO "USER_PRIVAT" (USER_P_ID, USER_P_email, USER_P_password) VALUES
 -- Добавляем данные в таблицу SETTINGS.
 INSERT INTO "SETTINGS" (USER_ID, SET_theme, SET_preferences) VALUES 
 ('1', 'Темная тема', 'Разные настройки'),
-('3', 'Светлая тема', 'Другие настройки')
+('2', 'Светлая тема', 'Другие настройки')
 
 -- Добавляем данные в таблицу CATEGORY.
 INSERT INTO "CATEGORY" (USER_ID, CAT_name) VALUES 
-('1', 'Отдых'), ('1', 'Спорт'), ('2', 'Отдых'), ('1', 'Работа'), ('1', 'Семья'), ('2', 'Обучение')
+('1', 'Отдых'), 
+('1', 'Спорт'), 
+('2', 'Обучение')
 
 -- Добавляем данные в таблицу ACTIVITY_LIST.
 INSERT INTO "ACTIVITY_LIST" (USER_ID, ACTL_name, CAT_name) VALUES 
-('1', 'Сон', 'Отдых'), ('1', 'Бег', 'Спорт'), ('2', 'Сон', 'Отдых'), ('2', 'Чтение', 'Обучение')
+('1', 'Сон', 'Отдых'), 
+('1', 'Бег', 'Спорт'), 
+('2', 'Чтение', 'Обучение')
 
 -- Добавляем данные в таблицу ACTIVITY.
 INSERT INTO "ACTIVITY" (USER_ID, ACTL_name, ACT_time, ACT_date, CAT_name, ACT_comment) VALUES 
 ('1', 'Сон', '120', '2021.05.17', 'Отдых', (NULL)),
 ('1', 'Бег', '30', '2021.5.10', 'Спорт', 'Тестовая запись'),
-('4', 'Смотрел Ютуб', '153', '2021.04.05', 'Отдых', 'Мультик «Навсикая из долины ветров»')
+('2', 'Смотрел Ютуб', '153', '2021.04.05', 'Отдых', 'Мультик «Навсикая из долины ветров»')
 
 --------------
 -- Удаление --
@@ -86,11 +91,15 @@ SELECT * FROM "CATEGORY" WHERE USER_ID = '1'
 
 -- Вывод информации по пользователю в заданом промежутке времени\даты 
 -- с нужными нам таблицами а так же этот запрос можно использовать для графиков.
-SELECT ACT_TIME, ACT_DATE, CAT_NAME FROM "ACTIVITY" WHERE  ACT_DATE  BETWEEN '2021.04.01' AND '2021.04.30' AND USER_ID = '1'
+SELECT ACT_TIME, ACT_DATE, CAT_NAME FROM "ACTIVITY" WHERE ACT_DATE 
+BETWEEN '2021.04.01' AND '2021.04.30' AND USER_ID = '1'
 
 -- Вывод информации.
-SELECT "USER".USER_ID == (1) , USER_NAME , CAT_NAME  FROM "USER" LEFT JOIN "ACTIVITY_LIST" ON "USER".USER_ID="ACTIVITY_LIST".USER_ID 
+SELECT "USER".USER_ID == (1) , USER_NAME , CAT_NAME FROM "USER" 
+LEFT JOIN "ACTIVITY_LIST" ON "USER".USER_ID="ACTIVITY_LIST".USER_ID 
+
 SELECT "USER_NAME".user_n_name = 'NO-Sif' FROM "USER_NAME"
+
 SELECT "USER_NAME".user_n_name = FROM "USER_NAME"
 
 --------------------
@@ -99,8 +108,10 @@ SELECT "USER_NAME".user_n_name = FROM "USER_NAME"
 
 -- Импорт нужного файла в нужную таблицу в нужные столбцы, формат csv обязателено 
 -- указывать ибо импорт распознает по стандарту формат как txt.
-COPY "CATEGORY" (USER_ID,CAT_NAME)  FROM  'C:\Users\Game-PC\Desktop\Proekt\neew\MUUSSOR\CATEGORY.csv' (format CSV)
+COPY "CATEGORY" (USER_ID,CAT_NAME) 
+FROM 'C:\Users\Game-PC\Desktop\Proekt\neew\MUUSSOR\CATEGORY.csv' (format CSV)
 
 -- Экспорт данных о пользователе с нужного нам запроса а это инфа по пользователю 1 
 -- с таблицы категория так же можем задать столбцы которые вытянем из нужной таблицы.
-COPY (SELECT USER_ID, CAT_NAME FROM "CATEGORY" WHERE USER_ID = 1) TO 'C:\Users\Game-PC\Desktop\Proekt\neew\MUUSSOR\CATEGORY.csv'(format CSV)
+COPY (SELECT USER_ID, CAT_NAME FROM "CATEGORY" WHERE USER_ID = 1) 
+TO 'C:\Users\Game-PC\Desktop\Proekt\neew\MUUSSOR\CATEGORY.csv'(format CSV)

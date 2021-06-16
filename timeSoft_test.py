@@ -3245,9 +3245,9 @@ class MainUI(QtWidgets.QMainWindow):
         webbrowser.open_new_tab(
             'https://doc.qt.io/qtforpython/#documentation')
         webbrowser.open_new_tab(
-            'http://timesoft.pp.ua/')
-        webbrowser.open_new_tab(
             'https://docs.python.org/3/')
+        webbrowser.open_new_tab(
+            'http://timesoft.pp.ua/')
 
 
 # ----------------------------------------------------------END-----timeSoft.py

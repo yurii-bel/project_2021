@@ -2520,8 +2520,8 @@ class MainUI(QtWidgets.QMainWindow):
                 'Длительность комментария превышает 500 символов.')
             return
 
-        date___ = date(date_.year(), date_.month(), date_.day())
-        str_date = date___.strftime('%Y-%m-%d')
+        date_ = date(date.year(), date.month(), date.day())
+        str_date = date_.strftime('%Y-%m-%d')
 
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
@@ -2749,12 +2749,12 @@ class MainUI(QtWidgets.QMainWindow):
                 self.sUi.settings_imglbl_telegram_noverify.setHidden(False)
             elif msg == False:
                 webbrowser.open_new_tab(
-                    'https://web.telegram.org/#/im?p=@fexcin_bot')
+                    'https://t.me/TimeSoft_Assistant_Bot')
             return
         elif self.timedb.get_logged_user_data(
                 item='get_user_telegram') == '(NULL)':
             webbrowser.open_new_tab(
-                'https://web.telegram.org/#/im?p=@fexcin_bot')
+                'https://t.me/TimeSoft_Assistant_Bot')
             return
 
     def view_table(self):

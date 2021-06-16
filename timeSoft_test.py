@@ -139,7 +139,7 @@ class InputCheck:
 
     def check_date(self):
         # checking date and its format.
-        if self.text.isdigit() and len(self.text.split(', ')) == 1:
+        if self.text.isdigit():
             if int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
                 return [False, 'Введённое количество дней указывает на дату ранее 1900 года.']
         elif len(self.text.split(', ')) in range(1, 3):

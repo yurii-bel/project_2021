@@ -223,7 +223,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
     if failed:
         failed = ' '.join(list(set(failed)))
         return bot.send_message(message.chat.id, 'Произошла ошибка. ' + failed)
-    if txt.isdigit() and len(txt.split(', ')) == 1:
+    if txt.isdigit():
         users_data['user_entry_' + str(message.from_user.id)] = txt
         # Get the date that was n days ago
         specific_date = (datetime.now() - timedelta(days=int(txt))).strftime('%Y-%m-%d')

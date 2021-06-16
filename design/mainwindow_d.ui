@@ -644,9 +644,9 @@
    <widget class="QWidget" name="mainwindow_widget_view" native="true">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>580</x>
       <y>103</y>
-      <width>710</width>
+      <width>680</width>
       <height>621</height>
      </rect>
     </property>
@@ -660,7 +660,7 @@
    <widget class="QWidget" name="mainwindow_widget_view_spacer" native="true">
     <property name="geometry">
      <rect>
-      <x>540</x>
+      <x>570</x>
       <y>103</y>
       <width>10</width>
       <height>621</height>
@@ -672,7 +672,7 @@
      <rect>
       <x>259</x>
       <y>103</y>
-      <width>291</width>
+      <width>321</width>
       <height>621</height>
      </rect>
     </property>
@@ -684,7 +684,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>289</width>
+       <width>319</width>
        <height>619</height>
       </rect>
      </property>
@@ -697,7 +697,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">

@@ -71,8 +71,7 @@ DROP TABLE "USER_PRIVATE" ;
 DROP TABLE "USER" ;
 
 -- Удаление нужного столбца в нужной таблице.
-ALTER TABLE "SETTINGS"
-DROP COLUMN SET_THEME
+ALTER TABLE "SETTINGS" DROP COLUMN SET_THEME
 
 -----------
 -- Вывод --

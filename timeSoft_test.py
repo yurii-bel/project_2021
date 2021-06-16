@@ -4,6 +4,10 @@ import string
 import configparser
 import csv
 import webbrowser
+<<<<<<< HEAD
+=======
+from uuid import uuid4
+>>>>>>> 791795e8cc0c05c3a94ba8159dece1a8024789e1
 import numpy as np
 
 from datetime import datetime
@@ -43,6 +47,7 @@ TODO
 Сортировка по категориям выше приоритетом
 Кнопки сверху должны делить дату.
 сделать комбобокс для названия кативностей + авктокомлит после введения для категории
+Избавиться от only_in_quotes.
 """
 
 
@@ -58,6 +63,7 @@ class InputCheck:
         self.text = input_text
 
         self.correct_rus_vals = []
+        # TODO: Добавить еще 1030, 1031, 1111, 1100
         # Appending correct_rus_vals with lower and upper case russian symbols.
         for i in range(1040, 1104):
             self.correct_rus_vals.append(chr(i))
@@ -164,7 +170,7 @@ class InputCheck:
         return True
 
     def check_time_value(self):
-        if not (0 < int(self.text) <= 1440):
+        if not (0 < int(self.text) or int(self.text) <= 1440):
             return [False, 'Введено ошибочное количество потраченных минут.']
         return True
 

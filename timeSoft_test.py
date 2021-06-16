@@ -3271,11 +3271,9 @@ class DbLogic:
     config.read('config.ini', encoding='utf-8-sig')
 
     def __init__(self):
+
         self.connection = db.connect(
-            database=self.config.get('PostgreSql', 'database'),
-            user=self.config.get('PostgreSql', 'user'),
-            password=self.config.get('PostgreSql', 'password'),
-            host=self.config.get('PostgreSql', 'host'))
+            self.config.get('PostgreSql', 'DATABASE_URL'))
 
         self.cursor = self.connection.cursor()
         self.cursor2 = self.connection.cursor(
@@ -3666,8 +3664,3 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     win = MainUI()
     sys.exit(app.exec())
-
-    # dbl = DbLogic()
-    # dbl.get_logged_user_data(user_login='Ева', item='set_working_user')
-
-    # dbl.set_logged_user_data(user_login='Ева', item='set_working_user')

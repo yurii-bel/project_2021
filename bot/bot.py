@@ -2,7 +2,6 @@ import os
 import telebot
 import psycopg2
 import configparser
-import pickle
 
 from psycopg2 import DatabaseError
 from datetime import datetime
@@ -120,9 +119,7 @@ def check_login(message):
     if data:
         user_n_id = data[0][0]
         # Save user_n_id to the global dict
-        users_data = {['user_n_id_' + str(message.from_user.id)]: user_n_id}
-        with open('dict.pkl', 'wb') as handle:
-            pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL) 
+        users_data['user_n_id_' + str(message.from_user.id)] = user_n_id
         # Got login
         password_msg = bot.send_message(message.chat.id, 'Введи пароль.')
         bot.register_next_step_handler(password_msg, check_password)
@@ -146,9 +143,7 @@ def check_password(message):
         return add_command(message)
     # Get user_n_id saved to the global dict
     try:
-        with open('filename.pkl', 'rb') as handle:
-            users_data = pickle.load(handle)
-            user_n_id = users_data['user_n_id_' + str(message.from_user.id)]
+        user_n_id = users_data['user_n_id_' + str(message.from_user.id)]
     except KeyError:
         return bot.send_message(message.chat.id, 'Произошла ошибка.')
     # Fetch user_p_id with user_n_id we got from the check_login
@@ -158,9 +153,7 @@ def check_password(message):
         user_p_id = data[0][0]
         user_id = data[0][1]
         # Save user_id to the global dict
-        users_data = {['user_id_' + str(message.from_user.id)]: user_id}
-        with open('filename.pkl', 'wb') as handle:
-            pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL) 
+        users_data['user_id_' + str(message.from_user.id)] = user_id
         # Fetch user_p_password with user_p_id we got from the last step
         cursor.execute(f'SELECT user_p_password FROM "USER_PRIVATE" WHERE user_p_id = \'{user_p_id}\'')
         data = cursor.fetchall()
@@ -169,9 +162,7 @@ def check_password(message):
             # Check entered password
             if message.text == user_p_password:
                 # Save logged state to the global dict
-                users_data = {['logged_in_' + str(message.from_user.id)]: True}
-                with open('filename.pkl', 'wb') as handle:
-                    pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL) 
+                users_data['logged_in_' + str(message.from_user.id)] = True
                 cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = \'{message.from_user.id}\''
                                f'WHERE user_n_id = \'{user_n_id}\'')
                 connection.commit()
@@ -211,25 +202,19 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
         sort_type = 'категориям'
     # Get user_id saved to the global dict
     try:
-        with open('filename.pkl', 'rb') as handle:
-            users_data = pickle.load(handle)
-            user_id = users_data['user_id_' + str(message.from_user.id)]
+        user_id = users_data['user_id_' + str(message.from_user.id)]
     except KeyError:
         return bot.send_message(message.chat.id, 'Произошла ошибка.')
     # Handle sorting button click
     if edit or refresh:
         if edit:
             try:
-                with open('filename.pkl', 'rb') as handle:
-                    users_data = pickle.load(handle)
-                    txt = users_data['user_entry_' + str(message.from_user.id)]
+                txt = users_data['user_entry_' + str(message.from_user.id)]
             except KeyError:
                 return bot.send_message(message.chat.id, 'Произошла ошибка.')
         else:
             try:
-                with open('filename.pkl', 'rb') as handle:
-                    users_data = pickle.load(handle)
-                    txt = users_data['user_entry_' + str(message.from_user.id)]
+                txt = users_data['user_entry_' + str(message.from_user.id)]
             except KeyError:
                 return bot.answer_callback_query(message.id)
     else:
@@ -246,9 +231,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
         failed = ' '.join(list(set(failed)))
         return bot.send_message(message.chat.id, 'Произошла ошибка. ' + failed)
     if txt.isdigit():
-        users_data = {['user_entry_' + str(message.from_user.id)]: txt}
-        with open('filename.pkl', 'wb') as handle:
-            pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL) 
+        users_data['user_entry_' + str(message.from_user.id)] = txt
         cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\' AND act_date >= '
                        f'(NOW()::date - \'{txt} days\'::interval) ORDER BY {sort_column} LIMIT 50')
         activities_type = f'за последние {txt} дней'
@@ -258,16 +241,12 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
             txt = date.strftime('%d.%m.%Y')
         else:
             date = datetime.strptime(txt, '%d.%m.%Y').strftime('%Y-%m-%d')
-        users_data = {['user_entry_' + str(message.from_user.id)]: txt}
-        with open('filename.pkl', 'wb') as handle:
-            pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL) 
+        users_data['user_entry_' + str(message.from_user.id)] = txt
         cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\' AND act_date = \'{date}\'::date '
                        f'ORDER BY {sort_column} LIMIT 50')
         activities_type = f'за {txt}'
     elif len(txt.split(', ')) == 2:
-        users_data = {['user_entry_' + str(message.from_user.id)]: txt}
-        with open('filename.pkl', 'wb') as handle:
-            pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL) 
+        users_data['user_entry_' + str(message.from_user.id)] = txt
         date_1, date_2 = txt.split(', ')
         date_1_formatted, date_2_formatted = [datetime.strptime(x, '%d.%m.%Y') for x in [date_1, date_2]]
         date_1_sorted, date_2_sorted = sorted([date_1_formatted, date_2_formatted])
@@ -322,16 +301,12 @@ def edit_events(message):
     if 'logged_in_' + str(message.from_user.id) in users_data:
         # If can't reach act_id, function is being called first time
         try:
-            with open('filename.pkl', 'rb') as handle:
-                users_data = pickle.load(handle)
-                act_id = users_data['act_id_' + str(message.from_user.id)]
+            act_id = users_data['act_id_' + str(message.from_user.id)]
         except KeyError:
             act_id = message.text[6:]
         # Check whether event is available for the user
         try:
-            with open('filename.pkl', 'rb') as handle:
-                users_data = pickle.load(handle)
-                user_id = users_data['user_id_' + str(message.from_user.id)]
+            user_id = users_data['user_id_' + str(message.from_user.id)]
             cursor.execute(f'SELECT act_id FROM "ACTIVITY" where user_id = {user_id}')
             act_ids = cursor.fetchall()
             act_ids = [str(x[0]) for x in act_ids]
@@ -341,9 +316,7 @@ def edit_events(message):
         except (KeyError, DatabaseError):
             return bot.send_message(message.chat.id, 'Произошла ошибка.')
         # Save act_id to the global dict
-        users_data = {['act_id_' + str(message.from_user.id)]: act_id}
-        with open('filename.pkl', 'wb') as handle:
-            pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL) 
+        users_data['act_id_' + str(message.from_user.id)] = act_id
         # Fetch event's data
         cursor.execute(f'SELECT act_date, actl_name, cat_name, act_time, act_comment '
                        f'FROM "ACTIVITY" WHERE act_id = {act_id}')
@@ -375,37 +348,25 @@ def choose_action(message):
         # Handle specific commands clicks
         if message.text == '/edit_date':
             event_message = bot.send_message(message.chat.id, 'Введи дату.')
-            users_data = {['modifier_' + str(message.from_user.id)]: 'act_date'}
-            with open('filename.pkl', 'wb') as handle:
-                pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            users_data['modifier_' + str(message.from_user.id)] = 'act_date'
         elif message.text == '/edit_event':
             event_message = bot.send_message(message.chat.id, 'Введи название.')
-            users_data = {['modifier_' + str(message.from_user.id)]: 'actl_name'}
-            with open('filename.pkl', 'wb') as handle:
-                pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            users_data['modifier_' + str(message.from_user.id)] = 'actl_name'
         elif message.text == '/edit_category':
             event_message = bot.send_message(message.chat.id, 'Введи категорию.')
-            users_data = {['modifier_' + str(message.from_user.id)]: 'cat_name'}
-            with open('filename.pkl', 'wb') as handle:
-                pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            users_data['modifier_' + str(message.from_user.id)] = 'cat_name'
         elif message.text == '/edit_time':
             event_message = bot.send_message(message.chat.id, 'Введи время.')
-            users_data = {['modifier_' + str(message.from_user.id)]: 'act_time'}
-            with open('filename.pkl', 'wb') as handle:
-                pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            users_data['modifier_' + str(message.from_user.id)] = 'act_time'
         elif message.text == '/edit_comment':
             event_message = bot.send_message(message.chat.id, 'Введи комментарий.')
-            users_data = {['modifier_' + str(message.from_user.id)]: 'act_comment'}
-            with open('filename.pkl', 'wb') as handle:
-                pickle.dump(users_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            users_data['modifier_' + str(message.from_user.id)] = 'act_comment'
         elif message.text == '/delete_event':
             # Try and delete the event
             try:
                 # Get act_id saved to the global dict
                 try:
-                    with open('filename.pkl', 'rb') as handle:
-                        users_data = pickle.load(handle)
-                        act_id = users_data['act_id_' + str(message.from_user.id)]
+                    act_id = users_data['act_id_' + str(message.from_user.id)]
                 except KeyError:
                     return bot.send_message(message.chat.id, 'Произошла ошибка.')
                 cursor.execute(f'DELETE FROM "ACTIVITY" WHERE act_id = {act_id}')
@@ -436,15 +397,9 @@ def process_action(message):
         return add_command(message)
     # Get user_id, modifier, act_id saved to the global dict
     try:
-        with open('filename.pkl', 'rb') as handle:
-            users_data = pickle.load(handle)
-            user_id = users_data['user_id_' + str(message.from_user.id)]
-        with open('filename.pkl', 'rb') as handle:
-            users_data = pickle.load(handle)
-            modifier = users_data['modifier_' + str(message.from_user.id)]
-        with open('filename.pkl', 'rb') as handle:
-            users_data = pickle.load(handle)
-            act_id = users_data['act_id_' + str(message.from_user.id)]
+        user_id = users_data['user_id_' + str(message.from_user.id)]
+        modifier = users_data['modifier_' + str(message.from_user.id)]
+        act_id = users_data['act_id_' + str(message.from_user.id)]
     except KeyError:
         return bot.send_message(message.chat.id, 'Произошла ошибка.')
     # Handle checks for different modifiers
@@ -559,9 +514,7 @@ def add_event(message):
         if not failed:
             # Get user_id saved to the global dict
             try:
-                with open('filename.pkl', 'rb') as handle:
-                    users_data = pickle.load(handle)
-                    user_id = users_data['user_id_' + str(message.from_user.id)]
+                user_id = users_data['user_id_' + str(message.from_user.id)]
             except KeyError:
                 return bot.send_message(message.chat.id, 'Произошла ошибка.')
             # Insert the event into the database

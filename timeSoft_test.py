@@ -1,25 +1,27 @@
+# python modules.
 import sys
 import re
 import string
 import configparser
+import datetime
 import csv
 import webbrowser
-
-from datetime import datetime
+import datetime
 from uuid import uuid4
+import numpy as np
 from numpy.core.function_base import linspace
 
+# non-standart libs (those in requirements).
 import psycopg2 as db
 import psycopg2.extras
 import pyqtgraph as pg
-import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
-
 from pandas import read_csv
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import figure
+import statsmodels.formula.api as smf
 
+# GUI.
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QIcon, QPainter, QPen
@@ -42,7 +44,6 @@ TODO
 Сортировка по категориям выше приоритетом
 Кнопки сверху должны делить дату.
 сделать комбобокс для названия кативностей + авктокомлит после введения для категории
-Избавиться от only_in_quotes.
 """
 
 
@@ -58,7 +59,11 @@ class InputCheck:
         self.text = input_text
 
         self.correct_rus_vals = []
-        # TODO: Добавить еще 1030, 1031, 1111, 1100
+        # TODO: Добавить поддержку следующих типов символов:
+        # TODO: Украинский: 1110, 1030, 1111, 1031, 1169, 1168.
+        # TODO: Символов: 33, 35-38, 40-43, 45-46, 58, 60-64, 95, 124, 126, 161-167,169, 174, 176-179, 181-183.
+        # TODO: Цифры: 48-57.
+        # TODO: Английский: 65-90, 97-122.
         # Appending correct_rus_vals with lower and upper case russian symbols.
         for i in range(1040, 1104):
             self.correct_rus_vals.append(chr(i))
@@ -68,7 +73,7 @@ class InputCheck:
         self.correct_vals_with_num = self.correct_vals + \
             ['_'] + [str(x) for x in range(0, 10)]
 
-        # TODO: избавиться от only_in_quotes
+        # TODO: избавиться от only_in_quotes.
         self.only_in_quotes_char = ['!', ',', ':']
         self.incorrect_vals = ['"', '\'', '/', '\\', ',', '--', ';']
 
@@ -139,19 +144,14 @@ class InputCheck:
 
     def check_date(self):
         # checking date and its format.
-        if self.text.isdigit():
-            if int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
-                return [False, 'Введённое количество дней указывает на дату ранее 1900 года.']
-        elif len(self.text.split(', ')) in range(1, 3):
-            for x in self.text.split(', '):
-                if not re.match(r"^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20)\d\d$", x):
-                    try:
-                        if datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
-                            return [False, 'Дата должна не может быть больше сегодняшней ({0}).'.format(
-                                datetime.now().strftime('%d.%m.%Y'))]
-                    except Exception:
-                        return [False, 'Неверный формат даты.']
-                    return [False, 'Неверный формат даты.']
+        if not re.match(r"^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20)\d\d$", self.text):
+            try:
+                if datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
+                    return [False, 'Дата должна не может быть больше сегодняшней ({0}).'.format(
+                        datetime.now().strftime('%d.%m.%Y'))]
+                return [False, 'Неверный формат даты.']
+            except Exception:
+                return [False, 'Неверный формат даты.']
         return True
 
     def check_len(self):
@@ -165,7 +165,7 @@ class InputCheck:
         return True
 
     def check_time_value(self):
-        if not (0 < int(self.text) or int(self.text) <= 1440):
+        if not (0 < int(self.text) <= 1440):
             return [False, 'Введено ошибочное количество потраченных минут.']
         return True
 
@@ -355,7 +355,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.scroll_ccUi = self.mUi.scrollArea
 
         # Current date in different formats (datetime and QDate)
-        self.today = datetime.now()
+        self.today = datetime.datetime.now()
         self.qtoday = QtCore.QDate.currentDate()
 
         # Various settings for different UI elements, such as connecting
@@ -521,7 +521,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.timedb.get_logged_user_data(item='get_user_email'))
 
         if not self.timedb.get_logged_user_data(
-            item='get_user_telegram') == '(NULL)':
+                item='get_user_telegram') == '(NULL)':
             self.sUi.settings_imglbl_telegram_noverify.setHidden(True)
 
         self.update_users_categs()
@@ -538,7 +538,7 @@ class MainUI(QtWidgets.QMainWindow):
             (set([x for x in self.dates if self.dates.count(x) > 1])))
 
         self.sorted_diff_dates = sorted(
-            self.diff_dates, key=lambda x: datetime.strptime(x, '%Y-%m'))
+            self.diff_dates, key=lambda x: datetime.datetime.strptime(x, '%Y-%m'))
 
         self.final_date = []
         self.final_category = []
@@ -604,7 +604,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Reading csv files and plotting graphs according to them.
         index = 0
         pathes = []
-        plt.figure(figsize=(13,7))
+        plt.figure(figsize=(13, 7))
 
         for i in range(len(self.diff_categories)):
             data = pd.read_csv(
@@ -618,7 +618,7 @@ class MainUI(QtWidgets.QMainWindow):
 
             # x_list = df['Month'].to_string(index=False).replace('\n',' ').split()
             # y_list = df['Duration'].to_string(index=False).replace('\n',' ').split()
-            
+
             plt.plot(df['Month'], df['Duration'])
 
             plt.legend(self.diff_categories)
@@ -2416,7 +2416,7 @@ class MainUI(QtWidgets.QMainWindow):
         self.eUi.edit_event_dateEdit.setMaximumDate(
             QtCore.QDate(QtCore.QDate.currentDate()))
 
-        date_ = datetime.strptime(act_date, '%Y-%m-%d')
+        date_ = datetime.datetime.strptime(act_date, '%Y-%m-%d')
         for d in [date_.timetuple()]:
             year = int(d[0])
             month = int(d[1])
@@ -2693,7 +2693,7 @@ class MainUI(QtWidgets.QMainWindow):
 
     def settings_telegram(self):
         if not self.timedb.get_logged_user_data(
-            item='get_user_telegram') == '(NULL)':
+                item='get_user_telegram') == '(NULL)':
             msg = self.input_check().extended_diag(
                 err_txt='Пожалуйста, выберите действие:', buttons=[
                     'Отвязать телеграм', 'Открыть бота'])
@@ -2708,9 +2708,9 @@ class MainUI(QtWidgets.QMainWindow):
             return
         elif self.timedb.get_logged_user_data(
                 item='get_user_telegram') == '(NULL)':
-                webbrowser.open_new_tab(
-                    'https://web.telegram.org/#/im?p=@fexcin_bot')
-                return
+            webbrowser.open_new_tab(
+                'https://web.telegram.org/#/im?p=@fexcin_bot')
+            return
 
     def view_table(self):
         rows = self.timedb.get_logged_user_data(
@@ -3541,7 +3541,7 @@ class DbLogic:
             self.cursor2.execute(
                 f'UPDATE "USER_NAME" SET user_n_telegram = \'(NULL)\'\
                     WHERE user_n_id = {self.user_n_id} ON CONFLICT DO NOTHING')
-            
+
             self.connection.commit()
 
         elif item == 'del_user_categ':

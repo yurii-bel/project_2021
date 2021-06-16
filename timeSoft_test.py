@@ -4,10 +4,6 @@ import string
 import configparser
 import csv
 import webbrowser
-<<<<<<< HEAD
-=======
-from uuid import uuid4
->>>>>>> 791795e8cc0c05c3a94ba8159dece1a8024789e1
 import numpy as np
 
 from datetime import datetime
@@ -24,7 +20,6 @@ from pandas import read_csv
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import figure
 
-# GUI.
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QIcon, QPainter, QPen

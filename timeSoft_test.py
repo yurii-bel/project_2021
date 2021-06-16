@@ -37,8 +37,9 @@ TODO
 !Перед импортом задать вопрос - перезаписать или добавить?
 !Автокомплит в добавлении\редактировании активностей.
 !докстринги + комменты + пепы(до вторника).
-! Не работает проверка на вводимые символы allowed_chars
-! Не работает проверка на кол-во минут
+! Не работает проверка на вводимые символы allowed_chars.
+! Не работает проверка на кол-во минут.
+! Убрать возможность выбора даты "с" больше, чем "по".
 
 Отдельная функция для сортировки.
 Сортировка по категориям выше приоритетом
@@ -2519,8 +2520,8 @@ class MainUI(QtWidgets.QMainWindow):
                 'Длительность комментария превышает 500 символов.')
             return
 
-        date_ = date(date.year(), date.month(), date.day())
-        str_date = date_.strftime('%Y-%m-%d')
+        date___ = date(date_.year(), date_.month(), date_.day())
+        str_date = date___.strftime('%Y-%m-%d')
 
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
@@ -2664,7 +2665,7 @@ class MainUI(QtWidgets.QMainWindow):
         # Change email checks.
         if not email_new == '' and oldpass == '' and newpass == '' and rep_newpass == '':
             self.input_check().simple_diag(
-                'Введите старый пароль для изменения почты.')
+                'Введите текущий пароль для изменения почты.')
             return
         elif not email_new == '' and not oldpass == '' and newpass == '' and rep_newpass == '':
             if self.input_check(email_new).check_email('Новая почта') == False:

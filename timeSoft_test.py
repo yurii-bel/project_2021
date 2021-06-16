@@ -37,6 +37,8 @@ TODO
 !Перед импортом задать вопрос - перезаписать или добавить?
 !Автокомплит в добавлении\редактировании активностей.
 !докстринги + комменты + пепы(до вторника).
+! Не работает проверка на вводимые символы allowed_chars
+! Не работает проверка на кол-во минут
 
 Отдельная функция для сортировки.
 Сортировка по категориям выше приоритетом
@@ -57,23 +59,65 @@ class InputCheck:
         self.text = input_text
 
         self.correct_rus_vals = []
-        # TODO: Добавить поддержку следующих типов символов:
-        # TODO: Украинский: 1110, 1030, 1111, 1031, 1169, 1168.
-        # TODO: Символов: 33, 35-38, 40-43, 45-46, 58, 60-64, 95, 124, 126, 161-167,169, 174, 176-179, 181-183.
-        # TODO: Цифры: 48-57.
-        # TODO: Английский: 65-90, 97-122.
         # Appending correct_rus_vals with lower and upper case russian symbols.
-        for i in range(1040, 1104):
-            self.correct_rus_vals.append(chr(i))
+        # Поддержка русского и украинских алфавитов.
+        allowed_letters = [1025, 1028, 1030, 1031, 1040, 1041, 1042, 1043,
+                           1044, 1045, 1046, 1047, 1048, 1049, 1050, 1051,
+                           1052, 1053, 1054, 1055, 1056, 1057, 1058, 1059,
+                           1060, 1061, 1062, 1063, 1064, 1065, 1066, 1067,
+                           1068, 1069, 1070, 1071, 1072, 1073, 1074, 1075,
+                           1076, 1077, 1078, 1079, 1080, 1081, 1082, 1083,
+                           1084, 1085, 1086, 1087, 1088, 1089, 1090, 1091,
+                           1092, 1093, 1094, 1095, 1096, 1097, 1098, 1099,
+                           1100, 1101, 1102, 1103, 1105, 1108, 1110, 1111,
+                           1168, 1169]
+
+        allowed_chars = [33, 35, 36, 37, 38, 40, 41, 42, 43, 45, 46, 58, 60,
+                         61, 62, 63, 64, 94, 95, 161, 162, 163, 164, 165, 166,
+                         167, 168, 169, 171, 174, 175, 176, 177, 178, 179, 181,
+                         182, 183, 187, 188, 189, 190, 215, 247, 3647, 8352,
+                         8353, 8354, 8355, 8356, 8357, 8358, 8359, 8360, 8361,
+                         8362, 8363, 8364, 8365, 8366, 8367, 8368, 8369, 8370,
+                         8371, 8372, 8373, 8374, 8375, 8376, 8377, 8378, 8379,
+                         8380, 8381, 8382, 8383, 8528, 8529, 8530, 8531, 8532,
+                         8533, 8534, 8535, 8536, 8537, 8538, 8539, 8540, 8541,
+                         8542, 8543, 8544, 8545, 8546, 8547, 8548, 8549, 8550,
+                         8551, 8552, 8553, 8554, 8555, 8556, 8557, 8558, 8559,
+                         8560, 8561, 8562, 8563, 8564, 8565, 8566, 8567, 8568,
+                         8569, 8570, 8571, 8572, 8573, 8574, 8575, 8592, 8593,
+                         8594, 8595, 8709, 8710, 8711, 8712, 8713, 8714, 8715,
+                         8716, 8717, 8718, 8719, 8720, 8721, 8722, 8723, 8724,
+                         8725, 8726, 8727, 8728, 8729, 8730, 8731, 8732, 8733,
+                         8734, 8735, 8736, 8737, 8738, 8739, 8740, 8741, 8742,
+                         8743, 8744, 8745, 8746, 8747, 8748, 8749, 8750, 8751,
+                         8752, 8753, 8754, 8755, 8756, 8757, 8758, 8759, 8760,
+                         8761, 8762, 8763, 8764, 8765, 8766, 8767, 8768, 8769,
+                         8770, 8771, 8772, 8773, 8774, 8775, 8776, 8777, 8778,
+                         8779, 8780, 8781, 8782, 8783, 8784, 8785, 8786, 8787,
+                         8788, 8789, 8790, 8791, 8792, 8793, 8794, 8795, 8796,
+                         8797, 8798, 8799, 8800, 8801, 8802, 8803, 8804, 8805,
+                         8806, 8807, 8808, 8809, 8810, 8811, 8812, 8813, 8814,
+                         8815, 8816, 8817, 8818, 8819, 8820, 8821, 8822, 8823,
+                         8824, 8825, 8826, 8827, 8828, 8829, 8830, 8831, 8832,
+                         8833, 8834, 8835, 8836, 8837, 8838, 8839, 8840, 8841,
+                         8842, 8843, 8844, 8845, 8846, 8847, 8848, 8849, 8850,
+                         8851, 8852, 8853, 8854, 8855, 8856, 8857, 8858, 8859,
+                         8860, 8861, 8862, 8863, 8864, 8865]
+
+        self.correct_rus_vals = [chr(i) for i in allowed_letters]
+
+        self.allowed_characters = [chr(i) for i in allowed_chars]
 
         # List contains codes of correct symbols.
-        self.correct_vals = list(string.ascii_lowercase)
+        self.correct_vals = list(string.ascii_lowercase) + \
+            list(string.ascii_uppercase)
         self.correct_vals_with_num = self.correct_vals + \
-            ['_'] + [str(x) for x in range(0, 10)]
+            [str(x) for x in range(0, 10)]
 
         # TODO: избавиться от only_in_quotes.
         self.only_in_quotes_char = ['!', ',', ':']
-        self.incorrect_vals = ['"', '\'', '/', '\\', ',', '--', ';']
+        self.incorrect_vals = ['"', '\'', '/', '\\',
+                               ',', '--', ';', '[', ']', '{', '}', '|']
 
     def check_email(self):
         """
@@ -618,9 +662,6 @@ class MainUI(QtWidgets.QMainWindow):
 
             df = read_csv(pathes[i])
             df = pd.DataFrame(data, columns=['Month', 'Duration'])
-
-            # x_list = df['Month'].to_string(index=False).replace('\n',' ').split()
-            # y_list = df['Duration'].to_string(index=False).replace('\n',' ').split()
 
             plt.plot(df['Month'], df['Duration'])
 
@@ -3201,9 +3242,9 @@ class MainUI(QtWidgets.QMainWindow):
         webbrowser.open_new_tab(
             'https://doc.qt.io/qtforpython/#documentation')
         webbrowser.open_new_tab(
-            'http://timesoft.pp.ua/')
-        webbrowser.open_new_tab(
             'https://docs.python.org/3/')
+        webbrowser.open_new_tab(
+            'http://timesoft.pp.ua/')
 
 
 # ----------------------------------------------------------END-----timeSoft.py
@@ -3227,11 +3268,9 @@ class DbLogic:
     config.read('config.ini', encoding='utf-8-sig')
 
     def __init__(self):
+
         self.connection = db.connect(
-            database=self.config.get('PostgreSql', 'database'),
-            user=self.config.get('PostgreSql', 'user'),
-            password=self.config.get('PostgreSql', 'password'),
-            host=self.config.get('PostgreSql', 'host'))
+            self.config.get('PostgreSql', 'DATABASE_URL'))
 
         self.cursor = self.connection.cursor()
         self.cursor2 = self.connection.cursor(
@@ -3622,8 +3661,3 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     win = MainUI()
     sys.exit(app.exec())
-
-    # dbl = DbLogic()
-    # dbl.get_logged_user_data(user_login='Ева', item='set_working_user')
-
-    # dbl.set_logged_user_data(user_login='Ева', item='set_working_user')

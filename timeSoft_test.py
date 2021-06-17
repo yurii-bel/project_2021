@@ -23,7 +23,7 @@ from matplotlib.pyplot import figure
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QIcon, QPainter, QPen
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, qDebug
 
 
 sys.path.append(".")
@@ -33,7 +33,6 @@ TODO BUGS
 Тема (change_theme)
 
 TODO
-!Кнопка телеграм.
 !Перед импортом задать вопрос - перезаписать или добавить?
 !Автокомплит в добавлении\редактировании активностей.
 !докстринги + комменты + пепы(до вторника).
@@ -253,31 +252,30 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         self.setIcon(QtWidgets.QMessageBox.Information)
         self.setWindowIcon(QIcon('design\\img\\main\\favicon.png'))
         self.setWindowTitle('Ошибка!')
-        self.setStandardButtons(QtWidgets.QMessageBox.Ok)
 
     def simple_diag(self, err_txt):
+        self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         self.setWindowTitle('Внимание!')
         self.setText(err_txt)
         self.exec()
 
     def extended_diag(self, err_txt, buttons):
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Information)
-        msg.setWindowIcon(QIcon('design\\img\\main\\favicon.png'))
-        msg.setWindowTitle('Внимание!')
-        msg.setText(err_txt)
+        self.setIcon(QtWidgets.QMessageBox.Question)
+        self.setWindowTitle('TimeSoft')
+        self.setText(err_txt)
 
-        yes = msg.addButton(buttons[0], msg.AcceptRole)
-        no = msg.addButton(buttons[1], msg.RejectRole)
+        yes = self.addButton(buttons[0], self.AcceptRole)
+        no = self.addButton(buttons[1], self.DestructiveRole)
 
-        msg.exec()
+        self.exec()
 
-        if msg.clickedButton() is yes:
+        if self.clickedButton() is yes:
             return True
-        elif msg.clickedButton() is no:
+        elif self.clickedButton() is no:
             return False
 
     def check_password_len(self, err_txt):
+        self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         if len(self.input_text) < 8:
             self.setText(
                 f'{err_txt}: Пароль должен состоять минимум из 8 символов.')
@@ -286,6 +284,7 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         return True
 
     def check_email(self, err_txt):
+        self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
             chck_email = InputCheck(self.input_text).check_email()
             if chck_email[0] == False:
@@ -297,6 +296,7 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         return True
 
     def check_len(self, err_txt):
+        self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
             chck_len = InputCheck(self.input_text).check_len()
             if chck_len[0] == False:
@@ -308,6 +308,7 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         return True
 
     def check_incorrect_vals(self, err_txt):
+        self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
             chck_incorrect_vals = InputCheck(
                 self.input_text).check_incorrect_vals()
@@ -320,6 +321,7 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         return True
 
     def check_spaces_tabs(self, err_txt):
+        self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
             chck_spaces_tabs = InputCheck(self.input_text).check_spaces_tabs()
             if chck_spaces_tabs[0] == False:
@@ -331,6 +333,7 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
         return True
 
     def check_number_only(self, err_txt):
+        self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
             chck_number_only = InputCheck(self.input_text).number_only()
             if chck_number_only[0] == False:
@@ -567,10 +570,9 @@ class MainUI(QtWidgets.QMainWindow):
         self.timedb.get_logged_user_data(item='get_user_p_id')
         self.sUi.settings_lineedit_email.setText(
             self.timedb.get_logged_user_data(item='get_user_email'))
-
         if not self.timedb.get_logged_user_data(
-                item='get_user_telegram') == '(NULL)':
-            self.sUi.settings_imglbl_telegram_noverify.setHidden(True)
+                item='get_user_telegram') == None:
+                self.sUi.settings_imglbl_telegram_noverify.setHidden(False)
 
         self.update_users_categs()
 
@@ -2569,33 +2571,33 @@ class MainUI(QtWidgets.QMainWindow):
     #!Фикс обеих функций - ничего не работает :с
     def settings_export(self):
         data = self.timedb.get_logged_user_data(item='get_user_activities')
-        # try:
-        settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(
-            self, 'Save file', '/', 'CSV file (*.csv)')
-        if settingsSave[0]:
-            with open(settingsSave[0], 'w+', newline='') as f:
-                writer = csv.writer(f)
-                for d in data:
-                    writer.writerow(d)
-        #     if ok:
-        #         self.input_check().simple_diag('Экспорт успешно завершён!')
-        # except Exception:
-        #     self.input_check().simple_diag('Экспорт не удался.')
+        try:
+            settingsSave, ok = QtWidgets.QFileDialog.getSaveFileName(
+                self, 'Save file', '/', 'CSV file (*.csv)')
+            if settingsSave:
+                with open(settingsSave, 'w+', newline='') as f:
+                    writer = csv.writer(f)
+                    for d in data:
+                        writer.writerow(d)
+                if ok:
+                    self.input_check().simple_diag('Экспорт успешно завершён!')
+        except Exception:
+            self.input_check().simple_diag('Экспорт не удался.')
 
     def settings_import(self):
-        # try:
-        settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(
-            self, 'Open file', '/', 'CSV file (*.csv)')
-        if settingsLoad[0]:
-            with open(settingsLoad[0], 'r+') as f:
-                reader = csv.reader(f, delimiter=',')
-                for row in reader:
-                    self.timedb.set_logged_user_data(
-                        item='add_event', add_params=row)
-            # if ok:
-            #     self.input_check().simple_diag('Импорт успешно завершён!')
-        # except Exception:
-        #     self.input_check().simple_diag('Импорт не удался.')
+        try:
+            settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(
+                self, 'Open file', '/', 'CSV file (*.csv)')
+            if settingsLoad[0]:
+                with open(settingsLoad[0], 'r+') as f:
+                    reader = csv.reader(f, delimiter=',')
+                    for row in reader:
+                        self.timedb.set_logged_user_data(
+                            item='add_event', add_params=row)
+            if ok:
+                self.input_check().simple_diag('Импорт успешно завершён!')
+        except Exception:
+            self.input_check().simple_diag('Импорт не удался.')
 
     def settings_change_user_data(self):
         self.timedb.get_logged_user_data(item='get_user_p_id')
@@ -2738,21 +2740,21 @@ class MainUI(QtWidgets.QMainWindow):
 
     def settings_telegram(self):
         if not self.timedb.get_logged_user_data(
-                item='get_user_telegram') == '(NULL)':
+            item='get_user_telegram') == 'None':
             msg = self.input_check().extended_diag(
                 err_txt='Пожалуйста, выберите действие:', buttons=[
                     'Отвязать телеграм', 'Открыть бота'])
-
             if msg == True:
                 self.timedb.set_logged_user_data(item='del_telegram')
                 self.input_check().simple_diag('Телеграм успешно отвязан!')
                 self.sUi.settings_imglbl_telegram_noverify.setHidden(False)
+                self.timedb.get_logged_user_data(
+                    item='get_user_telegram')
             elif msg == False:
                 webbrowser.open_new_tab(
                     'https://t.me/TimeSoft_Assistant_Bot')
-            return
-        elif self.timedb.get_logged_user_data(
-                item='get_user_telegram') == '(NULL)':
+                return
+        else:
             webbrowser.open_new_tab(
                 'https://t.me/TimeSoft_Assistant_Bot')
             return
@@ -3447,7 +3449,7 @@ class DbLogic:
         elif item == 'get_user_telegram':
             self.cursor.execute(
                 f'SELECT user_n_telegram FROM "USER_NAME" WHERE user_n_id = {self.user_n_id}')
-            return str(self.cursor.fetchall())[3:-4]
+            return str(self.cursor.fetchall())[2:-3]
 
     def set_logged_user_data(
             self, user_login=None, item=None, add_params=None, edit_params=None):
@@ -3579,11 +3581,20 @@ class DbLogic:
 
             self.connection.commit()
 
+        elif item == 'import_add':
+            pass
+
+        elif item == 'import_rewrite':
+            pass
+
         # Deleting telegram reference.
         elif item == 'del_telegram':
+            # try:
             self.cursor2.execute(
-                f'UPDATE "USER_NAME" SET user_n_telegram = \'(NULL)\'\
-                    WHERE user_n_id = {self.user_n_id} ON CONFLICT DO NOTHING')
+                f'UPDATE "USER_NAME" SET user_n_telegram = NULL\
+                    WHERE user_n_id = {self.user_n_id}')
+            # except Exception as e:
+            #     return e
 
             self.connection.commit()
 
@@ -3659,6 +3670,13 @@ class DbLogic:
 
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    win = MainUI()
-    sys.exit(app.exec())
+    # app = QtWidgets.QApplication(sys.argv)
+    # win = MainUI()
+    # sys.exit(app.exec())
+
+    dbl = DbLogic()
+    dbl.set_logged_user_data(user_login='Ева', item='set_working_user')
+    dbl.get_logged_user_data(user_login='Ева', item='set_working_user')
+
+    print(dbl.set_logged_user_data(
+        item='import_add', edit_params=['1', '2', '3', '4']))

@@ -1,5 +1,4 @@
 import sys
-import re
 import string
 import configparser
 import csv
@@ -187,17 +186,17 @@ class InputCheck:
     def check_date(self):
         # checking date and its format.
         if self.text.isdigit():
-            if int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
-                return [False, 'Введённое количество дней указывает на дату ранее 1900 года.']
+            if int(self.text) == 0:
+                return [False, 'Введено некорректное количество дней.']
+            elif int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
+                return [False, 'Введено количество дней, указывающее на дату ранее 1900 года.']
         elif len(self.text.split(', ')) in range(1, 3):
             for x in self.text.split(', '):
-                if not re.match(r"^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20)\d\d$", x):
-                    try:
-                        if datetime.strptime(self.text, '%d.%m.%Y') > datetime.now():
-                            return [False, 'Дата должна не может быть больше сегодняшней ({0}).'.format(
-                                datetime.now().strftime('%d.%m.%Y'))]
-                    except Exception:
-                        return [False, 'Неверный формат даты.']
+                try:
+                    if datetime.strptime(x, '%d.%m.%Y') > datetime.now():
+                        return [False, 'Дата должна не может быть больше сегодняшней ({0}).'.format(
+                            datetime.now().strftime('%d.%m.%Y'))]
+                except (ValueError, Exception):
                     return [False, 'Неверный формат даты.']
         return True
 
@@ -572,7 +571,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.timedb.get_logged_user_data(item='get_user_email'))
         if not self.timedb.get_logged_user_data(
                 item='get_user_telegram') == None:
-                self.sUi.settings_imglbl_telegram_noverify.setHidden(False)
+            self.sUi.settings_imglbl_telegram_noverify.setHidden(False)
 
         self.update_users_categs()
 
@@ -2740,7 +2739,7 @@ class MainUI(QtWidgets.QMainWindow):
 
     def settings_telegram(self):
         if not self.timedb.get_logged_user_data(
-            item='get_user_telegram') == 'None':
+                item='get_user_telegram') == 'None':
             msg = self.input_check().extended_diag(
                 err_txt='Пожалуйста, выберите действие:', buttons=[
                     'Отвязать телеграм', 'Открыть бота'])

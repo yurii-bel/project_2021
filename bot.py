@@ -64,14 +64,14 @@ def display_command(message):
     if 'logged_in_' + str(message.from_user.id) in users_data:
         # Get current date in a certain format
         date = datetime.now().strftime('%d\\.%m\\.%Y')
-        display_msg = bot.send_message(message.chat.id, f'Какие даты отобразить?\n\n'
-                                                        f'*Пример:*\n'
-                                                        f'*\\-* — все события за сегодня \\(*{date}*\\)\\.\n'
-                                                        f'*7* — за последние 7 дней\\.\n'
-                                                        f'*01\\.06\\.2021* — конкретную дату\\.\n'
-                                                        f'*01\\.01\\.2020, 01\\.01\\.2021* — все события между датами\\.',
-                                       parse_mode='MarkdownV2')
-        bot.register_next_step_handler(display_msg, display_events)
+        display_message = bot.send_message(message.chat.id, f'Какие даты отобразить?\n\n'
+                                           f'*Пример:*\n'
+                                           f'*\\-* — все события за сегодня \\(*{date}*\\)\\.\n'
+                                           f'*7* — за последние 7 дней\\.\n'
+                                           f'*01\\.06\\.2021* — конкретную дату\\.\n'
+                                           f'*01\\.01\\.2020, 01\\.01\\.2021* — все события между датами\\.',
+                                           parse_mode='MarkdownV2')
+        bot.register_next_step_handler(display_message, display_events)
     else:
         bot.send_message(
             message.chat.id, 'Войдите в аккаунт с помощью комманды /login для использования этой функции.')
@@ -84,18 +84,18 @@ def add_command(message):
     if 'logged_in_' + str(message.from_user.id) in users_data:
         # Get current date in a certain format
         date = datetime.now().strftime('%d\\.%m\\.%Y')
-        add_msg = bot.send_message(message.chat.id, f'Добавляем новое событие\\.\n\n'
-                                                    f'*Необходимо ввести:*\n'
-                                                    f'Название события, затраченное время, дату события, категорию, комментарий \\'
-                                                    f'(необязательно\\)\\.\n\nОбратите внимание, для ввода даты можно использовать '
-                                                    f'следующие варианты ввода:\n*\\-* — показать все события за сегодня (*{date}*)\\.\n'
-                                                    f'*16\\.06\\.2021* — показать конкретную дату\\.\n\n'
-                                                    f'*Например*:\n'
-                                                    f'Гулял, 42, 06\\.06\\.2021, Отдых, В парке\n'
-                                                    f'Смотрел фильм, 153, \\-, Отдых, Король лев\n'
-                                                    f'Готовил еду, 45, \\-, Быт\n',
-                                   parse_mode='MarkdownV2')
-        bot.register_next_step_handler(add_msg, add_event)
+        add_message = bot.send_message(message.chat.id, f'Добавляем новое событие\\.\n\n'
+                                       f'*Необходимо ввести:*\n'
+                                       f'Название события, затраченное время, дату события, категорию, комментарий '
+                                       f'\\(необязательно\\)\\.\n\nОбратите внимание, для ввода даты можно использовать '
+                                       f'следующие варианты ввода:\n*\\-* — показать все события за сегодня \\(*{date}*\\)\\.\n'
+                                       f'*16\\.06\\.2021* — показать конкретную дату\\.\n\n'
+                                       f'*Например*:\n'
+                                       f'Гулял, 42, 06\\.06\\.2021, Отдых, В парке\n'
+                                       f'Смотрел фильм, 153, \\-, Отдых, Король лев\n'
+                                       f'Готовил еду, 45, \\-, Быт\n',
+                                       parse_mode='MarkdownV2')
+        bot.register_next_step_handler(add_message, add_event)
     else:
         bot.send_message(
             message.chat.id, 'Войдите в аккаунт с помощью комманды /login для использования этой функции.')
@@ -110,9 +110,21 @@ def check_login(message):
     elif message.text == '/display':
         return display_command(message)
     elif message.text.startswith('/open_') and len(message.text) > 6:
-        return edit_events(message)
+        return edit_event(message)
     elif message.text == '/add':
         return add_command(message)
+    checks = [
+        InputCheck(message.text).check_incorrect_vals()
+    ]
+    failed = []
+    for x in checks:
+        if type(x) is list:
+            failed.append(x[1])
+    if failed:
+        failed = ' '.join(list(set(failed)))
+        error_message = bot.send_message(
+            message.chat.id, 'Произошла ошибка. ' + failed)
+        return bot.register_next_step_handler(error_message, check_login)
     # Fetch user_n_id with text entered by the user
     cursor.execute(
         f'SELECT user_n_id FROM "USER_NAME" WHERE user_n_name = \'{message.text}\'')
@@ -122,12 +134,13 @@ def check_login(message):
         # Save user_n_id to the global dict
         users_data['user_n_id_' + str(message.from_user.id)] = user_n_id
         # Got login
-        password_msg = bot.send_message(message.chat.id, 'Введи пароль.')
-        bot.register_next_step_handler(password_msg, check_password)
+        password_message = bot.send_message(message.chat.id, 'Введи пароль.')
+        bot.register_next_step_handler(password_message, check_password)
     else:
         # User doesn't exist, tell the user to register
-        bot.send_message(message.chat.id, 'Не удалось найти пользователя. '
-                                          'Повтори попытку или зарегистрируйся в приложении.')
+        error_message = bot.send_message(message.chat.id, 'Не удалось найти пользователя. '
+                                                          'Повтори попытку или зарегистрируйся в приложении.')
+        return bot.register_next_step_handler(error_message, check_login)
 
 
 def check_password(message):
@@ -139,7 +152,7 @@ def check_password(message):
     elif message.text == '/display':
         return display_command(message)
     elif message.text.startswith('/open_') and len(message.text) > 6:
-        return edit_events(message)
+        return edit_event(message)
     elif message.text == '/add':
         return add_command(message)
     # Get user_n_id saved to the global dict
@@ -147,6 +160,18 @@ def check_password(message):
         user_n_id = users_data['user_n_id_' + str(message.from_user.id)]
     except KeyError:
         return bot.send_message(message.chat.id, 'Произошла ошибка.')
+    checks = [
+        InputCheck(message.text).check_incorrect_vals()
+    ]
+    failed = []
+    for x in checks:
+        if type(x) is list:
+            failed.append(x[1])
+    if failed:
+        failed = ' '.join(list(set(failed)))
+        error_message = bot.send_message(
+            message.chat.id, 'Произошла ошибка. ' + failed)
+        return bot.register_next_step_handler(error_message, check_password)
     # Fetch user_p_id with user_n_id we got from the check_login
     cursor.execute(
         f'SELECT user_p_id, user_id FROM "USER" WHERE user_n_id = \'{user_n_id}\'')
@@ -172,11 +197,11 @@ def check_password(message):
                 bot.send_message(message.chat.id, 'Успешно.\nДля отображения событий испоьзуй комманду /display\n'
                                                   'Для добавления нового события используй комманду /add')
             else:
-                incorrect_password_message = bot.send_message(
+                error_message = bot.send_message(
                     message.chat.id, 'Неверный пароль. Повтори попытку.')
                 # Reenter the same function if password is incorrect
                 bot.register_next_step_handler(
-                    incorrect_password_message, check_password)
+                    error_message, check_password)
         else:
             # If couldn't get user_p_password
             bot.send_message(message.chat.id, 'Произошла ошибка.')
@@ -195,7 +220,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
         elif message.text == '/display':
             return display_command(message)
         elif message.text.startswith('/open_') and len(message.text) > 6:
-            return edit_events(message)
+            return edit_event(message)
         elif message.text == '/add':
             return add_command(message)
     # Define sorting vars needed for activities sorting and sorting button name
@@ -224,9 +249,9 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
                 return bot.answer_callback_query(message.id)
     else:
         txt = message.text
-    # Check if text entered by the user can be converted to int type and doesn't exceed 5 digits
     checks = [
         InputCheck(txt).check_date() if txt != '-' else True,
+        InputCheck(txt).check_incorrect_vals()
     ]
     failed = []
     for x in checks:
@@ -234,12 +259,22 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
             failed.append(x[1])
     if failed:
         failed = ' '.join(list(set(failed)))
-        return bot.send_message(message.chat.id, 'Произошла ошибка. ' + failed)
-    if txt.isdigit():
+        error_message = bot.send_message(
+            message.chat.id, 'Произошла ошибка. ' + failed)
+        return bot.register_next_step_handler(error_message, display_events)
+    elif txt.isdigit():
         users_data['user_entry_' + str(message.from_user.id)] = txt
         cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\' AND act_date >= '
                        f'(NOW()::date - \'{txt} days\'::interval) ORDER BY {sort_column} LIMIT 50')
-        activities_type = f'за последние {txt} дней'
+        if int(txt) in range(11, 20):
+            days = 'дней'
+        elif int(txt[-1]) == 1:
+            days = 'день'
+        elif int(txt[-1]) in range(2, 5):
+            days = 'дня'
+        else:
+            days = 'дней'
+        activities_type = f'за последние {txt} {days}'
     elif len(txt.split(', ')) == 1:
         if txt == '-':
             date = datetime.now()
@@ -264,7 +299,9 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
                        f'\'{date_1_cleared}\'::date AND \'{date_2_cleared}\'::date ORDER BY {sort_column} LIMIT 50')
         activities_type = 'с {0} по {1}'.format(date_1, date_2)
     else:
-        return bot.send_message(message.chat.id, 'Произошла ошибка. Неверный формат.')
+        error_message = bot.send_message(
+            message.chat.id, 'Произошла ошибка. Неверный формат.')
+        return bot.register_next_step_handler(error_message, display_events)
     data = cursor.fetchall()
     if data:
         # Make data readable
@@ -273,8 +310,8 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
             pointer = '> '
             date = y[4].strftime('%d.%m.%Y')
             name = str(y[2])
-            category = str(y[3])
-            time = f'({str(y[5])})' + ' мин.'
+            category = str(y[5])
+            time = f'({str(y[3])})' + ' мин.'
             link = '/open_' + str(y[0])
             vals = ' '.join([pointer, date, name, category, time, link])
             activities_list.append(vals)
@@ -307,14 +344,17 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
 
 
 @bot.message_handler(func=lambda message: message.text.startswith('/open_'))
-def edit_events(message):
+def edit_event(message):
     # Check whether user is logged in
     if 'logged_in_' + str(message.from_user.id) in users_data:
-        # If can't reach act_id, function is being called first time
-        try:
-            act_id = users_data['act_id_' + str(message.from_user.id)]
-        except KeyError:
+        # If editing mode is being called by the command, set act_id to actual event's id
+        if message.text.startswith('/open_'):
             act_id = message.text[6:]
+        else:
+            try:
+                act_id = users_data['act_id_' + str(message.from_user.id)]
+            except KeyError:
+                act_id = message.text[6:]
         # Check whether event is available for the user
         try:
             user_id = users_data['user_id_' + str(message.from_user.id)]
@@ -346,7 +386,7 @@ def edit_events(message):
         options = 'Дата: ' + act_date + ' /edit_date\n' + \
                   'Название: ' + actl_name + ' /edit_event\n' + \
                   'Категория: ' + cat_name + ' /edit_category\n' + \
-                  'Время: ' + act_time + ' /edit_time\n' + \
+                  'Время: ' + act_time + ' мин. /edit_time\n' + \
                   'Комментарий: ' + act_comment + ' /edit_comment\n' + \
                   'Удалить событие /delete_event\n' + \
                   'Выйти из режима просмотра /exit_event'
@@ -412,9 +452,21 @@ def process_action(message):
     elif message.text == '/display':
         return display_command(message)
     elif message.text.startswith('/open_') and len(message.text) > 6:
-        return edit_events(message)
+        return edit_event(message)
     elif message.text == '/add':
         return add_command(message)
+    checks = [
+        InputCheck(message.text).check_incorrect_vals()
+    ]
+    failed = []
+    for x in checks:
+        if type(x) is list:
+            failed.append(x[1])
+    if failed:
+        failed = ' '.join(list(set(failed)))
+        error_message = bot.send_message(
+            message.chat.id, 'Произошла ошибка. ' + failed)
+        return bot.register_next_step_handler(error_message, process_action)
     # Get user_id, modifier, act_id saved to the global dict
     try:
         user_id = users_data['user_id_' + str(message.from_user.id)]
@@ -454,7 +506,9 @@ def process_action(message):
             failed.append(x[1])
     if failed:
         failed = ' '.join(list(set(failed)))
-        return bot.send_message(message.from_user.id, 'Произошла ошибка. ' + failed)
+        error_message = bot.send_message(
+            message.from_user.id, 'Произошла ошибка. ' + failed)
+        return bot.register_next_step_handler(error_message, process_action)
     # Fill in missing required columns
     if modifier == 'actl_name':
         cursor.execute(
@@ -484,10 +538,10 @@ def process_action(message):
     cursor.execute(
         f'UPDATE "ACTIVITY" SET {modifier} = \'{value}\' WHERE act_id = {act_id}')
     connection.commit()
-    return edit_events(message)
+    return edit_event(message)
 
 
-@bot.callback_query_handler(func=lambda callback: callback.data in ['date_sort', 'cat_sort'])
+@ bot.callback_query_handler(func=lambda callback: callback.data in ['date_sort', 'cat_sort'])
 def callback_listener(callback):
     # Handle sorting button click
     if callback.data == 'cat_sort':
@@ -507,7 +561,7 @@ def add_event(message):
     elif message.text == '/display':
         return display_command(message)
     elif message.text.startswith('/open_') and len(message.text) > 6:
-        return edit_events(message)
+        return edit_event(message)
     elif message.text == '/add':
         return add_command(message)
     args = message.text.split(', ')
@@ -525,7 +579,9 @@ def add_event(message):
             InputCheck(actl_name).check_incorrect_vals(),
             InputCheck(act_time).number_only(),
             InputCheck(act_time).check_time_value(),
+            InputCheck(act_time).check_incorrect_vals(),
             InputCheck(act_date).check_date() if args[2] != '-' else True,
+            InputCheck(act_date).check_incorrect_vals(),
             InputCheck(cat_name).check_len(),
             InputCheck(cat_name).check_incorrect_vals(),
             InputCheck(act_comment).check_comment_len() if len(
@@ -553,17 +609,19 @@ def add_event(message):
                            f'VALUES ({user_id}, \'{actl_name}\', \'{act_time}\', \'{act_date}\'::date, \'{cat_name}\', '
                            f'\'{act_comment}\') ON CONFLICT DO NOTHING')
             connection.commit()
-            bot.send_message(
+            return bot.send_message(
                 message.chat.id, 'Событие было успешно добавлено.')
         else:
             failed = ' '.join(list(set(failed)))
-            bot.send_message(message.chat.id, 'Произошла ошибка.' + failed)
+            error_message = bot.send_message(
+                message.chat.id, 'Произошла ошибка.' + failed)
     elif len(args) > 5:
-        bot.send_message(
+        error_message = bot.send_message(
             message.chat.id, 'Произошла ошибка. Слишком много запятых.')
     else:
-        bot.send_message(
+        error_message = bot.send_message(
             message.chat.id, 'Произошла ошибка. Недостаточно полей было заполнено.')
+    return bot.register_next_step_handler(error_message, add_event)
 
 
 def remove_act_id(message):

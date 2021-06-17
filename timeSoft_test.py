@@ -49,7 +49,6 @@ TODO
 class InputCheck:
     """
     The InputCheck class implements base checking system for various input data.
-
     Attributes:
         input_text (str):The string which can be checked using various methods.
     """
@@ -124,7 +123,6 @@ class InputCheck:
         If the email passes verification, it returns True(bool) only.
         If not passes, it returns list that contains two values:
         False(bool) and error message(str).
-
         Returns:
             True | [False | err_msg]
         """
@@ -216,9 +214,16 @@ class InputCheck:
         return True
 
     def check_incorrect_vals(self):
+        vals = []
         for i in self.text:
             if i in self.incorrect_vals:
-                return [False, f'Недопустимый символ ({i}).']
+                vals.append(i)
+        if vals:
+            if len(vals) == 1:
+                vals = f"Недопустимый символ ({str(vals)})"
+            else:
+                vals = f"Недопустимый символы ({', '.join(vals)})"
+            return [False, vals]
         return True
 
     def check_spaces_tabs(self):

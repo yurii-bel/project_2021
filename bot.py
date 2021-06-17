@@ -40,29 +40,27 @@ specific_commands = [
 ]
 commands = general_commands + specific_commands
 
-users_data = {}
-
 
 @bot.message_handler(commands=['start'])
 def start_command(message):
-    remove_act_id(message)
+    process_data(f'act_id_{message.from_user.id}', remove=True)
     bot.send_message(message.chat.id, 'Привет, для использования функционала бота войдите в '
                                       'аккаунт с помощью комманды /login')
 
 
 @bot.message_handler(commands=['login'])
 def login_command(message):
-    remove_act_id(message)
+    process_data(f'act_id_{message.from_user.id}', remove=True)
     login_message = bot.send_message(message.chat.id, "Введите своё имя.")
-    bot.register_next_step_handler(login_message, check_login)
+    return bot.register_next_step_handler(login_message, check_login)
 
 
 @bot.message_handler(commands=['display'])
 def display_command(message):
     chat_id = message.chat.id
-    remove_act_id(message)
+    process_data(f'act_id_{message.from_user.id}', remove=True)
     # Check whether the user is logged in
-    if 'logged_in_' + str(message.from_user.id) in users_data:
+    if process_data(f'logged_in_{message.from_user.id}'):
         # Get current date in a certain format
         date = datetime.now().strftime('%d\\.%m\\.%Y')
         display_message = bot.send_message(chat_id, f'Какие даты отобразить?\n\n'
@@ -74,7 +72,7 @@ def display_command(message):
                                                     f'*01\\.01\\.2020, 01\\.01\\.2021* — '
                                                     f'все события между датами\\.',
                                            parse_mode='MarkdownV2')
-        bot.register_next_step_handler(display_message, display_events)
+        return bot.register_next_step_handler(display_message, display_events)
     else:
         bot.send_message(chat_id, 'Войдите в аккаунт с помощью комманды /login для использования '
                                   'этой функции.')
@@ -83,9 +81,9 @@ def display_command(message):
 @bot.message_handler(commands=['add'])
 def add_command(message):
     chat_id = message.chat.id
-    remove_act_id(message)
+    process_data(f'act_id_{message.from_user.id}', remove=True)
     # Check whether the user is logged in
-    if 'logged_in_' + str(message.from_user.id) in users_data:
+    if process_data(f'logged_in_{message.from_user.id}'):
         # Get current date in a certain format
         date = datetime.now().strftime('%d\\.%m\\.%Y')
         add_message = bot.send_message(chat_id, f'Добавьте новое событие\\.\n\n'
@@ -104,7 +102,7 @@ def add_command(message):
                                                 f'Смотрел фильм, 153, \\-, Отдых, Король лев\n'
                                                 f'Готовил еду, 45, \\-, Быт\n',
                                        parse_mode='MarkdownV2')
-        bot.register_next_step_handler(add_message, add_event)
+        return bot.register_next_step_handler(add_message, add_event)
     else:
         bot.send_message(chat_id, 'Войдите в аккаунт с помощью комманды /login для использования '
                                   'этой функции.')
@@ -115,8 +113,16 @@ def check_login(message):
     txt = message.text
     chat_id = message.chat.id
     # Solve functions overlapping
-    if check_for_command(message):
-        return
+    if txt == '/start':
+        return start_command(message)
+    elif txt == '/login':
+        return login_command(message)
+    elif txt == '/display':
+        return display_command(message)
+    elif txt.startswith('/open_') and len(txt) > 6:
+        return edit_event(message)
+    elif txt == '/add':
+        return add_command(message)
     check = [InputCheck(txt).check_incorrect_vals()]
     failed = [x[1] for x in check if type(x) is list]
     if failed:
@@ -129,9 +135,9 @@ def check_login(message):
     if data:
         user_n_id = data[0][0]
         # Save user_n_id to the global dict
-        users_data['user_n_id_' + str(message.from_user.id)] = user_n_id
+        process_data(f'user_n_id_{message.from_user.id}', user_n_id, 'write')
         password_message = bot.send_message(chat_id, 'Введите пароль.')
-        bot.register_next_step_handler(password_message, check_password)
+        return bot.register_next_step_handler(password_message, check_password)
     else:
         # User doesn't exist, tell the user to register
         error_message = bot.send_message(chat_id, 'Не удалось найти пользователя. Повторите '
@@ -145,11 +151,19 @@ def check_password(message):
     txt = message.text
     chat_id = message.chat.id
     # Solve functions overlapping
-    if check_for_command(message):
-        return
+    if txt == '/start':
+        return start_command(message)
+    elif txt == '/login':
+        return login_command(message)
+    elif txt == '/display':
+        return display_command(message)
+    elif txt.startswith('/open_') and len(txt) > 6:
+        return edit_event(message)
+    elif txt == '/add':
+        return add_command(message)
     # Get user_n_id saved to the global dict
     try:
-        user_n_id = users_data['user_n_id_' + str(telegram_id)]
+        user_n_id = user_n_id = process_data(f'user_n_id_{telegram_id}')
     except KeyError:
         return bot.send_message(chat_id, 'Произошла ошибка.')
     check = [InputCheck(txt).check_incorrect_vals()]
@@ -165,7 +179,7 @@ def check_password(message):
         user_p_id = data[0][0]
         user_id = data[0][1]
         # Save user_id to the global dict
-        users_data['user_id_' + str(telegram_id)] = user_id
+        process_data(f'user_id_{telegram_id}', user_id, 'write')
         # Fetch user_p_password with user_p_id we got from the last step
         cursor.execute(f'SELECT user_p_password FROM "USER_PRIVATE" '
                        f'WHERE user_p_id = \'{user_p_id}\'')
@@ -175,7 +189,7 @@ def check_password(message):
             # Check entered password
             if txt == user_p_password:
                 # Save logged state to the global dict
-                users_data['logged_in_' + str(telegram_id)] = True
+                process_data(f'logged_in_{telegram_id}', True, 'write')
                 cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = \'{telegram_id}\''
                                f'WHERE user_n_id = \'{user_n_id}\'')
                 connection.commit()
@@ -186,7 +200,7 @@ def check_password(message):
             else:
                 error_message = bot.send_message(chat_id, 'Неверный пароль. Повторите попытку.')
                 # Reenter the same function if password is incorrect
-                bot.register_next_step_handler(error_message, check_password)
+                return bot.register_next_step_handler(error_message, check_password)
         else:
             # If couldn't get user_p_password
             bot.send_message(chat_id, 'Произошла ошибка.')
@@ -205,11 +219,19 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
     chat_id = message.chat.id
     txt = message.text
     message_id = message.message_id
-    if 'logged_in_' + str(telegram_id) in users_data:
+    if process_data(f'logged_in_{telegram_id}'):
         # Solve functions overlapping
         if not (edit or refresh):
-            if check_for_command(message):
-                return
+            if txt == '/start':
+                return start_command(message)
+            elif txt == '/login':
+                return login_command(message)
+            elif txt == '/display':
+                return display_command(message)
+            elif txt.startswith('/open_') and len(txt) > 6:
+                return edit_event(message)
+            elif txt == '/add':
+                return add_command(message)
         # Define sorting vars needed for activities sorting and sorting button name
         if sort_callback == 'cat_sort':
             sort_column = 'cat_name'
@@ -219,13 +241,13 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
             sort_type = 'категориям'
         # Get user_id saved to the global dict
         try:
-            user_id = users_data['user_id_' + str(telegram_id)]
+            user_id = process_data(f'user_id_{telegram_id}')
         except KeyError:
             return bot.send_message(chat_id, 'Произошла ошибка.')
         # Handle sorting button click
         if edit or refresh:
             try:
-                txt = users_data['user_entry_' + str(telegram_id)]
+                txt = process_data(f'user_entry_{telegram_id}')
             except KeyError:
                 if edit:
                     return bot.send_message(chat_id, 'Произошла ошибка.')
@@ -239,7 +261,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
             error_message = bot.send_message(chat_id, 'Произошла ошибка. ' + failed)
             return bot.register_next_step_handler(error_message, display_events)
         elif txt.isdigit():
-            users_data['user_entry_' + str(telegram_id)] = txt
+            process_data(f'user_entry_{telegram_id}', txt, 'write')
             cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\''
                            f'AND act_date >= (NOW()::date - \'{txt} days\'::interval) '
                            f'ORDER BY {sort_column} LIMIT 50')
@@ -258,13 +280,13 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
                 txt = date.strftime('%d.%m.%Y')
             else:
                 date = datetime.strptime(txt, '%d.%m.%Y').strftime('%Y-%m-%d')
-            users_data['user_entry_' + str(telegram_id)] = txt
+            process_data(f'user_entry_{telegram_id}', txt, 'write')
             cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\''
                            f'AND act_date = \'{date}\'::date '
                            f'ORDER BY {sort_column} LIMIT 50')
             activities_type = f'за {txt}'
         elif len(txt.split(', ')) == 2:
-            users_data['user_entry_' + str(telegram_id)] = txt
+            process_data(f'user_entry_{telegram_id}', txt, 'write')
             date_1, date_2 = txt.split(', ')
             date_1_formatted, date_2_formatted = \
                 [datetime.strptime(x, '%d.%m.%Y') for x in [date_1, date_2]]
@@ -327,7 +349,7 @@ def edit_event(message):
     txt = message.text
     chat_id = message.chat.id
     # Check whether the user is logged in
-    if 'logged_in_' + str(telegram_id) in users_data:
+    if process_data(f'logged_in_{telegram_id}'):
         # If editing mode is being called by the command, set act_id to actual event's id
         if txt.startswith('/open_'):
             if len(txt) > 6:
@@ -336,22 +358,21 @@ def edit_event(message):
                 return bot.send_message(chat_id, 'Укажите идентификатор события.')
         else:
             try:
-                act_id = users_data['act_id_' + str(telegram_id)]
+                act_id = process_data(f'act_id_{telegram_id}')
             except KeyError:
                 act_id = txt[6:]
         # Check whether the event is available for the user
         try:
-            user_id = users_data['user_id_' + str(telegram_id)]
+            user_id = process_data(f'user_id_{telegram_id}')
             cursor.execute(f'SELECT act_id FROM "ACTIVITY" where user_id = {user_id}')
             act_ids = cursor.fetchall()
             act_ids = [str(x[0]) for x in act_ids]
             if act_id not in act_ids:
-                remove_act_id(message)
                 return bot.send_message(chat_id, 'Событие недоступно.')
         except (KeyError, DatabaseError):
             return bot.send_message(chat_id, 'Произошла ошибка.')
         # Save act_id to the global dict
-        users_data['act_id_' + str(message.from_user.id)] = act_id
+        process_data(f'act_id_{telegram_id}', act_id, 'write')
         # Fetch event's data
         cursor.execute(f'SELECT act_date, actl_name, cat_name, act_time, act_comment '
                        f'FROM "ACTIVITY" WHERE act_id = {act_id}')
@@ -361,7 +382,6 @@ def edit_event(message):
         else:
             return bot.send_message(chat_id, 'Произошла ошибка.')
         # Format data
-        act_date = datetime.combine(act_date, datetime.min.time()).strftime('%d.%m.%Y')
         act_comment = act_comment if act_comment else '—'
         options = 'Дата: ' + act_date + ' /edit_date\n' + \
                   'Название: ' + actl_name + ' /edit_event\n' + \
@@ -383,41 +403,41 @@ def choose_action(message):
     txt = message.text
     chat_id = message.chat.id
     # Check whether the user is logged in
-    if 'logged_in_' + str(telegram_id) in users_data:
+    if process_data(f'logged_in_{telegram_id}'):
         # Handle specific commands clicks
         if txt == '/edit_date':
             event_message = bot.send_message(chat_id, 'Введите дату.')
-            users_data['modifier_' + str(telegram_id)] = 'act_date'
+            process_data(f'modifier_{telegram_id}', 'act_date', 'write')
         elif txt == '/edit_event':
             event_message = bot.send_message(chat_id, 'Введите название.')
-            users_data['modifier_' + str(telegram_id)] = 'actl_name'
+            process_data(f'modifier_{telegram_id}', 'actl_name', 'write')
         elif txt == '/edit_category':
             event_message = bot.send_message(chat_id, 'Введите категорию.')
-            users_data['modifier_' + str(telegram_id)] = 'cat_name'
+            process_data(f'modifier_{telegram_id}', 'cat_name', 'write')
         elif txt == '/edit_time':
             event_message = bot.send_message(chat_id, 'Введите время.')
-            users_data['modifier_' + str(telegram_id)] = 'act_time'
+            process_data(f'modifier_{telegram_id}', 'act_time', 'write')
         elif txt == '/edit_comment':
             event_message = bot.send_message(chat_id, 'Введите комментарий.')
-            users_data['modifier_' + str(telegram_id)] = 'act_comment'
+            process_data(f'modifier_{telegram_id}', 'act_comment', 'write')
         elif txt == '/delete_event':
             # Try and delete the event
             try:
                 # Get act_id saved to the global dict
                 try:
-                    act_id = users_data['act_id_' + str(telegram_id)]
+                    act_id = process_data(f'act_id_{telegram_id}')
                 except KeyError:
                     return bot.send_message(chat_id, 'Произошла ошибка.')
                 cursor.execute(f'DELETE FROM "ACTIVITY" WHERE act_id = {act_id}')
                 connection.commit()
             except DatabaseError:
                 bot.send_message(chat_id, 'Произошла ошибка.')
-            remove_act_id(message)
+            process_data(f'act_id_{telegram_id}', remove=True)
             return display_events(message, refresh=True)
         else:
-            remove_act_id(message)
+            process_data(f'act_id_{telegram_id}', remove=True)
             return display_events(message, refresh=True)
-        bot.register_next_step_handler(event_message, process_action)
+        return bot.register_next_step_handler(event_message, process_action)
     else:
         bot.send_message(chat_id, 'Войдите в аккаунт с помощью комманды /login для использования '
                                   'этой функции.')
@@ -429,13 +449,21 @@ def process_action(message):
     txt = message.text
     chat_id = message.chat.id
     # Solve functions overlapping
-    if check_for_command(message):
-        return
+    if txt == '/start':
+        return start_command(message)
+    elif txt == '/login':
+        return login_command(message)
+    elif txt == '/display':
+        return display_command(message)
+    elif txt.startswith('/open_') and len(txt) > 6:
+        return edit_event(message)
+    elif txt == '/add':
+        return add_command(message)
     # Get user_id, modifier, act_id saved to the global dict
     try:
-        user_id = users_data['user_id_' + str(telegram_id)]
-        modifier = users_data['modifier_' + str(telegram_id)]
-        act_id = users_data['act_id_' + str(telegram_id)]
+        user_id = process_data(f'user_id_{telegram_id}')
+        modifier = process_data(f'modifier_{telegram_id}')
+        act_id = process_data(f'act_id_{telegram_id}')
     except KeyError:
         return bot.send_message(chat_id, 'Произошла ошибка.')
     # Handle check for different modifiers
@@ -506,8 +534,16 @@ def add_event(message):
     txt = message.text
     chat_id = message.chat.id
     # Solve functions overlapping
-    if check_for_command(message):
-        return
+    if txt == '/start':
+        return start_command(message)
+    elif txt == '/login':
+        return login_command(message)
+    elif txt == '/display':
+        return display_command(message)
+    elif txt.startswith('/open_') and len(txt) > 6:
+        return edit_event(message)
+    elif txt == '/add':
+        return add_command(message)
     args = txt.split(', ')
     if len(args) in range(4, 6):
         # Separate data to vars
@@ -532,7 +568,7 @@ def add_event(message):
         if not failed:
             # Get user_id saved to the global dict
             try:
-                user_id = users_data['user_id_' + str(message.from_user.id)]
+                user_id = process_data(f'user_id_{message.from_user.id}')
             except KeyError:
                 return bot.send_message(message.chat.id, 'Произошла ошибка.')
             # Insert the event into the database
@@ -559,29 +595,39 @@ def add_event(message):
     return bot.register_next_step_handler(error_message, add_event)
 
 
-def remove_act_id(message):
-    # Remove act_id from the global dict since the session is ended
-    try:
-        users_data.pop('act_id_' + str(message.from_user.id))
-    except KeyError:
-        pass
-
-
-def check_for_command(message):
-    # Define common variables
-    txt = message.text
-    if txt == '/start':
-        return start_command(message)
-    elif txt == '/login':
-        return login_command(message)
-    elif txt == '/display':
-        return display_command(message)
-    elif txt.startswith('/open_') and len(txt) > 6:
-        return edit_event(message)
-    elif txt == '/add':
-        return add_command(message)
-    else:
-        return
+def process_data(key, value=None, method='read', remove=False):
+    out = {}
+    if key:
+        # Read and format data from users_data.txt
+        with open('users_data.txt', 'r+') as file:
+            data = file.read()
+            if len(data) != 0:
+                data = data.split('\n')
+                for line in data:
+                    (k, v) = line.split('=')
+                    out[k] = v
+        # Handle removing data
+        if remove:
+            try:
+                out.pop(key)
+            except KeyError:
+                pass
+        # Write data into users_data.txt
+        if method == 'write' and value:
+            out[key] = value
+            with open('users_data.txt', 'w+') as file:
+                into_list, into = [], ''
+                for k, v in out.items():
+                    into_list.append(f'{k}={v}')
+                into = '\n'.join(into_list)
+                file.write(into)
+            return True
+        else:
+            try:
+                value = out[key]
+            except KeyError:
+                value = None
+            return value
 
 
 if __name__ == '__main__':

@@ -310,8 +310,8 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
             pointer = '> '
             date = y[4].strftime('%d.%m.%Y')
             name = str(y[2])
-            category = str(y[5])
-            time = f'({str(y[3])})' + ' мин.'
+            category = f'({str(y[5])})'
+            time = f'{str(y[3])}' + ' мин.'
             link = '/open_' + str(y[0])
             vals = ' '.join([pointer, date, name, category, time, link])
             activities_list.append(vals)

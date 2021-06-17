@@ -43,14 +43,14 @@ commands = general_commands + specific_commands
 
 @bot.message_handler(commands=['start'])
 def start_command(message):
-    process_data(f'act_id_{message.from_user.id}', remove=True)
+    process_data(f'act_id_{message.from_user.id}', method='write', remove=True)
     bot.send_message(message.chat.id, 'Привет, для использования функционала бота войдите в '
                                       'аккаунт с помощью комманды /login')
 
 
 @bot.message_handler(commands=['login'])
 def login_command(message):
-    process_data(f'act_id_{message.from_user.id}', remove=True)
+    process_data(f'act_id_{message.from_user.id}', method='write', remove=True)
     login_message = bot.send_message(message.chat.id, "Введите своё имя.")
     return bot.register_next_step_handler(login_message, check_login)
 
@@ -58,7 +58,7 @@ def login_command(message):
 @bot.message_handler(commands=['display'])
 def display_command(message):
     chat_id = message.chat.id
-    process_data(f'act_id_{message.from_user.id}', remove=True)
+    process_data(f'act_id_{message.from_user.id}', method='write', remove=True)
     # Check whether the user is logged in
     if process_data(f'logged_in_{message.from_user.id}'):
         # Get current date in a certain format
@@ -81,7 +81,7 @@ def display_command(message):
 @bot.message_handler(commands=['add'])
 def add_command(message):
     chat_id = message.chat.id
-    process_data(f'act_id_{message.from_user.id}', remove=True)
+    process_data(f'act_id_{message.from_user.id}', method='write', remove=True)
     # Check whether the user is logged in
     if process_data(f'logged_in_{message.from_user.id}'):
         # Get current date in a certain format
@@ -190,6 +190,10 @@ def check_password(message):
             if txt == user_p_password:
                 # Save logged state to the global dict
                 process_data(f'logged_in_{telegram_id}', True, 'write')
+                # Remove other ooccurencies of user_n_telegram
+                cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = NULL '
+                               f'WHERE user_n_telegram = \'{telegram_id}\'')
+                # Attach user_n_telegram to the current user's info
                 cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = \'{telegram_id}\''
                                f'WHERE user_n_id = \'{user_n_id}\'')
                 connection.commit()
@@ -432,10 +436,10 @@ def choose_action(message):
                 connection.commit()
             except DatabaseError:
                 bot.send_message(chat_id, 'Произошла ошибка.')
-            process_data(f'act_id_{telegram_id}', remove=True)
+            process_data(f'act_id_{telegram_id}', method='write', remove=True)
             return display_events(message, refresh=True)
         else:
-            process_data(f'act_id_{telegram_id}', remove=True)
+            process_data(f'act_id_{telegram_id}', method='write', remove=True)
             return display_events(message, refresh=True)
         return bot.register_next_step_handler(event_message, process_action)
     else:
@@ -606,15 +610,17 @@ def process_data(key, value=None, method='read', remove=False):
                 for line in data:
                     (k, v) = line.split('=')
                     out[k] = v
-        # Handle removing data
-        if remove:
-            try:
-                out.pop(key)
-            except KeyError:
-                pass
         # Write data into users_data.txt
         if method == 'write' and value:
-            out[key] = value
+            # Handle removing data
+            if remove:
+                try:
+                    out.pop(key)
+                    print(out)
+                except KeyError:
+                    pass
+            else:
+                out[key] = value
             with open('users_data.txt', 'w+') as file:
                 into_list, into = [], ''
                 for k, v in out.items():

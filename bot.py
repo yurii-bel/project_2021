@@ -16,7 +16,7 @@ try:
 except KeyError:
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8-sig')
-    BOT_TOKEN = config.get('Bot', 'bot_token_timesoft')
+    BOT_TOKEN = config.get('Bot', 'bot_token_sasha')
     connection = psycopg2.connect(config.get('PostgreSql', 'DATABASE_URL'))
 
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -111,6 +111,7 @@ def add_command(message):
 
 
 def check_login(message):
+    # Define common variables
     txt = message.text
     chat_id = message.chat.id
     # Solve functions overlapping
@@ -139,8 +140,9 @@ def check_login(message):
 
 
 def check_password(message):
-    txt = message.text
+    # Define common variables
     telegram_id = message.from_user.id
+    txt = message.text
     chat_id = message.chat.id
     # Solve functions overlapping
     if check_for_command(message):
@@ -194,127 +196,135 @@ def check_password(message):
 
 
 def display_events(message, sort_callback='date_sort', edit=False, refresh=False):
-    txt = message.text
-    telegram_id = message.from_user.id
-    chat_id = message.chat.id
-    if not (edit or refresh):
-        # Solve functions overlapping
-        if check_for_command(message):
-            return
-    # Define sorting vars needed for activities sorting and sorting button name
-    if sort_callback == 'cat_sort':
-        sort_column = 'cat_name'
-        sort_type = 'датам'
-    else:
-        sort_column = 'act_date'
-        sort_type = 'категориям'
-    # Get user_id saved to the global dict
-    try:
-        user_id = users_data['user_id_' + str(telegram_id)]
-    except KeyError:
-        return bot.send_message(chat_id, 'Произошла ошибка.')
-    # Handle sorting button click
-    if edit or refresh:
-        try:
-            txt = users_data['user_entry_' + str(telegram_id)]
-        except KeyError:
-            if edit:
-                return bot.send_message(chat_id, 'Произошла ошибка.')
-            else:
-                return bot.answer_callback_query(message.id)
-    check = [InputCheck(txt).check_date() if txt != '-' else True,
-             InputCheck(txt).check_incorrect_vals()]
-    failed = [x[1] for x in check if type(x) is list]
-    if failed:
-        failed = ' '.join(list(set(failed)))
-        error_message = bot.send_message(chat_id, 'Произошла ошибка. ' + failed)
-        return bot.register_next_step_handler(error_message, display_events)
-    elif txt.isdigit():
-        users_data['user_entry_' + str(telegram_id)] = txt
-        cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\''
-                       f'AND act_date >= (NOW()::date - \'{txt} days\'::interval) '
-                       f'ORDER BY {sort_column} LIMIT 50')
-        if int(txt) in range(11, 20):
-            days = 'дней'
-        elif int(txt[-1]) == 1:
-            days = 'день'
-        elif int(txt[-1]) in range(2, 5):
-            days = 'дня'
-        else:
-            days = 'дней'
-        activities_type = f'за последние {txt} {days}'
-    elif len(txt.split(', ')) == 1:
-        if txt == '-':
-            date = datetime.now()
-            txt = date.strftime('%d.%m.%Y')
-        else:
-            date = datetime.strptime(txt, '%d.%m.%Y').strftime('%Y-%m-%d')
-        users_data['user_entry_' + str(telegram_id)] = txt
-        cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\''
-                       f'AND act_date = \'{date}\'::date '
-                       f'ORDER BY {sort_column} LIMIT 50')
-        activities_type = f'за {txt}'
-    elif len(txt.split(', ')) == 2:
-        users_data['user_entry_' + str(telegram_id)] = txt
-        date_1, date_2 = txt.split(', ')
-        date_1_formatted, date_2_formatted = \
-            [datetime.strptime(x, '%d.%m.%Y') for x in [date_1, date_2]]
-        date_1_sorted, date_2_sorted = sorted([date_1_formatted, date_2_formatted])
-        date_1_cleared, date_2_cleared = \
-            [x.strftime('%Y-%m-%d') for x in [date_1_sorted, date_2_sorted]]
-        sort_column += ' ASC' if date_1_formatted == date_1_sorted else ' DESC'
-        cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\''
-                       f'AND act_date BETWEEN \'{date_1_cleared}\'::date '
-                       f'AND \'{date_2_cleared}\'::date ORDER BY {sort_column} LIMIT 50')
-        activities_type = 'с {0} по {1}'.format(date_1, date_2)
-    else:
-        error_message = bot.send_message(chat_id, 'Произошла ошибка. Неверный формат.')
-        return bot.register_next_step_handler(error_message, display_events)
-    data = cursor.fetchall()
-    if data:
-        # Make data readable
-        activities_list = []
-        for y in data:
-            pointer = '> '
-            date = y[4].strftime('%d.%m.%Y')
-            name = str(y[2])
-            category = f'({str(y[5])})'
-            time = f'{str(y[3])}' + ' мин.'
-            link = '/open_' + str(y[0])
-            vals = ' '.join([pointer, date, name, category, time, link])
-            activities_list.append(vals)
-        activities = '\n'.join(activities_list)
-        text = f'Это ваши активности {activities_type}:\n\n' + activities
-        # Add sorting button if the number of activities exceeds 5
-        if len(activities_list) > 5:
-            # Define sorting button
-            keyboard = types.InlineKeyboardMarkup()
-            button = types.InlineKeyboardButton(
-                "Сортировать по " + sort_type, callback_data=sort_callback)
-            markup = keyboard.add(button)
-        else:
-            markup = None
-    else:
-        text = 'Активности отсутствуют.'
-        markup = None
-    # Handle sorting button click
     if edit:
-        # Accessing message attribute of CallbackQuery
+        # Accessing message attributes of CallbackQuery
+        telegram_id = message.from_user.id
         message = message.message
-        chat_id = message.chat.id
-        message_id = message.message_id
-        # Edit message with resorted events and replace the button to the opposite one
-        bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text)
-        bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id, reply_markup=markup)
-        return
     else:
-        bot.send_message(chat_id, text, reply_markup=markup)
+        telegram_id = message.from_user.id
+    chat_id = message.chat.id
+    txt = message.text
+    message_id = message.message_id
+    if 'logged_in_' + str(telegram_id) in users_data:
+        # Solve functions overlapping
+        if not (edit or refresh):
+            if check_for_command(message):
+                return
+        # Define sorting vars needed for activities sorting and sorting button name
+        if sort_callback == 'cat_sort':
+            sort_column = 'cat_name'
+            sort_type = 'датам'
+        else:
+            sort_column = 'act_date'
+            sort_type = 'категориям'
+        # Get user_id saved to the global dict
+        try:
+            user_id = users_data['user_id_' + str(telegram_id)]
+        except KeyError:
+            return bot.send_message(chat_id, 'Произошла ошибка.')
+        # Handle sorting button click
+        if edit or refresh:
+            try:
+                txt = users_data['user_entry_' + str(telegram_id)]
+            except KeyError:
+                if edit:
+                    return bot.send_message(chat_id, 'Произошла ошибка.')
+                else:
+                    return bot.answer_callback_query(message.id)
+        check = [InputCheck(txt).check_date() if txt != '-' else True,
+                 InputCheck(txt).check_incorrect_vals()]
+        failed = [x[1] for x in check if type(x) is list]
+        if failed:
+            failed = ' '.join(list(set(failed)))
+            error_message = bot.send_message(chat_id, 'Произошла ошибка. ' + failed)
+            return bot.register_next_step_handler(error_message, display_events)
+        elif txt.isdigit():
+            users_data['user_entry_' + str(telegram_id)] = txt
+            cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\''
+                           f'AND act_date >= (NOW()::date - \'{txt} days\'::interval) '
+                           f'ORDER BY {sort_column} LIMIT 50')
+            if int(txt) in range(11, 20):
+                days = 'дней'
+            elif int(txt[-1]) == 1:
+                days = 'день'
+            elif int(txt[-1]) in range(2, 5):
+                days = 'дня'
+            else:
+                days = 'дней'
+            activities_type = f'за последние {txt} {days}'
+        elif len(txt.split(', ')) == 1:
+            if txt == '-':
+                date = datetime.now()
+                txt = date.strftime('%d.%m.%Y')
+            else:
+                date = datetime.strptime(txt, '%d.%m.%Y').strftime('%Y-%m-%d')
+            users_data['user_entry_' + str(telegram_id)] = txt
+            cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\''
+                           f'AND act_date = \'{date}\'::date '
+                           f'ORDER BY {sort_column} LIMIT 50')
+            activities_type = f'за {txt}'
+        elif len(txt.split(', ')) == 2:
+            users_data['user_entry_' + str(telegram_id)] = txt
+            date_1, date_2 = txt.split(', ')
+            date_1_formatted, date_2_formatted = \
+                [datetime.strptime(x, '%d.%m.%Y') for x in [date_1, date_2]]
+            date_1_sorted, date_2_sorted = sorted([date_1_formatted, date_2_formatted])
+            date_1_cleared, date_2_cleared = \
+                [x.strftime('%Y-%m-%d') for x in [date_1_sorted, date_2_sorted]]
+            sort_column += ' ASC' if date_1_formatted == date_1_sorted else ' DESC'
+            cursor.execute(f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\''
+                           f'AND act_date BETWEEN \'{date_1_cleared}\'::date '
+                           f'AND \'{date_2_cleared}\'::date ORDER BY {sort_column} LIMIT 50')
+            activities_type = 'с {0} по {1}'.format(date_1, date_2)
+        else:
+            error_message = bot.send_message(chat_id, 'Произошла ошибка. Неверный формат.')
+            return bot.register_next_step_handler(error_message, display_events)
+        data = cursor.fetchall()
+        if data:
+            # Make data readable
+            activities_list = []
+            for y in data:
+                pointer = '> '
+                date = y[4].strftime('%d.%m.%Y')
+                name = str(y[2])
+                category = f'({str(y[5])})'
+                time = f'{str(y[3])}' + ' мин.'
+                link = '/open_' + str(y[0])
+                vals = ' '.join([pointer, date, name, category, time, link])
+                activities_list.append(vals)
+            activities = '\n'.join(activities_list)
+            text = f'Это ваши активности {activities_type}:\n\n' + activities
+            # Add sorting button if the number of activities exceeds 5
+            if len(activities_list) > 5:
+                # Define sorting button
+                keyboard = types.InlineKeyboardMarkup()
+                button = types.InlineKeyboardButton(
+                    "Сортировать по " + sort_type, callback_data=sort_callback)
+                markup = keyboard.add(button)
+            else:
+                markup = None
+        else:
+            text = 'Активности отсутствуют.'
+            markup = None
+        # Handle sorting button click
+        if edit:
+            # Edit message with resorted events and replace the button to the opposite one
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text)
+            bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id,
+                                          reply_markup=markup)
+            return
+        else:
+            bot.send_message(chat_id, text, reply_markup=markup)
+    else:
+        bot.send_message(chat_id, 'Войдите в аккаунт с помощью комманды /login для использования '
+                                  'этой функции.')
 
 
 @bot.message_handler(func=lambda message: message.text.startswith('/open_'))
 def edit_event(message):
-    txt = message.text
+    # Define common variables
     telegram_id = message.from_user.id
+    txt = message.text
     chat_id = message.chat.id
     # Check whether the user is logged in
     if 'logged_in_' + str(telegram_id) in users_data:
@@ -368,8 +378,9 @@ def edit_event(message):
 
 @bot.message_handler(func=lambda message: message.text in specific_commands)
 def choose_action(message):
-    txt = message.text
+    # Define common variables
     telegram_id = message.from_user.id
+    txt = message.text
     chat_id = message.chat.id
     # Check whether the user is logged in
     if 'logged_in_' + str(telegram_id) in users_data:
@@ -413,8 +424,9 @@ def choose_action(message):
 
 
 def process_action(message):
-    txt = message.text
+    # Define common variables
     telegram_id = message.from_user.id
+    txt = message.text
     chat_id = message.chat.id
     # Solve functions overlapping
     if check_for_command(message):
@@ -490,6 +502,7 @@ def callback_listener(callback):
 
 
 def add_event(message):
+    # Define common variables
     txt = message.text
     chat_id = message.chat.id
     # Solve functions overlapping
@@ -555,6 +568,7 @@ def remove_act_id(message):
 
 
 def check_for_command(message):
+    # Define common variables
     txt = message.text
     if txt == '/start':
         return start_command(message)

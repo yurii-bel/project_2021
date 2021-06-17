@@ -114,8 +114,8 @@ class InputCheck:
 
         # TODO: избавиться от only_in_quotes.
         self.only_in_quotes_char = ['!', ',', ':']
-        self.incorrect_vals = ['"', '\'', '/', '\\',
-                               ',', '--', ';', '[', ']', '{', '}', '|']
+        self.incorrect_vals = ['"', '\'', '\\', ',', '--', ';',
+                               '[', ']', '{', '}', '|']
 
     def check_email(self):
         """

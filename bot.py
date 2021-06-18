@@ -41,21 +41,21 @@ specific_commands = [
 commands = general_commands + specific_commands
 
 
-@bot.message_handler(commands=['start'])
+@bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['start'])
 def start_command(message):
     process_data(f'act_id_{message.from_user.id}', method='write', remove=True)
     bot.send_message(message.chat.id, 'Привет, для использования функционала бота войдите в '
                                       'аккаунт с помощью комманды /login')
 
 
-@bot.message_handler(commands=['login'])
+@bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['login'])
 def login_command(message):
     process_data(f'act_id_{message.from_user.id}', method='write', remove=True)
     login_message = bot.send_message(message.chat.id, "Введите своё имя.")
     return bot.register_next_step_handler(login_message, check_login)
 
 
-@bot.message_handler(commands=['display'])
+@bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['display'])
 def display_command(message):
     chat_id = message.chat.id
     process_data(f'act_id_{message.from_user.id}', method='write', remove=True)
@@ -78,7 +78,7 @@ def display_command(message):
                                   'этой функции.')
 
 
-@bot.message_handler(commands=['add'])
+@bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['add'])
 def add_command(message):
     chat_id = message.chat.id
     process_data(f'act_id_{message.from_user.id}', method='write', remove=True)
@@ -103,6 +103,107 @@ def add_command(message):
                                                 f'Готовил еду, 45, \\-, Быт\n',
                                        parse_mode='MarkdownV2')
         return bot.register_next_step_handler(add_message, add_event)
+    else:
+        bot.send_message(chat_id, 'Войдите в аккаунт с помощью комманды /login для использования '
+                                  'этой функции.')
+
+
+@bot.message_handler(func=lambda message: message.chat.type == 'private' and message.text.startswith('/open_'))
+def edit_event(message):
+    # Define common variables
+    telegram_id = message.from_user.id
+    txt = message.text
+    chat_id = message.chat.id
+    # Check whether the user is logged in
+    if process_data(f'logged_in_{telegram_id}'):
+        # If editing mode is being called by the command, set act_id to actual event's id
+        if txt.startswith('/open_'):
+            if len(txt) > 6:
+                act_id = txt[6:]
+            else:
+                return bot.send_message(chat_id, 'Укажите идентификатор события.')
+        else:
+            try:
+                act_id = process_data(f'act_id_{telegram_id}')
+            except KeyError:
+                act_id = txt[6:]
+        # Check whether the event is available for the user
+        try:
+            user_id = process_data(f'user_id_{telegram_id}')
+            cursor.execute(f'SELECT act_id FROM "ACTIVITY" where user_id = {user_id}')
+            act_ids = cursor.fetchall()
+            act_ids = [str(x[0]) for x in act_ids]
+            if act_id not in act_ids:
+                return bot.send_message(chat_id, 'Событие недоступно.')
+        except (KeyError, DatabaseError):
+            return bot.send_message(chat_id, 'Произошла ошибка.')
+        # Save act_id to the global dict
+        process_data(f'act_id_{telegram_id}', act_id, 'write')
+        # Fetch event's data
+        cursor.execute(f'SELECT act_date, actl_name, cat_name, act_time, act_comment '
+                       f'FROM "ACTIVITY" WHERE act_id = {act_id}')
+        data = cursor.fetchall()
+        if data:
+            act_date, actl_name, cat_name, act_time, act_comment = [str(x) for x in data[0]]
+        else:
+            return bot.send_message(chat_id, 'Произошла ошибка.')
+        # Format data
+        act_comment = act_comment if act_comment else '—'
+        options = 'Дата: ' + act_date + ' /edit_date\n' + \
+                  'Название: ' + actl_name + ' /edit_event\n' + \
+                  'Категория: ' + cat_name + ' /edit_category\n' + \
+                  'Время: ' + act_time + ' мин. /edit_time\n' + \
+                  'Комментарий: ' + act_comment + ' /edit_comment\n' + \
+                  'Удалить событие /delete_event\n' + \
+                  'Выйти из режима просмотра /exit_event'
+        bot.send_message(chat_id, f'Событие {act_id}!\n\n' + options)
+    else:
+        bot.send_message(chat_id, 'Войдите в аккаунт с помощью комманды /login для использования '
+                                  'этой функции.')
+
+
+@bot.message_handler(func=lambda message: message.chat.type == 'private' and message.text in specific_commands)
+def choose_action(message):
+    # Define common variables
+    telegram_id = message.from_user.id
+    txt = message.text
+    chat_id = message.chat.id
+    # Check whether the user is logged in
+    if process_data(f'logged_in_{telegram_id}'):
+        # Handle specific commands clicks
+        if txt == '/edit_date':
+            event_message = bot.send_message(chat_id, 'Введите дату.')
+            process_data(f'modifier_{telegram_id}', 'act_date', 'write')
+        elif txt == '/edit_event':
+            event_message = bot.send_message(chat_id, 'Введите название.')
+            process_data(f'modifier_{telegram_id}', 'actl_name', 'write')
+        elif txt == '/edit_category':
+            event_message = bot.send_message(chat_id, 'Введите категорию.')
+            process_data(f'modifier_{telegram_id}', 'cat_name', 'write')
+        elif txt == '/edit_time':
+            event_message = bot.send_message(chat_id, 'Введите время.')
+            process_data(f'modifier_{telegram_id}', 'act_time', 'write')
+        elif txt == '/edit_comment':
+            event_message = bot.send_message(chat_id, 'Введите комментарий.')
+            process_data(f'modifier_{telegram_id}', 'act_comment', 'write')
+        elif txt == '/delete_event':
+            # Try and delete the event
+            try:
+                # Get act_id saved to the global dict
+                try:
+                    act_id = process_data(f'act_id_{telegram_id}')
+                except KeyError:
+                    return bot.send_message(chat_id, 'Произошла ошибка.')
+                cursor.execute(f'DELETE FROM "ACTIVITY" WHERE act_id = {act_id}')
+                connection.commit()
+            except DatabaseError:
+                bot.send_message(chat_id, 'Произошла ошибка.')
+            process_data(f'act_id_{telegram_id}', method='write', remove=True)
+            return display_events(message, refresh=True)
+        else:
+            process_data(f'act_id_{telegram_id}', method='write', remove=True)
+            return display_events(message, refresh=True)
+        return bot.register_next_step_handler(event_message, process_action)
     else:
         bot.send_message(chat_id, 'Войдите в аккаунт с помощью комманды /login для использования '
                                   'этой функции.')
@@ -341,107 +442,6 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
             return
         else:
             bot.send_message(chat_id, text, reply_markup=markup)
-    else:
-        bot.send_message(chat_id, 'Войдите в аккаунт с помощью комманды /login для использования '
-                                  'этой функции.')
-
-
-@bot.message_handler(func=lambda message: message.text.startswith('/open_'))
-def edit_event(message):
-    # Define common variables
-    telegram_id = message.from_user.id
-    txt = message.text
-    chat_id = message.chat.id
-    # Check whether the user is logged in
-    if process_data(f'logged_in_{telegram_id}'):
-        # If editing mode is being called by the command, set act_id to actual event's id
-        if txt.startswith('/open_'):
-            if len(txt) > 6:
-                act_id = txt[6:]
-            else:
-                return bot.send_message(chat_id, 'Укажите идентификатор события.')
-        else:
-            try:
-                act_id = process_data(f'act_id_{telegram_id}')
-            except KeyError:
-                act_id = txt[6:]
-        # Check whether the event is available for the user
-        try:
-            user_id = process_data(f'user_id_{telegram_id}')
-            cursor.execute(f'SELECT act_id FROM "ACTIVITY" where user_id = {user_id}')
-            act_ids = cursor.fetchall()
-            act_ids = [str(x[0]) for x in act_ids]
-            if act_id not in act_ids:
-                return bot.send_message(chat_id, 'Событие недоступно.')
-        except (KeyError, DatabaseError):
-            return bot.send_message(chat_id, 'Произошла ошибка.')
-        # Save act_id to the global dict
-        process_data(f'act_id_{telegram_id}', act_id, 'write')
-        # Fetch event's data
-        cursor.execute(f'SELECT act_date, actl_name, cat_name, act_time, act_comment '
-                       f'FROM "ACTIVITY" WHERE act_id = {act_id}')
-        data = cursor.fetchall()
-        if data:
-            act_date, actl_name, cat_name, act_time, act_comment = [str(x) for x in data[0]]
-        else:
-            return bot.send_message(chat_id, 'Произошла ошибка.')
-        # Format data
-        act_comment = act_comment if act_comment else '—'
-        options = 'Дата: ' + act_date + ' /edit_date\n' + \
-                  'Название: ' + actl_name + ' /edit_event\n' + \
-                  'Категория: ' + cat_name + ' /edit_category\n' + \
-                  'Время: ' + act_time + ' мин. /edit_time\n' + \
-                  'Комментарий: ' + act_comment + ' /edit_comment\n' + \
-                  'Удалить событие /delete_event\n' + \
-                  'Выйти из режима просмотра /exit_event'
-        bot.send_message(chat_id, f'Событие {act_id}!\n\n' + options)
-    else:
-        bot.send_message(chat_id, 'Войдите в аккаунт с помощью комманды /login для использования '
-                                  'этой функции.')
-
-
-@bot.message_handler(func=lambda message: message.text in specific_commands)
-def choose_action(message):
-    # Define common variables
-    telegram_id = message.from_user.id
-    txt = message.text
-    chat_id = message.chat.id
-    # Check whether the user is logged in
-    if process_data(f'logged_in_{telegram_id}'):
-        # Handle specific commands clicks
-        if txt == '/edit_date':
-            event_message = bot.send_message(chat_id, 'Введите дату.')
-            process_data(f'modifier_{telegram_id}', 'act_date', 'write')
-        elif txt == '/edit_event':
-            event_message = bot.send_message(chat_id, 'Введите название.')
-            process_data(f'modifier_{telegram_id}', 'actl_name', 'write')
-        elif txt == '/edit_category':
-            event_message = bot.send_message(chat_id, 'Введите категорию.')
-            process_data(f'modifier_{telegram_id}', 'cat_name', 'write')
-        elif txt == '/edit_time':
-            event_message = bot.send_message(chat_id, 'Введите время.')
-            process_data(f'modifier_{telegram_id}', 'act_time', 'write')
-        elif txt == '/edit_comment':
-            event_message = bot.send_message(chat_id, 'Введите комментарий.')
-            process_data(f'modifier_{telegram_id}', 'act_comment', 'write')
-        elif txt == '/delete_event':
-            # Try and delete the event
-            try:
-                # Get act_id saved to the global dict
-                try:
-                    act_id = process_data(f'act_id_{telegram_id}')
-                except KeyError:
-                    return bot.send_message(chat_id, 'Произошла ошибка.')
-                cursor.execute(f'DELETE FROM "ACTIVITY" WHERE act_id = {act_id}')
-                connection.commit()
-            except DatabaseError:
-                bot.send_message(chat_id, 'Произошла ошибка.')
-            process_data(f'act_id_{telegram_id}', method='write', remove=True)
-            return display_events(message, refresh=True)
-        else:
-            process_data(f'act_id_{telegram_id}', method='write', remove=True)
-            return display_events(message, refresh=True)
-        return bot.register_next_step_handler(event_message, process_action)
     else:
         bot.send_message(chat_id, 'Войдите в аккаунт с помощью комманды /login для использования '
                                   'этой функции.')

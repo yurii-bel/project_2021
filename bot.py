@@ -359,7 +359,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
                     return bot.send_message(chat_id, 'Произошла ошибка.')
                 else:
                     return bot.answer_callback_query(message.id)
-        check = [InputCheck(txt).check_date() if txt != '-' else True,
+        check = [InputCheck(txt).check_date('datetime') if txt != '-' else True,
                  InputCheck(txt).check_incorrect_vals()]
         failed = [x[1] for x in check if type(x) is list]
         if failed:
@@ -473,7 +473,7 @@ def process_action(message):
         return bot.send_message(chat_id, 'Произошла ошибка.')
     # Handle check for different modifiers
     if modifier == 'act_date':
-        check = [InputCheck(txt).check_date(),
+        check = [InputCheck(txt).check_date() if txt != '-' else True,
                  InputCheck(txt).check_incorrect_vals()]
     elif modifier == 'actl_name':
         check = [InputCheck(txt).check_len(),
@@ -563,7 +563,7 @@ def add_event(message):
                  InputCheck(act_time).number_only(),
                  InputCheck(act_time).check_time_value(),
                  InputCheck(act_time).check_incorrect_vals(),
-                 InputCheck(act_date).check_date() if args[2] != '-' else True,
+                 InputCheck(act_date).check_date('datetime') if args[2] != '-' else True,
                  InputCheck(act_date).check_incorrect_vals(),
                  InputCheck(cat_name).check_len(),
                  InputCheck(cat_name).check_incorrect_vals(),

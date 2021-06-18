@@ -181,9 +181,9 @@ class InputCheck:
                     doubledot = True
         return True
 
-    def check_date(self):
-        # checking date and its format.
-        if self.text.isdigit():
+    def check_date(self, mode='date'):
+        # Checking date and its format.
+        if mode == 'datetime' and self.text.isdigit():
             if int(self.text) == 0:
                 return [False, 'Введено некорректное количество дней.']
             elif int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:

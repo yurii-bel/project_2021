@@ -58,10 +58,11 @@ def login_command(message):
 
 @bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['display'])
 def display_command(message):
+    telegram_id = message.from_user.id
     chat_id = message.chat.id
-    process_data(f'act_id_{message.from_user.id}', method='write', remove=True)
+    process_data(f'act_id_{telegram_id}', method='write', remove=True)
     # Check whether the user is logged in
-    if process_data(f'logged_in_{message.from_user.id}'):
+    if process_data(f'logged_in_{telegram_id}'):
         # Get current date in a certain format
         date = datetime.now().strftime('%d\\.%m\\.%Y')
         display_message = bot.send_message(chat_id, f'Какие даты отобразить?\n\n'
@@ -81,10 +82,11 @@ def display_command(message):
 
 @bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['add'])
 def add_command(message):
+    telegram_id = message.from_user.id
     chat_id = message.chat.id
-    process_data(f'act_id_{message.from_user.id}', method='write', remove=True)
+    process_data(f'act_id_{telegram_id}', method='write', remove=True)
     # Check whether the user is logged in
-    if process_data(f'logged_in_{message.from_user.id}'):
+    if process_data(f'logged_in_{telegram_id}'):
         # Get current date in a certain format
         date = datetime.now().strftime('%d\\.%m\\.%Y')
         add_message = bot.send_message(chat_id, f'Добавьте новое событие\\.\n\n'
@@ -266,7 +268,7 @@ def check_password(message):
         return add_command(message)
     # Get user_n_id saved to the global dict
     try:
-        user_n_id = user_n_id = process_data(f'user_n_id_{telegram_id}')
+        user_n_id = process_data(f'user_n_id_{telegram_id}')
     except KeyError:
         return bot.send_message(chat_id, 'Произошла ошибка.')
     check = [InputCheck(txt).check_incorrect_vals()]
@@ -293,7 +295,7 @@ def check_password(message):
             if txt == user_p_password:
                 # Save logged state to the global dict
                 process_data(f'logged_in_{telegram_id}', True, 'write')
-                # Remove other ooccurencies of user_n_telegram
+                # Remove other occurrences of user_n_telegram
                 cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = NULL '
                                f'WHERE user_n_telegram = \'{telegram_id}\'')
                 # Attach user_n_telegram to the current user's info
@@ -617,8 +619,8 @@ def process_data(key, value=None, method='read', remove=False):
                     data.pop(key)
                 except KeyError:
                     pass
-            else:
             # Handle adding data
+            else:
                 data[key] = value
             with open('users_data.txt', 'wb') as file:
                 pickle.dump(data, file, protocol=pickle.HIGHEST_PROTOCOL)

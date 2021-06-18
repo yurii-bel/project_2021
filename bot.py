@@ -2,6 +2,7 @@ import os
 import telebot
 import psycopg2
 import configparser
+import pickle
 
 from psycopg2 import DatabaseError
 from datetime import datetime
@@ -602,35 +603,29 @@ def add_event(message):
 
 def process_data(key, value=None, method='read', remove=False):
     if key:
-        out = {}
         # Read and format data from users_data.txt
-        with open('users_data.txt', 'r+') as file:
-            data = file.read()
-            if len(data) != 0:
-                data = data.split('\n')
-                for line in data:
-                    k, v = line.split('=')
-                    out[k] = v
+        with open('users_data.txt', 'rb') as file:
+            try:
+                data = pickle.load(file)
+            except EOFError:
+                data = {}
         # Write data into users_data.txt
         if method == 'write' and value:
             # Handle removing data
             if remove:
                 try:
-                    out.pop(key)
+                    data.pop(key)
                 except KeyError:
                     pass
             else:
-                out[key] = value
-            with open('users_data.txt', 'w+') as file:
-                into_list, into = [], ''
-                for k, v in out.items():
-                    into_list.append(f'{k}={v}')
-                into = '\n'.join(into_list)
-                file.write(into)
+            # Handle adding data
+                data[key] = value
+            with open('users_data.txt', 'wb') as file:
+                pickle.dump(data, file, protocol=pickle.HIGHEST_PROTOCOL)
             return True
         else:
             try:
-                value = out[key]
+                value = data[key]
             except KeyError:
                 value = None
             return value

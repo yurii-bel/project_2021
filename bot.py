@@ -145,6 +145,7 @@ def edit_event(message):
         data = cursor.fetchall()
         if data:
             act_date, actl_name, cat_name, act_time, act_comment = [str(x) for x in data[0]]
+            act_date = datetime.strptime(act_date, '%Y-%m-%d').strftime('%d.%m.%Y')
         else:
             return bot.send_message(chat_id, 'Произошла ошибка.')
         # Format data
@@ -603,7 +604,7 @@ def process_data(key, value=None, method='read', remove=False):
     if key:
         out = {}
         # Read and format data from users_data.txt
-        with open('users_data.txt', 'rb') as file:
+        with open('users_data.txt', 'r+') as file:
             data = file.read()
             if len(data) != 0:
                 data = data.split('\n')
@@ -620,7 +621,7 @@ def process_data(key, value=None, method='read', remove=False):
                     pass
             else:
                 out[key] = value
-            with open('users_data.txt', 'wb') as file:
+            with open('users_data.txt', 'w+') as file:
                 into_list, into = [], ''
                 for k, v in out.items():
                     into_list.append(f'{k}={v}')

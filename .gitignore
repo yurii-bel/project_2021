@@ -16,3 +16,4 @@ __pycache__
 */__pycache__
 csv_data/*
 csv_data
+users_data.txt

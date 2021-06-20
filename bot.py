@@ -33,54 +33,21 @@ cmds = ['/edit_date',
         '/exit_event']
 
 
-@bot.message_handler(func=lambda message: message.chat.type == 'private')
-@bot.message_handler(commands=['start'])
+@bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['start'])
 def start_command(message):
     process_data(method='write', remove=[f'act_id_{message.from_user.id}'])
     bot.send_message(message.chat.id, 'Привет, для использования функционала бота войдите в '
                                       'аккаунт с помощью комманды /login')
 
 
-@bot.message_handler(func=lambda message: message.chat.type == 'private')
-@bot.message_handler(commands=['login'])
+@bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['login'])
 def login_command(message):
     process_data(method='write', remove=[f'act_id_{message.from_user.id}'])
     login_message = bot.send_message(message.chat.id, "Введите своё имя.")
     return bot.register_next_step_handler(login_message, check_login)
 
 
-@bot.message_handler(func=lambda message: message.chat.type == 'private')
-@bot.message_handler(commands=['logout'])
-def logout_command(message):
-    telegram_id = message.from_user.id
-    chat_id = message.chat.id
-    # Fetch user_n_telegram
-    cursor.execute(f'SELECT user_n_telegram FROM "USER_NAME"'
-                   f'WHERE user_n_telegram = {telegram_id}')
-    data = cursor.fetchall()
-    if data:
-        user_n_telegrams = [x[0] for x in data if x[0]]
-        if user_n_telegrams:
-            # Remove all occurrences of user_n_telegram
-            cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = NULL '
-                           f'WHERE user_n_telegram = \'{telegram_id}\'')
-            # Remove act_id, logged_in, user_n_id, user_id, user_entry and modifier
-            # from users_data.txt
-            process_data(method='write', remove=[f'act_id_{telegram_id}',
-                                                 f'logged_in_{telegram_id}'
-                                                 f'user_n_id_{telegram_id}',
-                                                 f'user_id_{telegram_id}'
-                                                 f'user_entry_{telegram_id}',
-                                                 f'modifier_{telegram_id}'])
-            bot.send_message(chat_id, 'Вы успешно вышли из аккаунта.')
-        else:
-            bot.send_message(chat_id, 'Вы не вошли в аккаунт.')
-    else:
-        bot.send_message(chat_id, 'Произошла ошибка.')
-
-
-@bot.message_handler(func=lambda message: message.chat.type == 'private')
-@bot.message_handler(commands=['display'])
+@bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['display'])
 def display_command(message):
     telegram_id = message.from_user.id
     chat_id = message.chat.id
@@ -104,8 +71,7 @@ def display_command(message):
                                   'этой функции.')
 
 
-@bot.message_handler(func=lambda message: message.chat.type == 'private')
-@bot.message_handler(commands=['add'])
+@bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['add'])
 def add_command(message):
     telegram_id = message.from_user.id
     chat_id = message.chat.id
@@ -159,27 +125,22 @@ def check_login(message):
         error_message = bot.send_message(chat_id, 'Произошла ошибка. ' + failed)
         return bot.register_next_step_handler(error_message, check_login)
     # Fetch user_n_telegram with the text entered by the user
-    cursor.execute(f'SELECT user_n_telegram FROM "USER_NAME" WHERE user_n_name = \'{txt}\' '
-                   f'and user_n_telegram != {telegram_id}')
+    cursor.execute(f'SELECT user_n_telegram FROM "USER_NAME" WHERE user_n_name = \'{txt}\'')
     data = cursor.fetchall()
     if data:
-        user_n_telegram = [x[0] for x in data if x[0]]
-        if not user_n_telegram:
-            # Fetch user_n_id with text entered by the user
-            cursor.execute(f'SELECT user_n_id FROM "USER_NAME" WHERE user_n_name = \'{txt}\'')
-            data = cursor.fetchall()
-            if data:
-                user_n_id = data[0][0]
-                # Save user_n_id to users_data.txt
-                process_data('write', f'user_n_id_{message.from_user.id}', user_n_id)
-                password_message = bot.send_message(chat_id, 'Введите пароль.')
-                return bot.register_next_step_handler(password_message, check_password)
-            else:
-                # User doesn't exist, tell the user to register
-                error_message = bot.send_message(chat_id, 'Не удалось найти пользователя. '
-                                                          'Повторите попытку или '
-                                                          'зарегистрируйтесь в приложении.')
-                return bot.register_next_step_handler(error_message, check_login)
+        print(data[0][0], telegram_id)
+        print(type(data[0][0]), type(telegram_id))
+        if not data[0][0] or data[0][0] == telegram_id:
+            # Remove occurrency of user_n_telegram
+            cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = NULL '
+                           f'WHERE user_n_telegram = \'{telegram_id}\'')
+            # Remove act_id, logged_in, user_n_id, user_id, user_entry and modifier from users_data.txt
+            process_data(method='write', remove=[f'act_id_{telegram_id}',
+                                                 f'logged_in_{telegram_id}'
+                                                 f'user_n_id_{telegram_id}',
+                                                 f'user_id_{telegram_id}'
+                                                 f'user_entry_{telegram_id}',
+                                                 f'modifier_{telegram_id}'])
         else:
             # User has already been logged in, tell the user to log out
             error_message = bot.send_message(chat_id, 'Пользователь уже был авторизован под '
@@ -188,8 +149,21 @@ def check_login(message):
                                                       'выйдите из него помощью комманды `/logout`',
                                              parse_mode='MarkdownV2')
             return bot.register_next_step_handler(error_message, check_login)
+    # Fetch user_n_id with text entered by the user
+    cursor.execute(f'SELECT user_n_id FROM "USER_NAME" WHERE user_n_name = \'{txt}\'')
+    data = cursor.fetchall()
+    if data:
+        user_n_id = data[0][0]
+        # Save user_n_id to users_data.txt
+        process_data('write', f'user_n_id_{message.from_user.id}', user_n_id)
+        password_message = bot.send_message(chat_id, 'Введите пароль.')
+        return bot.register_next_step_handler(password_message, check_password)
     else:
-        return bot.send_message(chat_id, 'Произошла ошибка.')
+        # User doesn't exist, tell the user to register
+        error_message = bot.send_message(chat_id, 'Не удалось найти пользователя. '
+                                                  'Повторите попытку или '
+                                                  'зарегистрируйтесь в приложении.')
+        return bot.register_next_step_handler(error_message, check_login)
 
 
 def check_password(message):
@@ -237,7 +211,7 @@ def check_password(message):
             if txt == user_p_password:
                 # Save logged state to users_data.txt
                 process_data('write', f'logged_in_{telegram_id}', True)
-                # Attach user_n_telegram to the current user's info
+                # Try and attach user_n_telegram to the current user's info
                 cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = \'{telegram_id}\''
                                f'WHERE user_n_id = \'{user_n_id}\'')
                 connection.commit()
@@ -390,8 +364,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
                                   'этой функции.')
 
 
-@bot.message_handler(func=lambda message: message.chat.type == 'private')
-@bot.message_handler(func=lambda message: message.text.startswith('/open_'))
+@bot.message_handler(func=lambda message: message.chat.type == 'private' and message.text.startswith('/open_'))
 def edit_event(message):
     # Define common variables
     telegram_id = message.from_user.id
@@ -446,8 +419,7 @@ def edit_event(message):
                                   'этой функции.')
 
 
-@bot.message_handler(func=lambda message: message.chat.type == 'private')
-@bot.message_handler(func=lambda message: message.text in cmds)
+@bot.message_handler(func=lambda message: message.chat.type == 'private' and message.text in cmds)
 def choose_action(message):
     # Define common variables
     telegram_id = message.from_user.id

@@ -5,24 +5,21 @@ import csv
 import webbrowser
 
 from uuid import uuid4
-from numpy.core.function_base import linspace
 from datetime import datetime, date
 
 import psycopg2 as db
 import psycopg2.extras
 import pyqtgraph as pg
-import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
 
 from pandas import read_csv
 from matplotlib import pyplot as plt
-from matplotlib.pyplot import figure
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QIcon, QPainter, QPen
-from PyQt5.QtCore import Qt, qDebug
+from PyQt5.QtCore import Qt
 
 
 sys.path.append(".")
@@ -272,7 +269,7 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
             return True
         elif self.clickedButton() is no:
             return False
-
+        
     def check_password_len(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         if len(self.input_text) < 8:
@@ -570,8 +567,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.sUi.settings_lineedit_email.setText(
             self.timedb.get_logged_user_data(item='get_user_email'))
         if not self.timedb.get_logged_user_data(
-                item='get_user_telegram') == None:
-            self.sUi.settings_imglbl_telegram_noverify.setHidden(False)
+                item='get_user_telegram') == 'None':
+            self.sUi.settings_imglbl_telegram_noverify.setHidden(True)
 
         self.update_users_categs()
 
@@ -2567,7 +2564,6 @@ class MainUI(QtWidgets.QMainWindow):
         self.cUi.close()
 
     # TODO:
-    #!Фикс обеих функций - ничего не работает :с
     def settings_export(self):
         data = self.timedb.get_logged_user_data(item='get_user_activities')
         try:
@@ -2583,20 +2579,37 @@ class MainUI(QtWidgets.QMainWindow):
         except Exception:
             self.input_check().simple_diag('Экспорт не удался.')
 
+    #!
     def settings_import(self):
+        # progress = QtWidgets.QProgressDialog(
+        #     'Производится импорт активностей без перезаписи...',\
+        #         'Отмена', 0, 100, self)
+        # progress.setWindowModality(Qt.WindowModal)
         try:
             settingsLoad, ok = QtWidgets.QFileDialog.getOpenFileName(
                 self, 'Open file', '/', 'CSV file (*.csv)')
             if settingsLoad[0]:
                 with open(settingsLoad[0], 'r+') as f:
                     reader = csv.reader(f, delimiter=',')
+                    import_rows = []
                     for row in reader:
-                        self.timedb.set_logged_user_data(
-                            item='add_event', add_params=row)
-            if ok:
-                self.input_check().simple_diag('Импорт успешно завершён!')
-        except Exception:
+                        import_rows.append((row))
+
+                # progress.show()
+                # progress.setValue(0)
+                # for i in range(101):
+                #     progress.setValue(self.timedb.current_import_status)
+                # for i in self.timedb.current_import_status:
+                #     progress.setValue(i)
+                # for i in range(101):
+                #     print(i)
+                    # self.timedb.set_logged_user_data(
+                    #     item='import_add', edit_params=import_rows)
+            # if ok:
+            #     self.input_check().simple_diag('Импорт успешно завершён!')
+        except Exception as e:
             self.input_check().simple_diag('Импорт не удался.')
+            print(e)
 
     def settings_change_user_data(self):
         self.timedb.get_logged_user_data(item='get_user_p_id')
@@ -3280,6 +3293,7 @@ class DbLogic:
 
         self.correct_login_info = False
         self.user_input_check = None
+        self.current_import_status = 0
 
     # REGISTRATION AND AUTHORIZATION BLOCKS.
     def register_user(self, user_n_name, user_p_email, user_p_password):
@@ -3581,19 +3595,39 @@ class DbLogic:
             self.connection.commit()
 
         elif item == 'import_add':
-            pass
+            for row in edit_params:
+                try:
+                    self.cursor.execute(
+                        f'INSERT INTO "CATEGORY" (user_id, cat_name) VALUES\
+                            (\'{self.user_id}\', \'{row[0]}\') ON CONFLICT DO NOTHING')
+
+                    self.cursor.execute(
+                        f'INSERT INTO "ACTIVITY_LIST" (user_id, actl_name, cat_name) VALUES\
+                            (\'{self.user_id}\', \'{row[1]}\', \'{row[0]}\') ON CONFLICT DO NOTHING')
+
+                    self.cursor.execute(
+                        f'INSERT INTO "ACTIVITY"\
+                            (user_id, actl_name, act_time, act_date, cat_name, \
+                            act_comment) VALUES\
+                                (\'{self.user_id}\', \'{row[1]}\', \'{row[2]}\',\
+                                \'{row[3]}\',\'{row[0]}\', \'{row[4]}\') ON CONFLICT DO NOTHING')
+                    self.current_import_status = len(edit_params)
+                except Exception as e:
+                    if isinstance(e, db.DatabaseError):
+                        print(e)
+                        break
+
+            self.connection.commit()
 
         elif item == 'import_rewrite':
-            pass
+            for row in edit_params:
+                self.current_import_status = len(row)
 
         # Deleting telegram reference.
         elif item == 'del_telegram':
-            # try:
             self.cursor2.execute(
                 f'UPDATE "USER_NAME" SET user_n_telegram = NULL\
                     WHERE user_n_id = {self.user_n_id}')
-            # except Exception as e:
-            #     return e
 
             self.connection.commit()
 
@@ -3669,13 +3703,13 @@ class DbLogic:
 
 
 if __name__ == '__main__':
-    # app = QtWidgets.QApplication(sys.argv)
-    # win = MainUI()
-    # sys.exit(app.exec())
+    app = QtWidgets.QApplication(sys.argv)
+    win = MainUI()
+    sys.exit(app.exec())
 
-    dbl = DbLogic()
-    dbl.set_logged_user_data(user_login='Ева', item='set_working_user')
-    dbl.get_logged_user_data(user_login='Ева', item='set_working_user')
+    # dbl = DbLogic()
+    # dbl.set_logged_user_data(user_login='Ева', item='set_working_user')
+    # dbl.get_logged_user_data(user_login='Ева', item='set_working_user')
 
-    print(dbl.set_logged_user_data(
-        item='import_add', edit_params=['1', '2', '3', '4']))
+    # print(dbl.set_logged_user_data(
+    #     item='import_add', edit_params=['1', '2', '3', '4']))

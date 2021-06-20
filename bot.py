@@ -128,8 +128,6 @@ def check_login(message):
     cursor.execute(f'SELECT user_n_telegram FROM "USER_NAME" WHERE user_n_name = \'{txt}\'')
     data = cursor.fetchall()
     if data:
-        print(data[0][0], telegram_id)
-        print(type(data[0][0]), type(telegram_id))
         if not data[0][0] or data[0][0] == telegram_id:
             # Remove occurrency of user_n_telegram
             cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = NULL '

@@ -19,22 +19,17 @@ from matplotlib import pyplot as plt
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QIcon, QPainter, QPen
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QDate, Qt
 
 
 sys.path.append(".")
 
 """
-TODO BUGS
-Тема (change_theme)
-
 TODO
 !Перед импортом задать вопрос - перезаписать или добавить?
 !Автокомплит в добавлении\редактировании активностей.
 !докстринги + комменты + пепы(до вторника).
 ! Не работает проверка на вводимые символы allowed_chars.
-! Не работает проверка на кол-во минут.
-! Убрать возможность выбора даты "с" больше, чем "по".
 
 Отдельная функция для сортировки.
 Сортировка по категориям выше приоритетом
@@ -53,8 +48,6 @@ class InputCheck:
     def __init__(self, input_text):
         self.text = input_text
 
-        self.correct_rus_vals = []
-        # Appending correct_rus_vals with lower and upper case russian symbols.
         # Поддержка русского и украинских алфавитов.
         allowed_letters = [1025, 1028, 1030, 1031, 1040, 1041, 1042, 1043,
                            1044, 1045, 1046, 1047, 1048, 1049, 1050, 1051,
@@ -99,8 +92,9 @@ class InputCheck:
                          8851, 8852, 8853, 8854, 8855, 8856, 8857, 8858, 8859,
                          8860, 8861, 8862, 8863, 8864, 8865]
 
+        # Russian and ukrainian symbols.
         self.correct_rus_vals = [chr(i) for i in allowed_letters]
-
+        # All allowed characters.
         self.allowed_characters = [chr(i) for i in allowed_chars]
 
         # List contains codes of correct symbols.
@@ -109,8 +103,13 @@ class InputCheck:
         self.correct_vals_with_num = self.correct_vals + \
             [str(x) for x in range(0, 10)]
 
-        # TODO: избавиться от only_in_quotes.
-        self.only_in_quotes_char = ['!', ',', ':']
+        # all allowed symbols (gluing the previous four).
+        self.all = []
+        self.all.extend(self.correct_rus_vals)
+        self.all.extend(self.allowed_characters)
+        self.all.extend(self.correct_vals)
+        self.all.extend(self.correct_vals_with_num)
+
         self.incorrect_vals = ['"', '\'', '\\', ',', '--', ';',
                                '[', ']', '{', '}', '|']
 
@@ -155,19 +154,10 @@ class InputCheck:
             return [False, 'Имя почты длиннее 60 символов.']
 
         # Add to the list of valid characters (; " ! : ,).
-        self.correct_vals_with_num.extend(self.only_in_quotes_char)
         self.correct_vals_with_num.extend(['.', ';', '"'])
-        # Checking for double quotes.
-        if name.count('"') % 2 != 0:
-            return [False, 'Непарные кавычки.']
         # Variables to track period and opening quotes.
         doubledot = False
-        inquotes = False
         for k in name:
-            if k == '"':
-                inquotes = not inquotes
-            if k in self.only_in_quotes_char and not inquotes:
-                return [False, 'Недопустимый символ вне кавычек.']
             if k not in self.correct_vals_with_num:
                 return [False, f'Недопустимый символ. "{k}"']
             # Checking for two points in a row.
@@ -206,7 +196,7 @@ class InputCheck:
         return True
 
     def check_time_value(self):
-        if not (0 < int(self.text) or int(self.text) <= 1440):
+        if not (0 < int(self.text) <= 1440):
             return [False, 'Введено ошибочное количество потраченных минут.']
         return True
 
@@ -230,7 +220,6 @@ class InputCheck:
         return True
 
     def number_only(self):
-        self.incorrect_vals.extend(self.only_in_quotes_char)
         self.correct_vals.extend(['.', ';', '"'])
         self.correct_vals.extend(self.correct_rus_vals)
         for i in self.text:
@@ -345,6 +334,18 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
             pass
         return True
 
+    def check_time_val(self, err_txt):
+        self.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        try:
+            chck_time_val = InputCheck(self.input_text).check_time_value()
+            if chck_time_val[0] == False:
+                self.setText(f'{err_txt}: {chck_time_val[1]}')
+                self.exec()
+                return False
+        except Exception:
+            pass
+        return True
+
     def secondsToText(self, secs, inp_type=None):
         days = secs//86400
         hours = (secs - days*86400)//3600
@@ -378,13 +379,12 @@ class MainUI(QtWidgets.QMainWindow):
 
     def __init__(self):
         super().__init__()
-        # Creating database instance.
+        # Creating DataBase instance.
         self.timedb = DbLogic()
+
+        # Creating StyleShhets instance.
         self.theme = StyleSheets()
 
-        self.lUi = self.theme.lUi
-
-        self.theme.dark_theme()
         # Loading UI interfaces.
         self.mUi = self.theme.mUi  # Main window ui.
         self.aUi = self.theme.aUi  # Add actions ui.
@@ -425,6 +425,8 @@ class MainUI(QtWidgets.QMainWindow):
         self.show_login()
 
     def pre_initUI(self):
+        self.theme.dark_theme()
+
         icon = QtGui.QIcon('design\\img\\main\\favicon.png')
 
         for row in self.big_uis:
@@ -438,17 +440,19 @@ class MainUI(QtWidgets.QMainWindow):
             row.setWindowIcon(icon)
 
         # Connecting buttons to slots.
-
         # Main UI.
         self.mUi.mainwindow_btn_nav_add_act.clicked.connect(
             self.show_add_action)
         self.mUi.mainwindow_btn_settings.clicked.connect(self.sUi.show)
         self.mUi.mainwindow_btn_exit.clicked.connect(self.mUi.close)
+        self.mUi.mainwindow_btn_theme.clicked.connect(self.change_theme)
+        
         # Sorting by date buttons and dateEdit element.
         self.mUi.mainwindow_dateEdit_s.setDate(self.qtoday.addDays(-7))
-        self.mUi.mainwindow_dateEdit_s.setMaximumDate(self.qtoday)
         self.mUi.mainwindow_dateEdit_po.setDate(self.qtoday)
-        self.mUi.mainwindow_dateEdit_po.setMaximumDate(self.qtoday)
+
+        self.mUi.mainwindow_dateEdit_s.dateChanged.connect(self.update_date)
+        self.mUi.mainwindow_dateEdit_po.dateChanged.connect(self.update_date)
 
         self.mUi.mainwindow_btn_daily.clicked.connect(
             self.view_table_sort_by_day)
@@ -478,31 +482,23 @@ class MainUI(QtWidgets.QMainWindow):
 
         self.mUi.mainwindow_act_about_program.triggered.connect(self.abUi.show)
 
-        # TODO: Добавить рабочие кнопки.------------------------------------------------------
         # Theme of main window.
-        # self.mUi.mainwindow_act_light.triggered.connect(self.change_theme)
-        # self.change_theme_status = 1  # 0 is a sign of dark theme.
+        self.mUi.mainwindow_act_light.triggered.connect(self.theme.white_theme)
+        self.mUi.mainwindow_act_dark.triggered.connect(self.theme.dark_theme)
 
-        # self.mUi.mainwindow_btn_theme.clicked.connect(self.change_theme)
-        # self.change_theme_status = 0  # 0 is a sign of dark theme.
-
-        # self.mUi.mainwindow_act_dark.triggered.connect(self.change_theme)
-        # self.change_theme_status = 0  # 0 is a sign of dark theme.
-
+        # Help window.
         self.mUi.mainwindow_act_help.triggered.connect(self.help)
 
         # Login UI.
         self.lUi.login_btn_login.clicked.connect(self.login)
         self.lUi.login_btn_create_account.clicked.connect(
             self.show_registration)
-        # self.lUi.login_btn_theme.clicked.connect(self.change_theme)
-        # self.change_theme_status = 0  # 0 is a sign of dark theme.
+        self.lUi.login_btn_theme.clicked.connect(self.change_theme)
 
         # Register UI.
         self.rUi.register_btn_login.clicked.connect(self.registration)
         self.rUi.register_btn_create.clicked.connect(self.show_login)
-        # self.rUi.register_btn_theme.clicked.connect(self.change_theme)
-        # self.change_theme_status = 0  # 0 is a sign of dark theme.
+        self.rUi.register_btn_theme.clicked.connect(self.change_theme)
 
         # Add event UI.
         self.aUi.add_event_btn_add.clicked.connect(self.add_action)
@@ -581,6 +577,23 @@ class MainUI(QtWidgets.QMainWindow):
             self.sUi.settings_imglbl_telegram_noverify.setHidden(True)
 
         self.update_users_categs()
+
+    def change_theme(self):
+        if self.theme.status == True:
+            self.theme.white_theme()
+            self.theme.status = False
+        elif self.theme.status == False:
+            self.theme.dark_theme()
+            self.theme.status = True
+
+    def update_date(self):
+        self.mUi.mainwindow_dateEdit_s.setMaximumDate(
+            QDate(self.mUi.mainwindow_dateEdit_po.date()))
+
+        self.mUi.mainwindow_dateEdit_po.setMinimumDate(
+            QDate(self.mUi.mainwindow_dateEdit_s.date()))
+        
+        self.mUi.mainwindow_dateEdit_po.setMaximumDate(self.qtoday)
 
     def create_forecast_data(self):
         # This method creates data which can then be forcasted.
@@ -869,11 +882,16 @@ class MainUI(QtWidgets.QMainWindow):
             return
 
         # Duration checks.
+        # Duration checks.
         if duration == '':
             self.input_check().simple_diag(
                 'Пожалуйста, укажите потраченное время на активность в минутах.')
             return
-        elif self.input_check(duration).check_number_only('Длительность') == False:
+        elif self.input_check(duration).check_number_only(
+            'Длительность') == False:
+            return
+        elif self.input_check(duration).check_time_val(
+            'Длительность') == False:
             return
 
         # Comment checks.
@@ -884,8 +902,8 @@ class MainUI(QtWidgets.QMainWindow):
                 'Длительность комментария превышает 500 символов.')
             return
 
-        date___ = date(date_.year(), date_.month(), date_.day())
-        str_date = date___.strftime('%Y-%m-%d')
+        _date = date(date_.year(), date_.month(), date_.day())
+        str_date = _date.strftime('%Y-%m-%d')
 
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
@@ -925,7 +943,7 @@ class MainUI(QtWidgets.QMainWindow):
         title = self.eUi.edit_event_lineEdit_name.text()
         category = self.eUi.edit_event_comboBox_category.currentText()
         duration = self.eUi.edit_event_lineEdit_time.text()
-        date = self.eUi.edit_event_dateEdit.date()
+        date_ = self.eUi.edit_event_dateEdit.date()
         comment = self.eUi.edit_event_plaintextedit_comment.toPlainText()
 
         # Title checks.
@@ -954,7 +972,11 @@ class MainUI(QtWidgets.QMainWindow):
             self.input_check().simple_diag(
                 'Пожалуйста, укажите потраченное время на активность в минутах.')
             return
-        elif self.input_check(duration).check_number_only('Длительность') == False:
+        elif self.input_check(duration).check_number_only(
+            'Длительность') == False:
+            return
+        elif self.input_check(duration).check_time_val(
+            'Длительность') == False:
             return
 
         # Comment checks.
@@ -965,8 +987,8 @@ class MainUI(QtWidgets.QMainWindow):
                 'Длительность комментария превышает 500 символов.')
             return
 
-        date_ = date(date.year(), date.month(), date.day())
-        str_date = date_.strftime('%Y-%m-%d')
+        _date = date(date_.year(), date_.month(), date_.day())
+        str_date = _date.strftime('%Y-%m-%d')
 
         int_duration = int(''.join(filter(str.isdigit, duration)))
 
@@ -2156,8 +2178,7 @@ class StyleSheets:
         self.aUi = uic.loadUi('design\\add_event_d.ui')  # Add actions ui.
         self.eUi = uic.loadUi('design\\edit_event_d.ui')  # Edit actions ui.
         self.cUi = uic.loadUi('design\\category_delete.ui')  # Category del ui.
-        # Registration window ui.
-        self.rUi = uic.loadUi('design\\register_d.ui')
+        self.rUi = uic.loadUi('design\\register_d.ui')  # Registration win ui.
         self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
         self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
         self.ttUi = uic.loadUi('design\\table.ui')  # Table ui.

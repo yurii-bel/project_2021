@@ -644,6 +644,9 @@ class MainUI(QtWidgets.QMainWindow):
         
         self.mUi.mainwindow_dateEdit_po.setMaximumDate(self.qtoday)
 
+    def completer(self):
+        pass
+
     def create_forecast_data(self):
         # This method creates data which can then be forcasted.
         self.graph_plot()
@@ -1953,6 +1956,7 @@ class DbLogic:
                 user_activities.append(row)
             return user_activities
 
+        # For getting all user activities with act_id also.
         elif item == 'get_user_activities_table':
             self.cursor2.execute(
                 f'SELECT act_id, cat_name, actl_name, act_time, act_date, act_comment\
@@ -2087,7 +2091,7 @@ class DbLogic:
 
                     self.connection.commit()
 
-        # Changing old user password to new.
+        # Changing old user password to the new one.
         elif item == 'change_password':
             self.cursor2.execute(
                 f'UPDATE "USER_PRIVATE" SET user_p_password = \'{edit_params[0]}\'\
@@ -2095,7 +2099,7 @@ class DbLogic:
 
             self.connection.commit()
 
-        # Changing old user email to new.
+        # Changing old user email to the new one.
         elif item == 'change_email':
             self.cursor2.execute(
                 f'UPDATE "USER_PRIVATE" SET user_p_email = \'{edit_params[0]}\'\
@@ -2140,6 +2144,7 @@ class DbLogic:
 
             self.connection.commit()
 
+        # For deleting user category.
         elif item == 'del_user_categ':
             self.cursor.execute(
                 f'DELETE FROM "CATEGORY" WHERE\
@@ -2147,6 +2152,7 @@ class DbLogic:
 
             self.connection.commit()
 
+        # For sorting main table.
         elif item == 'set_user_activities_table':
             if add_params[0] == 'single_date':
                 self.cursor2.execute(

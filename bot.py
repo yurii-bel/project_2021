@@ -47,6 +47,31 @@ def login_command(message):
     return bot.register_next_step_handler(login_message, check_login)
 
 
+@bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['logout'])
+def logout_command(message):
+    telegram_id = message.from_user.id
+    chat_id = message.chat.id
+    # Fetch user_n_telegram
+    cursor.execute(f'SELECT user_n_telegram FROM "USER_NAME" '
+                   f'WHERE user_n_telegram = \'{telegram_id}\'')
+    data = cursor.fetchall()
+    if data:
+        # Remove all occurrences of user_n_telegram
+        cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = NULL '
+                       f'WHERE user_n_telegram = \'{telegram_id}\'')
+        # Remove act_id, logged_in, user_n_id, user_id, user_entry and modifier
+        # from users_data.txt
+        process_data(method='write', remove=[f'act_id_{telegram_id}',
+                                             f'logged_in_{telegram_id}'
+                                             f'user_n_id_{telegram_id}',
+                                             f'user_id_{telegram_id}'
+                                             f'user_entry_{telegram_id}',
+                                             f'modifier_{telegram_id}'])
+        bot.send_message(chat_id, 'Вы успешно вышли из аккаунта.')
+    else:
+        bot.send_message(chat_id, 'Вы не вошли в аккаунт.')
+
+
 @bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['display'])
 def display_command(message):
     telegram_id = message.from_user.id
@@ -112,6 +137,8 @@ def check_login(message):
         return start_command(message)
     elif txt == '/login':
         return login_command(message)
+    elif txt == '/logout':
+        return logout_command(message)
     elif txt == '/display':
         return display_command(message)
     elif txt.startswith('/open_') and len(txt) > 6:
@@ -128,7 +155,7 @@ def check_login(message):
     cursor.execute(f'SELECT user_n_telegram FROM "USER_NAME" WHERE user_n_name = \'{txt}\'')
     data = cursor.fetchall()
     if data:
-        if not data[0][0] or data[0][0] == telegram_id:
+        if not data[0][0] or data[0][0] == str(telegram_id):
             # Remove occurrency of user_n_telegram
             cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = NULL '
                            f'WHERE user_n_telegram = \'{telegram_id}\'')
@@ -174,6 +201,8 @@ def check_password(message):
         return start_command(message)
     elif txt == '/login':
         return login_command(message)
+    elif txt == '/logout':
+        return logout_command(message)
     elif txt == '/display':
         return display_command(message)
     elif txt.startswith('/open_') and len(txt) > 6:
@@ -245,6 +274,8 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
                 return start_command(message)
             elif txt == '/login':
                 return login_command(message)
+            elif txt == '/logout':
+                return logout_command(message)
             elif txt == '/display':
                 return display_command(message)
             elif txt.startswith('/open_') and len(txt) > 6:
@@ -474,6 +505,8 @@ def process_action(message):
         return start_command(message)
     elif txt == '/login':
         return login_command(message)
+    elif txt == '/logout':
+        return logout_command(message)
     elif txt == '/display':
         return display_command(message)
     elif txt.startswith('/open_') and len(txt) > 6:
@@ -559,6 +592,8 @@ def add_event(message):
         return start_command(message)
     elif txt == '/login':
         return login_command(message)
+    elif txt == '/logout':
+        return logout_command(message)
     elif txt == '/display':
         return display_command(message)
     elif txt.startswith('/open_') and len(txt) > 6:

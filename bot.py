@@ -56,8 +56,8 @@ def logout_command(message):
                    f'WHERE user_n_telegram = \'{telegram_id}\'')
     data = cursor.fetchall()
     if data:
-        # Remove all occurrences of user_n_telegram
-        cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = NULL '
+        # Remove user's occurrency of user_n_telegram
+        cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = (NULL) '
                        f'WHERE user_n_telegram = \'{telegram_id}\'')
         # Remove act_id, logged_in, user_n_id, user_id, user_entry and modifier
         # from users_data.txt
@@ -156,8 +156,8 @@ def check_login(message):
     data = cursor.fetchall()
     if data:
         if not data[0][0] or data[0][0] == str(telegram_id):
-            # Remove occurrency of user_n_telegram
-            cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = NULL '
+            # Remove user's occurrency of user_n_telegram
+            cursor.execute(f'UPDATE "USER_NAME" SET user_n_telegram = (NULL) '
                            f'WHERE user_n_telegram = \'{telegram_id}\'')
             # Remove act_id, logged_in, user_n_id, user_id, user_entry and modifier from users_data.txt
             process_data(method='write', remove=[f'act_id_{telegram_id}',

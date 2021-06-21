@@ -29,7 +29,6 @@ TODO
 !Перед импортом задать вопрос - перезаписать или добавить?
 !Автокомплит в добавлении\редактировании активностей.
 !докстринги + комменты + пепы(до вторника).
-! Не работает проверка на вводимые символы allowed_chars.
 
 Отдельная функция для сортировки.
 Сортировка по категориям выше приоритетом
@@ -48,7 +47,7 @@ class InputCheck:
     def __init__(self, input_text):
         self.text = input_text
 
-        # Поддержка русского и украинских алфавитов.
+        # Support for Russian and Ukrainian alphabets.
         allowed_letters = [1025, 1028, 1030, 1031, 1040, 1041, 1042, 1043,
                            1044, 1045, 1046, 1047, 1048, 1049, 1050, 1051,
                            1052, 1053, 1054, 1055, 1056, 1057, 1058, 1059,
@@ -60,7 +59,8 @@ class InputCheck:
                            1100, 1101, 1102, 1103, 1105, 1108, 1110, 1111,
                            1168, 1169]
 
-        allowed_chars = [33, 35, 36, 37, 38, 40, 41, 42, 43, 45, 46, 58, 60,
+        # List of allowed characters.
+        allowed_chars = [32, 33, 35, 36, 37, 38, 40, 41, 42, 43, 45, 46, 58, 60,
                          61, 62, 63, 64, 94, 95, 161, 162, 163, 164, 165, 166,
                          167, 168, 169, 171, 174, 175, 176, 177, 178, 179, 181,
                          182, 183, 187, 188, 189, 190, 215, 247, 3647, 8352,
@@ -93,25 +93,24 @@ class InputCheck:
                          8860, 8861, 8862, 8863, 8864, 8865]
 
         # Russian and ukrainian symbols.
-        self.correct_rus_vals = [chr(i) for i in allowed_letters]
-        # All allowed characters.
-        self.allowed_characters = [chr(i) for i in allowed_chars]
-
-        # List contains codes of correct symbols.
-        self.correct_vals = list(string.ascii_lowercase) + \
+        self.correct_cyrillic_vals = [chr(i) for i in allowed_letters]
+        # English symbols.
+        self.correct_latin_vals = list(string.ascii_lowercase) + \
             list(string.ascii_uppercase)
-        self.correct_vals_with_num = self.correct_vals + \
-            [str(x) for x in range(0, 10)]
+        # All allowed characters.
+        self.correct_characters = [chr(i) for i in allowed_chars]
+        # All not allowed characters.
+        self.incorrect_characters = ['"', '\'', '\\', ',', '--', ';',
+                                    '[', ']', '{', '}', '|']
 
-        # all allowed symbols (gluing the previous four).
-        self.all = []
-        self.all.extend(self.correct_rus_vals)
-        self.all.extend(self.allowed_characters)
-        self.all.extend(self.correct_vals)
-        self.all.extend(self.correct_vals_with_num)
+        # Allowed characters for email.
+        self.correct_email_vals = [chr(45), chr(95), chr(43)]
 
-        self.incorrect_vals = ['"', '\'', '\\', ',', '--', ';',
-                               '[', ']', '{', '}', '|']
+        self.numbers_list = [str(x) for x in range(0, 10)]
+
+        self.all_allowed_chars = self.correct_cyrillic_vals + self.numbers_list + \
+            self.correct_latin_vals + self.correct_characters
+
 
     def check_email(self):
         """
@@ -136,36 +135,47 @@ class InputCheck:
         if domain.count('.') == 0:
             return [False, 'Доменное имя не содержит точки.']
 
-        # Domain check.
+        # Domain check of email.
         includedomain = domain.split('.')
-        self.correct_vals.extend(['-', '_'])
-        for k in includedomain:
+        for domain in includedomain:
             # Checking if there are empty substrings in the domain.
-            if k == '':
-                return [False, 'Доменное имя содержит пустую строку между точками.']
+            if domain == '':
+                return [
+                    False, 'Доменное имя содержит две точки или пустую строку между точками.']
             # Checking if there are any illegal characters in substrings
             # of the domain.
-            for n in k:
-                if n not in self.correct_vals:
-                    return [False, f'Недопустимый символ {n}']
-            if (k[0] == '-') or (k[len(k)-1] == '-'):
-                return [False, 'Доменное имя не может начинаться/заканчиваться знаком "-".']
+            # All is good, don't worry be happy!
+            zopret = '-'
+            for n in domain:
+                if n not in self.correct_latin_vals and n != zopret and \
+                    n not in self.numbers_list:
+                    return [False, f'Недопустимый символ "{n}".']
+                elif list(map(
+                    lambda x: zopret*2 in x, [domain])) == [True]:
+                    return [False, f'Знак "{zopret}" не может повторяться.']
+                elif domain[0] == zopret or domain[len(domain)-1] == zopret:
+                    return [
+                        False, f'Доменное имя не может начинаться или заканчиваться знаком "{n}".']
         if len(name) > 60:
             return [False, 'Имя почты длиннее 60 символов.']
 
-        # Add to the list of valid characters (; " ! : ,).
-        self.correct_vals_with_num.extend(['.', ';', '"'])
-        # Variables to track period and opening quotes.
-        doubledot = False
-        for k in name:
-            if k not in self.correct_vals_with_num:
-                return [False, f'Недопустимый символ. "{k}"']
-            # Checking for two points in a row.
-            if k == '.':
-                if doubledot:
-                    return [False, 'Две точки в названии почты.']
-                else:
-                    doubledot = True
+        # Cheking name of email.
+        self.correct_email_vals.append('.')
+        self.correct_email_vals.append('-')
+        # print(self.correct_email_vals)
+        self.correct_latin_vals.extend('-')
+        self.correct_latin_vals.extend('.')
+        for n in name:
+            if n not in self.correct_latin_vals and \
+                n not in self.correct_email_vals and n not in self.numbers_list:
+                return [False, f'Недопустимый символ "{n}".']
+            for i in self.correct_email_vals:
+                if name[0] == i or name[len(name)-1] == i:
+                    return [
+                        False, f'Имя почты не может начинаться или заканчиваться знаком "{i}".']
+                elif list(map(
+                    lambda x: i*2 in x, [name])) == [True]:
+                    return [False, f'Знак "{i}" не может повторяться.']
         return True
 
     def check_date(self, mode='date'):
@@ -179,7 +189,7 @@ class InputCheck:
             for x in self.text.split(', '):
                 try:
                     if datetime.strptime(x, '%d.%m.%Y') > datetime.now():
-                        return [False, 'Дата должна не может быть больше сегодняшней ({0}).'.format(
+                        return [False, 'Дата не может быть больше сегодняшней ({0}).'.format(
                             datetime.now().strftime('%d.%m.%Y'))]
                 except (ValueError, Exception):
                     return [False, 'Неверный формат даты.']
@@ -203,13 +213,27 @@ class InputCheck:
     def check_incorrect_vals(self):
         vals = []
         for i in self.text:
-            if i in self.incorrect_vals:
+            if i in self.incorrect_characters:
                 vals.append(i)
         if vals:
             if len(vals) == 1:
                 vals = f"Недопустимый символ ({str(vals)})"
             else:
-                vals = f"Недопустимый символы ({', '.join(vals)})"
+                vals = f"Недопустимые символы ({', '.join(vals)})"
+            return [False, vals]
+        return True
+
+    def check_correct_vals(self):
+        vals = []
+        for i in self.text:
+            if not i in self.all_allowed_chars:
+                vals.append(i)
+        if vals:
+            if len(vals) == 1:
+                vals = f"Недопустимый символ {vals}"
+            else:
+                vals = f"Недопустимые символы: \n" \
+                       f"{vals}"
             return [False, vals]
         return True
 
@@ -221,7 +245,7 @@ class InputCheck:
 
     def number_only(self):
         self.correct_vals.extend(['.', ';', '"'])
-        self.correct_vals.extend(self.correct_rus_vals)
+        self.correct_vals.extend(self.correct_cyrillic_vals)
         for i in self.text:
             if i in self.correct_vals or i in self.incorrect_vals:
                 return [False, 'Разрешено вводить только количество минут.']
@@ -297,6 +321,18 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
             pass
         return True
 
+    def check_comment_len(self, err_txt):
+        self.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        try:
+            chck_comment_len = InputCheck(self.input_text).check_comment_len()
+            if chck_comment_len[0] == False:
+                self.setText(f'{err_txt}: {chck_comment_len[1]}')
+                self.exec()
+            return False
+        except Exception:
+            pass
+        return True
+
     def check_incorrect_vals(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
@@ -304,6 +340,19 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
                 self.input_text).check_incorrect_vals()
             if chck_incorrect_vals[0] == False:
                 self.setText(f'{err_txt}: {chck_incorrect_vals[1]}')
+                self.exec()
+                return False
+        except Exception:
+            pass
+        return True
+
+    def check_correct_vals(self, err_txt):
+        self.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        try:
+            chck_correct_vals = InputCheck(
+                self.input_text).check_correct_vals()
+            if chck_correct_vals[0] == False:
+                self.setText(f'{err_txt}: {chck_correct_vals[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -748,7 +797,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.input_check().simple_diag(
                 'Нельзя создать пустой логин пользователя.')
             return
-        elif self.input_check(login).check_incorrect_vals('Логин') == False:
+        elif self.input_check(login).check_correct_vals('Логин') == False:
             return
         elif self.input_check(login).check_len('Логин') == False:
             return
@@ -768,7 +817,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.input_check().simple_diag(
                 'Нельзя создать пустой пароль пользователя.')
             return
-        elif self.input_check(password).check_incorrect_vals('Пароль') == False:
+        elif self.input_check(password).check_correct_vals('Пароль') == False:
             return
         elif self.input_check(password).check_len('Пароль') == False:
             return
@@ -865,7 +914,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.input_check().simple_diag(
                 'Пожалуйста, дайте название своему событию.')
             return
-        elif self.input_check(title).check_incorrect_vals('Название') == False:
+        elif self.input_check(title).check_correct_vals('Название') == False:
             return
         elif self.input_check(title).check_len('Название') == False:
             return
@@ -875,7 +924,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.input_check().simple_diag(
                 'Пожалуйста, укажите категорию для своего события.')
             return
-        elif self.input_check(category).check_incorrect_vals(
+        elif self.input_check(category).check_correct_vals(
                 'Категория') == False:
             return
         elif self.input_check(category).check_len('Категория') == False:
@@ -895,11 +944,9 @@ class MainUI(QtWidgets.QMainWindow):
             return
 
         # Comment checks.
-        if self.input_check(comment).check_incorrect_vals('Комментарий') == False:
+        if self.input_check(comment).check_correct_vals('Комментарий') == False:
             return
-        elif len(comment) > 500:
-            self.input_check().simple_diag(
-                'Длительность комментария превышает 500 символов.')
+        elif self.input_check(comment).check_comment_len('Комментарий') == False:
             return
 
         _date = date(date_.year(), date_.month(), date_.day())
@@ -951,7 +998,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.input_check().simple_diag(
                 'Пожалуйста, дайте название своему событию.')
             return
-        elif self.input_check(title).check_incorrect_vals('Название') == False:
+        elif self.input_check(title).check_correct_vals('Название') == False:
             return
         elif self.input_check(title).check_len('Название') == False:
             return
@@ -961,7 +1008,7 @@ class MainUI(QtWidgets.QMainWindow):
             self.input_check().simple_diag(
                 'Пожалуйста, укажите категорию для своего события.')
             return
-        elif self.input_check(category).check_incorrect_vals(
+        elif self.input_check(category).check_correct_vals(
                 'Категория') == False:
             return
         elif self.input_check(category).check_len('Категория') == False:
@@ -980,11 +1027,9 @@ class MainUI(QtWidgets.QMainWindow):
             return
 
         # Comment checks.
-        if self.input_check(comment).check_incorrect_vals('Комментарий') == False:
+        if self.input_check(comment).check_correct_vals('Комментарий') == False:
             return
-        elif len(comment) > 500:
-            self.input_check().simple_diag(
-                'Длительность комментария превышает 500 символов.')
+        elif self.input_check(comment).check_comment_len('Комментарий') == False:
             return
 
         _date = date(date_.year(), date_.month(), date_.day())
@@ -1106,7 +1151,7 @@ class MainUI(QtWidgets.QMainWindow):
                     'Текущий пароль неверный.')
                 return
 
-            elif self.input_check(newpass).check_incorrect_vals(
+            elif self.input_check(newpass).check_correct_vals(
                     'Новый пароль') == False:
                 return
             elif self.input_check(newpass).check_len(
@@ -1118,7 +1163,7 @@ class MainUI(QtWidgets.QMainWindow):
             elif self.input_check(newpass).check_password_len(
                     'Новый пароль') == False:
                 return
-            elif self.input_check(rep_newpass).check_incorrect_vals(
+            elif self.input_check(rep_newpass).check_correct_vals(
                     'Подтверждение пароля') == False:
                 return
             elif self.input_check(rep_newpass).check_len(
@@ -1182,7 +1227,7 @@ class MainUI(QtWidgets.QMainWindow):
                 self.input_check().simple_diag(
                     'Текущий пароль неверный.')
                 return
-            elif self.input_check(newpass).check_incorrect_vals(
+            elif self.input_check(newpass).check_correct_vals(
                     'Новый пароль') == False:
                 return
             elif self.input_check(newpass).check_len(
@@ -1194,7 +1239,7 @@ class MainUI(QtWidgets.QMainWindow):
             elif self.input_check(newpass).check_password_len(
                     'Новый пароль') == False:
                 return
-            elif self.input_check(rep_newpass).check_incorrect_vals(
+            elif self.input_check(rep_newpass).check_correct_vals(
                     'Подтверждение пароля') == False:
                 return
             elif self.input_check(rep_newpass).check_len(
@@ -1729,11 +1774,6 @@ class MainUI(QtWidgets.QMainWindow):
             'https://docs.python.org/3/')
         webbrowser.open_new_tab(
             'http://timesoft.pp.ua/')
-
-
-# ----------------------------------------------------------END-----timeSoft.py
-
-# ----------------------------------------------------------START----dblogic.py
 
 
 class DbLogic:
@@ -3477,9 +3517,15 @@ if __name__ == '__main__':
     win = MainUI()
     sys.exit(app.exec())
 
-    # dbl = DbLogic()
-    # dbl.set_logged_user_data(user_login='Ева', item='set_working_user')
-    # dbl.get_logged_user_data(user_login='Ева', item='set_working_user')
+    # email_error = ["te--st@domen.ua", "-test@domen.ua", "test-@domen.ua", "test@-domen.ua", "test@domen.ua-", "test@domen-.ua", "test@domen.-ua", "te..st@domen.ua", ".test@domen.ua", "test.@domen.ua", "test@.domen.ua", "test@domen.ua.", "test@domen..ua", "te__st@domen.ua", "_test@domen.ua", "test_@domen.ua", "test@_domen.ua", "test@domen.ua_", "test@domen_.ua", "test@domen._ua", "test@do_men.ua", "test@domen.u_a", "te++st@domen.ua", "+test@domen.ua", "test+@domen.ua", "test@+domen.ua", "test@domen.ua+", "test@domen+.ua", "test@domen.+ua", "test@do+men.ua", "test@domen.u+a"]
 
-    # print(dbl.set_logged_user_data(
-    #     item='import_add', edit_params=['1', '2', '3', '4']))
+    # email_ok = ["te-st@domen.ua", "t-e-s-t@domen.ua", "test@do-men.ua", "test@d-0-m-e-n.ua", "t-3-s-t@d-o-m-e-n.ua", "te.st@domen.ua", "t.e.s.t@domen.ua", "test@d.o.m.e.n.ua", "t.e.s.t@d.o.m.e.n.ua", "te_st@domen.ua", "t_e_s_t@domen.ua", "te+st@domen.ua", "t+e+s+t@domen.ua", "t.e_s-t+s@do-m.en.ua", "T.e_S-t+s@Do-m.en.UA"]
+
+    # c = InputCheck
+    # for i in email_error:
+    #     print(f'{i}: {c(i).check_email()}')
+    # print(c('test@domen.ua').check_email())
+    # print(c("te--st@domen.ua").check_email())
+    # print(c('0').check_correct_vals())
+
+

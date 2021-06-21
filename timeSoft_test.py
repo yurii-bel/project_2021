@@ -243,10 +243,8 @@ class InputCheck:
         return True
 
     def number_only(self):
-        self.correct_vals.extend(['.', ';', '"'])
-        self.correct_vals.extend(self.correct_cyrillic_vals)
         for i in self.text:
-            if i in self.correct_vals or i in self.incorrect_vals:
+            if i not in self.numbers_list:
                 return [False, 'Разрешено вводить только количество минут.']
         return True
 

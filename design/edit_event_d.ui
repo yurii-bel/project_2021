@@ -250,6 +250,9 @@
               <pointsize>12</pointsize>
              </font>
             </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
             <item>
              <property name="text">
               <string/>

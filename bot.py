@@ -24,13 +24,55 @@ bot = telebot.TeleBot(BOT_TOKEN)
 
 cursor = connection.cursor()
 
-cmds = ['/edit_date',
-        '/edit_event',
-        '/edit_category',
-        '/edit_time',
-        '/edit_comment',
-        '/delete_event',
-        '/exit_event']
+gen_cmds = ['/start',
+            '/login',
+            '/logout',
+            '/display',
+            '/add']
+spc_cmds = ['/edit_date',
+            '/edit_event',
+            '/edit_category',
+            '/edit_time',
+            '/edit_comment',
+            '/delete_event',
+            '/exit_event']
+opt_ttls = ['Дата',
+            'Название',
+            'Категория',
+            'Время',
+            'Комментарий']
+
+
+def process_data(method='read', key=None, value=None, remove=None):
+    if key or remove:
+        # Read and format data from users_data.txt
+        with open('users_data.txt', 'rb') as file:
+            try:
+                data = pickle.load(file)
+            except EOFError:
+                data = {}
+        # Write data into users_data.txt
+        if method == 'write' and value:
+            # Handle removing data
+            if type(remove) == list:
+                try:
+                    for x in remove:
+                        data.pop(x)
+                except KeyError:
+                    pass
+            # Handle adding data
+            else:
+                data[key] = value
+            with open('users_data.txt', 'wb') as file:
+                pickle.dump(data, file, protocol=pickle.HIGHEST_PROTOCOL)
+            return True
+        else:
+            try:
+                value = data[key]
+            except KeyError:
+                value = None
+            return value
+    return None
 
 
 @bot.message_handler(func=lambda message: message.chat.type == 'private', commands=['start'])
@@ -141,10 +183,12 @@ def check_login(message):
         return logout_command(message)
     elif txt == '/display':
         return display_command(message)
-    elif txt.startswith('/open_') and len(txt) > 6:
+    elif txt.startswith('/open') and len(txt) > 6 and txt[6:].isdigit():
         return edit_event(message)
     elif txt == '/add':
         return add_command(message)
+    elif txt in spc_cmds:
+        return process_action(message)
     check = [InputCheck(txt).check_incorrect_vals()]
     failed = [x[1] for x in check if type(x) is list]
     if failed:
@@ -205,10 +249,12 @@ def check_password(message):
         return logout_command(message)
     elif txt == '/display':
         return display_command(message)
-    elif txt.startswith('/open_') and len(txt) > 6:
+    elif txt.startswith('/open') and len(txt) > 6 and txt[6:].isdigit():
         return edit_event(message)
     elif txt == '/add':
         return add_command(message)
+    elif txt in spc_cmds:
+        return process_action(message)
     # Get user_n_id from users_data.txt
     try:
         user_n_id = process_data(key=f'user_n_id_{telegram_id}')
@@ -278,10 +324,12 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
                 return logout_command(message)
             elif txt == '/display':
                 return display_command(message)
-            elif txt.startswith('/open_') and len(txt) > 6:
+            elif txt.startswith('/open') and len(txt) > 6 and txt[6:].isdigit():
                 return edit_event(message)
             elif txt == '/add':
                 return add_command(message)
+            elif txt in spc_cmds:
+                return process_action(message)
         # Define sorting vars needed for activities sorting and sorting button name
         if sort_callback == 'cat_sort':
             sort_column = 'cat_name'
@@ -303,7 +351,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
                     return bot.send_message(chat_id, 'Произошла ошибка.')
                 else:
                     return bot.answer_callback_query(message.id)
-        check = [InputCheck(txt).check_date('datetime') if txt != '-' else True,
+        check = [InputCheck(txt).check_date() if txt != '-' else True,
                  InputCheck(txt).check_incorrect_vals()]
         failed = [x[1] for x in check if type(x) is list]
         if failed:
@@ -393,7 +441,7 @@ def display_events(message, sort_callback='date_sort', edit=False, refresh=False
                                   'этой функции.')
 
 
-@bot.message_handler(func=lambda message: message.chat.type == 'private' and message.text.startswith('/open_'))
+@bot.message_handler(func=lambda message: message.chat.type == 'private' and message.text.startswith('/open'))
 def edit_event(message):
     # Define common variables
     telegram_id = message.from_user.id
@@ -435,20 +483,20 @@ def edit_event(message):
             return bot.send_message(chat_id, 'Произошла ошибка.')
         # Format data
         act_comment = act_comment if act_comment else '—'
-        options = 'Дата: ' + act_date + ' /edit_date\n' + \
-                  'Название: ' + actl_name + ' /edit_event\n' + \
-                  'Категория: ' + cat_name + ' /edit_category\n' + \
-                  'Время: ' + act_time + ' мин. /edit_time\n' + \
-                  'Комментарий: ' + act_comment + ' /edit_comment\n' + \
-                  'Удалить событие /delete_event\n' + \
-                  'Выйти из режима просмотра /exit_event'
+        options = f'{opt_ttls[0]}: {act_date} {spc_cmds[0]}\n' + \
+                  f'{opt_ttls[1]}: {actl_name} {spc_cmds[1]}\n' + \
+                  f'{opt_ttls[2]}: {cat_name} {spc_cmds[2]}\n' + \
+                  f'{opt_ttls[3]}: {act_time} мин. {spc_cmds[3]}\n' + \
+                  f'{opt_ttls[4]}: {act_comment} {spc_cmds[4]}\n' + \
+                  f'Удалить событие {spc_cmds[5]}\n' + \
+                  f'Выйти из режима просмотра {spc_cmds[6]}'
         bot.send_message(chat_id, f'Событие {act_id}!\n\n' + options)
     else:
         bot.send_message(chat_id, 'Войдите в аккаунт с помощью комманды /login для использования '
                                   'этой функции.')
 
 
-@bot.message_handler(func=lambda message: message.chat.type == 'private' and message.text in cmds)
+@bot.message_handler(func=lambda message: message.chat.type == 'private' and message.text in spc_cmds)
 def choose_action(message):
     # Define common variables
     telegram_id = message.from_user.id
@@ -509,10 +557,12 @@ def process_action(message):
         return logout_command(message)
     elif txt == '/display':
         return display_command(message)
-    elif txt.startswith('/open_') and len(txt) > 6:
+    elif txt.startswith('/open') and len(txt) > 6 and txt[6:].isdigit():
         return edit_event(message)
     elif txt == '/add':
         return add_command(message)
+    elif txt in spc_cmds:
+        return process_action(message)
     # Get user_id, modifier and act_id from users_data.txt
     try:
         user_id = process_data(key=f'user_id_{telegram_id}')
@@ -596,12 +646,41 @@ def add_event(message):
         return logout_command(message)
     elif txt == '/display':
         return display_command(message)
-    elif txt.startswith('/open_') and len(txt) > 6:
+    elif txt.startswith('/open') and len(txt) > 6 and txt[6:].isdigit():
         return edit_event(message)
     elif txt == '/add':
         return add_command(message)
+    elif txt in spc_cmds:
+        return process_action(message)
     args = txt.split(', ')
     if len(args) in range(4, 6):
+        checks, fields, entries = set(), [], []
+        # Handle rejecting command entered
+        for e, x in enumerate(args):
+            for y in gen_cmds + spc_cmds:
+                if y in x:
+                    checks.add(e)
+                    entries.append(f'`{x}`')
+                elif x.startswith('/open'):
+                    if len(x) > 6 and txt[6:].isdigit():
+                        checks.add(e)
+                        entries.append(f'`{x}`')
+                    else:
+                        checks.add(e)
+                        entries.append(f'`/open`')
+        for x in checks:
+            fields.append(f'`{opt_ttls[x]}`')
+        if checks and entries:
+            if len(checks) == 1:
+                field = f'поле {fields[0]}'
+            else:
+                field = f"поля {', '.join(fields)}"
+            if len(entries) == 1:
+                entry = f'была введена комманда {entries[0]}'
+            else:
+                entry = f"были введены комманды: {', '.join(entries)}"
+            error_message = bot.send_message(chat_id, f'Произошла ошибка\\. В {field} {entry}\\.')
+            return bot.register_next_step_handler(error_message, add_event)
         # Separate data to vars
         actl_name = args[0]
         act_time = args[1]
@@ -614,7 +693,7 @@ def add_event(message):
                  InputCheck(act_time).number_only(),
                  InputCheck(act_time).check_time_value(),
                  InputCheck(act_time).check_incorrect_vals(),
-                 InputCheck(act_date).check_date('datetime') if args[2] != '-' else True,
+                 InputCheck(act_date).check_date() if args[2] != '-' else True,
                  InputCheck(act_date).check_incorrect_vals(),
                  InputCheck(cat_name).check_len(),
                  InputCheck(cat_name).check_incorrect_vals(),
@@ -642,45 +721,13 @@ def add_event(message):
             return bot.send_message(chat_id, 'Событие было успешно добавлено.')
         else:
             failed = ' '.join(list(set(failed)))
-            error_message = bot.send_message(chat_id, 'Произошла ошибка.' + failed)
+            error_message = bot.send_message(chat_id, 'Произошла ошибка. {failed}. Попробуйте ещё раз.')
     elif len(args) > 5:
-        error_message = bot.send_message(chat_id, 'Произошла ошибка. Слишком много запятых.')
+        error_message = bot.send_message(chat_id, 'Произошла ошибка. Слишком много запятых. Попробуйте ещё раз.')
     else:
         error_message = bot.send_message(chat_id, 'Произошла ошибка. Недостаточно полей '
-                                                  'было заполнено.')
+                                                  'было заполнено. Попробуйте ещё раз.')
     return bot.register_next_step_handler(error_message, add_event)
-
-
-def process_data(method='read', key=None, value=None, remove=None):
-    if key or remove:
-        # Read and format data from users_data.txt
-        with open('users_data.txt', 'rb') as file:
-            try:
-                data = pickle.load(file)
-            except EOFError:
-                data = {}
-        # Write data into users_data.txt
-        if method == 'write' and value:
-            # Handle removing data
-            if type(remove) == list:
-                try:
-                    for x in remove:
-                        data.pop(x)
-                except KeyError:
-                    pass
-            # Handle adding data
-            else:
-                data[key] = value
-            with open('users_data.txt', 'wb') as file:
-                pickle.dump(data, file, protocol=pickle.HIGHEST_PROTOCOL)
-            return True
-        else:
-            try:
-                value = data[key]
-            except KeyError:
-                value = None
-            return value
-    return None
 
 
 if __name__ == '__main__':

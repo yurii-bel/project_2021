@@ -45,6 +45,7 @@ options_titles = ['Название',
 
 
 def process_data(method='read', key=None, value=None, remove=None):
+    # Pickle persistence
     if key or remove:
         # Read and format data
         with open('users_data.pkl', 'rb+') as file:

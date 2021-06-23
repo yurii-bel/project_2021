@@ -38,7 +38,6 @@ sys.path.append(".")
 class InputCheck:
     """
     The InputCheck class implements base checking system for various input data.
-
     Attributes:
         input_text (str):The string which can be checked using various methods.
     """
@@ -46,8 +45,7 @@ class InputCheck:
     def __init__(self, input_text):
         self.text = input_text
 
-        self.correct_rus_vals = []
-        # Appending correct_rus_vals with lower and upper case Russian and Ukrainian symbols.
+        # Support for Russian and Ukrainian alphabets.
         allowed_letters = [1025, 1028, 1030, 1031, 1040, 1041, 1042, 1043,
                            1044, 1045, 1046, 1047, 1048, 1049, 1050, 1051,
                            1052, 1053, 1054, 1055, 1056, 1057, 1058, 1059,
@@ -59,8 +57,8 @@ class InputCheck:
                            1100, 1101, 1102, 1103, 1105, 1108, 1110, 1111,
                            1168, 1169]
 
-        # All other characters that are allowed for use.
-        allowed_chars = [33, 35, 36, 37, 38, 40, 41, 42, 43, 45, 46, 58, 60,
+        # List of allowed characters.
+        allowed_chars = [32, 33, 35, 36, 37, 38, 40, 41, 42, 43, 45, 46, 58, 60,
                          61, 62, 63, 64, 94, 95, 161, 162, 163, 164, 165, 166,
                          167, 168, 169, 171, 174, 175, 176, 177, 178, 179, 181,
                          182, 183, 187, 188, 189, 190, 215, 247, 3647, 8352,
@@ -92,19 +90,24 @@ class InputCheck:
                          8851, 8852, 8853, 8854, 8855, 8856, 8857, 8858, 8859,
                          8860, 8861, 8862, 8863, 8864, 8865]
 
-        self.correct_rus_vals = [chr(i) for i in allowed_letters]
-
-        self.allowed_characters = [chr(i) for i in allowed_chars]
-
-        # List contains codes of correct symbols.
-        self.correct_vals = list(string.ascii_lowercase) + \
+        # Russian and ukrainian symbols.
+        self.correct_cyrillic_vals = [chr(i) for i in allowed_letters]
+        # English symbols.
+        self.correct_latin_vals = list(string.ascii_lowercase) + \
             list(string.ascii_uppercase)
-        self.correct_vals_with_num = self.correct_vals + \
-            [str(x) for x in range(0, 10)]
+        # All allowed characters.
+        self.correct_characters = [chr(i) for i in allowed_chars]
+        # All not allowed characters.
+        self.incorrect_characters = ['"', '\'', '\\', ',', '--', ';',
+                                     '[', ']', '{', '}', '|']
 
-        self.only_in_quotes_char = []
-        self.incorrect_vals = ['"', '\'', '/', '\\',
-                               ',', '--', ';', '[', ']', '{', '}', '|']
+        # Allowed characters for email.
+        self.correct_email_vals = [chr(45), chr(95), chr(43)]
+
+        self.numbers_list = [str(x) for x in range(0, 10)]
+
+        self.all_allowed_chars = self.correct_cyrillic_vals + self.numbers_list + \
+            self.correct_latin_vals + self.correct_characters
 
     def check_email(self):
         """
@@ -112,7 +115,6 @@ class InputCheck:
         If the email passes verification, it returns True(bool) only.
         If not passes, it returns list that contains two values:
         False(bool) and error message(str).
-
         Returns:
             True | [False | err_msg]
         """
@@ -130,62 +132,65 @@ class InputCheck:
         if domain.count('.') == 0:
             return [False, 'Доменное имя не содержит точки.']
 
-        # Domain check.
+        # Domain check of email.
         includedomain = domain.split('.')
-        self.correct_vals.extend(['-', '_'])
-        for k in includedomain:
+        for domain in includedomain:
             # Checking if there are empty substrings in the domain.
-            if k == '':
-                return [False, 'Доменное имя содержит пустую строку между точками.']
+            if domain == '':
+                return [
+                    False, 'Доменное имя содержит две точки или пустую строку между точками.']
             # Checking if there are any illegal characters in substrings
             # of the domain.
-            for n in k:
-                if n not in self.correct_vals:
-                    return [False, f'Недопустимый символ {n}']
-            if (k[0] == '-') or (k[len(k)-1] == '-'):
-                return [False, 'Доменное имя не может начинаться/заканчиваться знаком "-".']
+            # All is good, don't worry be happy!
+            zopret = '-'
+            for n in domain:
+                if n not in self.correct_latin_vals and n != zopret and \
+                        n not in self.numbers_list:
+                    return [False, f'Недопустимый символ "{n}".']
+                elif list(map(
+                        lambda x: zopret*2 in x, [domain])) == [True]:
+                    return [False, f'Знак "{zopret}" не может повторяться.']
+                elif domain[0] == zopret or domain[len(domain)-1] == zopret:
+                    return [
+                        False, f'Доменное имя не может начинаться или заканчиваться знаком "{n}".']
         if len(name) > 60:
             return [False, 'Имя почты длиннее 60 символов.']
 
-        # Add to the list of valid characters (; " ! : ,).
-        self.correct_vals_with_num.extend(self.only_in_quotes_char)
-        self.correct_vals_with_num.extend(['.', ';', '"'])
-        # Checking for double quotes.
-        if name.count('"') % 2 != 0:
-            return [False, 'Непарные кавычки.']
-        # Variables to track period and opening quotes.
-        doubledot = False
-        inquotes = False
-        for k in name:
-            if k == '"':
-                inquotes = not inquotes
-            if k in self.only_in_quotes_char and not inquotes:
-                return [False, 'Недопустимый символ вне кавычек.']
-            if k not in self.correct_vals_with_num:
-                return [False, f'Недопустимый символ. "{k}"']
-            # Checking for two points in a row.
-            if k == '.':
-                if doubledot:
-                    return [False, 'Две точки в названии почты.']
-                else:
-                    doubledot = True
+        # Cheking name of email.
+        self.correct_email_vals.append('.')
+        self.correct_email_vals.append('-')
+        # print(self.correct_email_vals)
+        self.correct_latin_vals.extend('-')
+        self.correct_latin_vals.extend('.')
+        for n in name:
+            if n not in self.correct_latin_vals and \
+                    n not in self.correct_email_vals and n not in self.numbers_list:
+                return [False, f'Недопустимый символ "{n}".']
+            for i in self.correct_email_vals:
+                if name[0] == i or name[len(name)-1] == i:
+                    return [
+                        False, f'Имя почты не может начинаться или заканчиваться знаком "{i}".']
+                elif list(map(
+                        lambda x: i*2 in x, [name])) == [True]:
+                    return [False, f'Знак "{i}" не может повторяться.']
         return True
 
     def check_date(self):
-        # checking date and its format.
-        if self.text.isdigit():
-            if int(self.text) == 0:
-                return [False, 'Введено некорректное количество дней.']
-            elif int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
-                return [False, 'Введено количество дней, указывающее на дату ранее 1900 года.']
-        elif len(self.text.split(', ')) in range(1, 3):
-            for x in self.text.split(', '):
-                try:
-                    if datetime.strptime(x, '%d.%m.%Y') > datetime.now():
-                        return [False, 'Дата должна не может быть больше сегодняшней ({0}).'.format(
-                            datetime.now().strftime('%d.%m.%Y'))]
-                except (ValueError, Exception):
-                    return [False, 'Неверный формат даты.']
+        # Checking date and its format.
+        if len(self.text.split(', ')) in range(1, 3):
+            if self.text.isdigit():
+                if int(self.text) == 0:
+                    return [False, 'Введено некорректное количество дней.']
+                elif int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
+                    return [False, 'Введено количество дней, указывающее на дату ранее 1900 года.']
+            else:
+                for x in self.text.split(', '):
+                    try:
+                        if datetime.strptime(x, '%d.%m.%Y') > datetime.now():
+                            return [False, 'Дата не может быть больше сегодняшней ({0}).'.format(
+                                datetime.now().strftime('%d.%m.%Y'))]
+                    except (ValueError, Exception):
+                        return [False, 'Неверный формат даты.']
         return True
 
     def check_len(self):
@@ -204,9 +209,16 @@ class InputCheck:
         return True
 
     def check_incorrect_vals(self):
-        for i in self.text:
-            if i in self.incorrect_vals:
-                return [False, f'Недопустимый символ ({i}).']
+        vals = []
+        for c in self.text:
+            if c not in self.all_allowed_chars:
+                vals.append(c)
+        if vals:
+            if len(vals) == 1:
+                vals = f"Недопустимый символ ({str(vals)})"
+            else:
+                vals = f"Недопустимый символы ({', '.join(vals)})"
+            return [False, vals]
         return True
 
     def check_spaces_tabs(self):
@@ -216,12 +228,8 @@ class InputCheck:
         return True
 
     def number_only(self):
-        self.incorrect_vals.extend(self.only_in_quotes_char)
-        self.correct_vals.extend(['.', ';', '"'])
-        self.correct_vals.extend(self.correct_rus_vals)
-        for i in self.text:
-            if i in self.correct_vals or i in self.incorrect_vals:
-                return [False, 'Разрешено вводить только количество минут.']
+        if not self.text.isdigit():
+            return [False, 'Разрешено вводить только количество минут.']
         return True
 
 
@@ -273,9 +281,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_email(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_email = InputCheck(self.input_text).check_email()
-            if chck_email[0] == False:
-                self.setText(f'{err_txt}: {chck_email[1]}')
+            check_email = InputCheck(self.input_text).check_email()
+            if check_email[0] == False:
+                self.setText(f'{err_txt}: {check_email[1]}')
                 self.exec()
             return False
         except Exception:
@@ -285,9 +293,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_len(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_len = InputCheck(self.input_text).check_len()
-            if chck_len[0] == False:
-                self.setText(f'{err_txt}: {chck_len[1]}')
+            check_len = InputCheck(self.input_text).check_len()
+            if check_len[0] == False:
+                self.setText(f'{err_txt}: {check_len[1]}')
                 self.exec()
             return False
         except Exception:
@@ -297,10 +305,10 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_incorrect_vals(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_incorrect_vals = InputCheck(
+            check_incorrect_vals = InputCheck(
                 self.input_text).check_incorrect_vals()
-            if chck_incorrect_vals[0] == False:
-                self.setText(f'{err_txt}: {chck_incorrect_vals[1]}')
+            if check_incorrect_vals[0] == False:
+                self.setText(f'{err_txt}: {check_incorrect_vals[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -310,9 +318,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_spaces_tabs(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_spaces_tabs = InputCheck(self.input_text).check_spaces_tabs()
-            if chck_spaces_tabs[0] == False:
-                self.setText(f'{err_txt}: {chck_spaces_tabs[1]}')
+            check_spaces_tabs = InputCheck(self.input_text).check_spaces_tabs()
+            if check_spaces_tabs[0] == False:
+                self.setText(f'{err_txt}: {check_spaces_tabs[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -322,9 +330,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_number_only(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_number_only = InputCheck(self.input_text).number_only()
-            if chck_number_only[0] == False:
-                self.setText(f'{err_txt}: {chck_number_only[1]}')
+            check_number_only = InputCheck(self.input_text).number_only()
+            if check_number_only[0] == False:
+                self.setText(f'{err_txt}: {check_number_only[1]}')
                 self.exec()
                 return False
         except Exception:

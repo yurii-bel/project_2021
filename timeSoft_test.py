@@ -212,9 +212,9 @@ class InputCheck:
 
     def check_incorrect_vals(self):
         vals = []
-        for i in self.text:
-            if i in self.incorrect_vals:
-                vals.append(i)
+        for c in self.text:
+            if c not in self.all_allowed_chars:
+                vals.append(c)
         if vals:
             if len(vals) == 1:
                 vals = f"Недопустимый символ ({str(vals)})"
@@ -230,12 +230,8 @@ class InputCheck:
         return True
 
     def number_only(self):
-        self.incorrect_vals.extend(self.only_in_quotes_char)
-        self.correct_vals.extend(['.', ';', '"'])
-        self.correct_vals.extend(self.correct_rus_vals)
-        for i in self.text:
-            if i in self.correct_vals or i in self.incorrect_vals:
-                return [False, 'Разрешено вводить только количество минут.']
+        if not self.text.isdigit():
+            return [False, 'Разрешено вводить только количество минут.']
         return True
 
 
@@ -288,9 +284,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_email(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_email = InputCheck(self.input_text).check_email()
-            if chck_email[0] == False:
-                self.setText(f'{err_txt}: {chck_email[1]}')
+            check_email = InputCheck(self.input_text).check_email()
+            if check_email[0] == False:
+                self.setText(f'{err_txt}: {check_email[1]}')
                 self.exec()
             return False
         except Exception:
@@ -300,9 +296,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_len(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_len = InputCheck(self.input_text).check_len()
-            if chck_len[0] == False:
-                self.setText(f'{err_txt}: {chck_len[1]}')
+            check_len = InputCheck(self.input_text).check_len()
+            if check_len[0] == False:
+                self.setText(f'{err_txt}: {check_len[1]}')
                 self.exec()
             return False
         except Exception:
@@ -312,9 +308,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_comment_len(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_comment_len = InputCheck(self.input_text).check_comment_len()
-            if chck_comment_len[0] == False:
-                self.setText(f'{err_txt}: {chck_comment_len[1]}')
+            check_comment_len = InputCheck(self.input_text).check_comment_len()
+            if check_comment_len[0] == False:
+                self.setText(f'{err_txt}: {check_comment_len[1]}')
                 self.exec()
             return False
         except Exception:
@@ -324,10 +320,10 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_incorrect_vals(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_incorrect_vals = InputCheck(
+            check_incorrect_vals = InputCheck(
                 self.input_text).check_incorrect_vals()
-            if chck_incorrect_vals[0] == False:
-                self.setText(f'{err_txt}: {chck_incorrect_vals[1]}')
+            if check_incorrect_vals[0] == False:
+                self.setText(f'{err_txt}: {check_incorrect_vals[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -337,10 +333,10 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_correct_vals(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_correct_vals = InputCheck(
+            check_correct_vals = InputCheck(
                 self.input_text).check_correct_vals()
-            if chck_correct_vals[0] == False:
-                self.setText(f'{err_txt}: {chck_correct_vals[1]}')
+            if check_correct_vals[0] == False:
+                self.setText(f'{err_txt}: {check_correct_vals[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -350,9 +346,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_spaces_tabs(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_spaces_tabs = InputCheck(self.input_text).check_spaces_tabs()
-            if chck_spaces_tabs[0] == False:
-                self.setText(f'{err_txt}: {chck_spaces_tabs[1]}')
+            check_spaces_tabs = InputCheck(self.input_text).check_spaces_tabs()
+            if check_spaces_tabs[0] == False:
+                self.setText(f'{err_txt}: {check_spaces_tabs[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -362,9 +358,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_number_only(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_number_only = InputCheck(self.input_text).number_only()
-            if chck_number_only[0] == False:
-                self.setText(f'{err_txt}: {chck_number_only[1]}')
+            check_number_only = InputCheck(self.input_text).number_only()
+            if check_number_only[0] == False:
+                self.setText(f'{err_txt}: {check_number_only[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -374,9 +370,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_time_val(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_time_val = InputCheck(self.input_text).check_time_value()
-            if chck_time_val[0] == False:
-                self.setText(f'{err_txt}: {chck_time_val[1]}')
+            check_time_val = InputCheck(self.input_text).check_time_value()
+            if check_time_val[0] == False:
+                self.setText(f'{err_txt}: {check_time_val[1]}')
                 self.exec()
                 return False
         except Exception:

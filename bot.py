@@ -45,14 +45,19 @@ options_titles = ['Название',
 
 
 def process_data(method='read', key=None, value=None, remove=None):
-    # Pickle persistence
+    # Implement pickle persistence
     if key or remove:
+        file = 'users_data.pkl'
+        # Create users_data.pkl if it does not exist
+        if not os.path.isfile(file):
+            open(file, 'a').close()
         # Read and format data
-        with open('users_data.pkl', 'rb+') as file:
+        with open(file, 'rb') as f:
             try:
-                data = pickle.load(file)
+                data = pickle.load(f)
             except EOFError:
                 data = {}
+        f.close()
         # Write data into users_data.pkl
         if method == 'write' and value:
             # Handle removing data
@@ -65,8 +70,9 @@ def process_data(method='read', key=None, value=None, remove=None):
             # Handle adding data
             else:
                 data[key] = value
-            with open('users_data.pkl', 'wb+') as file:
-                pickle.dump(data, file, protocol=pickle.HIGHEST_PROTOCOL)
+            with open(file, 'wb') as f:
+                pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
+            f.close()
             return True
         else:
             try:
@@ -75,11 +81,6 @@ def process_data(method='read', key=None, value=None, remove=None):
                 value = None
             return value
     return None
-
-
-def error_handler(m):
-    chat_id = m.chat.id
-    return bot.send_message(chat_id, 'Произошла ошибка.')
 
 
 @bot.message_handler(func=lambda m: m.chat.type == 'private', commands=['start'])
@@ -205,7 +206,7 @@ def check_login(m):
     failed = [x[1] for x in check if type(x) is list]
     if failed:
         failed = ' '.join(list(set(failed)))
-        error_message = bot.send_message(chat_id, 'Произошла ошибка.\n' + failed)
+        error_message = bot.send_message(chat_id, f'{failed}\nПовторите попытку.')
         return bot.register_next_step_handler(error_message, check_login)
     # Fetch user_n_telegram with the text entered by the user
     try:
@@ -233,7 +234,8 @@ def check_login(m):
             error_message = bot.send_message(chat_id, 'Пользователь уже был авторизован под '
                                                       'другим телеграм аккаунтом\\. Если этот '
                                                       'телеграм аккаунт принадлежит вам, '
-                                                      'выйдите из него помощью комманды `/logout`',
+                                                      'выйдите из него помощью комманды '
+                                                      '`/logout`\\.',
                                              parse_mode='MarkdownV2')
             return bot.register_next_step_handler(error_message, check_login)
     # Fetch user_n_id with text entered by the user
@@ -249,7 +251,7 @@ def check_login(m):
         password_message = bot.send_message(chat_id, 'Введите пароль.')
         return bot.register_next_step_handler(password_message, check_password)
     else:
-        # User doesn't exist, tell the user to register
+        # User does not exist, tell the user to register
         error_message = bot.send_message(chat_id, 'Не удалось найти пользователя. '
                                                   'Повторите попытку или '
                                                   'зарегистрируйтесь в приложении.')
@@ -284,7 +286,7 @@ def check_password(m):
     failed = [x[1] for x in check if type(x) is list]
     if failed:
         failed = ' '.join(list(set(failed)))
-        error_message = bot.send_message(chat_id, 'Произошла ошибка.\n' + failed)
+        error_message = bot.send_message(chat_id, f'{failed}\nПовторите попытку.')
         return bot.register_next_step_handler(error_message, check_password)
     # Fetch user_p_id with user_n_id we got from the check_login
     try:
@@ -322,15 +324,15 @@ def check_password(m):
                                           'Для добавления нового события используйте комманду '
                                           '/add')
             else:
-                error_message = bot.send_message(chat_id, 'Неверный пароль. Повторите попытку.')
+                error_message = bot.send_message(chat_id, 'Неверный пароль.\nПовторите попытку.')
                 # Reenter the same function if password is incorrect
                 return bot.register_next_step_handler(error_message, check_password)
         else:
             # If couldn't get user_p_password
-            bot.send_message(chat_id, 'Произошла ошибка.')
+            return error_handler(m)
     else:
         # If couldn't get user_p_id
-        bot.send_message(chat_id, 'Произошла ошибка.')
+        return error_handler(m)
 
 
 def display_events(m, sort_callback='date_sort', edit=False, refresh=False):
@@ -383,7 +385,7 @@ def display_events(m, sort_callback='date_sort', edit=False, refresh=False):
         failed = [x[1] for x in check if type(x) is list]
         if failed:
             failed = ' '.join(list(set(failed)))
-            error_message = bot.send_message(chat_id, 'Произошла ошибка.\n' + failed)
+            error_message = bot.send_message(chat_id, f'{failed}\nПовторите попытку.')
             return bot.register_next_step_handler(error_message, display_events)
         elif txt.isdigit():
             process_data('write', f'user_entry_{telegram_id}', txt)
@@ -424,7 +426,7 @@ def display_events(m, sort_callback='date_sort', edit=False, refresh=False):
                     f'AND \'{date_2_cleared}\'::date ORDER BY {sort_column} LIMIT 50'
             activities_type = 'с {0} по {1}'.format(date_1, date_2)
         else:
-            error_message = bot.send_message(chat_id, 'Произошла ошибка.\nНеверный формат.')
+            error_message = bot.send_message(chat_id, 'Неверный формат.\nПовторите попытку.')
             return bot.register_next_step_handler(error_message, display_events)
         try:
             cursor.execute(query)
@@ -560,15 +562,14 @@ def choose_action(m):
         elif txt == special_commands[5]:
             # Try and delete the event
             # Get act_id
-            try:
-                act_id = process_data(key=f'act_id_{telegram_id}')
-            except KeyError:
+            act_id = process_data(key=f'act_id_{telegram_id}')
+            if not act_id:
                 return error_handler(m)
             try:
                 cursor.execute(f'DELETE FROM "ACTIVITY" WHERE act_id = {act_id}')
                 connection.commit()
             except DatabaseError:
-                bot.send_message(chat_id, 'Произошла ошибка.')
+                return error_handler(m)
             return display_events(m, refresh=True)
         else:
             return display_events(m, refresh=True)
@@ -598,11 +599,10 @@ def process_action(m):
     elif txt in special_commands:
         return choose_action(m)
     # Get user_id, modifier and act_id
-    try:
-        user_id = process_data(key=f'user_id_{telegram_id}')
-        modifier = process_data(key=f'modifier_{telegram_id}')
-        act_id = process_data(key=f'act_id_{telegram_id}')
-    except KeyError:
+    user_id = process_data(key=f'user_id_{telegram_id}')
+    modifier = process_data(key=f'modifier_{telegram_id}')
+    act_id = process_data(key=f'act_id_{telegram_id}')
+    if not user_id or not modifier or not act_id:
         return error_handler(m)
     # Handle check for different modifiers
     if modifier == 'actl_name':
@@ -626,7 +626,7 @@ def process_action(m):
     failed = [x[1] for x in check if type(x) is list]
     if failed:
         failed = ' '.join(list(set(failed)))
-        error_message = bot.send_message(telegram_id, 'Произошла ошибка.\n' + failed)
+        error_message = bot.send_message(telegram_id, f'{failed}\nПовторите попытку.')
         return bot.register_next_step_handler(error_message, process_action)
     # Fill in missing required columns
     if modifier == 'actl_name':
@@ -729,7 +729,8 @@ def add_event(m):
                 entry = f'была введена комманда {entries[0]}'
             else:
                 entry = f"были введены комманды \\({', '.join(entries)}\\)"
-            error_message = bot.send_message(chat_id, f'Произошла ошибка\\.\nВ {field} {entry}\\.',
+            error_message = bot.send_message(chat_id, f'В {field} {entry}\\.'
+                                                      f'\nПовторите попытку\\.',
                                              parse_mode='MarkdownV2')
             return bot.register_next_step_handler(error_message, add_event)
         # Separate data to vars
@@ -753,10 +754,9 @@ def add_event(m):
         failed = [x[1] for x in check if type(x) is list]
         if not failed:
             # Get user_id
-            try:
-                user_id = process_data(key=f'user_id_{m.from_user.id}')
-            except KeyError:
-                return bot.send_message(m.chat.id, 'Произошла ошибка.')
+            user_id = process_data(key=f'user_id_{m.from_user.id}')
+            if not user_id:
+                return error_handler(m)
             # Insert the event into the database
             try:
                 cursor.execute(f'INSERT INTO "CATEGORY" (user_id, cat_name)'
@@ -775,20 +775,19 @@ def add_event(m):
             return bot.send_message(chat_id, 'Событие было успешно добавлено.')
         else:
             failed = ' '.join(list(set(failed)))
-            error_message = bot.send_message(chat_id, f'Произошла ошибка.\n{failed}. '
-                                                      f'Повторите попытку.')
+            error_message = bot.send_message(chat_id, f'{failed}.\nПовторите попытку.')
     elif len(args) > 5:
-        error_message = bot.send_message(chat_id, 'Произошла ошибка.\nСлишком много запятых. '
+        error_message = bot.send_message(chat_id, 'Слишком много запятых.\n'
                                                   'Повторите попытку.')
     else:
-        error_message = bot.send_message(chat_id, 'Произошла ошибка.\nНедостаточно полей '
-                                                  'было заполнено. Повторите попытку.')
+        error_message = bot.send_message(chat_id, 'Недостаточно полей было заполнено.\n'
+                                                  'Повторите попытку.')
     return bot.register_next_step_handler(error_message, add_event)
 
 
+def error_handler(m):
+    return bot.send_message(m.chat.id, 'Произошла ошибка.')
+
+
 if __name__ == '__main__':
-    while True:
-        try:
-            bot.infinity_polling()
-        except Exception as e:
-            print(e)
+    bot.infinity_polling(timeout=10, long_polling_timeout=10)

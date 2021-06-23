@@ -18,7 +18,7 @@ try:
 except KeyError:
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8-sig')
-    BOT_TOKEN = config.get('Bot', 'bot_token_sasha')
+    BOT_TOKEN = config.get('Bot', 'BOT_TOKEN')
     connection = psycopg2.connect(config.get('PostgreSql', 'DATABASE_URL'))
 
 bot = telebot.TeleBot(BOT_TOKEN)

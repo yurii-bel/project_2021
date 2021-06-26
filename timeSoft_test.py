@@ -231,8 +231,7 @@ class InputCheck:
             if len(vals) == 1:
                 vals = f"Недопустимый символ {vals}"
             else:
-                vals = f"Недопустимые символы: \n" \
-                       f"{vals}"
+                vals = f"Недопустимые символы: {vals}"
             return [False, vals]
         return True
 
@@ -2241,26 +2240,22 @@ class StyleSheets:
         bgcol_distant = '#283046'
         bgcol_middle = '#161D31'
         bgcol_transparent = 'rgba(0, 0, 0, 0)'
+        bgcol_menubar = 'rgba(0, 0, 0, 130)'
+        bgcol_transparent_add_edit = 'rgba(34, 39, 51, 0.137)'
 
         color_white = '#FFFFFF'
         color_theme = '#5F55C8'
-        color_default = '#7367F0'
+        color_theme_hover = '#7666F8'
         color_disabled = 'rgba(115, 103, 240, 0.38)'
-        color_active = '#5E50EE'
+        color_active = '#5E50EE'  # for border hover
         color_black = '#000000'
         color_border = '#404656'
         color_name = '#D0D2D6'
         color_text = '#676D7D'
-        color_1 = '#6E6B7B'
-        color_theme = '#796DFF'
-        color_3 = '#EA5455'
-        color_4 = '#7A7A7A'
-        color_5 = '#3B4253'
+        color_green = '#28C76F'
+        color_red = '#EA5455'
 
-        color_hover_1 = '#B4B7BD'
-        color_hover_2 = '#7666F8'
-
-        about_us_border = 'border: 2px solid #CE2745; border-radius: 50px;'
+        about_us_border = 'border: 2px solid #EA5455; border-radius: 50px;'
 
         # ----------------------------------------------------------------
         # Login CSS style. Dark.
@@ -2268,7 +2263,7 @@ class StyleSheets:
             f'background-color: {bgcol_middle};'
         )
         self.lUi.login_text_logo.setStyleSheet(
-            f'color: {color_default};'
+            f'color: {color_theme_hover};'
         )
         self.lUi.login_widget.setStyleSheet(
             f'background-color: {bgcol_distant};'
@@ -2279,14 +2274,14 @@ class StyleSheets:
             f'background-color: {bgcol_transparent};'
             """}
             QPushButton::hover {"""
-            f'color: {color_hover_1};'
+            f'color: {color_theme_hover};'
             """}"""
         )
         self.lUi.login_btn_login.setStyleSheet(
             """QPushButton {"""
-            f'background-color: {color_default};'
+            f'background-color: {color_theme_hover};'
             f'border-radius: 5px;'
-            f'border: 2px solid {color_default};'
+            f'border: 2px solid {color_theme_hover};'
             f'color: {color_white};'
             """}
             QPushButton::hover {"""
@@ -2323,16 +2318,16 @@ class StyleSheets:
             """}"""
         )
         self.lUi.login_text_account.setStyleSheet(
-            f'color: {color_1};'
+            f'color: {color_text};'
         )
         self.lUi.login_text_email.setStyleSheet(
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
         )
         self.lUi.login_text_paragrah_log.setStyleSheet(
             f'color: {color_name};'
         )
         self.lUi.login_text_password.setStyleSheet(
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
         )
         self.lUi.login_text_title.setStyleSheet(
             f'color: {color_name};'
@@ -2343,7 +2338,7 @@ class StyleSheets:
             f'background-color: {bgcol_middle};'
         )
         self.rUi.register_txtlbl_logo.setStyleSheet(
-            f'color: {color_default};'
+            f'color: {color_theme_hover};'
         )
         self.rUi.register_widget.setStyleSheet(
             f'background-color: {bgcol_distant};'
@@ -2354,14 +2349,14 @@ class StyleSheets:
             f'background-color: {bgcol_transparent};'
             """}
             QPushButton::hover {"""
-            f'color: {color_hover_1};'
+            f'color: {color_theme_hover};'
             """}"""
         )
         self.rUi.register_btn_login.setStyleSheet(
             """QPushButton {"""
-            f'background-color: {color_default};'
+            f'background-color: {color_theme_hover};'
             f'border-radius: 5px;'
-            f'border: 2px solid {color_default};'
+            f'border: 2px solid {color_theme_hover};'
             f'color: {color_white};'
             """}
             QPushButton::hover {"""
@@ -2410,19 +2405,19 @@ class StyleSheets:
             """}"""
         )
         self.rUi.register_txtlbl_email.setStyleSheet(
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
         )
         self.rUi.register_txtlbl_name.setStyleSheet(
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
         )
         self.rUi.register_txtlbl_password.setStyleSheet(
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
         )
         self.rUi.register_txtlbl_pragrah_log.setStyleSheet(
             f'color: {color_name};'
         )
         self.rUi.register_txtlbl_reg.setStyleSheet(
-            f'color: {color_1};'
+            f'color: {color_text};'
         )
         self.rUi.register_txtlbl_title.setStyleSheet(
             f'color: {color_name};'
@@ -2450,7 +2445,11 @@ class StyleSheets:
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
             f'color: {color_white};'
-            f'border: 2px solid {color_theme};'
+            f'border-top: 2px solid;'
+            f'border-right: 2px solid;'
+            f'border-bottom: 2px solid;'
+            f'border-left: 1px solid;'
+            f'border-color: {color_theme};'
             f'border-top-left-radius: 0;'
             f'border-top-right-radius: 5px;'
             f'border-bottom-right-radius: 5px;'
@@ -2459,33 +2458,37 @@ class StyleSheets:
             f'padding-right: 20px;'
             """}
             QPushButton::hover {"""
-            f'border: 2px solid {color_active};'
-            f'border-top-left-radius: 0;'
-            f'border-top-right-radius: 5px;'
-            f'border-bottom-right-radius: 5px;'
-            f'border-bottom-left-radius: 0;'
+            f'border-color: {color_active};'
+            f'color: {color_theme_hover};'
             """}"""
         )
         self.mUi.mainwindow_btn_annually.setStyleSheet(
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
             f'color: {color_white};'
-            f'border: 2px solid {color_theme};'
-            f'border-right: 0;'
+            f'border-top: 2px solid;'
+            f'border-right: 1px solid;'
+            f'border-bottom: 2px solid;'
+            f'border-left: 1px solid;'
+            f'border-color: {color_theme};'
             f'border-radius: 0;'
             f'padding-left: 20px;'
             f'padding-right: 20px;'
             """}
             QPushButton::hover {"""
-            f'border: 2px solid {color_active};'
-            f'border-radius: 0;'
+            f'border-color: {color_active};'
+            f'color: {color_theme_hover};'
             """}"""
         )
         self.mUi.mainwindow_btn_daily.setStyleSheet(
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
             f'color: {color_white};'
-            f'border: 2px solid {color_theme};'
+            f'border-top: 2px solid;'
+            f'border-right: 1px solid;'
+            f'border-bottom: 2px solid;'
+            f'border-left: 2px solid;'
+            f'border-color: {color_theme};'
             f'border-top-left-radius: 5px;'
             f'border-top-right-radius: 0;'
             f'border-bottom-right-radius: 0;'
@@ -2494,33 +2497,33 @@ class StyleSheets:
             f'padding-right: 20px;'
             """}
             QPushButton::hover {"""
-            f'border: 2px solid {color_active};'
-            f'border-top-left-radius: 5px;'
-            f'border-top-right-radius: 0;'
-            f'border-bottom-right-radius: 0;'
-            f'border-bottom-left-radius: 5px;'
+            f'border-color: {color_active};'
+            f'color: {color_theme_hover};'
             """}"""
         )
         self.mUi.mainwindow_btn_monthly.setStyleSheet(
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
             f'color: {color_white};'
-            f'border: 2px solid {color_theme};'
-            f'border-right: 0;'
+            f'border-top: 2px solid;'
+            f'border-right: 1px solid;'
+            f'border-bottom: 2px solid;'
+            f'border-left: 1px solid;'
+            f'border-color: {color_theme};'
             f'border-radius: 0;'
             f'padding-left: 20px;'
             f'padding-right: 20px;'
             """}
             QPushButton::hover {"""
-            f'border: 2px solid {color_active};'
-            f'border-radius: 0;'
+            f'border-color: {color_active};'
+            f'color: {color_theme_hover};'
             """}"""
         )
         self.mUi.mainwindow_btn_nav_add_act.setStyleSheet(
             """QPushButton {"""
-            f'background-color: {color_default};'
+            f'background-color: {color_theme_hover};'
             f'color: {color_white};'
-            f'border: 2px solid {color_default};'
+            f'border: 2px solid {color_theme_hover};'
             f'border-radius: 5px;'
             f'padding-left: 12px;'
             f'padding-right: 12px;'
@@ -2529,23 +2532,26 @@ class StyleSheets:
             """}
             QPushButton::hover {"""
             f'background-color: {bgcol_distant};'
-            f'color: {color_default};'
-            f'border: 2px solid {color_default};'
+            f'color: {color_theme_hover};'
+            f'border: 2px solid {color_theme_hover};'
             """}"""
         )
         self.mUi.mainwindow_btn_weekly.setStyleSheet(
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
             f'color: {color_white};'
-            f'border: 2px solid {color_theme};'
-            f'border-right: 0;'
+            f'border-top: 2px solid;'
+            f'border-right: 1px solid;'
+            f'border-bottom: 2px solid;'
+            f'border-left: 1px solid;'
+            f'border-color: {color_theme};'
             f'border-radius: 0;'
             f'padding-left: 20px;'
             f'padding-right: 20px;'
             """}
             QPushButton::hover {"""
-            f'border: 2px solid {color_active};'
-            f'border-radius: 0;'
+            f'border-color: {color_active};'
+            f'color: {color_theme_hover};'
             """}"""
         )
         self.mUi.mainwindow_dateEdit_po.setStyleSheet(
@@ -2590,16 +2596,17 @@ class StyleSheets:
         self.mUi.mainwindow_widget_view.setStyleSheet(
             f'background-color: {bgcol_distant};'
             f'background-image: url(design/img/background-image_d.png);'
+            f'border-top-right-radius: 5px;'
+            f'border-bottom-right-radius: 5px;'
         )
         self.mUi.mainwindow_widget_view_spacer.setStyleSheet(
-            f'border-right: 1px solid  {color_5};'
             f'background-color: {bgcol_distant};'
         )
         self.mUi.mainwindow_widget_logo.setStyleSheet(
             f'background-color: {bgcol_distant};'
         )
         self.mUi.mainwindow_lbl_logo_title.setStyleSheet(
-            f'color: {color_default};'
+            f'color: {color_theme_hover};'
         )
         self.mUi.mainwindow_widget_menu.setStyleSheet(
             f'background-color: {bgcol_distant};'
@@ -2664,14 +2671,14 @@ class StyleSheets:
             """}
             QComboBox::hover {"""
             f'background-color: {bgcol_middle};'
-            f'color: {color_hover_2};'
-            f'border: 2px solid  {color_hover_2};'
+            f'color: {color_theme_hover};'
+            f'border: 2px solid {color_theme_hover};'
             f'border-radius: 5px;'
             """}
             QComboBox QAbstractItemView {"""
             f'background-color: {bgcol_middle};'
-            f'border: 2px solid  {color_hover_2};'
-            f'color: #CBCBCB;'
+            f'border: 2px solid {color_theme_hover};'
+            f'color: {color_name};'
             f'selection-background-color: {color_active};'
             f'selection-color: {color_black};'
             f'border-top-left-radius: 0;'
@@ -2686,57 +2693,57 @@ class StyleSheets:
         )
         self.mUi.mainwindow_menubar.setStyleSheet(
             """QMenuBar {"""
-            f'color: #CBCBCB;'
-            f'background-color: rgba(0, 0, 0, 130);'
+            f'color: {color_name};'
+            f'background-color: {bgcol_menubar};'
             """}
             QMenuBar::item:selected {"""
-            f'background-color: #C8C8C8;'
+            f'background-color: {color_name};'
             f'color: {color_black};'
             """}
             QMenuBar::item:pressed {"""
-            f'background-color: #C8C8C8;'
+            f'background-color: {color_name};'
             f'color: {color_black};'
             """}"""
         )
         self.mUi.mainwindow_menuFile.setStyleSheet(
             """QMenu {"""
-            f'background-color: #141822;'
-            f'color: #CBCBCB;'
+            f'background-color: {bgcol_middle};'
+            f'color: {color_name};'
             """}
             QMenu::item:selected {"""
-            f'background-color: #C8C8C8;'
+            f'background-color: {color_name};'
             f'color: {color_black};'
             """}
             QMenu::item:pressed {"""
-            f'background-color: #C8C8C8;'
+            f'background-color: {color_name};'
             f'color: {color_black};'
             """}"""
         )
         self.mUi.mainwindow_menuEdit.setStyleSheet(
             """QMenu {"""
-            f'background-color: #141822;'
-            f'color: #CBCBCB;'
+            f'background-color: {bgcol_middle};'
+            f'color: {color_name};'
             """}
             QMenu::item:selected {"""
-            f'background-color: #C8C8C8;'
+            f'background-color: {color_name};'
             f'color: {color_black};'
             """}
             QMenu::item:pressed {"""
-            f'background-color: #C8C8C8;'
+            f'background-color: {color_name};'
             f'color: {color_black};'
             """}"""
         )
         self.mUi.mainwindow_menuHelp.setStyleSheet(
             """QMenu {"""
-            f'background-color: #141822;'
-            f'color: #CBCBCB;'
+            f'background-color: {bgcol_middle};'
+            f'color: {color_name};'
             """}
             QMenu::item:selected {"""
-            f'background-color: #C8C8C8;'
+            f'background-color: {color_name};'
             f'color: {color_black};'
             """}
             QMenu::item:pressed {"""
-            f'background-color: #C8C8C8;'
+            f'background-color: {color_name};'
             f'color: {color_black};'
             """}"""
         )
@@ -2745,7 +2752,7 @@ class StyleSheets:
         self.ttUi.tableW.setStyleSheet(
             """QTableWidget {"""
             f'background-color: {bgcol_transparent};'
-            f'gridline-color: {color_5};'
+            f'gridline-color: {color_border};'
             f'color: {color_name};'
             """}
             QTableView QTableCornerButton::section {"""
@@ -2765,7 +2772,7 @@ class StyleSheets:
             f'color: {color_white};'
             """}
             QHeaderView::section:selected {"""
-            f'background-color: rgb(0, 85, 0);'
+            f'background-color: {color_green};'
             f'color: {color_name};'
             f'border: 2px solid {bgcol_transparent};'
             """}
@@ -2780,16 +2787,16 @@ class StyleSheets:
         # ----------------------------------------------------------------
         # Add event CSS style. Dark.
         self.aUi.setStyleSheet(
-            f'background-color: rgba(34, 39, 51, 0.137);'
+            f'background-color: {bgcol_transparent_add_edit};'
         )
         self.aUi.add_event_widget_form.setStyleSheet(
             f'background-color: {bgcol_distant};'
         )
         self.aUi.add_event_btn_add.setStyleSheet(
             """QPushButton {"""
-            f'background-color: {color_default};'
+            f'background-color: {color_theme_hover};'
             f'border-radius: 5px;'
-            f'border: 2px solid  {color_default};'
+            f'border: 2px solid {color_theme_hover};'
             f'color: {color_white};'
             f'padding-top: 10 px;'
             f'padding-right: 23 px;'
@@ -2808,8 +2815,8 @@ class StyleSheets:
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
             f'border-radius: 5px;'
-            f'border: 2px solid {color_3};'
-            f'color: {color_3};'
+            f'border: 2px solid {color_red};'
+            f'color: {color_red};'
             f'padding-top: 10 px;'
             f'padding-right: 23 px;'
             f'padding-left: 23 px;'
@@ -2818,16 +2825,16 @@ class StyleSheets:
             f'margin-left: 8px;'
             """}
             QPushButton::hover {"""
-            f'background-color: {color_3};'
+            f'background-color: {color_red};'
             f'color: {color_white};'
-            f'border: 2px solid {color_3};'
+            f'border: 2px solid {color_red};'
             """}"""
         )
         self.aUi.add_event_comboBox_category.setStyleSheet(
             """QComboBox {"""
             f'font: 12pt;'
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             f'color: {color_white};'
             """}
@@ -2837,8 +2844,8 @@ class StyleSheets:
             """}
             QComboBox QAbstractItemView {"""
             f'background-color: {bgcol_middle};'
-            f'border: 2px solid  {color_hover_2};'
-            f'color: #CBCBCB;'
+            f'border: 2px solid {color_theme_hover};'
+            f'color: {color_name};'
             f'selection-background-color: {color_active};'
             f'selection-color: {color_black};'
             f'border-top-left-radius: 0;'
@@ -2850,7 +2857,7 @@ class StyleSheets:
         self.aUi.add_event_dateEdit.setStyleSheet(
             """QDateEdit {"""
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             f'color: {color_white};'
             """}
@@ -2862,7 +2869,7 @@ class StyleSheets:
         self.aUi.add_event_lineEdit_name.setStyleSheet(
             """QLineEdit {"""
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             f'color: {color_white};'
             """}
@@ -2874,7 +2881,7 @@ class StyleSheets:
         self.aUi.add_event_lineEdit_time.setStyleSheet(
             """QLineEdit {"""
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             f'color: {color_white};'
             """}
@@ -2886,7 +2893,7 @@ class StyleSheets:
         self.aUi.add_event_plaintextedit_comment.setStyleSheet(
             """QPlainTextEdit {"""
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             f'color: {color_white};'
             """}
@@ -2897,22 +2904,22 @@ class StyleSheets:
         )
         self.aUi.add_event_textlbl_category.setStyleSheet(
             f'margin-top: 10px;'
-            f'color: rgb(185, 185, 195);'
+            f'color: {color_name};'
         )
         self.aUi.add_event_textlbl_comment.setStyleSheet(
             f'margin-top: 10px;'
-            f'color: rgb(185, 185, 195);'
+            f'color: {color_name};'
         )
         self.aUi.add_event_textlbl_date.setStyleSheet(
             f'margin-top: 10px;'
-            f'color: rgb(185, 185, 195);'
+            f'color: {color_name};'
         )
         self.aUi.add_event_textlbl_name.setStyleSheet(
-            f'color: rgb(185, 185, 195);'
+            f'color: {color_name};'
         )
         self.aUi.add_event_textlbl_time.setStyleSheet(
             f'margin-top: 10px;'
-            f'color: rgb(185, 185, 195);'
+            f'color: {color_name};'
         )
         self.aUi.add_event_widget_title_btn.setStyleSheet(
             f'background-color: {bgcol_middle};'
@@ -2923,7 +2930,7 @@ class StyleSheets:
             f'background-color: {bgcol_transparent};'
             """}
             QPushButton::hover {"""
-            f'color: {color_3};'
+            f'color: {color_red};'
             """}"""
         )
         self.aUi.add_event_textlbl_title.setStyleSheet(
@@ -2932,16 +2939,16 @@ class StyleSheets:
         # ----------------------------------------------------------------
         # Edit event CSS style. Dark.
         self.eUi.setStyleSheet(
-            f'background-color: rgba(34, 39, 51, 0.137);'
+            f'background-color: {bgcol_transparent_add_edit};'
         )
         self.eUi.edit_event_widget_form.setStyleSheet(
             f'background-color: {bgcol_distant};'
         )
         self.eUi.edit_event_btn_save.setStyleSheet(
             """QPushButton {"""
-            f'background-color: {color_default};'
+            f'background-color: {color_theme_hover};'
             f'border-radius: 5px;'
-            f'border: 2px solid  {color_default};'
+            f'border: 2px solid {color_theme_hover};'
             f'color: {color_white};'
             f'padding-top: 10 px;'
             f'padding-right: 23 px;'
@@ -2960,8 +2967,8 @@ class StyleSheets:
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
             f'border-radius: 5px;'
-            f'border: 2px solid {color_3};'
-            f'color: {color_3};'
+            f'border: 2px solid {color_red};'
+            f'color: {color_red};'
             f'padding-top: 10 px;'
             f'padding-right: 23 px;'
             f'padding-left: 23 px;'
@@ -2970,16 +2977,16 @@ class StyleSheets:
             f'margin-left: 8px;'
             """}
             QPushButton::hover {"""
-            f'background-color: {color_3};'
+            f'background-color: {color_red};'
             f'color: {color_white};'
-            f'border: 2px solid {color_3};'
+            f'border: 2px solid {color_red};'
             """}"""
         )
         self.eUi.edit_event_comboBox_category.setStyleSheet(
             """QComboBox {"""
             f'font: 12pt;'
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             f'color: {color_white};'
             """}
@@ -2989,8 +2996,8 @@ class StyleSheets:
             """}
             QComboBox QAbstractItemView {"""
             f'background-color: {bgcol_middle};'
-            f'border: 2px solid  {color_hover_2};'
-            f'color: #CBCBCB;'
+            f'border: 2px solid {color_theme_hover};'
+            f'color: {color_name};'
             f'selection-background-color: {color_active};'
             f'selection-color: {color_black};'
             f'border-top-left-radius: 0;'
@@ -3002,7 +3009,7 @@ class StyleSheets:
         self.eUi.edit_event_dateEdit.setStyleSheet(
             """QDateEdit {"""
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             f'color: {color_white};'
             """}
@@ -3014,7 +3021,7 @@ class StyleSheets:
         self.eUi.edit_event_lineEdit_name.setStyleSheet(
             """QLineEdit {"""
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             f'color: {color_white};'
             """}
@@ -3026,7 +3033,7 @@ class StyleSheets:
         self.eUi.edit_event_lineEdit_time.setStyleSheet(
             """QLineEdit {"""
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             f'color: {color_white};'
             """}
@@ -3038,7 +3045,7 @@ class StyleSheets:
         self.eUi.edit_event_plaintextedit_comment.setStyleSheet(
             """QPlainTextEdit {"""
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             f'color: {color_white};'
             """}
@@ -3049,22 +3056,22 @@ class StyleSheets:
         )
         self.eUi.edit_event_textlbl_category.setStyleSheet(
             f'margin-top: 10px;'
-            f'color: rgb(185, 185, 195);'
+            f'color: {color_name};'
         )
         self.eUi.edit_event_textlbl_comment.setStyleSheet(
             f'margin-top: 10px;'
-            f'color: rgb(185, 185, 195);'
+            f'color: {color_name};'
         )
         self.eUi.edit_event_textlbl_date.setStyleSheet(
             f'margin-top: 10px;'
-            f'color: rgb(185, 185, 195);'
+            f'color: {color_name};'
         )
         self.eUi.edit_event_textlbl_name.setStyleSheet(
-            f'color: rgb(185, 185, 195);'
+            f'color: {color_name};'
         )
         self.eUi.edit_event_textlbl_time.setStyleSheet(
             f'margin-top: 10px;'
-            f'color: rgb(185, 185, 195);'
+            f'color: {color_name};'
         )
         self.eUi.edit_event_widget_title_btn.setStyleSheet(
             f'background-color: {bgcol_middle};'
@@ -3075,7 +3082,7 @@ class StyleSheets:
             f'background-color: {bgcol_transparent};'
             """}
             QPushButton::hover {"""
-            f'color: {color_3};'
+            f'color: {color_red};'
             """}"""
         )
         self.eUi.edit_event_textlbl_title.setStyleSheet(
@@ -3084,16 +3091,16 @@ class StyleSheets:
         # ----------------------------------------------------------------
         # Category deleting CSS style. Dark.
         self.cUi.setStyleSheet(
-            f'background-color: rgba(34, 39, 51, 0.137);'
+            f'background-color: {bgcol_transparent_add_edit};'
         )
         self.cUi.category_delete_widget_form.setStyleSheet(
             f'background-color: {bgcol_distant};'
         )
         self.cUi.category_delete_btn_cancel.setStyleSheet(
             """QPushButton {"""
-            f'background-color: {color_default};'
+            f'background-color: {color_theme_hover};'
             f'border-radius: 5px;'
-            f'border: 2px solid  {color_default};'
+            f'border: 2px solid {color_theme_hover};'
             f'color: {color_white};'
             f'padding-top: 10 px;'
             f'padding-right: 23 px;'
@@ -3112,8 +3119,8 @@ class StyleSheets:
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
             f'border-radius: 5px;'
-            f'border: 2px solid {color_3};'
-            f'color: {color_3};'
+            f'border: 2px solid {color_red};'
+            f'color: {color_red};'
             f'padding-top: 10 px;'
             f'padding-right: 23 px;'
             f'padding-left: 23 px;'
@@ -3122,16 +3129,16 @@ class StyleSheets:
             f'margin-left: 8px;'
             """}
             QPushButton::hover {"""
-            f'background-color: {color_3};'
+            f'background-color: {color_red};'
             f'color: {color_white};'
-            f'border: 2px solid {color_3};'
+            f'border: 2px solid {color_red};'
             """}"""
         )
         self.cUi.category_delete_comboBox_category.setStyleSheet(
             """QComboBox {"""
             f'font: 12pt;'
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             f'color: {color_white};'
             """}
@@ -3141,15 +3148,15 @@ class StyleSheets:
             """}
             QComboBox QAbstractItemView {"""
             f'background-color: {bgcol_middle};'
-            f'border: 2px solid  {color_hover_2};'
-            f'color: rgb(203, 203, 203);'
-            f'selection-background-color: rgb(94, 80, 238);'
-            f'selection-color: rgb(0, 0, 0);'
+            f'border: 2px solid {color_theme_hover};'
+            f'color: {color_name};'
+            f'selection-background-color: {color_active};'
+            f'selection-color: {color_black};'
             """}"""
         )
         self.cUi.category_delete_textlbl_category.setStyleSheet(
             f'margin-top: 10px;'
-            f'color: rgb(185, 185, 195);'
+            f'color: {color_name};'
         )
         self.cUi.category_delete_widget_title_btn.setStyleSheet(
             f'background-color: {bgcol_middle};'
@@ -3160,7 +3167,7 @@ class StyleSheets:
             f'background-color: {bgcol_transparent};'
             """}
             QPushButton::hover {"""
-            f'color: {color_3};'
+            f'color: {color_red};'
             """}"""
         )
         self.cUi.category_delete_textlbl_title.setStyleSheet(
@@ -3174,9 +3181,9 @@ class StyleSheets:
         )
         self.sUi.settings_btn_apply.setStyleSheet(
             """QPushButton {"""
-            f'background-color: {color_default};'
+            f'background-color: {color_theme_hover};'
             f'border-radius: 5px;'
-            f'border: 2px solid  {color_default};'
+            f'border: 2px solid {color_theme_hover};'
             f'color: {color_white};'
             f'padding-top: 10 px;'
             f'padding-right: 23 px;'
@@ -3187,7 +3194,7 @@ class StyleSheets:
             """}
             QPushButton::hover {"""
             f'background-color: {bgcol_distant};'
-            f'color: {color_disabled};'
+            f'color: {color_theme_hover};'
             f'border: 2px solid {color_theme};'
             """}"""
         )
@@ -3195,8 +3202,8 @@ class StyleSheets:
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
             f'border-radius: 5px;'
-            f'border: 2px solid {color_3};'
-            f'color: {color_3};'
+            f'border: 2px solid {color_red};'
+            f'color: {color_red};'
             f'padding-top: 10 px;'
             f'padding-right: 23 px;'
             f'padding-left: 23 px;'
@@ -3205,17 +3212,17 @@ class StyleSheets:
             f'margin-left: 5px;'
             """}
             QPushButton::hover {"""
-            f'background-color: {color_3};'
+            f'background-color: {color_red};'
             f'color: {color_white};'
-            f'border: 2px solid {color_3};'
+            f'border: 2px solid {color_red};'
             """}"""
         )
         self.sUi.settings_btn_export.setStyleSheet(
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
             f'padding-top: 5 px;'
             f'padding-right: 23 px;'
             f'padding-left: 23 px;'
@@ -3224,16 +3231,16 @@ class StyleSheets:
             """}
             QPushButton::hover {"""
             f'background-color: {bgcol_distant};'
-            f'color: {color_disabled};'
+            f'color: {color_white};'
             f'border: 1px solid {color_theme};'
             """}"""
         )
         self.sUi.settings_btn_import.setStyleSheet(
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
             f'padding-top: 5 px;'
             f'padding-right: 23 px;'
             f'padding-left: 23 px;'
@@ -3242,16 +3249,16 @@ class StyleSheets:
             """}
             QPushButton::hover {"""
             f'background-color: {bgcol_distant};'
-            f'color: {color_disabled};'
+            f'color: {color_white};'
             f'border: 1px solid {color_theme};'
             """}"""
         )
         self.sUi.settings_btn_telegram.setStyleSheet(
             """QPushButton {"""
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid {color_4};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
             f'padding-left: 10px;'
             f'padding-right: 10px;'
             """}
@@ -3262,26 +3269,26 @@ class StyleSheets:
             """}"""
         )
         self.sUi.settings_imglbl_telegram_noverify.setStyleSheet(
-            f'color: {color_3};'
+            f'color: {color_red};'
         )
         self.sUi.settings_imglbl_telegram_verify.setStyleSheet(
-            f'color: rgb(40, 199, 111);'
+            f'color: {color_green};'
         )
         self.sUi.settings_lbl_error.setStyleSheet(
             f'font-size: 10pt;'
-            f'color: {color_default};'
+            f'color: {color_theme_hover};'
         )
         self.sUi.settings_lineedit_email.setStyleSheet(
-            f'color:  {color_text};'
+            f'color: {color_text};'
             f'background-color: {bgcol_distant};'
             f'border-radius: 5px;'
             f'text-decoration: underline;'
             f'font-size: 13pt;')
         self.sUi.settings_lineedit_email_new.setStyleSheet(
             """QLineEdit {"""
-            f'color:  {color_text};'
+            f'color: {color_text};'
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid  {color_border};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             """}
             QLineEdit::hover {"""
@@ -3290,9 +3297,9 @@ class StyleSheets:
         )
         self.sUi.settings_lineedit_newpass.setStyleSheet(
             """QLineEdit {"""
-            f'color:  {color_text};'
+            f'color: {color_text};'
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid  {color_border};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             """}
             QLineEdit::hover {"""
@@ -3301,9 +3308,9 @@ class StyleSheets:
         )
         self.sUi.settings_lineedit_oldpass.setStyleSheet(
             """QLineEdit {"""
-            f'color:  {color_text};'
+            f'color: {color_text};'
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid  {color_border};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             """}
             QLineEdit::hover {"""
@@ -3312,9 +3319,9 @@ class StyleSheets:
         )
         self.sUi.settings_lineedit_repnewpass.setStyleSheet(
             """QLineEdit {"""
-            f'color:  {color_text};'
+            f'color: {color_text};'
             f'background-color: {bgcol_distant};'
-            f'border: 1px solid  {color_border};'
+            f'border: 1px solid {color_border};'
             f'border-radius: 5px;'
             """}
             QLineEdit::hover {"""
@@ -3325,22 +3332,22 @@ class StyleSheets:
             f'color: {color_white};'
         )
         self.sUi.settings_text_email.setStyleSheet(
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
         )
         self.sUi.settings_text_email_2.setStyleSheet(
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
         )
         self.sUi.settings_text_internet.setStyleSheet(
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
         )
         self.sUi.settings_text_newpass.setStyleSheet(
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
         )
         self.sUi.settings_text_oldpass.setStyleSheet(
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
         )
         self.sUi.settings_text_repnewpass.setStyleSheet(
-            f'color: {color_hover_1};'
+            f'color: {color_name};'
         )
 
         # ----------------------------------------------------------------
@@ -3354,7 +3361,7 @@ class StyleSheets:
             f'background-color: {bgcol_transparent};'
             """}
             QPushButton::hover {"""
-            f'color: {color_3};'
+            f'color: {color_red};'
             """}"""
         )
         self.abUi.about_us_imglabel_alex.setStyleSheet(

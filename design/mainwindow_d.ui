@@ -368,6 +368,12 @@
       </property>
       <item>
        <widget class="QPushButton" name="mainwindow_btn_nav_add_act">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>37</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <family>Roboto Light</family>
@@ -409,15 +415,6 @@
           <height>37</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Roboto</family>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
         <property name="text">
          <string>День</string>
         </property>
@@ -430,15 +427,6 @@
           <width>102</width>
           <height>37</height>
          </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Roboto</family>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
         </property>
         <property name="text">
          <string>Неделя</string>
@@ -453,15 +441,6 @@
           <height>37</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Roboto</family>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
         <property name="text">
          <string>Месяц</string>
         </property>
@@ -475,15 +454,6 @@
           <height>37</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Roboto</family>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
         <property name="text">
          <string>Год</string>
         </property>
@@ -496,15 +466,6 @@
           <width>102</width>
           <height>37</height>
          </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Roboto</family>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
         </property>
         <property name="text">
          <string>Все</string>

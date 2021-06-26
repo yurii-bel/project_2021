@@ -455,6 +455,12 @@ border-radius: 5px;
       </property>
       <item>
        <widget class="QPushButton" name="mainwindow_btn_nav_add_act">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>37</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <family>Roboto Light</family>
@@ -480,12 +486,6 @@ QPushButton:hover {
         </property>
         <property name="text">
          <string>Добавить активность</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>40</width>
-          <height>27</height>
-         </size>
         </property>
        </widget>
       </item>
@@ -515,22 +515,22 @@ QPushButton:hover {
         </property>
         <property name="font">
          <font>
-          <family>Roboto</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
 	background-color: #283046;
 	color: #FFFFFF;
-	border: 2px solid rgb(95, 85, 200);
-	border-right: 0px;
+	border-top: 2px solid;
+	border-right: 1px solid;
+	border-bottom: 2px solid;
+	border-left: 2px solid;
+	border-color: rgb(95, 85, 200);
 	border-top-left-radius: 5px;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 5px;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -538,11 +538,7 @@ QPushButton:hover {
 QPushButton:hover {
 	background-color: rgb(40, 48, 70); 
 	color: rgb(255, 255, 255);
-	border: 2px solid rgb(121, 109, 255);
-	border-top-left-radius: 5px;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
-	border-bottom-left-radius: 5px;
+	border-color: rgb(121, 109, 255);
 }</string>
         </property>
         <property name="text">
@@ -560,19 +556,19 @@ QPushButton:hover {
         </property>
         <property name="font">
          <font>
-          <family>Roboto</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
 	background-color: #283046;
 	color: #FFFFFF;
-	border: 2px solid rgb(95, 85, 200);
-	border-right: 0px;
+	border-top: 2px solid;
+	border-right: 1px solid;
+	border-bottom: 2px solid;
+	border-left: 1px solid;
+	border-color: rgb(95, 85, 200);
 	border-radius: 0;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -580,8 +576,7 @@ QPushButton:hover {
 QPushButton:hover {
 	background-color: rgb(40, 48, 70); 
 	color: rgb(255, 255, 255);
-	border: 2px solid rgb(121, 109, 255);
-	border-radius: 0;
+	border-color: rgb(121, 109, 255);
 }</string>
         </property>
         <property name="text">
@@ -599,19 +594,19 @@ QPushButton:hover {
         </property>
         <property name="font">
          <font>
-          <family>Roboto</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
 	background-color: #283046;
 	color: #FFFFFF;
-	border: 2px solid rgb(95, 85, 200);
-	border-right: 0px;
+	border-top: 2px solid;
+	border-right: 1px solid;
+	border-bottom: 2px solid;
+	border-left: 1px solid;
+	border-color: rgb(95, 85, 200);
 	border-radius: 0;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -619,8 +614,7 @@ QPushButton:hover {
 QPushButton:hover {
 	background-color: rgb(40, 48, 70); 
 	color: rgb(255, 255, 255);
-	border: 2px solid rgb(121, 109, 255);
-	border-radius: 0;
+	border-color: rgb(121, 109, 255);
 }</string>
         </property>
         <property name="text">
@@ -638,19 +632,19 @@ QPushButton:hover {
         </property>
         <property name="font">
          <font>
-          <family>Roboto</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
 	background-color: #283046;
 	color: #FFFFFF;
-	border: 2px solid rgb(95, 85, 200);
-	border-right: 0px;
+	border-top: 2px solid;
+	border-right: 1px solid;
+	border-bottom: 2px solid;
+	border-left: 1px solid;
+	border-color: rgb(95, 85, 200);
 	border-radius: 0;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -658,8 +652,7 @@ QPushButton:hover {
 QPushButton:hover {
 	background-color: rgb(40, 48, 70); 
 	color: rgb(255, 255, 255);
-	border: 2px solid rgb(121, 109, 255);
-	border-radius: 0;
+	border-color: rgb(121, 109, 255);
 }</string>
         </property>
         <property name="text">
@@ -677,33 +670,30 @@ QPushButton:hover {
         </property>
         <property name="font">
          <font>
-          <family>Roboto</family>
+          <family>Roboto Light</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
 	background-color: #283046;
 	color: #FFFFFF;
-	border: 2px solid rgb(95, 85, 200);
-	border-top-left-radius: 0px;
+	border-top: 2px solid;
+	border-right: 2px solid;
+	border-bottom: 2px solid;
+	border-left: 1px solid;
+	border-color: rgb(95, 85, 200);
+	border-top-left-radius: 0;
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
-	border-bottom-left-radius: 0px;
+	border-bottom-left-radius: 0;
 	padding-left: 20px;
 	padding-right: 20px;
 }
 QPushButton:hover {
 	background-color: rgb(40, 48, 70); 
 	color: rgb(255, 255, 255);
-	border: 2px solid rgb(121, 109, 255);
-	border-top-left-radius: 0px;
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
-	border-bottom-left-radius: 0px;
+	border-color: rgb(121, 109, 255);
 }</string>
         </property>
         <property name="text">

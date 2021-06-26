@@ -46,8 +46,7 @@
 ![Вікно редагування події в темній темі](https://timesoft.pp.ua/static/images/edit_event_d.jpg)
 ![Вікно редагування події в світлій темі](https://timesoft.pp.ua/static/images/edit_event_w.jpg)
 
-![Вікно Telegram боту](https://timesoft.pp.ua/static/images/Telegram_bot_1.jpg)
-![Вікно Telegram боту](https://timesoft.pp.ua/static/images/Telegram_bot_2.jpg)
-![Вікно Telegram боту](https://timesoft.pp.ua/static/images/Telegram_bot_3.jpg)
-![Вікно Telegram боту](https://timesoft.pp.ua/static/images/Telegram_bot_5.jpg)
-
+![Вікно Telegram боту. Привітання.](https://timesoft.pp.ua/static/images/Telegram_bot_1.jpg)
+![Вікно Telegram боту. Авторизація.](https://timesoft.pp.ua/static/images/Telegram_bot_2.jpg)
+![Вікно Telegram боту. Додавання події.](https://timesoft.pp.ua/static/images/Telegram_bot_3.jpg)
+![Вікно Telegram боту. Перегляд і редагування події.](https://timesoft.pp.ua/static/images/Telegram_bot_5.jpg)

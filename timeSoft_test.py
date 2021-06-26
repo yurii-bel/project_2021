@@ -26,6 +26,8 @@ sys.path.append(".")
 
 """
 TODO
+!InputCheck
+!breakpointы, printы и прочая радость - почини виджет! <333
 !Перед импортом задать вопрос - перезаписать или добавить?
 !Автокомплит в добавлении\редактировании активностей.
 !докстринги + комменты + пепы(до вторника).
@@ -177,21 +179,22 @@ class InputCheck:
                     return [False, f'Знак "{i}" не может повторяться.']
         return True
 
-    def check_date(self, mode='date'):
+    def check_date(self):
         # Checking date and its format.
-        if mode == 'datetime' and self.text.isdigit():
-            if int(self.text) == 0:
-                return [False, 'Введено некорректное количество дней.']
-            elif int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
-                return [False, 'Введено количество дней, указывающее на дату ранее 1900 года.']
-        elif len(self.text.split(', ')) in range(1, 3):
-            for x in self.text.split(', '):
-                try:
-                    if datetime.strptime(x, '%d.%m.%Y') > datetime.now():
-                        return [False, 'Дата не может быть больше сегодняшней ({0}).'.format(
-                            datetime.now().strftime('%d.%m.%Y'))]
-                except (ValueError, Exception):
-                    return [False, 'Неверный формат даты.']
+        if len(self.text.split(', ')) in range(1, 3):
+            if self.text.isdigit():
+                if int(self.text) == 0:
+                    return [False, 'Введено некорректное количество дней.']
+                elif int(self.text) > (datetime.now() - datetime(year=1900, month=1, day=1)).days - 1:
+                    return [False, 'Введено количество дней, указывающее на дату ранее 1900 года.']
+            else:
+                for x in self.text.split(', '):
+                    try:
+                        if datetime.strptime(x, '%d.%m.%Y') > datetime.now():
+                            return [False, 'Дата не может быть больше сегодняшней ({0}).'.format(
+                                datetime.now().strftime('%d.%m.%Y'))]
+                    except (ValueError, Exception):
+                        return [False, 'Неверный формат даты.']
         return True
 
     def check_len(self):
@@ -205,33 +208,20 @@ class InputCheck:
         return True
 
     def check_time_value(self):
-        if not (0 < int(self.text) <= 1440):
+        if not (0 < int(self.text) or int(self.text) <= 1440):
             return [False, 'Введено ошибочное количество потраченных минут.']
         return True
 
     def check_incorrect_vals(self):
         vals = []
-        for i in self.text:
-            if i in self.incorrect_characters:
-                vals.append(i)
+        for c in self.text:
+            if c not in self.all_allowed_chars:
+                vals.append(c)
         if vals:
             if len(vals) == 1:
                 vals = f"Недопустимый символ ({str(vals)})"
             else:
-                vals = f"Недопустимые символы ({', '.join(vals)})"
-            return [False, vals]
-        return True
-
-    def check_correct_vals(self):
-        vals = []
-        for i in self.text:
-            if not i in self.all_allowed_chars:
-                vals.append(i)
-        if vals:
-            if len(vals) == 1:
-                vals = f"Недопустимый символ {vals}"
-            else:
-                vals = f"Недопустимые символы: {vals}"
+                vals = f"Недопустимый символы ({', '.join(vals)})"
             return [False, vals]
         return True
 
@@ -242,9 +232,8 @@ class InputCheck:
         return True
 
     def number_only(self):
-        for i in self.text:
-            if i not in self.numbers_list:
-                return [False, 'Разрешено вводить только количество минут.']
+        if not self.text.isdigit():
+            return [False, 'Разрешено вводить только количество минут.']
         return True
 
 
@@ -296,9 +285,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_email(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_email = InputCheck(self.input_text).check_email()
-            if chck_email[0] == False:
-                self.setText(f'{err_txt}: {chck_email[1]}')
+            check_email = InputCheck(self.input_text).check_email()
+            if check_email[0] == False:
+                self.setText(f'{err_txt}: {check_email[1]}')
                 self.exec()
             return False
         except Exception:
@@ -308,9 +297,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_len(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_len = InputCheck(self.input_text).check_len()
-            if chck_len[0] == False:
-                self.setText(f'{err_txt}: {chck_len[1]}')
+            check_len = InputCheck(self.input_text).check_len()
+            if check_len[0] == False:
+                self.setText(f'{err_txt}: {check_len[1]}')
                 self.exec()
             return False
         except Exception:
@@ -320,9 +309,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_comment_len(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_comment_len = InputCheck(self.input_text).check_comment_len()
-            if chck_comment_len[0] == False:
-                self.setText(f'{err_txt}: {chck_comment_len[1]}')
+            check_comment_len = InputCheck(self.input_text).check_comment_len()
+            if check_comment_len[0] == False:
+                self.setText(f'{err_txt}: {check_comment_len[1]}')
                 self.exec()
             return False
         except Exception:
@@ -332,10 +321,10 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_incorrect_vals(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_incorrect_vals = InputCheck(
+            check_incorrect_vals = InputCheck(
                 self.input_text).check_incorrect_vals()
-            if chck_incorrect_vals[0] == False:
-                self.setText(f'{err_txt}: {chck_incorrect_vals[1]}')
+            if check_incorrect_vals[0] == False:
+                self.setText(f'{err_txt}: {check_incorrect_vals[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -345,10 +334,10 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_correct_vals(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_correct_vals = InputCheck(
+            check_correct_vals = InputCheck(
                 self.input_text).check_correct_vals()
-            if chck_correct_vals[0] == False:
-                self.setText(f'{err_txt}: {chck_correct_vals[1]}')
+            if check_correct_vals[0] == False:
+                self.setText(f'{err_txt}: {check_correct_vals[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -358,9 +347,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_spaces_tabs(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_spaces_tabs = InputCheck(self.input_text).check_spaces_tabs()
-            if chck_spaces_tabs[0] == False:
-                self.setText(f'{err_txt}: {chck_spaces_tabs[1]}')
+            check_spaces_tabs = InputCheck(self.input_text).check_spaces_tabs()
+            if check_spaces_tabs[0] == False:
+                self.setText(f'{err_txt}: {check_spaces_tabs[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -370,9 +359,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_number_only(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_number_only = InputCheck(self.input_text).number_only()
-            if chck_number_only[0] == False:
-                self.setText(f'{err_txt}: {chck_number_only[1]}')
+            check_number_only = InputCheck(self.input_text).number_only()
+            if check_number_only[0] == False:
+                self.setText(f'{err_txt}: {check_number_only[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -382,9 +371,9 @@ class InputCheckWithDiags(QtWidgets.QMessageBox):
     def check_time_val(self, err_txt):
         self.setStandardButtons(QtWidgets.QMessageBox.Ok)
         try:
-            chck_time_val = InputCheck(self.input_text).check_time_value()
-            if chck_time_val[0] == False:
-                self.setText(f'{err_txt}: {chck_time_val[1]}')
+            check_time_val = InputCheck(self.input_text).check_time_value()
+            if check_time_val[0] == False:
+                self.setText(f'{err_txt}: {check_time_val[1]}')
                 self.exec()
                 return False
         except Exception:
@@ -627,9 +616,11 @@ class MainUI(QtWidgets.QMainWindow):
         if self.theme.status == True:
             self.theme.white_theme()
             self.theme.status = False
+            self.update_view_categ()
         elif self.theme.status == False:
             self.theme.dark_theme()
             self.theme.status = True
+            self.update_view_categ()
 
     def update_date(self):
         self.mUi.mainwindow_dateEdit_s.setMaximumDate(
@@ -789,7 +780,7 @@ class MainUI(QtWidgets.QMainWindow):
         password = self.rUi.register_lineEdit_password.text()
 
         timo = DbLogic()
-        timo.get_logged_user_data(user_login='Timo', item='set_working_user')
+        timo.get_logged_user_data(user_login='Саша', item='set_working_user')
 
         # Login checks.
         if login == '':
@@ -1398,53 +1389,26 @@ class MainUI(QtWidgets.QMainWindow):
 
     def view_categ(self):
         # Layout creation for viewing various data in it.
-        self.categ_lay = QtWidgets.QGridLayout()
-        self.categ_lay.setRowStretch(100, 1)
+        self.categ_lay = self.theme.categ_lay
 
-        lbl = QtWidgets.QLabel('КАТЕГОРИИ')
-        lbl.setStyleSheet("""
-        QLabel {
-            font-family: "Roboto", Light;
-            font-size: 12pt;
-            margin-top: 7px;
-            margin-left: 10px;}
-        """)
-        lbl.setGeometry(1, 7, 159, 23)
+        lbl_category = self.theme.lbl_category
 
-        btn = QtWidgets.QPushButton('—')
-        btn.setStyleSheet("""
-        QPushButton {
-            font-family: "Roboto", Light;
-            font-size: 14pt;
-            background-color: rgba(0, 0, 0, 0);
-            color: rgb(255, 255, 255);
-            border: 2px solid rgb(115, 103, 240);
-            border-radius: 5px;
-            width: 100px;
-            height: 30px;
-            margin-top: 3px;
-        }
-        QPushButton:hover {
-            background-color: rgb(115, 103, 240);
-            color: rgb(255, 255, 255);
-            border: 1px solid rgb(115, 103, 240);}
-        """)
-        btn.setGeometry(166, 1, 100, 30)
+        btn_delete_category = self.theme.btn_delete_category
+        btn_delete_category.clicked.connect(self.cUi.show)
 
-        btn.clicked.connect(self.cUi.show)
+        self.categ_lay.addWidget(lbl_category, 0, 0, alignment=Qt.AlignLeft)
+        self.categ_lay.addWidget(
+            btn_delete_category, 0, 1, alignment=Qt.AlignLeft)
 
-        self.categ_lay.addWidget(lbl, 0, 0, alignment=Qt.AlignLeft)
-        self.categ_lay.addWidget(btn, 0, 1, alignment=Qt.AlignRight)
-
-        self.view_all = QtWidgets.QRadioButton(
-            'Посмотреть все', clicked=self.view_table_sort_by_category)
-        self.view_all.setStyleSheet("""
-            QRadioButton {
-                font-family: "Roboto", Light;
-                font-size: 12pt;
-                margin-top: 7px;
-                margin-left: 5px;}
-            """)
+        self.view_all = self.theme.radio_view_all
+        self.view_all.clicked.connect(self.view_table_sort_by_category)
+        # self.view_all.setStyleSheet("""
+        #     QRadioButton {
+        #         font-family: "Roboto", Light;
+        #         font-size: 12pt;
+        #         margin-top: 7px;
+        #         margin-left: 5px;}
+        #     """)
         self.view_all.setChecked(True)
         self.view_all.setObjectName('Посмотреть все')
 
@@ -1457,16 +1421,18 @@ class MainUI(QtWidgets.QMainWindow):
             all_overall_time = self.input_check().secondsToText(
                 int(all_overall_time)*60, 'categs')
 
-        lbl_time = QtWidgets.QLabel(f'{all_overall_time}')
-        lbl_time.setStyleSheet("""
-        QLabel {
-            font-family: "Roboto", Light;
-            font-size: 12pt;
-            margin-top: 7px;}
-        """)
+        lbl_overall_time = self.theme.lbl_overall_categ_duration
+        lbl_overall_time.setText(f'{all_overall_time}')
+        # lbl_time.setStyleSheet("""
+        # QLabel {
+        #     font-family: "Roboto", Light;
+        #     font-size: 12pt;
+        #     margin-top: 7px;}
+        # """)
 
         self.categ_lay.addWidget(self.view_all, 1, 0, alignment=Qt.AlignLeft)
-        self.categ_lay.addWidget(lbl_time, 1, 1, alignment=Qt.AlignRight)
+        self.categ_lay.addWidget(
+            lbl_overall_time, 1, 1, alignment=Qt.AlignRight)
 
         i = 2
         categs = self.timedb.get_logged_user_data(item='get_user_categories')
@@ -1483,30 +1449,38 @@ class MainUI(QtWidgets.QMainWindow):
 
             self.radiobutton = QtWidgets.QRadioButton(
                 row, clicked=self.view_table_sort_by_category)
-            self.radiobutton.setStyleSheet("""
-            QRadioButton {
-                font-family: "Roboto", Light;
-                font-size: 12pt;
-                margin-top: 7px;
-                margin-left: 5px;}
-            """)
+            # self.radiobutton.setStyleSheet("""
+            # QRadioButton {
+            #     font-family: "Roboto", Light;
+            #     font-size: 12pt;
+            #     margin-top: 7px;
+            #     margin-left: 5px;}
+            # """)
             self.radiobutton.setObjectName(row)
 
-            lbl_time = QtWidgets.QLabel(f'{overall_time}')
-            lbl_time.setStyleSheet("""
-            QLabel {
-                font-family: "Roboto", Light;
-                font-size: 12pt;
-                margin-top: 7px;}
-            """)
+            lbl_categ_time = QtWidgets.QLabel(f'{overall_time}')
+
+            # lbl_time.setStyleSheet("""
+            # QLabel {
+            #     font-family: "Roboto", Light;
+            #     font-size: 12pt;
+            #     margin-top: 7px;}
+            # """)
+
+            if self.theme.status == True:
+                self.radiobutton.setStyleSheet(self.theme.radio_style_dark)
+                lbl_categ_time.setStyleSheet(self.theme.lbl_time_style_dark)
+            elif self.theme.status == False:
+                self.radiobutton.setStyleSheet(self.theme.radio_style_white)
+                lbl_categ_time.setStyleSheet(self.theme.lbl_time_style_white)
 
             self.categ_lay.addWidget(
                 self.radiobutton, i, 0, alignment=Qt.AlignLeft)
-            if lbl_time.text() == 'None':
+            if lbl_categ_time.text() == 'None':
                 pass
             else:
                 self.categ_lay.addWidget(
-                    lbl_time, i, 1, alignment=Qt.AlignRight)
+                    lbl_categ_time, i, 1, alignment=Qt.AlignRight)
 
             i += 1
 
@@ -1516,50 +1490,24 @@ class MainUI(QtWidgets.QMainWindow):
         for i in range(self.categ_lay.count()):
             self.categ_lay.itemAt(i).widget().deleteLater()
 
-        lbl = QtWidgets.QLabel('КАТЕГОРИИ')
-        lbl.setStyleSheet("""
-        QLabel {
-            font-family: "Roboto", Light;
-            font-size: 12pt;
-            margin-top: 7px;
-            margin-left: 10px;}
-        """)
-        lbl.setGeometry(1, 7, 159, 23)
+        lbl_category = self.theme.lbl_category
 
-        btn = QtWidgets.QPushButton('—')
-        btn.setStyleSheet("""
-        QPushButton {
-            font-family: "Roboto", Light;
-            font-size: 14pt;
-            background-color: rgba(0, 0, 0, 0);
-            color: rgb(255, 255, 255);
-            border: 2px solid rgb(115, 103, 240);
-            border-radius: 5px;
-            width: 100px;
-            height: 30px;
-            margin-top: 3px;
-        }
-        QPushButton:hover {
-            background-color: rgb(115, 103, 240);
-            color: rgb(255, 255, 255);
-            border: 1px solid rgb(115, 103, 240);}
-        """)
-        btn.setGeometry(166, 1, 100, 30)
+        btn_delete_category = self.theme.btn_delete_category
+        btn_delete_category.clicked.connect(self.cUi.show)
 
-        btn.clicked.connect(self.cUi.show)
+        self.categ_lay.addWidget(lbl_category, 0, 0, alignment=Qt.AlignLeft)
+        self.categ_lay.addWidget(
+            btn_delete_category, 0, 1, alignment=Qt.AlignLeft)
 
-        self.categ_lay.addWidget(lbl, 0, 0, alignment=Qt.AlignLeft)
-        self.categ_lay.addWidget(btn, 0, 1, alignment=Qt.AlignRight)
-
-        self.view_all = QtWidgets.QRadioButton(
-            'Посмотреть все', clicked=self.view_table_sort_by_category)
-        self.view_all.setStyleSheet("""
-            QRadioButton {
-                font-family: "Roboto", Light;
-                font-size: 12pt;
-                margin-top: 7px;
-                margin-left: 5px;}
-            """)
+        self.view_all = self.theme.radio_view_all
+        self.view_all.clicked.connect(self.view_table_sort_by_category)
+        # self.view_all.setStyleSheet("""
+        #     QRadioButton {
+        #         font-family: "Roboto", Light;
+        #         font-size: 12pt;
+        #         margin-top: 7px;
+        #         margin-left: 5px;}
+        #     """)
         self.view_all.setChecked(True)
         self.view_all.setObjectName('Посмотреть все')
 
@@ -1572,16 +1520,18 @@ class MainUI(QtWidgets.QMainWindow):
             all_overall_time = self.input_check().secondsToText(
                 int(all_overall_time)*60, 'categs')
 
-        lbl_time = QtWidgets.QLabel(f'{all_overall_time}')
-        lbl_time.setStyleSheet("""
-        QLabel {
-            font-family: "Roboto", Light;
-            font-size: 12pt;
-            margin-top: 7px;}
-        """)
+        lbl_overall_time = self.theme.lbl_overall_categ_duration
+        lbl_overall_time.setText(f'{all_overall_time}')
+        # lbl_time.setStyleSheet("""
+        # QLabel {
+        #     font-family: "Roboto", Light;
+        #     font-size: 12pt;
+        #     margin-top: 7px;}
+        # """)
 
         self.categ_lay.addWidget(self.view_all, 1, 0, alignment=Qt.AlignLeft)
-        self.categ_lay.addWidget(lbl_time, 1, 1, alignment=Qt.AlignRight)
+        self.categ_lay.addWidget(
+            lbl_overall_time, 1, 1, alignment=Qt.AlignRight)
 
         i = 2
         categs = self.timedb.get_logged_user_data(item='get_user_categories')
@@ -1591,37 +1541,45 @@ class MainUI(QtWidgets.QMainWindow):
                 item='get_category_overall_time', add_params=[row])
 
             if overall_time == 'None':
-                pass
+                all_overall_time = ''
             else:
                 overall_time = self.input_check().secondsToText(
                     int(overall_time)*60, 'categs')
 
             self.radiobutton = QtWidgets.QRadioButton(
                 row, clicked=self.view_table_sort_by_category)
-            self.radiobutton.setStyleSheet("""
-            QRadioButton {
-                font-family: "Roboto", Light;
-                font-size: 12pt;
-                margin-top: 7px;
-                margin-left: 5px;}
-            """)
+            # self.radiobutton.setStyleSheet("""
+            # QRadioButton {
+            #     font-family: "Roboto", Light;
+            #     font-size: 12pt;
+            #     margin-top: 7px;
+            #     margin-left: 5px;}
+            # """)
             self.radiobutton.setObjectName(row)
 
-            lbl_time = QtWidgets.QLabel(f'{overall_time}')
-            lbl_time.setStyleSheet("""
-            QLabel {
-                font-family: "Roboto", Light;
-                font-size: 12pt;
-                margin-top: 7px;}
-            """)
+            lbl_categ_time = QtWidgets.QLabel(f'{overall_time}')
+
+            # lbl_time.setStyleSheet("""
+            # QLabel {
+            #     font-family: "Roboto", Light;
+            #     font-size: 12pt;
+            #     margin-top: 7px;}
+            # """)
+
+            if self.theme.status == True:
+                self.radiobutton.setStyleSheet(self.theme.radio_style_dark)
+                lbl_categ_time.setStyleSheet(self.theme.lbl_time_style_dark)
+            elif self.theme.status == False:
+                self.radiobutton.setStyleSheet(self.theme.radio_style_white)
+                lbl_categ_time.setStyleSheet(self.theme.lbl_time_style_white)
 
             self.categ_lay.addWidget(
                 self.radiobutton, i, 0, alignment=Qt.AlignLeft)
-            if lbl_time.text() == 'None':
+            if lbl_categ_time.text() == 'None':
                 pass
             else:
                 self.categ_lay.addWidget(
-                    lbl_time, i, 1, alignment=Qt.AlignRight)
+                    lbl_categ_time, i, 1, alignment=Qt.AlignRight)
 
             i += 1
 
@@ -2215,6 +2173,12 @@ class DbLogic:
 
 class StyleSheets:
     def __init__(self):
+        self.status = None
+
+        self.initUI()
+        self.category()
+
+    def initUI(self):
         # Loading UI interfaces.
         self.mUi = uic.loadUi('design\\mainwindow_d.ui')  # Main window ui.
         self.aUi = uic.loadUi('design\\add_event_d.ui')  # Add actions ui.
@@ -2234,7 +2198,52 @@ class StyleSheets:
         self.ccUi = self.mUi.mainwindow_widget_category
         self.scroll_ccUi = self.mUi.scrollArea
 
-        self.status = None
+    def category(self):
+        # Layout for category block.
+        self.categ_lay = QtWidgets.QGridLayout()
+        self.categ_lay.setRowStretch(100, 1)
+
+        # Category label.
+        self.lbl_category = QtWidgets.QLabel('КАТЕГОРИИ')
+        self.lbl_category.setGeometry(1, 7, 159, 23)
+
+        # Button for category deletion.
+        self.btn_delete_category = QtWidgets.QPushButton('—')
+        self.btn_delete_category.setGeometry(166, 1, 100, 30)
+
+        # Radiobutton with label 'View all'.
+        self.radio_view_all = QtWidgets.QRadioButton('Посмотреть все')
+
+        # Label of all categories duration.
+        self.lbl_overall_categ_duration = QtWidgets.QLabel()
+
+        # Style sheet for dark theme - radiobuttons.
+        self.radio_style_dark = """
+        QRadioButton {
+            color: white;
+        }
+        """
+
+        # Style sheet for dark theme - time labels.
+        self.lbl_time_style_dark = """
+        QLabel {
+            color: white;
+        }
+        """
+
+        # Style sheet for white theme - radiobuttons.
+        self.radio_style_white = """
+        QRadioButton {
+            color: #000;
+        }
+        """
+
+        # Style sheet for white theme - time labels.
+        self.lbl_time_style_white = """
+        QLabel {
+            color: #000;
+        }
+        """
 
     def dark_theme(self):
         bgcol_distant = '#283046'
@@ -2683,7 +2692,7 @@ class StyleSheets:
             f'border: 2px solid {color_theme_hover};'
             f'border-radius: 5px;'
             """}
-            QComboBox QAbstractItemView {"""
+            QComboBox QAbstractItemView::item {"""
             f'background-color: {bgcol_middle};'
             f'border: 2px solid {color_theme_hover};'
             f'color: {color_name};'
@@ -2755,7 +2764,15 @@ class StyleSheets:
             f'color: {color_black};'
             """}"""
         )
-
+        # Categories.
+        # self.lbl_category = """
+        # QLabel {
+        #     font-family: "Roboto", Light;
+        #     font-size: 12pt;
+        #     margin-top: 7px;
+        #     margin-left: 10px;}
+        # """
+        # ----------------------------------------------------------------
         # Table widget CSS style. Dark.
         self.ttUi.tableW.setStyleSheet(
             """QTableWidget {"""
@@ -4687,6 +4704,33 @@ class StyleSheets:
         self.abUi.about_us_textlabel_yuri.setStyleSheet(
             f'color: {color_name};'
         )
+
+        # # Categories.
+        # self.lbl_category.setStyleSheet("""
+        # QLabel {
+        #     font-family: "Roboto", Light;
+        #     font-size: 12pt;
+        #     margin-top: 7px;
+        #     margin-left: 10px;
+        #     background-color: #F8F8F8;}
+        # """)
+        # self.btn_delete_category = """
+        # QPushButton {
+        #     font-family: "Roboto", Light;
+        #     font-size: 14pt;
+        #     background-color: rgba(0, 0, 0, 0);
+        #     color: rgb(255, 255, 255);
+        #     border: 2px solid rgb(115, 103, 240);
+        #     border-radius: 5px;
+        #     width: 100px;
+        #     height: 30px;
+        #     margin-top: 3px;
+        # }
+        # QPushButton::hover {
+        #     background-color: rgb(115, 103, 240);
+        #     color: rgb(255, 255, 255);
+        #     border: 1px solid rgb(115, 103, 240);}
+        # """
 
         self.status = False
 

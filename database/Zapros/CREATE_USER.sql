@@ -7,5 +7,4 @@ INSERT INTO "USER" (USER_N_ID, USER_P_ID) VALUES
 ('fq7bonIQekCAUhIx4kzl', 'jWZvtrBGRrm9Av7aatPj'),
 ('E5hoTWtbwN3XtdDGmqc2', 'IEQqi3QsdjtjK5RzhqtX'),
 ('V1AID6bYf8oO2M3doofS', 'CpsYfYOfL6iEbYc3Z81Q'),
-('z7IyGgcbog2udS3MGwLe', 'PyH08FFTaTcHc4wZHPnq'),
-('TNreeXTq78iczsWL0sqD', 'TQKWAHyEC2Ish8ac3KYL')
+('z7IyGgcbog2udS3MGwLe', 'PyH08FFTaTcHc4wZHPnq')

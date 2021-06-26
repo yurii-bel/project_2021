@@ -1,46 +1,53 @@
-# project_2021
-# Python: Getting Started
+# TimeSoft
 
-A barebones Django app, which can easily be deployed to Heroku.
+## Мета і задачі проекту. 
+Розробка системи фіксування витрат часу, контролю за ним протягом певного заданого періоду та візуалізації часових витрат за різними типи діяльності. 
+Для досягнення цієї мети необхідно розробити зручний та простий у користуванні застосунок, який підтримується найбільш поширеними операційними системами.
 
-This application supports the [Getting Started with Python on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python) article - check it out.
+## Практична цінність проекту. 
+У результаті реалізації проекту створено застосунок, який здатен фіксувати витрати часу користувачем у залежності від виду його діяльності та може допомогти у системному підвищенні особистої ефективності.
 
-## Running Locally
 
-Make sure you have Python 3.9 [installed locally](https://docs.python-guide.org/starting/installation/). To push to Heroku, you'll need to install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli), as well as [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup).
+## Інструкції щодо інсталяції застосунку TimeSoft на Windows 10.
+1. Встановіть Python офіційного сайту [https://www.python.org/downloads/](https://www.python.org/downloads/).
+2. Встановіть необхідні пакети через pip, а саме 
 
-```sh
-$ git clone https://github.com/heroku/python-getting-started.git
-$ cd python-getting-started
+```pip install psycopg2 PyQt5 PyQtChart pyqtgraph pandas matplotlib statsmodels```
 
-$ python3 -m venv getting-started
-$ pip install -r requirements.txt
+3. Перейдіть на сайт застосунку https://timesoft.pp.ua.
 
-$ createdb python_getting_started
+[![Сайт TimeSoft.pp.ua](https://timesoft.pp.ua/static/images/btn_logo_to.svg)](https://timesoft.pp.ua/)
 
-$ python manage.py migrate
-$ python manage.py collectstatic
+4. Завантажте застосунок.
+5. Запустіть застосунок.
+6. Ви також маєте можливість використовувати Telegram бота для зручного додавання, або перегляду інформації, але тільки після реєстрації в застосунку.
 
-$ heroku local
-```
+[![Сайт TimeSoft.pp.ua](https://timesoft.pp.ua/static/images/btn_logo_to.svg)](https://t.me/TimeSoft_Assistant_Bot)
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+Тепер можете сміливо користуватись цим чудовим застосунком.
+Якщо щось не працює, для зв'язку з розробниками застосунку TimeSoft, ви можете зв'язатися через електронну скриньку info@timesoft.pp.ua.
 
-## Deploying to Heroku
+### **Для використання застосунку потрібно:**
+* Мінімум **50 МБ** вільного місця;
+* Операційна система яка підтримує Python;
+* Встановленний Python;
+* Пакети psycopg2, PyQt5, PyQtChart, pyqtgraph, pandas, matplotlib, statsmodels;
+* Доступ до інтернету.
 
-```sh
-$ heroku create
-$ git push heroku main
+## Декілька скріншотів застосунку.
+![Вікно авторизації в темній темі](https://timesoft.pp.ua/static/images/login_d.jpg)
+![Вікно авторизації в світлій темі](https://timesoft.pp.ua/static/images/login_w.jpg)
+![Вікно реєстрації в темній темі](https://timesoft.pp.ua/static/images/register_d.jpg)
+![Головне вікно в темній темі](https://timesoft.pp.ua/static/images/mainwindow_d.jpg)
+![Головне вікно в світлій темі](https://timesoft.pp.ua/static/images/mainwindow_w.jpg)
+![Вікно налаштувань в темній темі](https://timesoft.pp.ua/static/images/settings_d.jpg)
+![Вікно додавання події в темній темі](https://timesoft.pp.ua/static/images/add_event_d.jpg)
+![Вікно додавання події в світлій темі](https://timesoft.pp.ua/static/images/add_event_w.jpg)
+![Вікно редагування події в темній темі](https://timesoft.pp.ua/static/images/edit_event_d.jpg)
+![Вікно редагування події в світлій темі](https://timesoft.pp.ua/static/images/edit_event_w.jpg)
 
-$ heroku run python manage.py migrate
-$ heroku open
-```
-or
+![Вікно Telegram боту](https://timesoft.pp.ua/static/images/Telegram_bot_1.jpg)
+![Вікно Telegram боту](https://timesoft.pp.ua/static/images/Telegram_bot_2.jpg)
+![Вікно Telegram боту](https://timesoft.pp.ua/static/images/Telegram_bot_3.jpg)
+![Вікно Telegram боту](https://timesoft.pp.ua/static/images/Telegram_bot_5.jpg)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-## Documentation
-
-For more information about using Python on Heroku, see these Dev Center articles:
-
-- [Python on Heroku](https://devcenter.heroku.com/categories/python)

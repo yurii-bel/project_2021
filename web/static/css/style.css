@@ -7,7 +7,7 @@
 3. Service Section
 4. Team Section
 5. Skills Section
-6. Video Section
+6. Download Section
 7. News Section
 8. Portfolio Section
         8.1 Single Portfolio
@@ -813,10 +813,10 @@ span.total-section-num {
 }
 
 /* ===================================
-    6. Video Section
+    6. Download Section
 ====================================== */
 
-#video {
+#download {
     background-image: url(../images/yellow_bg.png);
     background-color: #ffffff;
     background-position: center center;

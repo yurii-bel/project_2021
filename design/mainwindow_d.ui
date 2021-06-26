@@ -415,6 +415,12 @@
           <height>37</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <family>Roboto Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>День</string>
         </property>
@@ -427,6 +433,12 @@
           <width>102</width>
           <height>37</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto Light</family>
+          <pointsize>12</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Неделя</string>
@@ -441,6 +453,12 @@
           <height>37</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <family>Roboto Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Месяц</string>
         </property>
@@ -454,6 +472,12 @@
           <height>37</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <family>Roboto Light</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Год</string>
         </property>
@@ -466,6 +490,12 @@
           <width>102</width>
           <height>37</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Roboto Light</family>
+          <pointsize>12</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Все</string>
@@ -661,7 +691,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="font">

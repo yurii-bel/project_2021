@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>TimeSoft register</string>
+   <string>TimeSoft</string>
   </property>
   <widget class="QLabel" name="register_imglbl_img">
    <property name="geometry">
@@ -24,9 +24,6 @@
    </property>
    <property name="text">
     <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap>img/register-dark 1.svg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

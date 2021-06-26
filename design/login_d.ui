@@ -16,8 +16,14 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="font">
+   <font>
+    <family>Roboto Light</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>TimeSoft login</string>
+   <string>TimeSoft</string>
   </property>
   <widget class="QLabel" name="login_imglbl_img">
    <property name="geometry">
@@ -30,9 +36,6 @@
    </property>
    <property name="text">
     <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap>img/login-dark 1.svg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

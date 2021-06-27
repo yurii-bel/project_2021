@@ -31,6 +31,8 @@ TODO
 !Перед импортом задать вопрос - перезаписать или добавить?
 !Автокомплит в добавлении\редактировании активностей.
 !докстринги + комменты + пепы(до вторника).
+! Если нету подключения к БД, выдать ошибку, что бы проверили интернет подключение.
+! Добавить юнит-тесты почты.
 
 Отдельная функция для сортировки.
 Сортировка по категориям выше приоритетом
@@ -502,9 +504,11 @@ class MainUI(QtWidgets.QMainWindow):
             self.view_table_custom_sort)
         self.mUi.mainwindow_btn_all.clicked.connect(
             self.view_table_clear_filter)
+
         # Combobox.
         self.mUi.mainwindow_comboBox_display_style.currentIndexChanged.connect(
             self.graph_plot)
+
         # Menubar Main UI.
         self.mUi.mainwindow_act_make_prediction.triggered.connect(
             self.forecast)
@@ -780,7 +784,7 @@ class MainUI(QtWidgets.QMainWindow):
         password = self.rUi.register_lineEdit_password.text()
 
         timo = DbLogic()
-        timo.get_logged_user_data(user_login='Саша', item='set_working_user')
+        # timo.get_logged_user_data(user_login='Саша', item='set_working_user')
 
         # Login checks.
         if login == '':
@@ -920,7 +924,6 @@ class MainUI(QtWidgets.QMainWindow):
         elif self.input_check(category).check_len('Категория') == False:
             return
 
-        # Duration checks.
         # Duration checks.
         if duration == '':
             self.input_check().simple_diag(
@@ -1774,7 +1777,6 @@ class DbLogic:
             if 'True' in lst:
                 self.user_input_check = '1'
                 return
-            # Сделано в Китае. Разработано в России.
             self.cursor.execute(
                 f'SELECT user_p_email = \'{user_p_email}\' FROM "USER_PRIVATE"')
             lst = str(self.cursor.fetchall())
@@ -2180,15 +2182,15 @@ class StyleSheets:
 
     def initUI(self):
         # Loading UI interfaces.
-        self.mUi = uic.loadUi('design\\mainwindow_d.ui')  # Main window ui.
-        self.aUi = uic.loadUi('design\\add_event_d.ui')  # Add actions ui.
-        self.eUi = uic.loadUi('design\\edit_event_d.ui')  # Edit actions ui.
+        self.mUi = uic.loadUi('design\\mainwindow.ui')  # Main window ui.
+        self.aUi = uic.loadUi('design\\add_event.ui')  # Add actions ui.
+        self.eUi = uic.loadUi('design\\edit_event.ui')  # Edit actions ui.
         self.cUi = uic.loadUi('design\\category_delete.ui')  # Category del ui.
-        self.rUi = uic.loadUi('design\\register_d.ui')  # Registration win ui.
-        self.lUi = uic.loadUi('design\\login_d.ui')  # Login window ui.
-        self.sUi = uic.loadUi('design\\settings_d.ui')  # Settings window ui.
+        self.rUi = uic.loadUi('design\\register.ui')  # Registration window ui.
+        self.lUi = uic.loadUi('design\\login.ui')  # Login window ui.
+        self.sUi = uic.loadUi('design\\settings.ui')  # Settings window ui.
         self.ttUi = uic.loadUi('design\\table.ui')  # Table ui.
-        self.abUi = uic.loadUi('design\\about_us_d.ui')  # About us ui.
+        self.abUi = uic.loadUi('design\\about_us.ui')  # About us ui.
 
         # Widget for viewing various data.
         # Viewing widget in the right side.

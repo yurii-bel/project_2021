@@ -18,7 +18,7 @@ try:
 except KeyError:
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8-sig')
-    BOT_TOKEN = config.get('Bot', 'BOT_TOKEN')
+    BOT_TOKEN = config.get('Bot', 'bot_token_timesoft')
     connection = psycopg2.connect(config.get('PostgreSql', 'DATABASE_URL'))
 
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -206,11 +206,13 @@ def check_login(m):
     failed = [x[1] for x in check if type(x) is list]
     if failed:
         failed = ' '.join(list(set(failed)))
-        error_message = bot.send_message(chat_id, f'{failed}\nПовторите попытку.')
+        error_message = bot.send_message(
+            chat_id, f'{failed}\nПовторите попытку.')
         return bot.register_next_step_handler(error_message, check_login)
     # Fetch user_n_telegram with the text entered by the user
     try:
-        cursor.execute(f'SELECT user_n_telegram FROM "USER_NAME" WHERE user_n_name = \'{txt}\'')
+        cursor.execute(
+            f'SELECT user_n_telegram FROM "USER_NAME" WHERE user_n_name = \'{txt}\'')
         data = cursor.fetchall()
     except DatabaseError:
         return error_handler(m)
@@ -240,7 +242,8 @@ def check_login(m):
             return bot.register_next_step_handler(error_message, check_login)
     # Fetch user_n_id with text entered by the user
     try:
-        cursor.execute(f'SELECT user_n_id FROM "USER_NAME" WHERE user_n_name = \'{txt}\'')
+        cursor.execute(
+            f'SELECT user_n_id FROM "USER_NAME" WHERE user_n_name = \'{txt}\'')
         data = cursor.fetchall()
     except DatabaseError:
         return error_handler(m)
@@ -286,11 +289,13 @@ def check_password(m):
     failed = [x[1] for x in check if type(x) is list]
     if failed:
         failed = ' '.join(list(set(failed)))
-        error_message = bot.send_message(chat_id, f'{failed}\nПовторите попытку.')
+        error_message = bot.send_message(
+            chat_id, f'{failed}\nПовторите попытку.')
         return bot.register_next_step_handler(error_message, check_password)
     # Fetch user_p_id with user_n_id we got from the check_login
     try:
-        cursor.execute(f'SELECT user_p_id, user_id FROM "USER" WHERE user_n_id = \'{user_n_id}\'')
+        cursor.execute(
+            f'SELECT user_p_id, user_id FROM "USER" WHERE user_n_id = \'{user_n_id}\'')
         data = cursor.fetchall()
     except DatabaseError:
         return error_handler(m)
@@ -324,7 +329,8 @@ def check_password(m):
                                           'Для добавления нового события используйте комманду '
                                           '/add')
             else:
-                error_message = bot.send_message(chat_id, 'Неверный пароль.\nПовторите попытку.')
+                error_message = bot.send_message(
+                    chat_id, 'Неверный пароль.\nПовторите попытку.')
                 # Reenter the same function if password is incorrect
                 return bot.register_next_step_handler(error_message, check_password)
         else:
@@ -385,7 +391,8 @@ def display_events(m, sort_callback='date_sort', edit=False, refresh=False):
         failed = [x[1] for x in check if type(x) is list]
         if failed:
             failed = ' '.join(list(set(failed)))
-            error_message = bot.send_message(chat_id, f'{failed}\nПовторите попытку.')
+            error_message = bot.send_message(
+                chat_id, f'{failed}\nПовторите попытку.')
             return bot.register_next_step_handler(error_message, display_events)
         elif txt.isdigit():
             process_data('write', f'user_entry_{telegram_id}', txt)
@@ -417,16 +424,19 @@ def display_events(m, sort_callback='date_sort', edit=False, refresh=False):
             date_1, date_2 = txt.split(', ')
             date_1_formatted, date_2_formatted = \
                 [datetime.strptime(x, '%d.%m.%Y') for x in [date_1, date_2]]
-            date_1_sorted, date_2_sorted = sorted([date_1_formatted, date_2_formatted])
+            date_1_sorted, date_2_sorted = sorted(
+                [date_1_formatted, date_2_formatted])
             date_1_cleared, date_2_cleared = \
-                [x.strftime('%Y-%m-%d') for x in [date_1_sorted, date_2_sorted]]
+                [x.strftime('%Y-%m-%d')
+                 for x in [date_1_sorted, date_2_sorted]]
             sort_column += ' ASC' if date_1_formatted == date_1_sorted else ' DESC'
             query = f'SELECT * FROM "ACTIVITY" WHERE user_id = \'{user_id}\'' \
                     f'AND act_date BETWEEN \'{date_1_cleared}\'::date ' \
                     f'AND \'{date_2_cleared}\'::date ORDER BY {sort_column} LIMIT 50'
             activities_type = 'с {0} по {1}'.format(date_1, date_2)
         else:
-            error_message = bot.send_message(chat_id, 'Неверный формат.\nПовторите попытку.')
+            error_message = bot.send_message(
+                chat_id, 'Неверный формат.\nПовторите попытку.')
             return bot.register_next_step_handler(error_message, display_events)
         try:
             cursor.execute(query)
@@ -463,7 +473,8 @@ def display_events(m, sort_callback='date_sort', edit=False, refresh=False):
         if edit:
             message_id = m.message_id
             # Edit the message with resorted events and replace the button to the opposite one
-            bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text)
+            bot.edit_message_text(
+                chat_id=chat_id, message_id=message_id, text=text)
             bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id,
                                           reply_markup=markup)
             return
@@ -499,7 +510,8 @@ def edit_event(m):
         if not user_id:
             return error_handler(m)
         try:
-            cursor.execute(f'SELECT act_id FROM "ACTIVITY" where user_id = {user_id}')
+            cursor.execute(
+                f'SELECT act_id FROM "ACTIVITY" where user_id = {user_id}')
             act_ids = cursor.fetchall()
         except DatabaseError:
             return error_handler(m)
@@ -518,12 +530,13 @@ def edit_event(m):
         if data:
             # Format data
             actl_name, act_time, act_date, cat_name, act_comment = data[0]
-            act_date = datetime.combine(act_date, datetime.min.time()).strftime('%d.%m.%Y')
+            act_date = datetime.combine(
+                act_date, datetime.min.time()).strftime('%d.%m.%Y')
             act_comment = act_comment if act_comment else '—'
             options = f'{options_titles[0]}: {actl_name} {special_commands[0]}\n' + \
-                      f'{options_titles[1]}: {act_time} {special_commands[1]}\n' + \
+                      f'{options_titles[1]}: {act_time} мин. {special_commands[1]}\n' + \
                       f'{options_titles[2]}: {act_date} {special_commands[2]}\n' + \
-                      f'{options_titles[3]}: {cat_name} мин. {special_commands[3]}\n' + \
+                      f'{options_titles[3]}: {cat_name} {special_commands[3]}\n' + \
                       f'{options_titles[4]}: {act_comment} {special_commands[4]}\n' + \
                       f'Удалить событие {special_commands[5]}\n' + \
                       f'Выйти из режима просмотра {special_commands[6]}'
@@ -566,7 +579,8 @@ def choose_action(m):
             if not act_id:
                 return error_handler(m)
             try:
-                cursor.execute(f'DELETE FROM "ACTIVITY" WHERE act_id = {act_id}')
+                cursor.execute(
+                    f'DELETE FROM "ACTIVITY" WHERE act_id = {act_id}')
                 connection.commit()
             except DatabaseError:
                 return error_handler(m)
@@ -626,12 +640,14 @@ def process_action(m):
     failed = [x[1] for x in check if type(x) is list]
     if failed:
         failed = ' '.join(list(set(failed)))
-        error_message = bot.send_message(telegram_id, f'{failed}\nПовторите попытку.')
+        error_message = bot.send_message(
+            telegram_id, f'{failed}\nПовторите попытку.')
         return bot.register_next_step_handler(error_message, process_action)
     # Fill in missing required columns
     if modifier == 'actl_name':
         try:
-            cursor.execute(f'SELECT cat_name FROM "ACTIVITY" WHERE act_id = {act_id}')
+            cursor.execute(
+                f'SELECT cat_name FROM "ACTIVITY" WHERE act_id = {act_id}')
             cat_name = cursor.fetchall()
         except DatabaseError:
             return error_handler(m)
@@ -647,7 +663,8 @@ def process_action(m):
         try:
             cursor.execute(f'INSERT INTO "CATEGORY" (cat_name, user_id)'
                            f'VALUES (\'{txt}\', {user_id}) ON CONFLICT DO NOTHING')
-            cursor.execute(f'SELECT actl_name FROM "ACTIVITY" WHERE act_id = {act_id}')
+            cursor.execute(
+                f'SELECT actl_name FROM "ACTIVITY" WHERE act_id = {act_id}')
             actl_name = cursor.fetchall()
         except DatabaseError:
             return error_handler(m)
@@ -666,7 +683,8 @@ def process_action(m):
         value = txt
     # Update database with new info
     try:
-        cursor.execute(f'UPDATE "ACTIVITY" SET {modifier} = \'{value}\' WHERE act_id = {act_id}')
+        cursor.execute(
+            f'UPDATE "ACTIVITY" SET {modifier} = \'{value}\' WHERE act_id = {act_id}')
         connection.commit()
     except DatabaseError:
         return error_handler(m)
@@ -736,7 +754,8 @@ def add_event(m):
         # Separate data to vars
         actl_name = args[0]
         act_time = args[1]
-        act_date = datetime.now().strftime('%Y-%m-%d') if args[2] == '-' else args[2]
+        act_date = datetime.now().strftime(
+            '%Y-%m-%d') if args[2] == '-' else args[2]
         cat_name = args[3]
         act_comment = args[4] if len(args) == 5 else '(NULL)'
         # Check every entered field
@@ -749,7 +768,8 @@ def add_event(m):
                  InputCheck(act_time).number_only(),
                  InputCheck(act_time).check_time_value(),
                  InputCheck(act_time).check_incorrect_vals(),
-                 InputCheck(act_comment).check_comment_len() if len(args) == 5 else True,
+                 InputCheck(act_comment).check_comment_len() if len(
+                     args) == 5 else True,
                  InputCheck(act_comment).check_incorrect_vals() if len(args) == 5 else True]
         failed = [x[1] for x in check if type(x) is list]
         if not failed:
@@ -775,7 +795,8 @@ def add_event(m):
             return bot.send_message(chat_id, 'Событие было успешно добавлено.')
         else:
             failed = ' '.join(list(set(failed)))
-            error_message = bot.send_message(chat_id, f'{failed}.\nПовторите попытку.')
+            error_message = bot.send_message(
+                chat_id, f'{failed}.\nПовторите попытку.')
     elif len(args) > 5:
         error_message = bot.send_message(chat_id, 'Слишком много запятых.\n'
                                                   'Повторите попытку.')

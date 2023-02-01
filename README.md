@@ -16,13 +16,13 @@
 
 3. Перейдіть на сайт застосунку https://timesoft.pp.ua.
 
-[![Сайт TimeSoft.pp.ua](https://timesoft.pp.ua/static/images/btn_logo_to.svg)](https://timesoft.pp.ua/)
+[![Сайт TimeSoft.pp.ua](https://timesoft.pp.ua/src/images/btn_logo_to.svg)](https://timesoft.pp.ua/)
 
 4. Завантажте застосунок.
 5. Запустіть застосунок.
 6. Ви також маєте можливість використовувати Telegram бота для зручного додавання, або перегляду інформації, але тільки після реєстрації в застосунку.
 
-[![Сайт TimeSoft.pp.ua](https://timesoft.pp.ua/static/images/btn_logo_to.svg)](https://t.me/TimeSoft_Assistant_Bot)
+[![Сайт TimeSoft.pp.ua](https://timesoft.pp.ua/src/images/btn_logo_to.svg)](https://t.me/TimeSoft_Assistant_Bot)
 
 Тепер можете сміливо користуватись цим чудовим застосунком.
 Якщо щось не працює, для зв'язку з розробниками застосунку TimeSoft, ви можете зв'язатися через електронну скриньку info@timesoft.pp.ua.
@@ -35,18 +35,18 @@
 * Доступ до інтернету.
 
 ## Декілька скріншотів застосунку.
-![Вікно авторизації в темній темі](https://timesoft.pp.ua/static/images/login_d.jpg)
-![Вікно авторизації в світлій темі](https://timesoft.pp.ua/static/images/login_w.jpg)
-![Вікно реєстрації в темній темі](https://timesoft.pp.ua/static/images/register_d.jpg)
-![Головне вікно в темній темі](https://timesoft.pp.ua/static/images/mainwindow_d.jpg)
-![Головне вікно в світлій темі](https://timesoft.pp.ua/static/images/mainwindow_w.jpg)
-![Вікно налаштувань в темній темі](https://timesoft.pp.ua/static/images/settings_d.jpg)
-![Вікно додавання події в темній темі](https://timesoft.pp.ua/static/images/add_event_d.jpg)
-![Вікно додавання події в світлій темі](https://timesoft.pp.ua/static/images/add_event_w.jpg)
-![Вікно редагування події в темній темі](https://timesoft.pp.ua/static/images/edit_event_d.jpg)
-![Вікно редагування події в світлій темі](https://timesoft.pp.ua/static/images/edit_event_w.jpg)
+![Вікно авторизації в темній темі](https://timesoft.pp.ua/src/images/login_d.jpg)
+![Вікно авторизації в світлій темі](https://timesoft.pp.ua/src/images/login_w.jpg)
+![Вікно реєстрації в темній темі](https://timesoft.pp.ua/src/images/register_d.jpg)
+![Головне вікно в темній темі](https://timesoft.pp.ua/src/images/mainwindow_d.jpg)
+![Головне вікно в світлій темі](https://timesoft.pp.ua/src/images/mainwindow_w.jpg)
+![Вікно налаштувань в темній темі](https://timesoft.pp.ua/src/images/settings_d.jpg)
+![Вікно додавання події в темній темі](https://timesoft.pp.ua/src/images/add_event_d.jpg)
+![Вікно додавання події в світлій темі](https://timesoft.pp.ua/src/images/add_event_w.jpg)
+![Вікно редагування події в темній темі](https://timesoft.pp.ua/src/images/edit_event_d.jpg)
+![Вікно редагування події в світлій темі](https://timesoft.pp.ua/src/images/edit_event_w.jpg)
 
-![Вікно Telegram боту. Привітання.](https://timesoft.pp.ua/static/images/Telegram_bot_1.jpg)
-![Вікно Telegram боту. Авторизація.](https://timesoft.pp.ua/static/images/Telegram_bot_2.jpg)
-![Вікно Telegram боту. Додавання події.](https://timesoft.pp.ua/static/images/Telegram_bot_3.jpg)
-![Вікно Telegram боту. Перегляд і редагування події.](https://timesoft.pp.ua/static/images/Telegram_bot_5.jpg)
+![Вікно Telegram боту. Привітання.](https://timesoft.pp.ua/src/images/Telegram_bot_1.jpg)
+![Вікно Telegram боту. Авторизація.](https://timesoft.pp.ua/src/images/Telegram_bot_2.jpg)
+![Вікно Telegram боту. Додавання події.](https://timesoft.pp.ua/src/images/Telegram_bot_3.jpg)
+![Вікно Telegram боту. Перегляд і редагування події.](https://timesoft.pp.ua/src/images/Telegram_bot_5.jpg)
